@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="IntelliVision Intelligence Image Processing System.jnlp">
+  <information>
+    <title>IntelliVision Intelligence Image Processing System</title>
+    <vendor>Andrey Pudov</vendor>
+    <description>Sample JavaFX 2.0 application.</description>
+    <icon href="" />
+    <offline-allowed/>
+  </information>
+  <resources>
+    <jfx:javafx-runtime version="2.2+" href="http://javadl.sun.com/webapps/download/GetFile/javafx-latest/windows-i586/javafx2.jnlp"/>
+  </resources>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="IntelliVision.jar" size="2448484" download="eager" />
+  </resources>
+  <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="IntelliVision Intelligence Image Processing System" >
+    <param name="requiredFXVersion" value="2.2+"/>
+  </applet-desc>
+  <jfx:javafx-desc  width="800" height="600" main-class="com.intellivision.IntelliVision"  name="IntelliVision Intelligence Image Processing System" />
+  <update check="background"/>
+</jnlp>

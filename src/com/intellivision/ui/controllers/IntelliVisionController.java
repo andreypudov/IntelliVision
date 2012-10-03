@@ -55,14 +55,9 @@ public class IntelliVisionController implements Initializable {
     
     /* the type of mouse movement */
     private enum Movement {
-        NORTH,
-        NORTH_EAST,
         EAST,
         SOUTH_EAST,
-        SOUTH,
-        SOUTH_WEST,
-        WEST,
-        NORTH_WEST
+        SOUTH
     }
     
     @FXML private AnchorPane anchorPane;
@@ -117,29 +112,6 @@ public class IntelliVisionController implements Initializable {
         
         if(windowResizingOn == true) {
             switch (movement) {
-                case NORTH:
-                    stageOffsetHeight = anchorPane.getScene().getWindow().getY() 
-                            - event.getScreenY() + mouseDragOffsetY;
-                    
-                    anchorPane.getScene().getWindow().setY(
-                            event.getScreenY() - mouseDragOffsetY);
-                    anchorPane.getScene().getWindow().setHeight(
-                            anchorPane.getScene().getWindow().getHeight() 
-                            + stageOffsetHeight);
-                    break;
-                case NORTH_EAST:
-                    stageOffsetHeight = anchorPane.getScene().getWindow().getY() 
-                            - event.getScreenY() + mouseDragOffsetY;
-                    
-                    anchorPane.getScene().getWindow().setY(
-                            event.getScreenY() - mouseDragOffsetY);
-                    
-                    anchorPane.getScene().getWindow().setWidth(
-                            event.getScreenX() + stageDragOffsetX); 
-                    anchorPane.getScene().getWindow().setHeight(
-                            anchorPane.getScene().getWindow().getHeight() 
-                            + stageOffsetHeight);
-                    break;
                 case EAST:
                     anchorPane.getScene().getWindow().setWidth(
                             event.getScreenX() + stageDragOffsetX);
@@ -153,47 +125,6 @@ public class IntelliVisionController implements Initializable {
                 case SOUTH:
                     anchorPane.getScene().getWindow().setHeight(
                             event.getScreenY() + stageDragOffsetY);
-                    break;
-                case SOUTH_WEST:
-                    stageOffsetWidth = anchorPane.getScene().getWindow().getX() 
-                            - event.getScreenX() + mouseDragOffsetX;
-                    
-                    anchorPane.getScene().getWindow().setX(
-                            event.getScreenX() - mouseDragOffsetX);
-                    
-                    anchorPane.getScene().getWindow().setWidth(
-                            anchorPane.getScene().getWindow().getWidth() 
-                            + stageOffsetWidth); 
-                    anchorPane.getScene().getWindow().setHeight(
-                            event.getScreenY() + stageDragOffsetY);
-                    break;
-                case WEST:        
-                    stageOffsetWidth = anchorPane.getScene().getWindow().getX() 
-                            - event.getScreenX() + mouseDragOffsetX;
-                    
-                    anchorPane.getScene().getWindow().setX(
-                            event.getScreenX() - mouseDragOffsetX);
-                    anchorPane.getScene().getWindow().setWidth(
-                            anchorPane.getScene().getWindow().getWidth() 
-                            + stageOffsetWidth);        
-                    break;
-                case NORTH_WEST:
-                    stageOffsetWidth = anchorPane.getScene().getWindow().getX() 
-                            - event.getScreenX() + mouseDragOffsetX;
-                    stageOffsetHeight = anchorPane.getScene().getWindow().getY() 
-                            - event.getScreenY() + mouseDragOffsetY;
-                    
-                    anchorPane.getScene().getWindow().setX(
-                            event.getScreenX() - mouseDragOffsetX);
-                    anchorPane.getScene().getWindow().setY(
-                            event.getScreenY() - mouseDragOffsetY);
-                    
-                    anchorPane.getScene().getWindow().setWidth(
-                            anchorPane.getScene().getWindow().getWidth() 
-                            + stageOffsetWidth);
-                    anchorPane.getScene().getWindow().setHeight(
-                            anchorPane.getScene().getWindow().getHeight() 
-                            + stageOffsetHeight);
                     break;
                 default:
                     break;
@@ -233,18 +164,7 @@ public class IntelliVisionController implements Initializable {
         
         windowResizingOn = true;
        
-        if (north) {
-            if (north && east) {
-                anchorPane.setCursor(Cursor.NE_RESIZE);
-                movement = Movement.NORTH_EAST;
-            } else if (north && west) {
-                anchorPane.setCursor(Cursor.NW_RESIZE);
-                movement = Movement.NORTH_WEST;
-            } else {
-                anchorPane.setCursor(Cursor.N_RESIZE);
-                movement = Movement.NORTH;
-            }
-        } else if (east) {
+        if (east) {
             if (east && south) {
                 anchorPane.setCursor(Cursor.SE_RESIZE);
                 movement = Movement.SOUTH_EAST;
@@ -253,16 +173,8 @@ public class IntelliVisionController implements Initializable {
                 movement = Movement.EAST;
             }
         } else if (south) {
-            if (south && west) {
-                anchorPane.setCursor(Cursor.SW_RESIZE);
-                movement = Movement.SOUTH_WEST;
-            } else {
-                anchorPane.setCursor(Cursor.S_RESIZE);
-                movement = Movement.SOUTH;
-            }
-        } else if (west) {
-            anchorPane.setCursor(Cursor.W_RESIZE);
-            movement = Movement.WEST;
+            anchorPane.setCursor(Cursor.S_RESIZE);
+            movement = Movement.SOUTH;
         } else {
             anchorPane.setCursor(Cursor.DEFAULT);
             windowResizingOn = false;

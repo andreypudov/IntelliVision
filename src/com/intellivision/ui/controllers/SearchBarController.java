@@ -34,22 +34,22 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 
 /**
  * FXML Controller class provides search functionality.
  * 
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
- * %name      SearchBoxController.java
+ * %name      SearchBarController.java
  * %date      09:50:00 AM, Sep 25, 2012
  */
-public class SearchBoxController implements Initializable {
+public class SearchBarController implements Initializable {
     
     private static final java.util.logging.Logger LOG 
             = java.util.logging.Logger.getLogger("IntelliVision");
     
-    @FXML private HBox      root;
+    @FXML private Region    searchBar;
     @FXML private TextField searchTextField;
     @FXML private Button    searchClearButton;
     
@@ -63,8 +63,8 @@ public class SearchBoxController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //searchTextField.resize(root.getWidth(), root.getHeight());
-        //searchClearButton.resizeRelocate(root.getWidth() -18 , 6, 12, 13);
+        searchTextField.resize(searchBar.getWidth(), searchBar.getHeight());
+        searchClearButton.resizeRelocate(searchBar.getWidth() - 18 , 6, 12, 13);
     }
     
     public void searchTextFieldAction(ActionEvent actionEvent) {

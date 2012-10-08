@@ -33,11 +33,11 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
 import javafx.scene.control.Label;
+import javafx.scene.control.ToolBar;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Screen;
 
 /**
@@ -60,8 +60,8 @@ public class IntelliVisionController implements Initializable {
         SOUTH
     }
     
-    @FXML private AnchorPane anchorPane;
-    @FXML private GridPane   toolBar;
+    @FXML private AnchorPane mainPanel;
+    @FXML private ToolBar    toolBar;
     @FXML private Label      title;
     
     private Movement movement = Movement.SOUTH_EAST;
@@ -113,17 +113,17 @@ public class IntelliVisionController implements Initializable {
         if(windowResizingOn == true) {
             switch (movement) {
                 case EAST:
-                    anchorPane.getScene().getWindow().setWidth(
+                    mainPanel.getScene().getWindow().setWidth(
                             event.getScreenX() + stageDragOffsetX);
                     break;
                 case SOUTH_EAST:
-                    anchorPane.getScene().getWindow().setWidth(
+                    mainPanel.getScene().getWindow().setWidth(
                             event.getScreenX() + stageDragOffsetX);
-                    anchorPane.getScene().getWindow().setHeight(
+                    mainPanel.getScene().getWindow().setHeight(
                             event.getScreenY() + stageDragOffsetY);
                     break;
                 case SOUTH:
-                    anchorPane.getScene().getWindow().setHeight(
+                    mainPanel.getScene().getWindow().setHeight(
                             event.getScreenY() + stageDragOffsetY);
                     break;
                 default:
@@ -131,12 +131,12 @@ public class IntelliVisionController implements Initializable {
             }
         }
         
-        if (anchorPane.getScene().getWindow().getHeight() < 600) {
-            anchorPane.getScene().getWindow().setHeight(600);
+        if (mainPanel.getScene().getWindow().getHeight() < 600) {
+            mainPanel.getScene().getWindow().setHeight(600);
         }
         
-        if (anchorPane.getScene().getWindow().getWidth() < 800) {
-            anchorPane.getScene().getWindow().setWidth(800);
+        if (mainPanel.getScene().getWindow().getWidth() < 800) {
+            mainPanel.getScene().getWindow().setWidth(800);
         }
         
         event.consume();
@@ -154,8 +154,8 @@ public class IntelliVisionController implements Initializable {
         final double abcissa   = event.getX();
         final double ordinate  = event.getY();
         
-        final double width     = anchorPane.getWidth();
-        final double height    = anchorPane.getHeight();
+        final double width     = mainPanel.getWidth();
+        final double height    = mainPanel.getHeight();
         
         final boolean north = (ordinate < THRESHOLD);
         final boolean east  = ((width  - abcissa)  < THRESHOLD);
@@ -166,17 +166,17 @@ public class IntelliVisionController implements Initializable {
        
         if (east) {
             if (east && south) {
-                anchorPane.setCursor(Cursor.SE_RESIZE);
+                mainPanel.setCursor(Cursor.SE_RESIZE);
                 movement = Movement.SOUTH_EAST;
             } else {
-                anchorPane.setCursor(Cursor.E_RESIZE);
+                mainPanel.setCursor(Cursor.E_RESIZE);
                 movement = Movement.EAST;
             }
         } else if (south) {
-            anchorPane.setCursor(Cursor.S_RESIZE);
+            mainPanel.setCursor(Cursor.S_RESIZE);
             movement = Movement.SOUTH;
         } else {
-            anchorPane.setCursor(Cursor.DEFAULT);
+            mainPanel.setCursor(Cursor.DEFAULT);
             windowResizingOn = false;
         }
         
@@ -189,9 +189,9 @@ public class IntelliVisionController implements Initializable {
      * @param event the event source.
      */
     public void anchorPaneMousePressed(MouseEvent event) {      
-        stageDragOffsetX = anchorPane.getScene().getWidth()
+        stageDragOffsetX = mainPanel.getScene().getWidth()
                 - event.getScreenX();
-        stageDragOffsetY = anchorPane.getScene().getHeight()
+        stageDragOffsetY = mainPanel.getScene().getHeight()
                 - event.getScreenY();
         
         /* sets values of mouse offset for W, SW, NW corners */
@@ -233,9 +233,9 @@ public class IntelliVisionController implements Initializable {
     public void toolBarMouseDragged(MouseEvent event) {
         // !windowButtons.isMaximized() ||
         if(windowResizingOn == false) {
-            anchorPane.getScene().getWindow().setX(
+            mainPanel.getScene().getWindow().setX(
                     event.getScreenX() - mouseDragOffsetX);
-            anchorPane.getScene().getWindow().setY(
+            mainPanel.getScene().getWindow().setY(
                     event.getScreenY() - mouseDragOffsetY);
         }
     }

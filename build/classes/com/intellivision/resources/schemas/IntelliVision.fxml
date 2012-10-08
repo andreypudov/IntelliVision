@@ -25,12 +25,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
 -->
+
 <?import com.intellivision.ui.controls.*?>
 <?import java.lang.*?>
 <?import java.net.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
+
 <!--
     Document   : IntelliVision.fxml
     Created on : Aug 24, 2012, 05:00:00 PM
@@ -39,12 +42,11 @@
         The general application scene.
 -->
 
-<AnchorPane fx:id="anchorPaneRoot" prefHeight="700.0" prefWidth="1020.0"
-            styleClass="root" xmlns:fx="http://javafx.com/fxml" 
+<AnchorPane fx:id="root" prefHeight="700.0" prefWidth="1020.0"
+            xmlns:fx="http://javafx.com/fxml" 
             fx:controller="com.intellivision.ui.controllers.IntelliVisionController">
   <children>
-    <AnchorPane fx:id="anchorPane" 
-            styleClass="mainPanel"
+    <AnchorPane fx:id="mainPanel"
             AnchorPane.bottomAnchor="32.0" 
             AnchorPane.leftAnchor="32.0" 
             AnchorPane.rightAnchor="32.0" 
@@ -54,37 +56,28 @@
             onMousePressed="#anchorPaneMousePressed"
             onMouseDragged="#anchorPaneMouseDragged">
         <children>
-             <GridPane  fx:id="toolBar" focusTraversable="true"
-                alignment="center"
-                AnchorPane.leftAnchor="0.0" 
-                AnchorPane.rightAnchor="0.0" 
-                AnchorPane.topAnchor="0.0" prefHeight="70.0" 
-                styleClass="toolBar"
-                onMouseClicked="#toolBarMouseClicked" 
-                onMousePressed="#toolBarMousePressed" 
-                onMouseDragged="#toolBarMouseDragged">
-                <WindowButtons fx:id="windowButtons" 
-                    GridPane.columnIndex="0" GridPane.rowIndex="0" 
-                    GridPane.columnSpan="2147483647"/>
-                <Label fx:id="title" 
-                    text="IntelliVision"
-                    GridPane.columnIndex="1" GridPane.rowIndex="0"
-                    styleClass="title"/>
-                <SearchBox fx:id="searchBox"
-                    GridPane.columnIndex="2" GridPane.rowIndex="1"/>
-                <rowConstraints>
-                    <RowConstraints prefHeight="7.0" valignment="TOP" vgrow="SOMETIMES" />
-                    <RowConstraints prefHeight="63.0" />
-                </rowConstraints>
-                <columnConstraints>
-                    <ColumnConstraints hgrow="SOMETIMES" halignment="LEFT" 
-                                       minWidth="100.0" prefWidth="250.0" />
-                    <ColumnConstraints hgrow="SOMETIMES" halignment="CENTER"
-                                       minWidth="300.0" />
-                    <ColumnConstraints hgrow="SOMETIMES" halignment="RIGHT" 
-                                       minWidth="250.0" prefWidth="250.0" />
-                </columnConstraints>
-            </GridPane>
+            <ToolBar fx:id="toolBar" focusTraversable="true"
+                     AnchorPane.leftAnchor="0.0" 
+                     AnchorPane.rightAnchor="0.0" 
+                     AnchorPane.topAnchor="0.0"
+                     prefHeight="70.0" minHeight="70.0" maxHeight="70.0"
+                     onMouseClicked="#toolBarMouseClicked" 
+                     onMousePressed="#toolBarMousePressed" 
+                     onMouseDragged="#toolBarMouseDragged">
+                <WindowButtons fx:id="windowButtons"/>
+                <Label fx:id="title" text="IntelliVision"/>
+                <Region>
+                    <HBox.hgrow>ALWAYS</HBox.hgrow>
+                    <HBox.margin>
+                        <Insets top="0.0" right="0.0" bottom="0.0" left="5.0" />
+                    </HBox.margin>
+                </Region>
+                <StatusBar fx:id="statusBar"/>
+                <Region>
+                    <HBox.hgrow>ALWAYS</HBox.hgrow>
+                </Region>
+                <SearchBar fx:id="searchBar"/>
+            </ToolBar>
         </children>
     </AnchorPane>
   </children>

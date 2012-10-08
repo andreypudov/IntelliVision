@@ -1,4 +1,6 @@
-/*
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
  * IntelliVision Intelligence Image Processing System 
  *
  * The MIT License
@@ -22,44 +24,33 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- */
+-->
 
-/* 
-    Document   : IntelliVision.css
-    Created on : Aug 15, 2012, 09:50:00 PM
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<!--
+    Document   : SearchBar.fxml
+    Created on : Sep 25, 2012, 09:50:00 AM
     Author     : Andrey Pudov        <mail@andreypudov.com>
     Description:
-        The general application style sheet.
-*/
+        Search panel with drop down with results.
+-->
 
-.root {
-    -fx-background-insets: 32;
-    -fx-border-radius:     5 5 0 0;
-    -fx-effect:            dropshadow(gaussian, 
-                                      derive(black, 24%), 26, 0.0, 0, 16);
-}
-
-#mainPanel { 
-    -fx-background-color:  #262626;
-    -fx-background-radius: 5 5 0 0;
- /* -fx-border-color:      #0F0F0F; border is disabled*/
-    -fx-border-radius:     4 4 0 0;
-}
-
-#toolBar {
-    -fx-background-color:  #535353;
-    -fx-background-radius: 4 4 0 0;
-    -fx-pref-height:       80;
-    -fx-background-color:  linear-gradient(from 0px 0px to 0px 80px, 
-                                           #6A6A6A, #4F4F4F 100%, 
-                                           dimgray 99%, #4F4F4F)
-}
-
-#title {
-    -fx-font:              15px SourceSansPro-SemiboldO;
-    -fx-text-alignment:    center;
-    -fx-text-fill:         #E3E3DF;
-    -fx-font-weight:       bold;
-    -fx-effect:            dropshadow(one-pass-box, 
-                                      derive(#464646, 0%), 1, 0, 0, -1);
-}
+<fx:root fx:id="searchBar" type="javafx.scene.layout.Region"
+         prefWidth="150.0" prefHeight="24.0" minHeight="24.0" maxHeight="24.0"
+         xmlns:fx="http://javafx.com/fxml"
+         fx:controller="com.intellivision.ui.controllers.SearchBarController">
+    <children>
+        <TextField fx:id="searchTextField" promptText="Search"
+               onAction="#searchTextFieldAction" 
+               onKeyReleased="#searchTextFieldKeyReleased" />
+    <Button fx:id="searchClearButton" visible="true" />
+    </children>
+    
+    <stylesheets>
+        <URL value="@../styles/SearchBar.css" />
+    </stylesheets>
+</fx:root>

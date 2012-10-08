@@ -25,41 +25,21 @@
  */
 
 /* 
-    Document   : IntelliVision.css
-    Created on : Aug 15, 2012, 09:50:00 PM
+    Document   : StatusBar.css
+    Created on : Oct 05, 2012, 01:50:00 PM
     Author     : Andrey Pudov        <mail@andreypudov.com>
     Description:
-        The general application style sheet.
+        Status bar displays current application status.
 */
 
-.root {
-    -fx-background-insets: 32;
-    -fx-border-radius:     5 5 0 0;
-    -fx-effect:            dropshadow(gaussian, 
-                                      derive(black, 24%), 26, 0.0, 0, 16);
-}
-
-#mainPanel { 
-    -fx-background-color:  #262626;
-    -fx-background-radius: 5 5 0 0;
- /* -fx-border-color:      #0F0F0F; border is disabled*/
-    -fx-border-radius:     4 4 0 0;
-}
-
-#toolBar {
-    -fx-background-color:  #535353;
-    -fx-background-radius: 4 4 0 0;
-    -fx-pref-height:       80;
-    -fx-background-color:  linear-gradient(from 0px 0px to 0px 80px, 
-                                           #6A6A6A, #4F4F4F 100%, 
-                                           dimgray 99%, #4F4F4F)
-}
-
-#title {
-    -fx-font:              15px SourceSansPro-SemiboldO;
-    -fx-text-alignment:    center;
-    -fx-text-fill:         #E3E3DF;
-    -fx-font-weight:       bold;
-    -fx-effect:            dropshadow(one-pass-box, 
-                                      derive(#464646, 0%), 1, 0, 0, -1);
+#statusBar {
+    -fx-background-color:  
+                           linear-gradient(#686868 0%, #232723 25%, #373837 75%, #757575 100%),
+                           linear-gradient(#020b02, #3a3a3a),
+                           linear-gradient(#9d9e9d 0%, #6b6a6b 20%, #343534 80%, #242424 100%),
+                           linear-gradient(#8a8a8a 0%, #6b6a6b 20%, #343534 80%, #262626 100%),
+                           linear-gradient(#777777 0%, #606060 50%, #505250 51%, #2a2b2a 100%);
+    -fx-background-radius: 5.0;
+    -fx-border-radius:     5.0;
+    -fx-border-color:      #6B6D5F;
 }

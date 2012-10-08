@@ -25,41 +25,41 @@
  */
 
 /* 
-    Document   : IntelliVision.css
-    Created on : Aug 15, 2012, 09:50:00 PM
+    Document   : SearchBox.css
+    Created on : Sep 28, 2012, 09:0:00 AM
     Author     : Andrey Pudov        <mail@andreypudov.com>
     Description:
         The general application style sheet.
 */
 
-.root {
-    -fx-background-insets: 32;
-    -fx-border-radius:     5 5 0 0;
-    -fx-effect:            dropshadow(gaussian, 
-                                      derive(black, 24%), 26, 0.0, 0, 16);
+#searchBar {
+    -fx-background-color:    red;
 }
 
-#mainPanel { 
-    -fx-background-color:  #262626;
-    -fx-background-radius: 5 5 0 0;
- /* -fx-border-color:      #0F0F0F; border is disabled*/
-    -fx-border-radius:     4 4 0 0;
+#searchTextField { 
+    -fx-background-color:    white;
+    -fx-background-insets:   1;
+    -fx-background-radius:   15;
+    -fx-padding:             -9 5 -11 0;
+    -fx-border-image-source: url("../images/search-box.png");
+    -fx-border-image-slice:  12 12 12 22 fill;
+    -fx-border-image-width:  12 12 12 22;
+    -fx-border-image-repeat: stretch; 
+    -fx-font-size:           13px;
+    -fx-prompt-text-fill:    grey;
 }
 
-#toolBar {
-    -fx-background-color:  #535353;
-    -fx-background-radius: 4 4 0 0;
-    -fx-pref-height:       80;
-    -fx-background-color:  linear-gradient(from 0px 0px to 0px 80px, 
-                                           #6A6A6A, #4F4F4F 100%, 
-                                           dimgray 99%, #4F4F4F)
+#searchTextField:focused {
+    -fx-background-color:    -fx-focus-color, white;
+    -fx-background-insets:   -1.4, 1;
+    -fx-background-radius:   14.4;
 }
 
-#title {
-    -fx-font:              15px SourceSansPro-SemiboldO;
-    -fx-text-alignment:    center;
-    -fx-text-fill:         #E3E3DF;
-    -fx-font-weight:       bold;
-    -fx-effect:            dropshadow(one-pass-box, 
-                                      derive(#464646, 0%), 1, 0, 0, -1);
+#searchClearButton {
+    -fx-background-color:    null;
+    -fx-background-image:    url("../images/search-clear.png");
+}
+
+#searchClearButton:hover {
+    -fx-background-image:    url("../images/search-clear-over.png");
 }

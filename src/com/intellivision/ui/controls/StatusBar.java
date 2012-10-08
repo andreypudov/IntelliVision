@@ -24,42 +24,35 @@
  * THE SOFTWARE.
  */
 
-/* 
-    Document   : IntelliVision.css
-    Created on : Aug 15, 2012, 09:50:00 PM
-    Author     : Andrey Pudov        <mail@andreypudov.com>
-    Description:
-        The general application style sheet.
-*/
+package com.intellivision.ui.controls;
 
-.root {
-    -fx-background-insets: 32;
-    -fx-border-radius:     5 5 0 0;
-    -fx-effect:            dropshadow(gaussian, 
-                                      derive(black, 24%), 26, 0.0, 0, 16);
-}
+import com.intellivision.util.StatusCodes;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.layout.HBox;
 
-#mainPanel { 
-    -fx-background-color:  #262626;
-    -fx-background-radius: 5 5 0 0;
- /* -fx-border-color:      #0F0F0F; border is disabled*/
-    -fx-border-radius:     4 4 0 0;
-}
-
-#toolBar {
-    -fx-background-color:  #535353;
-    -fx-background-radius: 4 4 0 0;
-    -fx-pref-height:       80;
-    -fx-background-color:  linear-gradient(from 0px 0px to 0px 80px, 
-                                           #6A6A6A, #4F4F4F 100%, 
-                                           dimgray 99%, #4F4F4F)
-}
-
-#title {
-    -fx-font:              15px SourceSansPro-SemiboldO;
-    -fx-text-alignment:    center;
-    -fx-text-fill:         #E3E3DF;
-    -fx-font-weight:       bold;
-    -fx-effect:            dropshadow(one-pass-box, 
-                                      derive(#464646, 0%), 1, 0, 0, -1);
+/**
+ * Status bar displays current application status.
+ * 
+ * @author    Andrey Pudov        <mail@andreypudov.com>
+ * @version   0.00.00
+ * %name      StatusBar.java
+ * %date      01:0:00 PM, Oct 05, 2012
+ */
+public class StatusBar extends HBox {
+    private static final java.util.logging.Logger LOG 
+            = java.util.logging.Logger.getLogger("IntelliVision");
+    
+    public StatusBar() {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
+                    "/com/intellivision/resources/schemas/StatusBar.fxml"));
+        
+        fxmlLoader.setRoot(this);
+        
+        try {
+            fxmlLoader.load();
+        } catch (java.io.IOException e) {
+            LOG.severe(e.getMessage());
+            System.exit(StatusCodes.EXIT_FAILURE);
+        }
+    }
 }

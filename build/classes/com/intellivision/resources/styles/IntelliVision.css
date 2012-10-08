@@ -39,14 +39,14 @@
                                       derive(black, 24%), 26, 0.0, 0, 16);
 }
 
-.mainPanel { 
+#mainPanel { 
     -fx-background-color:  #262626;
     -fx-background-radius: 5 5 0 0;
  /* -fx-border-color:      #0F0F0F; border is disabled*/
     -fx-border-radius:     4 4 0 0;
 }
 
-.toolBar {
+#toolBar {
     -fx-background-color:  #535353;
     -fx-background-radius: 4 4 0 0;
     -fx-pref-height:       80;
@@ -55,7 +55,7 @@
                                            dimgray 99%, #4F4F4F)
 }
 
-.title {
+#title {
     -fx-font:              15px SourceSansPro-SemiboldO;
     -fx-text-alignment:    center;
     -fx-text-fill:         #E3E3DF;

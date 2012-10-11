@@ -23,10 +23,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 package com.intellivision.ui.controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -62,16 +65,47 @@ public class SearchBarController implements Initializable {
      *            root object was not localized.
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        searchTextField.resize(searchBar.getWidth(), searchBar.getHeight());
-        searchClearButton.resizeRelocate(searchBar.getWidth() - 18 , 6, 12, 13);
+    public void initialize(URL url, ResourceBundle rb) { 
+        searchBar.needsLayoutProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> ov, Boolean t, Boolean t1) {
+                searchTextField.resize(searchBar.getWidth(), searchBar.getHeight());
+                searchClearButton.resizeRelocate(searchBar.getWidth() - 18 , 6, 12, 13);
+            }
+        });
+        
+        searchTextField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> ov, String t, String t1) {
+                searchClearButton.setVisible(searchTextField.getText().length() != 0);
+            }
+        });
     }
     
+    /**
+     * Clears text field and returns to default state.
+     * 
+     * @param actionEvent  the event source.
+     */
+    public void searchClearButtonAction(ActionEvent actionEvent) {
+        searchTextField.setText("");
+        searchTextField.requestFocus();
+    }
+    
+    /**
+     * Clears text field when the user starts typing.
+     * 
+     * @param actionEvent  the event source.
+     */
     public void searchTextFieldAction(ActionEvent actionEvent) {
         searchTextField.setText("");
         searchTextField.requestFocus();
     }
     
+    /**
+     * 
+     * @param keyEvent  the event source.
+     */
     public void searchTextFieldKeyReleased(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.DOWN) {
             //contextMenu.setFocused(true);

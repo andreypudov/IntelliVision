@@ -56,7 +56,7 @@
             onMousePressed="#anchorPaneMousePressed"
             onMouseDragged="#anchorPaneMouseDragged">
         <children>
-            <ToolBar fx:id="toolBar" focusTraversable="true"
+            <ToolBar fx:id="toolBar"
                      AnchorPane.leftAnchor="0.0" 
                      AnchorPane.rightAnchor="0.0" 
                      AnchorPane.topAnchor="0.0"
@@ -65,18 +65,22 @@
                      onMousePressed="#toolBarMousePressed" 
                      onMouseDragged="#toolBarMouseDragged">
                 <WindowButtons fx:id="windowButtons"/>
-                <Label fx:id="title" text="IntelliVision"/>
                 <Region>
                     <HBox.hgrow>ALWAYS</HBox.hgrow>
+                </Region>
+                <VBox>
+                    <Label fx:id="title" text="IntelliVision" alignment="CENTER" 
+                           maxWidth="1.7976931348623157E308"/>
+                    <StatusBar fx:id="statusBar" VBox.vgrow="ALWAYS"
+                               maxHeight="1.7976931348623157E308" 
+                               maxWidth="1.7976931348623157E308"/>
+                </VBox>
+                <Region HBox.hgrow="ALWAYS"/>
+                <SearchBar fx:id="searchBar" focusTraversable="true">
                     <HBox.margin>
-                        <Insets top="0.0" right="0.0" bottom="0.0" left="5.0" />
+                        <Insets top="5.0" right="16.0" bottom="0.0" left="0.0"/>
                     </HBox.margin>
-                </Region>
-                <StatusBar fx:id="statusBar"/>
-                <Region>
-                    <HBox.hgrow>ALWAYS</HBox.hgrow>
-                </Region>
-                <SearchBar fx:id="searchBar"/>
+                </SearchBar>
             </ToolBar>
         </children>
     </AnchorPane>

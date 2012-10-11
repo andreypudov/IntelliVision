@@ -52,14 +52,13 @@
     -fx-pref-height:       80;
     -fx-background-color:  linear-gradient(from 0px 0px to 0px 80px, 
                                            #6A6A6A, #4F4F4F 100%, 
-                                           dimgray 99%, #4F4F4F)
+                                           dimgray 99%, #4F4F4F);
+    -fx-padding:           0 0 2 0;
 }
 
-#title {
-    -fx-font:              15px SourceSansPro-SemiboldO;
-    -fx-text-alignment:    center;
+#title { 
+    -fx-font:              bold normal 15pt "Source Sans Pro Semibold";
     -fx-text-fill:         #E3E3DF;
-    -fx-font-weight:       bold;
     -fx-effect:            dropshadow(one-pass-box, 
                                       derive(#464646, 0%), 1, 0, 0, -1);
 }

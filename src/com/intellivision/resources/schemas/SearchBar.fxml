@@ -45,11 +45,11 @@
          fx:controller="com.intellivision.ui.controllers.SearchBarController">
     <children>
         <TextField fx:id="searchTextField" promptText="Search"
-               onAction="#searchTextFieldAction" 
-               onKeyReleased="#searchTextFieldKeyReleased" />
-    <Button fx:id="searchClearButton" visible="true" />
+            onAction="#searchTextFieldAction" 
+            onKeyReleased="#searchTextFieldKeyReleased" />
+        <Button fx:id="searchClearButton" visible="false"
+            onAction="#searchClearButtonAction" />
     </children>
-    
     <stylesheets>
         <URL value="@../styles/SearchBar.css" />
     </stylesheets>

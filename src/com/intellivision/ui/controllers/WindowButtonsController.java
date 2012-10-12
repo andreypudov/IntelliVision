@@ -1,5 +1,5 @@
 /*
- * IntelliVision Intelligence Image Processing System 
+ * IntelliVision Intelligence Image Processing System
  *
  * The MIT License
  *
@@ -26,38 +26,69 @@
 
 package com.intellivision.ui.controllers;
 
+import com.intellivision.util.pools.Core;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 
 /**
- * FXML Controller class 
- * 
+ * FXML Controller class
+ *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
  * %name      WindowButtonsController.java
  * %date      07:50:00 AM, Sep 06, 2012
  */
 public class WindowButtonsController implements Initializable {
-    
-    private static final java.util.logging.Logger LOG 
+
+    private static final java.util.logging.Logger LOG
             = java.util.logging.Logger.getLogger("IntelliVision");
-    
+
     @FXML private Button closeButton;    /* red */
     @FXML private Button minimizeButton; /* yellow */
     @FXML private Button maximizeButton; /* green */
 
+    private boolean maximized = false;
+
     /**
      * Initializes the controller class.
-     * 
-     * @param url the location used to resolve relative paths for the root 
+     *
+     * @param url the location used to resolve relative paths for the root
      *            object, or null if the location is not known.
      * @param rb  the resources used to localize the root object, or null if the
      *            root object was not localized.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+    }
+
+    /**
+     * Closes the application window and returns management to OS.
+     *
+     * @param event the event source.
+     */
+    public void windowButtonsCloseOnAction(ActionEvent event) {
+        //Core.getPrimaryStage().
+    }
+
+    /**
+     * Minimizes the application window to system task bar.
+     *
+     * @param event the event source.
+     */
+    public void windowButtonsMinimizeOnAction(ActionEvent event) {
+        Core.getPrimaryStage().setIconified(true);
+    }
+
+    /**
+     * Maximizes the application window.
+     *
+     * @param event the event source.
+     */
+    public void windowButtonsMaximizeOnAction(ActionEvent event) {
+        maximized = !maximized;
     }
 }

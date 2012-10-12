@@ -64,7 +64,12 @@
                      onMouseClicked="#toolBarMouseClicked" 
                      onMousePressed="#toolBarMousePressed" 
                      onMouseDragged="#toolBarMouseDragged">
-                <WindowButtons fx:id="windowButtons"/>
+                <WindowButtons fx:id="windowButtons">
+                    <HBox.margin>
+                        <Insets top="20.0" right="0.0" bottom="0.0" left="10.0"/>
+                    </HBox.margin>
+                </WindowButtons>
+                <Region prefWidth="84.0"/>
                 <Region>
                     <HBox.hgrow>ALWAYS</HBox.hgrow>
                 </Region>

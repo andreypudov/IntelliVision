@@ -44,11 +44,14 @@
 <fx:root fx:id="windowButtons" type="javafx.scene.layout.HBox"
          prefHeight="16.0" prefWidth="40.0" xmlns:fx="http://javafx.com/fxml"
          fx:controller="com.intellivision.ui.controllers.WindowButtonsController">
-    <Button fx:id="windowButtonsClose" onMouseEntered="buttonInFocus(event)" 
+    <Button fx:id="windowButtonsClose" onAction="#windowButtonsCloseOnAction"
+            onMouseEntered="buttonInFocus(event)" 
             onMouseExited="buttonOutFocus(event)"/>
-    <Button fx:id="windowButtonsMinimize" onMouseEntered="buttonInFocus(event)"
+    <Button fx:id="windowButtonsMinimize" onAction="#windowButtonsMinimizeOnAction"
+            onMouseEntered="buttonInFocus(event)"
             onMouseExited="buttonOutFocus(event)"/>
-    <Button fx:id="windowButtonsMaximize" onMouseEntered="buttonInFocus(event)"
+    <Button fx:id="windowButtonsMaximize" onAction="#windowButtonsMaximizeOnAction"
+            onMouseEntered="buttonInFocus(event)"
             onMouseExited="buttonOutFocus(event)"/>
     <stylesheets>
         <URL value="@../styles/WindowButtons.css" />

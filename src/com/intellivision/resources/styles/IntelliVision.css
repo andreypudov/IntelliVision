@@ -59,6 +59,5 @@
 #title { 
     -fx-font:              bold normal 15pt "Source Sans Pro Semibold";
     -fx-text-fill:         #E3E3DF;
-    -fx-effect:            dropshadow(one-pass-box, 
-                                      derive(#464646, 0%), 1, 0, 0, -1);
+    -fx-effect:            dropshadow(one-pass-box, #464646, 1, 0, 0, -1);
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
- * IntelliVision Intelligence Image Processing System 
+ * IntelliVision Intelligence Image Processing System
  *
  * The MIT License
  *
@@ -44,13 +44,16 @@
 <fx:root fx:id="windowButtons" type="javafx.scene.layout.HBox"
          prefHeight="16.0" prefWidth="40.0" xmlns:fx="http://javafx.com/fxml"
          fx:controller="com.intellivision.ui.controllers.WindowButtonsController">
-    <Button fx:id="windowButtonsClose" onAction="#windowButtonsCloseOnAction"
-            onMouseEntered="buttonInFocus(event)" 
-            onMouseExited="buttonOutFocus(event)"/>
-    <Button fx:id="windowButtonsMinimize" onAction="#windowButtonsMinimizeOnAction"
+    <Button fx:id="windowButtonsClose"
+            onAction="#windowButtonsCloseOnAction"
             onMouseEntered="buttonInFocus(event)"
             onMouseExited="buttonOutFocus(event)"/>
-    <Button fx:id="windowButtonsMaximize" onAction="#windowButtonsMaximizeOnAction"
+    <Button fx:id="windowButtonsMinimize"
+            onAction="#windowButtonsMinimizeOnAction"
+            onMouseEntered="buttonInFocus(event)"
+            onMouseExited="buttonOutFocus(event)"/>
+    <Button fx:id="windowButtonsMaximize"
+            onAction="#windowButtonsMaximizeOnAction"
             onMouseEntered="buttonInFocus(event)"
             onMouseExited="buttonOutFocus(event)"/>
     <stylesheets>
@@ -68,7 +71,7 @@
                + "url(\"com/intellivision/resources/images/"
                + "button-maximize-focused.png\")");
         }
-        
+
         function buttonOutFocus(event) {
             windowButtonsClose.setStyle("-fx-background-image:"
                + "url(\"com/intellivision/resources/images/"

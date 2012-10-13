@@ -93,11 +93,9 @@ public class IntelliVisionController implements Initializable {
      * @param keyEvent the event source.
      */
     public void anchorPaneKeyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) {
-            Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-            //Scene scene = new Scene(root, screenBounds.getWidth(), screenBounds.getHeight());
-            //anchorPane.getScene().getWindow().
-            //primaryStage.setFullScreen(true);
+        if (keyEvent.getCode() == KeyCode.F) {
+            Core.maximizeWindowToScreen();
+
             keyEvent.consume();
         }
     }

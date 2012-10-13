@@ -36,6 +36,8 @@ import java.util.Date;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.XMLFormatter;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
@@ -173,6 +175,30 @@ public class Core {
                 Double.parseDouble(SETTINGS.getValue(
                 "intellivision.window.height")));
 
+        primaryStage.fullScreenProperty().addListener(
+                new ChangeListener<Boolean>(){
+            @Override
+            public void changed(ObservableValue<? extends Boolean> ov,
+                                Boolean t, Boolean t1) {
+                if (ov.getValue()) {
+                    AnchorPane.setBottomAnchor(primaryPanel, 0.0);
+                    AnchorPane.setLeftAnchor(primaryPanel,   0.0);
+                    AnchorPane.setRightAnchor(primaryPanel,  0.0);
+                    AnchorPane.setTopAnchor(primaryPanel,    0.0);
+
+                    primaryScene.getRoot().setStyle("-fx-effect: null");
+                } else {
+                    AnchorPane.setBottomAnchor(primaryPanel, 32.0);
+                    AnchorPane.setLeftAnchor(primaryPanel,   32.0);
+                    AnchorPane.setRightAnchor(primaryPanel,  32.0);
+                    AnchorPane.setTopAnchor(primaryPanel,    32.0);
+
+                    primaryScene.getRoot().setStyle(
+                        "-fx-effect: dropshadow(gaussian,\n" +
+                        "               derive(black, 24%), 26, 0.0, 0, 16)");
+                }
+            }});
+
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
@@ -210,8 +236,8 @@ public class Core {
      */
     public static void maximizeWindow() {
         final Screen screen  = Screen.getScreensForRectangle(
-                Core.getPrimaryStage().getX(),
-                Core.getPrimaryStage().getY(), 1, 1).get(0);
+                primaryStage.getX(),
+                primaryStage.getY(), 1, 1).get(0);
 
         if (maximized) {
             maximized = false;
@@ -235,10 +261,8 @@ public class Core {
             maximized = true;
 
             windowBounds = new Rectangle2D(
-                    Core.getPrimaryStage().getX(),
-                    Core.getPrimaryStage().getY(),
-                    Core.getPrimaryStage().getWidth(),
-                    Core.getPrimaryStage().getHeight());
+                    primaryStage.getX(),     primaryStage.getY(),
+                    primaryStage.getWidth(), primaryStage.getHeight());
 
             primaryScene.getRoot().setStyle("-fx-effect: null");
 
@@ -247,15 +271,18 @@ public class Core {
             AnchorPane.setRightAnchor(primaryPanel,  0.0);
             AnchorPane.setTopAnchor(primaryPanel,    0.0);
 
-            primaryStage.setX(
-                    screen.getVisualBounds().getMinX());
-            primaryStage.setY(
-                    screen.getVisualBounds().getMinY());
-            primaryStage.setWidth(
-                    screen.getVisualBounds().getWidth());
-            primaryStage.setHeight(
-                    screen.getVisualBounds().getHeight());
+            primaryStage.setX(screen.getVisualBounds().getMinX());
+            primaryStage.setY(screen.getVisualBounds().getMinY());
+            primaryStage.setWidth(screen.getVisualBounds().getWidth());
+            primaryStage.setHeight(screen.getVisualBounds().getHeight());
         }
+    }
+
+    /**
+     * Sets application window to full screen mode.
+     */
+    public static void maximizeWindowToScreen() {
+        primaryStage.setFullScreen(!primaryStage.isFullScreen());
     }
 
     /**

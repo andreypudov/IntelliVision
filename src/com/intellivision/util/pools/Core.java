@@ -37,8 +37,12 @@ import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.XMLFormatter;
 import javafx.event.EventHandler;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
@@ -114,6 +118,16 @@ public class Core {
     /* the primary stage for the application */
     private static Stage primaryStage;
 
+    /* the primary scene for the stage */
+    private static Scene primaryScene;
+
+    /* the primary panel for the scene */
+    private static Node  primaryPanel;
+
+    /* window maximizing stuff */
+    private static Rectangle2D windowBounds = null;
+    private static boolean     maximized    = false;
+
     /**
      * Returns the primary stage of the application.
      *
@@ -140,6 +154,9 @@ public class Core {
             throw new IllegalArgumentException();
         }
 
+        primaryScene = scene;
+        primaryPanel = scene.lookup("#mainPanel");
+
         primaryStage = stage;
         primaryStage.initStyle(StageStyle.TRANSPARENT);
         primaryStage.setTitle("IntelliVision");
@@ -159,16 +176,92 @@ public class Core {
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
-                SETTINGS.setValue("intellivision.window.width",
-                        Double.toString(primaryStage.getWidth()));
-                SETTINGS.setValue("intellivision.window.height",
-                        Double.toString(primaryStage.getHeight()));
-                SETTINGS.save();
+                closeWindow();
 
-                primaryStage.close();
                 event.consume();
             }
         });
     }
 
+    /**
+     * Closes application window.
+     */
+    public static void closeWindow() {
+        SETTINGS.setValue("intellivision.window.width",
+                 Double.toString(primaryStage.getWidth()));
+        SETTINGS.setValue("intellivision.window.height",
+                Double.toString(primaryStage.getHeight()));
+        SETTINGS.save();
+
+        primaryStage.close();
+    }
+
+    /**
+     * Returns the maximized state of the application window.
+     *
+     * @return true if window is maximized and false otherwise.
+     */
+    public static boolean isMaximized() {
+        return maximized;
+    }
+
+    /**
+     * Maximizes application window.
+     */
+    public static void maximizeWindow() {
+        final Screen screen  = Screen.getScreensForRectangle(
+                Core.getPrimaryStage().getX(),
+                Core.getPrimaryStage().getY(), 1, 1).get(0);
+
+        if (maximized) {
+            maximized = false;
+
+            if (windowBounds != null) {
+                primaryStage.setX(windowBounds.getMinX());
+                primaryStage.setY(windowBounds.getMinY());
+                primaryStage.setWidth(windowBounds.getWidth());
+                primaryStage.setHeight(windowBounds.getHeight());
+            }
+
+            primaryScene.getRoot().setStyle(
+                    "-fx-effect: dropshadow(gaussian,\n" +
+                    "               derive(black, 24%), 26, 0.0, 0, 16)");
+
+            AnchorPane.setBottomAnchor(primaryPanel, 32.0);
+            AnchorPane.setLeftAnchor(primaryPanel,   32.0);
+            AnchorPane.setRightAnchor(primaryPanel,  32.0);
+            AnchorPane.setTopAnchor(primaryPanel,    32.0);
+        } else {
+            maximized = true;
+
+            windowBounds = new Rectangle2D(
+                    Core.getPrimaryStage().getX(),
+                    Core.getPrimaryStage().getY(),
+                    Core.getPrimaryStage().getWidth(),
+                    Core.getPrimaryStage().getHeight());
+
+            primaryScene.getRoot().setStyle("-fx-effect: null");
+
+            AnchorPane.setBottomAnchor(primaryPanel, 0.0);
+            AnchorPane.setLeftAnchor(primaryPanel,   0.0);
+            AnchorPane.setRightAnchor(primaryPanel,  0.0);
+            AnchorPane.setTopAnchor(primaryPanel,    0.0);
+
+            primaryStage.setX(
+                    screen.getVisualBounds().getMinX());
+            primaryStage.setY(
+                    screen.getVisualBounds().getMinY());
+            primaryStage.setWidth(
+                    screen.getVisualBounds().getWidth());
+            primaryStage.setHeight(
+                    screen.getVisualBounds().getHeight());
+        }
+    }
+
+    /**
+     * Minimizes application window.
+     */
+    public static void minimizeWindow() {
+        primaryStage.setIconified(true);
+    }
 }

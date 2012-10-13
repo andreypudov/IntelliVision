@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
- * IntelliVision Intelligence Image Processing System 
+ * IntelliVision Intelligence Image Processing System
  *
  * The MIT License
  *
@@ -42,14 +42,14 @@
         The general application scene.
 -->
 
-<AnchorPane fx:id="root" prefHeight="700.0" prefWidth="1020.0"
-            xmlns:fx="http://javafx.com/fxml" 
+<AnchorPane fx:id="mainPanelRoot" prefHeight="700.0" prefWidth="1020.0"
+            xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.intellivision.ui.controllers.IntelliVisionController">
   <children>
     <AnchorPane fx:id="mainPanel"
-            AnchorPane.bottomAnchor="32.0" 
-            AnchorPane.leftAnchor="32.0" 
-            AnchorPane.rightAnchor="32.0" 
+            AnchorPane.bottomAnchor="32.0"
+            AnchorPane.leftAnchor="32.0"
+            AnchorPane.rightAnchor="32.0"
             AnchorPane.topAnchor="32.0"
             onKeyPressed="#anchorPaneKeyPressed"
             onMouseMoved="#anchorPaneMouseMoved"
@@ -57,12 +57,12 @@
             onMouseDragged="#anchorPaneMouseDragged">
         <children>
             <ToolBar fx:id="toolBar"
-                     AnchorPane.leftAnchor="0.0" 
-                     AnchorPane.rightAnchor="0.0" 
+                     AnchorPane.leftAnchor="0.0"
+                     AnchorPane.rightAnchor="0.0"
                      AnchorPane.topAnchor="0.0"
                      prefHeight="70.0" minHeight="70.0" maxHeight="70.0"
-                     onMouseClicked="#toolBarMouseClicked" 
-                     onMousePressed="#toolBarMousePressed" 
+                     onMouseClicked="#toolBarMouseClicked"
+                     onMousePressed="#toolBarMousePressed"
                      onMouseDragged="#toolBarMouseDragged">
                 <WindowButtons fx:id="windowButtons">
                     <HBox.margin>
@@ -74,10 +74,10 @@
                     <HBox.hgrow>ALWAYS</HBox.hgrow>
                 </Region>
                 <VBox>
-                    <Label fx:id="title" text="IntelliVision" alignment="CENTER" 
+                    <Label fx:id="title" text="IntelliVision" alignment="CENTER"
                            maxWidth="1.7976931348623157E308"/>
                     <StatusBar fx:id="statusBar" VBox.vgrow="ALWAYS"
-                               maxHeight="1.7976931348623157E308" 
+                               maxHeight="1.7976931348623157E308"
                                maxWidth="1.7976931348623157E308"/>
                 </VBox>
                 <Region HBox.hgrow="ALWAYS"/>
@@ -94,5 +94,3 @@
     <URL value="@../styles/IntelliVision.css" />
   </stylesheets>
 </AnchorPane>
-
-

@@ -33,9 +33,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
 
 /**
- * FXML Controller class
+ * FXML Controller class provides window closing, minimizing and maximizing.
  *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
@@ -47,11 +48,11 @@ public class WindowButtonsController implements Initializable {
     private static final java.util.logging.Logger LOG
             = java.util.logging.Logger.getLogger("IntelliVision");
 
+    @FXML private HBox   windowButtons;
+
     @FXML private Button closeButton;    /* red */
     @FXML private Button minimizeButton; /* yellow */
     @FXML private Button maximizeButton; /* green */
-
-    private boolean maximized = false;
 
     /**
      * Initializes the controller class.
@@ -71,7 +72,7 @@ public class WindowButtonsController implements Initializable {
      * @param event the event source.
      */
     public void windowButtonsCloseOnAction(ActionEvent event) {
-        //Core.getPrimaryStage().
+        Core.closeWindow();
     }
 
     /**
@@ -80,7 +81,7 @@ public class WindowButtonsController implements Initializable {
      * @param event the event source.
      */
     public void windowButtonsMinimizeOnAction(ActionEvent event) {
-        Core.getPrimaryStage().setIconified(true);
+        Core.minimizeWindow();
     }
 
     /**
@@ -89,6 +90,6 @@ public class WindowButtonsController implements Initializable {
      * @param event the event source.
      */
     public void windowButtonsMaximizeOnAction(ActionEvent event) {
-        maximized = !maximized;
+        Core.maximizeWindow();
     }
 }

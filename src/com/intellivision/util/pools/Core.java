@@ -228,7 +228,7 @@ public class Core {
      * @return true if window is maximized and false otherwise.
      */
     public static boolean isMaximized() {
-        return maximized;
+        return maximized || primaryStage.isFullScreen();
     }
 
     /**

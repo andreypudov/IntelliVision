@@ -73,13 +73,11 @@
                 <Region>
                     <HBox.hgrow>ALWAYS</HBox.hgrow>
                 </Region>
-                <VBox>
-                    <Label fx:id="title" text="IntelliVision" alignment="CENTER"
-                           maxWidth="1.7976931348623157E308"/>
-                    <StatusBar fx:id="statusBar" VBox.vgrow="ALWAYS"
-                               maxHeight="1.7976931348623157E308"
-                               maxWidth="1.7976931348623157E308"/>
-                </VBox>
+                <ModuleBar fx:id="moduleBar" maxWidth="1.7976931348623157E308">
+                    <HBox.margin>
+                        <Insets top="5.0" right="0.0" bottom="0.0" left="0.0"/>
+                    </HBox.margin>
+                </ModuleBar>
                 <Region HBox.hgrow="ALWAYS"/>
                 <SearchBar fx:id="searchBar" focusTraversable="true">
                     <HBox.margin>

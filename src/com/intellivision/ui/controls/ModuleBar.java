@@ -24,39 +24,35 @@
  * THE SOFTWARE.
  */
 
-/*
-    Document   : IntelliVision.css
-    Created on : Aug 15, 2012, 09:50:00 PM
-    Author     : Andrey Pudov        <mail@andreypudov.com>
-    Description:
-        The general application style sheet.
-*/
+package com.intellivision.ui.controls;
 
-#mainPanelRoot {
-    -fx-background-insets: 32;
-    -fx-border-radius:     5 5 0 0;
-    -fx-effect:            dropshadow(one-pass-box, #1F1F1F, 40.0, 0.0, 0.0, 12.0);
-}
+import com.intellivision.util.StatusCodes;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.layout.HBox;
 
-#mainPanel {
-    -fx-background-color:  #262626;
-    -fx-background-radius: 5 5 0 0;
- /* -fx-border-color:      #0F0F0F; border is disabled*/
-    -fx-border-radius:     4 4 0 0;
-}
+/**
+ * Module list with an icons and names for application modules.
+ *
+ * @author    Andrey Pudov        <mail@andreypudov.com>
+ * @version   0.00.00
+ * %name      ModuleBar.java
+ * %date      02:00:00 PM, Oct 16, 2012
+ */
+public class ModuleBar extends HBox {
+    private static final java.util.logging.Logger LOG
+            = java.util.logging.Logger.getLogger("IntelliVision");
 
-#toolBar {
-    -fx-background-color:  #535353;
-    -fx-background-radius: 4 4 0 0;
-    -fx-pref-height:       80;
-    -fx-background-color:  linear-gradient(from 0px 0px to 0px 80px,
-                                           #6A6A6A, #4F4F4F 100%,
-                                           dimgray 99%, #4F4F4F);
-    -fx-padding:           0 0 2 0;
-}
+    public ModuleBar() {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
+                    "/com/intellivision/resources/schemas/ModuleBar.fxml"));
 
-#title {
-    -fx-font:              bold normal 15pt "Source Sans Pro Semibold";
-    -fx-text-fill:         #E3E3DF;
-    -fx-effect:            dropshadow(one-pass-box, #464646, 1, 0, 0, -1);
+        fxmlLoader.setRoot(this);
+
+        try {
+            fxmlLoader.load();
+        } catch (java.io.IOException e) {
+            LOG.severe(e.getMessage());
+            System.exit(StatusCodes.EXIT_FAILURE);
+        }
+    }
 }

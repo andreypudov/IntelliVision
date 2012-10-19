@@ -1,5 +1,5 @@
 /*
- * IntelliVision Intelligence Image Processing System 
+ * IntelliVision Intelligence Image Processing System
  *
  * The MIT License
  *
@@ -32,26 +32,26 @@ import javafx.fxml.Initializable;
 
 /**
  * FXML Controller class provides search functionality.
- * 
+ *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
  * %name      StatusBarController.java
  * %date      01:40:00 PM, Oct 05, 2012
  */
 public class StatusBarController implements Initializable {
-    
-    private static final java.util.logging.Logger LOG 
+
+    private static final java.util.logging.Logger LOG
             = java.util.logging.Logger.getLogger("IntelliVision");
-    
+
     /**
      * Initializes the controller class.
-     * 
-     * @param url the location used to resolve relative paths for the root 
+     *
+     * @param url the location used to resolve relative paths for the root
      *            object, or null if the location is not known.
      * @param rb  the resources used to localize the root object, or null if the
      *            root object was not localized.
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(final URL url, final ResourceBundle rb) {
     }
 }

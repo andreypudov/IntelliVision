@@ -48,12 +48,12 @@ public class Log {
     private final File logFile;
 
     /* default constructor */
-    public Log(String fileName) throws FileNotFoundException {
+    public Log(final String fileName) throws FileNotFoundException {
         this(new File(fileName));
     }
 
     /* overloaded constructor */
-    public Log(File file) throws FileNotFoundException {
+    public Log(final File file) throws FileNotFoundException {
         logFile = file;
 
         if (logFile.exists() == false) {
@@ -76,10 +76,10 @@ public class Log {
      *         error occurred during reading of the log file.
      */
     public String getLogContent() throws FileNotFoundException, IOException {
-        FileInputStream stream = new FileInputStream(logFile);
+        final FileInputStream stream = new FileInputStream(logFile);
 
         /* the buffer into which the data is read */
-        byte[] byteArray = new byte[(int) logFile.length()];
+        final byte[] byteArray = new byte[(int) logFile.length()];
 
         /* the total number of bytes read into the buffer */
         int read = 0;
@@ -90,5 +90,4 @@ public class Log {
 
         return new String(byteArray);
     }
-
 }

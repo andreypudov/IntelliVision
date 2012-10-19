@@ -26,6 +26,7 @@
 
 package com.intellivision.util.pools;
 
+import com.intellivision.ui.modules.HelpModule;
 import com.intellivision.util.ConsoleFormatter;
 import com.intellivision.util.StatusCodes;
 import java.io.IOException;
@@ -75,47 +76,51 @@ public class Core {
              * "%%" translates to a single percent sign "%"
              */
 
-            DateFormat formatter = new SimpleDateFormat("HH-mm-ss dd-MMM-yyyy");
+            final DateFormat formatter = new SimpleDateFormat(
+                    "HH-mm-ss dd-MMM-yyyy");
 
             /* the hostname of the machine */
-            InetAddress localMachine = InetAddress.getLocalHost();
+            final InetAddress localMachine = InetAddress.getLocalHost();
 
             /* the pattern for naming the output file */
-            String pattern = "%t/intellivision."
-                    + System.getProperty("user.name")  + "."
-                    + localMachine.getHostName()       + "."
-                    + System.getProperty("os.name")    + "."
-                    + System.getProperty("os.version") + "."
-                    + System.getProperty("os.arch")    + "."
-                    + formatter.format(new Date())     + "."
-                    + "%g.log";
+           final String pattern = "%t/intellivision."
+                   + System.getProperty("user.name")  + "."
+                   + localMachine.getHostName()       + "."
+                   + System.getProperty("os.name")    + "."
+                   + System.getProperty("os.version") + "."
+                   + System.getProperty("os.arch")    + "."
+                   + formatter.format(new Date())     + "."
+                   + "%g.log";
 
             /* specify append mode to disabled */
-            boolean append = false;
+            final boolean append = false;
 
-            FileHandler    fileHandler    = new FileHandler(pattern, append);
-            ConsoleHandler consoleHandler = new ConsoleHandler();
+            final ConsoleHandler ttyHandler  = new ConsoleHandler();
+            final FileHandler    fileHandler = new FileHandler(pattern, append);
 
+            ttyHandler.setFormatter(new ConsoleFormatter());
             fileHandler.setFormatter(new XMLFormatter());
-            consoleHandler.setFormatter(new ConsoleFormatter());
 
+            LOG.addHandler(ttyHandler);
             LOG.addHandler(fileHandler);
-            LOG.addHandler(consoleHandler);
 
             LOG.setUseParentHandlers(false);
-
-            LOG.info("IntelliVision Intelligence Image Processing System\n"
-                + "Copyright (C) 2011-2012 Andrey Pudov. "
-               + "All rights reserved.\n");
         } catch (IOException e) {
             LOG.severe(e.getMessage());
             System.exit(StatusCodes.EXIT_FAILURE);
         }
+
+        LOG.info("IntelliVision Intelligence Image Processing System\n"
+                + "Copyright (C) 2011-2012 Andrey Pudov. "
+                + "All rights reserved.\n");
+
+        /* adds first-level module to the appliation window */
+        Modules.addModule(HelpModule.getInstance());
     }
 
     /* the list of application properties */
-    private static final com.intellivision.util.Settings SETTINGS
-            = com.intellivision.util.Settings.getSettings();
+    private static final com.intellivision.util.pools.Settings SETTINGS
+            = com.intellivision.util.pools.Settings.getSettings();
 
     /* do not let anyone instantiate this class */
     private Core() {
@@ -154,7 +159,7 @@ public class Core {
      * @throws IllegalArgumentException
      *        method has been passed an illegal or inappropriate argument
      */
-    public static void setPrimaryStage(Stage stage, Scene scene)
+    public static void setPrimaryStage(final Stage stage, final Scene scene)
             throws IOException {
         if ((stage == null) || (scene == null)) {
             throw new IllegalArgumentException();

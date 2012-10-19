@@ -1,5 +1,5 @@
 /*
- * IntelliVision Intelligence Image Processing System 
+ * IntelliVision Intelligence Image Processing System
  *
  * The MIT License
  *
@@ -31,24 +31,24 @@ import java.util.logging.LogRecord;
 
 /**
  * d
- * 
+ *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
  * %name      ConsoleFormatter.java
  * %date      10:30:00 PM, Sep 06, 2012
  */
 public class ConsoleFormatter extends Formatter {
-    
-    private static final java.util.logging.Logger LOG 
+
+    private static final java.util.logging.Logger LOG
             = java.util.logging.Logger.getLogger("IntelliVision");
 
     @Override
-    public String format(LogRecord record) {
-        StringBuilder builder = new StringBuilder(100);
-        
+    public String format(final LogRecord record) {
+        final StringBuilder builder = new StringBuilder(100);
+
         builder.append(record.getMessage()
                 ).append('\n');
-        
+
         return builder.toString();
     }
 }

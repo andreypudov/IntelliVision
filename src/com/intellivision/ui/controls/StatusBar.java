@@ -1,5 +1,5 @@
 /*
- * IntelliVision Intelligence Image Processing System 
+ * IntelliVision Intelligence Image Processing System
  *
  * The MIT License
  *
@@ -32,22 +32,23 @@ import javafx.scene.layout.HBox;
 
 /**
  * Status bar displays current application status.
- * 
+ *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
  * %name      StatusBar.java
  * %date      01:0:00 PM, Oct 05, 2012
  */
 public class StatusBar extends HBox {
-    private static final java.util.logging.Logger LOG 
-            = java.util.logging.Logger.getLogger("IntelliVision");
     
+    private static final java.util.logging.Logger LOG
+            = java.util.logging.Logger.getLogger("IntelliVision");
+
     public StatusBar() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
                     "/com/intellivision/resources/schemas/StatusBar.fxml"));
-        
+
         fxmlLoader.setRoot(this);
-        
+
         try {
             fxmlLoader.load();
         } catch (java.io.IOException e) {

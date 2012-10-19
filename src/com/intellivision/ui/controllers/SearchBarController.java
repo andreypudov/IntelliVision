@@ -1,5 +1,5 @@
 /*
- * IntelliVision Intelligence Image Processing System 
+ * IntelliVision Intelligence Image Processing System
  *
  * The MIT License
  *
@@ -41,72 +41,77 @@ import javafx.scene.layout.Region;
 
 /**
  * FXML Controller class provides search functionality.
- * 
+ *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
  * %name      SearchBarController.java
  * %date      09:50:00 AM, Sep 25, 2012
  */
 public class SearchBarController implements Initializable {
-    
-    private static final java.util.logging.Logger LOG 
+
+    private static final java.util.logging.Logger LOG
             = java.util.logging.Logger.getLogger("IntelliVision");
-    
+
     @FXML private Region    searchBar;
     @FXML private TextField searchTextField;
     @FXML private Button    searchClearButton;
-    
+
     /**
      * Initializes the controller class.
-     * 
-     * @param url the location used to resolve relative paths for the root 
+     *
+     * @param url the location used to resolve relative paths for the root
      *            object, or null if the location is not known.
      * @param rb  the resources used to localize the root object, or null if the
      *            root object was not localized.
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) { 
+    public void initialize(final URL url, final ResourceBundle rb) {
         searchBar.needsLayoutProperty().addListener(new ChangeListener<Boolean>() {
             @Override
-            public void changed(ObservableValue<? extends Boolean> ov, Boolean t, Boolean t1) {
-                searchTextField.resize(searchBar.getWidth(), searchBar.getHeight());
-                searchClearButton.resizeRelocate(searchBar.getWidth() - 18 , 6, 12, 13);
+            public void changed(final ObservableValue<? extends Boolean> ov,
+                                final Boolean t, final Boolean t1) {
+                searchTextField.resize(
+                        searchBar.getWidth(), searchBar.getHeight());
+                searchClearButton.resizeRelocate(
+                        searchBar.getWidth() - 18, 6, 12, 13);
             }
         });
-        
+
         searchTextField.textProperty().addListener(new ChangeListener<String>() {
             @Override
-            public void changed(ObservableValue<? extends String> ov, String t, String t1) {
-                searchClearButton.setVisible(searchTextField.getText().length() != 0);
+            public void changed(final ObservableValue<? extends String> ov,
+                                final String t, final String t1) {
+                searchClearButton.setVisible(
+                        searchTextField.getText().length() != 0);
             }
         });
     }
-    
+
     /**
      * Clears text field and returns to default state.
-     * 
+     *
      * @param actionEvent  the event source.
      */
-    public void searchClearButtonAction(ActionEvent actionEvent) {
+    public void searchClearButtonAction(final ActionEvent actionEvent) {
         searchTextField.setText("");
         searchTextField.requestFocus();
     }
-    
+
     /**
      * Clears text field when the user starts typing.
-     * 
+     *
      * @param actionEvent  the event source.
      */
-    public void searchTextFieldAction(ActionEvent actionEvent) {
+    public void searchTextFieldAction(final ActionEvent actionEvent) {
         searchTextField.setText("");
         searchTextField.requestFocus();
     }
-    
+
     /**
-     * 
+     *
      * @param keyEvent  the event source.
      */
-    public void searchTextFieldKeyReleased(KeyEvent keyEvent) {
+    public void searchTextFieldKeyReleased(final KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.DOWN) {
             //contextMenu.setFocused(true);
         }

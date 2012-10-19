@@ -63,7 +63,7 @@ public class WindowButtonsController implements Initializable {
      *            root object was not localized.
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(final URL url, final ResourceBundle rb) {
     }
 
     /**
@@ -71,7 +71,7 @@ public class WindowButtonsController implements Initializable {
      *
      * @param event the event source.
      */
-    public void windowButtonsCloseOnAction(ActionEvent event) {
+    public void windowButtonsCloseOnAction(final ActionEvent event) {
         Core.closeWindow();
     }
 
@@ -80,7 +80,7 @@ public class WindowButtonsController implements Initializable {
      *
      * @param event the event source.
      */
-    public void windowButtonsMinimizeOnAction(ActionEvent event) {
+    public void windowButtonsMinimizeOnAction(final ActionEvent event) {
         Core.minimizeWindow();
     }
 
@@ -89,7 +89,7 @@ public class WindowButtonsController implements Initializable {
      *
      * @param event the event source.
      */
-    public void windowButtonsMaximizeOnAction(ActionEvent event) {
+    public void windowButtonsMaximizeOnAction(final ActionEvent event) {
         Core.maximizeWindow();
     }
 }

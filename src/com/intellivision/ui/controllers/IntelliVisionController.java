@@ -38,6 +38,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Region;
 
 /**
  * FXML Controller class provides window resizing and moving functionality.
@@ -62,6 +63,7 @@ public class IntelliVisionController implements Initializable {
     @FXML private AnchorPane mainPanel;
     @FXML private ToolBar    toolBar;
     @FXML private Label      title;
+    @FXML private Region     moduleRegion;
 
     private Movement movement = Movement.SOUTH_EAST;
 
@@ -82,7 +84,7 @@ public class IntelliVisionController implements Initializable {
      *            root object was not localized.
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(final URL url, final ResourceBundle rb) {
     }
 
     /**
@@ -90,7 +92,7 @@ public class IntelliVisionController implements Initializable {
      *
      * @param keyEvent the event source.
      */
-    public void anchorPaneKeyPressed(KeyEvent keyEvent) {
+    public void anchorPaneKeyPressed(final KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.F) {
             Core.maximizeWindowToScreen();
 
@@ -103,10 +105,7 @@ public class IntelliVisionController implements Initializable {
      *
      * @param event the event source.
      */
-    public void anchorPaneMouseDragged(MouseEvent event) {
-        double stageOffsetWidth;
-        double stageOffsetHeight;
-
+    public void anchorPaneMouseDragged(final MouseEvent event) {
         if(windowResizingOn == true) {
             switch (movement) {
                 case EAST:
@@ -144,7 +143,7 @@ public class IntelliVisionController implements Initializable {
      *
      * @param event the event source.
      */
-    public void anchorPaneMouseMoved(MouseEvent event) {
+    public void anchorPaneMouseMoved(final MouseEvent event) {
         /* threshold border size for resize cursor */
         final double THRESHOLD = 8.0;
 
@@ -185,7 +184,7 @@ public class IntelliVisionController implements Initializable {
      *
      * @param event the event source.
      */
-    public void anchorPaneMousePressed(MouseEvent event) {
+    public void anchorPaneMousePressed(final MouseEvent event) {
         stageDragOffsetX = mainPanel.getScene().getWidth()
                 - event.getScreenX();
         stageDragOffsetY = mainPanel.getScene().getHeight()
@@ -204,7 +203,7 @@ public class IntelliVisionController implements Initializable {
      *
      * @param event the event source.
      */
-    public void toolBarMouseClicked(MouseEvent event) {
+    public void toolBarMouseClicked(final MouseEvent event) {
         if (event.getClickCount() == 2) {
             Core.maximizeWindow();
         }
@@ -217,7 +216,7 @@ public class IntelliVisionController implements Initializable {
      *
      * @param event the event source.
      */
-    public void toolBarMousePressed(MouseEvent event) {
+    public void toolBarMousePressed(final MouseEvent event) {
         mouseDragOffsetX = event.getSceneX();
         mouseDragOffsetY = event.getSceneY();
     }
@@ -227,7 +226,7 @@ public class IntelliVisionController implements Initializable {
      *
      * @param event the event source.
      */
-    public void toolBarMouseDragged(MouseEvent event) {
+    public void toolBarMouseDragged(final MouseEvent event) {
         if((windowResizingOn == false) && (Core.isMaximized() == false)) {
             mainPanel.getScene().getWindow().setX(
                     event.getScreenX() - mouseDragOffsetX);

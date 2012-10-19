@@ -39,6 +39,7 @@ import javafx.scene.layout.HBox;
  * %date      02:00:00 PM, Oct 16, 2012
  */
 public class ModuleBar extends HBox {
+    
     private static final java.util.logging.Logger LOG
             = java.util.logging.Logger.getLogger("IntelliVision");
 

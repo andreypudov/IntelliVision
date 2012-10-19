@@ -1,5 +1,5 @@
 /*
- * IntelliVision Intelligence Image Processing System 
+ * IntelliVision Intelligence Image Processing System
  *
  * The MIT License
  *
@@ -32,22 +32,23 @@ import javafx.scene.layout.HBox;
 
 /**
  * Search box with drop down with results.
- * 
+ *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
  * %name      SearchBar.java
  * %date      09:40:00 AM, Sep 25, 2012
  */
 public class SearchBar extends HBox {
-    private static final java.util.logging.Logger LOG 
-            = java.util.logging.Logger.getLogger("IntelliVision");
     
+    private static final java.util.logging.Logger LOG
+            = java.util.logging.Logger.getLogger("IntelliVision");
+
     public SearchBar() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
                     "/com/intellivision/resources/schemas/SearchBar.fxml"));
-        
+
         fxmlLoader.setRoot(this);
-        
+
         try {
             fxmlLoader.load();
         } catch (java.io.IOException e) {

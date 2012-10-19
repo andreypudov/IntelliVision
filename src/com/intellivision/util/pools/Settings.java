@@ -24,7 +24,7 @@
  * THE SOFTWARE.
  */
 
-package com.intellivision.util;
+package com.intellivision.util.pools;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -57,14 +57,14 @@ public enum Settings {
          */
         init();
 
-        File[] directoryList = {
+        final File[] directoryList = {
             /* .IntelliVision */
             new File(System.getProperty("user.home")
                 + System.getProperty("file.separator")
                 + ".IntelliVision")
         };
 
-        File[] fileList = {
+        final File[] fileList = {
             /* .IntelliVision/.settings */
             new File(System.getProperty("user.home")
                 + System.getProperty("file.separator")
@@ -117,7 +117,7 @@ public enum Settings {
      * @return    the value to which the specified key is mapped, or null if
      *            this map contains no mapping for the key.
      */
-    public String getValue(String key) {
+    public String getValue(final String key) {
         return properties.getProperty(key);
     }
 
@@ -130,7 +130,7 @@ public enum Settings {
      * @return      the previous value of the specified key in this property
      *              list, or null if it did not have one.
      */
-    public String setValue(String key, String value) {
+    public String setValue(final String key, final String value) {
         return (String) properties.setProperty(key, value);
     }
 
@@ -138,7 +138,7 @@ public enum Settings {
      * Initialize application settings.
      */
     private static void init() {
-        File settings = new File(System.getProperty("user.home")
+        final File settings = new File(System.getProperty("user.home")
                 + System.getProperty("file.separator") + ".IntelliVision"
                 + System.getProperty("file.separator") + ".settings");
 
@@ -158,7 +158,7 @@ public enum Settings {
      * Reads application settings from configuration file.
      */
     public void load() {
-        File settings = new File(System.getProperty("user.home")
+        final File settings = new File(System.getProperty("user.home")
                 + System.getProperty("file.separator") + ".IntelliVision"
                 + System.getProperty("file.separator") + ".settings");
 
@@ -175,7 +175,7 @@ public enum Settings {
      * Writes application settings to configuration files.
      */
     public void save() {
-        File settings = new File(System.getProperty("user.home")
+        final File settings = new File(System.getProperty("user.home")
                 + System.getProperty("file.separator") + ".IntelliVision"
                 + System.getProperty("file.separator") + ".settings");
 

@@ -60,7 +60,7 @@ public class ModuleBarController implements Initializable {
      *            root object was not localized.
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(final URL url, final ResourceBundle rb) {
     }
 
     /**
@@ -68,7 +68,7 @@ public class ModuleBarController implements Initializable {
      *
      * @param event the event source.
      */
-    public void moduleBarHomeOnAction(ActionEvent event) {
+    public void moduleBarHomeOnAction(final ActionEvent event) {
     }
 
     /**
@@ -76,7 +76,7 @@ public class ModuleBarController implements Initializable {
      *
      * @param event the event source.
      */
-    public void moduleBarCategoriesOnAction(ActionEvent event) {
+    public void moduleBarCategoriesOnAction(final ActionEvent event) {
     }
 
     /**
@@ -84,7 +84,7 @@ public class ModuleBarController implements Initializable {
      *
      * @param event the event source.
      */
-    public void moduleBarRemoteOnAction(ActionEvent event) {
+    public void moduleBarRemoteOnAction(final ActionEvent event) {
     }
 
     /**
@@ -92,7 +92,7 @@ public class ModuleBarController implements Initializable {
      *
      * @param event the event source.
      */
-    public void moduleBarHelpOnAction(ActionEvent event) {
+    public void moduleBarHelpOnAction(final ActionEvent event) {
     }
 
 }

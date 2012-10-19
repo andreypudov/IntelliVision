@@ -1,5 +1,5 @@
 /*
- * IntelliVision Intelligence Image Processing System 
+ * IntelliVision Intelligence Image Processing System
  *
  * The MIT License
  *
@@ -30,13 +30,13 @@ import com.intellivision.core.AbstractImage;
 import java.io.File;
 
 /**
- * The Abstract format 
- * 
+ * The Abstract format
+ *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
  * %name      AbstractFormat.java
  * %date      08:00:00 PM, Aug 15, 2012
  */
 public interface AbstractFormat {
-    public AbstractImage getImage(File fileName);
+    public AbstractImage getImage(final File fileName);
 }

@@ -62,10 +62,6 @@ public class Core {
     private static final java.util.logging.Logger LOG
             = java.util.logging.Logger.getLogger("IntelliVision");
 
-    /* the list of application properties */
-    private static final com.intellivision.util.Settings SETTINGS
-            = com.intellivision.util.Settings.getSettings();
-
     static {
         try {
             /* Initialize general application logging */
@@ -107,11 +103,19 @@ public class Core {
             LOG.addHandler(consoleHandler);
 
             LOG.setUseParentHandlers(false);
+
+            LOG.info("IntelliVision Intelligence Image Processing System\n"
+                + "Copyright (C) 2011-2012 Andrey Pudov. "
+               + "All rights reserved.\n");
         } catch (IOException e) {
             LOG.severe(e.getMessage());
             System.exit(StatusCodes.EXIT_FAILURE);
         }
     }
+
+    /* the list of application properties */
+    private static final com.intellivision.util.Settings SETTINGS
+            = com.intellivision.util.Settings.getSettings();
 
     /* do not let anyone instantiate this class */
     private Core() {

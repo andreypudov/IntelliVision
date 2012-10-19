@@ -67,10 +67,6 @@ public class IntelliVision extends Application {
                     ).toExternalForm());
 
             Core.setPrimaryStage(primaryStage, scene);
-
-            LOG.info("IntelliVision Intelligence Image Processing System\n"
-               + "Copyright (C) 2011-2012 Andrey Pudov. "
-               + "All rights reserved.");
             Core.getPrimaryStage().show();
         } catch (java.io.IOException | IllegalArgumentException e) {
             LOG.severe(e.getMessage());

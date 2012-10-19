@@ -75,10 +75,11 @@ public enum Settings {
 
         for (File directory : directoryList) {
             if (!(directory.exists()) || !(directory.isDirectory())) {
-                if (!(directory.delete()) && !(directory.mkdirs())) {
-                    LOG.warning("Application settings initializaition failed!"
+                directory.delete();
+                directory.mkdirs();
+
+                LOG.warning("First time initialization."
                             + " Default values will be used.");
-                }
             }
         }
 

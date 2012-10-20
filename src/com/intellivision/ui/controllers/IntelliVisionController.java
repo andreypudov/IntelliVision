@@ -26,9 +26,12 @@
 
 package com.intellivision.ui.controllers;
 
+import com.intellivision.ui.controls.WindowButtons;
 import com.intellivision.util.pools.Core;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
@@ -65,6 +68,8 @@ public class IntelliVisionController implements Initializable {
     @FXML private Label      title;
     @FXML private Region     moduleRegion;
 
+    @FXML private WindowButtons windowButtons;
+
     private Movement movement = Movement.SOUTH_EAST;
 
     private double mouseDragOffsetX = 0.0;
@@ -85,6 +90,26 @@ public class IntelliVisionController implements Initializable {
      */
     @Override
     public void initialize(final URL url, final ResourceBundle rb) {
+        windowButtons.setOnCloseAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent t) {
+                Core.closeWindow();
+            }
+        });
+
+        windowButtons.setOnMinimizeAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent t) {
+                Core.minimizeWindow();
+            }
+        });
+
+        windowButtons.setOnMaximizeAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent t) {
+                Core.maximizeWindow();
+            }
+        });
     }
 
     /**

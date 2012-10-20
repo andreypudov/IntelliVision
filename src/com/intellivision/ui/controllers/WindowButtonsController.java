@@ -29,7 +29,10 @@ package com.intellivision.ui.controllers;
 import com.intellivision.util.pools.Core;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -54,6 +57,13 @@ public class WindowButtonsController implements Initializable {
     @FXML private Button minimizeButton; /* yellow */
     @FXML private Button maximizeButton; /* green */
 
+    private final ObjectProperty<EventHandler<ActionEvent>> onCloseAction
+            = new SimpleObjectProperty<>();
+    private final ObjectProperty<EventHandler<ActionEvent>> onMinimizeAction
+            = new SimpleObjectProperty<>();
+    private final ObjectProperty<EventHandler<ActionEvent>> onMaximizeAction
+            = new SimpleObjectProperty<>();
+
     /**
      * Initializes the controller class.
      *
@@ -67,13 +77,40 @@ public class WindowButtonsController implements Initializable {
     }
 
     /**
+     * Defines a function to be called when the close button is fired.
+     *
+     * @return the onCloseAction property.
+     */
+    public ObjectProperty<EventHandler<ActionEvent>> onCloseAction() {
+        return onCloseAction;
+    }
+
+    /**
+     * Defines a function to be called when the minimize button is fired.
+     *
+     * @return the onCloseAction property.
+     */
+    public ObjectProperty<EventHandler<ActionEvent>> onMinimizeAction() {
+        return onMinimizeAction;
+    }
+
+    /**
+     * Defines a function to be called when the maximize button is fired.
+     *
+     * @return the onCloseAction property.
+     */
+    public ObjectProperty<EventHandler<ActionEvent>> onMaximizeAction() {
+        return onMaximizeAction;
+    }
+
+    /**
      * Closes the application window and returns management to OS.
      *
      * @param event the event source.
      */
     @FXML
     private void windowButtonsCloseOnAction(final ActionEvent event) {
-        Core.closeWindow();
+        onCloseAction.get().handle(event);
     }
 
     /**
@@ -83,7 +120,7 @@ public class WindowButtonsController implements Initializable {
      */
     @FXML
     private void windowButtonsMinimizeOnAction(final ActionEvent event) {
-        Core.minimizeWindow();
+        onMinimizeAction.get().handle(event);
     }
 
     /**
@@ -93,6 +130,6 @@ public class WindowButtonsController implements Initializable {
      */
     @FXML
     private void windowButtonsMaximizeOnAction(final ActionEvent event) {
-        Core.maximizeWindow();
+        onMaximizeAction.get().handle(event);
     }
 }

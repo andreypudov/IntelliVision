@@ -24,44 +24,36 @@
  * THE SOFTWARE.
  */
 
-/*
-    Document   : WindowButtons.css
-    Created on : Sep 07, 2012, 07:50:00 AM
-    Author     : Andrey Pudov        <mail@andreypudov.com>
-    Description:
-        The general application style sheet.
-*/
+package com.intellivision.ui.controls;
 
-.button {
-    -fx-background-color:    null;
-    -fx-background-position: right center;
-    -fx-background-repeat:   no-repeat;
+import com.intellivision.util.StatusCodes;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.layout.HBox;
+
+/**
+ * Navigation bar with back and next buttons to going between modules.
+ *
+ * @author    Andrey Pudov        <mail@andreypudov.com>
+ * @version   0.00.00
+ * %name      NavigationBar.java
+ * %date      01:00:00 PM, Oct 20, 2012
+ */
+public class NavigationBar extends HBox {
+
+    private static final java.util.logging.Logger LOG
+            = java.util.logging.Logger.getLogger("IntelliVision");
+
+    public NavigationBar() {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
+                    "/com/intellivision/resources/schemas/NavigationBar.fxml"));
+
+        fxmlLoader.setRoot(this);
+
+        try {
+            fxmlLoader.load();
+        } catch (java.io.IOException e) {
+            LOG.severe(e.getMessage());
+            System.exit(StatusCodes.EXIT_FAILURE);
+        }
+    }
 }
-
-#windowButtonsClose {
-    -fx-background-image:    url("../images/button-close-unfocused.png");
-    -fx-padding:             10 0 0 26;
-}
-
-#windowButtonsMinimize {
-    -fx-background-image:    url("../images/button-minimize-unfocused.png");
-    -fx-padding:             10 0 0 20;
-}
-
-#windowButtonsMaximize {
-    -fx-background-image:    url("../images/button-maximize-unfocused.png");
-    -fx-padding:             10 0 0 20;
-}
-
-#windowButtonsClose:hover {
-    -fx-background-image:    url("../images/button-close-focused.png");
-}
-
-#windowButtonsMinimize:hover {
-    -fx-background-image:    url("../images/button-minimize-focused.png");
-}
-
-#windowButtonsMaximize:hover {
-    -fx-background-image:    url("../images/button-maximize-focused.png");
-}
-

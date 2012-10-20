@@ -47,7 +47,7 @@
         <ToggleGroup fx:id="moduleBarToggleGroup" />
     </fx:define>
     <children>
-        <ToggleButton fx:id="moduleBarHome" text="Home"
+        <ToggleButton fx:id="moduleBarHome" text="Home" selected="true"
                 toggleGroup="$moduleBarToggleGroup" contentDisplay="TOP"
                 minWidth="80.0" maxHeight="1.7976931348623157E308"
                 onAction="#moduleBarHomeOnAction" />

@@ -25,43 +25,39 @@
  */
 
 /*
-    Document   : WindowButtons.css
-    Created on : Sep 07, 2012, 07:50:00 AM
+    Document   : NavigationBar.css
+    Created on :  Oct 20, 2012, 01:00:00 PM
     Author     : Andrey Pudov        <mail@andreypudov.com>
     Description:
         The general application style sheet.
 */
 
 .button {
-    -fx-background-color:    null;
-    -fx-background-position: right center;
+    -fx-background-position: center center;
     -fx-background-repeat:   no-repeat;
 }
 
-#windowButtonsClose {
-    -fx-background-image:    url("../images/button-close-unfocused.png");
-    -fx-padding:             10 0 0 26;
+#navigationBarBack {
+    -fx-background-color: linear-gradient(to bottom, #757575, #626262);
+    -fx-background-image: url("../images/button-back-enabled.png");
+    -fx-border-color:     #303030;
+    -fx-border-radius:    4 0 0 4;
 }
 
-#windowButtonsMinimize {
-    -fx-background-image:    url("../images/button-minimize-unfocused.png");
-    -fx-padding:             10 0 0 20;
+#navigationBarNext {
+    -fx-background-color: linear-gradient(to bottom, #757575, #626262);
+    -fx-background-image: url("../images/button-next-enabled.png");
+    -fx-border-color:     #303030;
+    -fx-border-radius:    0 4 4 0;
+    -fx-border-insets:    0 0 0 -1;
 }
 
-#windowButtonsMaximize {
-    -fx-background-image:    url("../images/button-maximize-unfocused.png");
-    -fx-padding:             10 0 0 20;
+#navigationBarBack:pressed {
+    -fx-background-color: linear-gradient(to bottom, #3F3F3F, #373737);
+    -fx-border-color:     #292929;
 }
 
-#windowButtonsClose:hover {
-    -fx-background-image:    url("../images/button-close-focused.png");
+#navigationBarNext:pressed {
+    -fx-background-color: linear-gradient(to bottom, #3F3F3F, #373737);
+    -fx-border-color:     #292929;
 }
-
-#windowButtonsMinimize:hover {
-    -fx-background-image:    url("../images/button-minimize-focused.png");
-}
-
-#windowButtonsMaximize:hover {
-    -fx-background-image:    url("../images/button-maximize-focused.png");
-}
-

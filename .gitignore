@@ -5,12 +5,24 @@ build/
 dist/
 nbproject/
 
+subprojects/Preloader/build/
+subprojects/Preloader/dist/
+subprojects/Preloader/nbproject/
+
+subprojects/WinLauncher/Debug/
+subprojects/WinLauncher/ipch/
+subprojects/WinLauncher/Release/
+subprojects/WinLauncher/WinLauncher/Debug/
+subprojects/WinLauncher/WinLauncher/Release/
+
 ################################################################################
 ### Compiled source                                                            #
 ################################################################################
 *.class
 *.jar
 *.bak
+*.exe
+*.sdf
 
 ################################################################################
 ### OS generated files                                                         #

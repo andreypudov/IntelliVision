@@ -23,6 +23,8 @@ subprojects/WinLauncher/WinLauncher/Release/
 *.bak
 *.exe
 *.sdf
+*.pch
+*.pchi
 
 ################################################################################
 ### OS generated files                                                         #

@@ -68,7 +68,8 @@ public class ModuleBarController implements Initializable {
      *
      * @param event the event source.
      */
-    public void moduleBarHomeOnAction(final ActionEvent event) {
+    @FXML
+    private void moduleBarHomeOnAction(final ActionEvent event) {
     }
 
     /**
@@ -76,7 +77,8 @@ public class ModuleBarController implements Initializable {
      *
      * @param event the event source.
      */
-    public void moduleBarCategoriesOnAction(final ActionEvent event) {
+    @FXML
+    private void moduleBarCategoriesOnAction(final ActionEvent event) {
     }
 
     /**
@@ -84,7 +86,8 @@ public class ModuleBarController implements Initializable {
      *
      * @param event the event source.
      */
-    public void moduleBarRemoteOnAction(final ActionEvent event) {
+    @FXML
+    private void moduleBarRemoteOnAction(final ActionEvent event) {
     }
 
     /**
@@ -92,7 +95,8 @@ public class ModuleBarController implements Initializable {
      *
      * @param event the event source.
      */
-    public void moduleBarHelpOnAction(final ActionEvent event) {
+    @FXML
+    private void moduleBarHelpOnAction(final ActionEvent event) {
     }
 
 }

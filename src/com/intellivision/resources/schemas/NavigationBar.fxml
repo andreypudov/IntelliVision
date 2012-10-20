@@ -45,10 +45,10 @@
          xmlns:fx="http://javafx.com/fxml"
          fx:controller="com.intellivision.ui.controllers.NavigationBarController">
     <children>
-        <Button fx:id="navigationBarBack"
+        <Button fx:id="navigationBarBack" disable="true"
                 minWidth="28.0" maxHeight="1.7976931348623157E308"
                 onAction="#navigationBarNextOnAction" />
-        <Button fx:id="navigationBarNext"
+        <Button fx:id="navigationBarNext" disable="true"
                 minWidth="28.0" maxHeight="1.7976931348623157E308"
                 onAction="#navigationBarNextOnAction" />
     </children>

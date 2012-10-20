@@ -61,3 +61,13 @@
     -fx-background-color: linear-gradient(to bottom, #3F3F3F, #373737);
     -fx-border-color:     #292929;
 }
+
+#navigationBarBack:disabled {
+    -fx-background-color: linear-gradient(to bottom, #757575, #626262);
+    -fx-border-color:     #303030;
+}
+
+#navigationBarNext:disabled {
+    -fx-background-color: linear-gradient(to bottom, #757575, #626262);
+    -fx-border-color:     #303030;
+}

@@ -92,7 +92,8 @@ public class SearchBarController implements Initializable {
      *
      * @param actionEvent  the event source.
      */
-    public void searchClearButtonAction(final ActionEvent actionEvent) {
+    @FXML
+    private void searchClearButtonAction(final ActionEvent actionEvent) {
         searchTextField.setText("");
         searchTextField.requestFocus();
     }
@@ -102,7 +103,8 @@ public class SearchBarController implements Initializable {
      *
      * @param actionEvent  the event source.
      */
-    public void searchTextFieldAction(final ActionEvent actionEvent) {
+    @FXML
+    private void searchTextFieldAction(final ActionEvent actionEvent) {
         searchTextField.setText("");
         searchTextField.requestFocus();
     }
@@ -111,7 +113,8 @@ public class SearchBarController implements Initializable {
      *
      * @param keyEvent  the event source.
      */
-    public void searchTextFieldKeyReleased(final KeyEvent keyEvent) {
+    @FXML
+    private void searchTextFieldKeyReleased(final KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.DOWN) {
             //contextMenu.setFocused(true);
         }

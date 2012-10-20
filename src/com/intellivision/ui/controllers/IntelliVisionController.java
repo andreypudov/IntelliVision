@@ -92,7 +92,8 @@ public class IntelliVisionController implements Initializable {
      *
      * @param keyEvent the event source.
      */
-    public void anchorPaneKeyPressed(final KeyEvent keyEvent) {
+    @FXML
+    private void anchorPaneKeyPressed(final KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.F) {
             Core.maximizeWindowToScreen();
 
@@ -105,7 +106,8 @@ public class IntelliVisionController implements Initializable {
      *
      * @param event the event source.
      */
-    public void anchorPaneMouseDragged(final MouseEvent event) {
+    @FXML
+    private void anchorPaneMouseDragged(final MouseEvent event) {
         if(windowResizingOn == true) {
             switch (movement) {
                 case EAST:
@@ -143,7 +145,8 @@ public class IntelliVisionController implements Initializable {
      *
      * @param event the event source.
      */
-    public void anchorPaneMouseMoved(final MouseEvent event) {
+    @FXML
+    private void anchorPaneMouseMoved(final MouseEvent event) {
         /* threshold border size for resize cursor */
         final double THRESHOLD = 8.0;
 
@@ -184,7 +187,8 @@ public class IntelliVisionController implements Initializable {
      *
      * @param event the event source.
      */
-    public void anchorPaneMousePressed(final MouseEvent event) {
+    @FXML
+    private void anchorPaneMousePressed(final MouseEvent event) {
         stageDragOffsetX = mainPanel.getScene().getWidth()
                 - event.getScreenX();
         stageDragOffsetY = mainPanel.getScene().getHeight()
@@ -203,7 +207,8 @@ public class IntelliVisionController implements Initializable {
      *
      * @param event the event source.
      */
-    public void toolBarMouseClicked(final MouseEvent event) {
+    @FXML
+    private void toolBarMouseClicked(final MouseEvent event) {
         if (event.getClickCount() == 2) {
             Core.maximizeWindow();
         }
@@ -216,7 +221,8 @@ public class IntelliVisionController implements Initializable {
      *
      * @param event the event source.
      */
-    public void toolBarMousePressed(final MouseEvent event) {
+    @FXML
+    private void toolBarMousePressed(final MouseEvent event) {
         mouseDragOffsetX = event.getSceneX();
         mouseDragOffsetY = event.getSceneY();
     }
@@ -226,7 +232,8 @@ public class IntelliVisionController implements Initializable {
      *
      * @param event the event source.
      */
-    public void toolBarMouseDragged(final MouseEvent event) {
+    @FXML
+    private void toolBarMouseDragged(final MouseEvent event) {
         if((windowResizingOn == false) && (Core.isMaximized() == false)) {
             mainPanel.getScene().getWindow().setX(
                     event.getScreenX() - mouseDragOffsetX);

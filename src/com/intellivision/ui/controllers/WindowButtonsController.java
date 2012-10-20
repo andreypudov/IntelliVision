@@ -71,7 +71,8 @@ public class WindowButtonsController implements Initializable {
      *
      * @param event the event source.
      */
-    public void windowButtonsCloseOnAction(final ActionEvent event) {
+    @FXML
+    private void windowButtonsCloseOnAction(final ActionEvent event) {
         Core.closeWindow();
     }
 
@@ -80,7 +81,8 @@ public class WindowButtonsController implements Initializable {
      *
      * @param event the event source.
      */
-    public void windowButtonsMinimizeOnAction(final ActionEvent event) {
+    @FXML
+    private void windowButtonsMinimizeOnAction(final ActionEvent event) {
         Core.minimizeWindow();
     }
 
@@ -89,7 +91,8 @@ public class WindowButtonsController implements Initializable {
      *
      * @param event the event source.
      */
-    public void windowButtonsMaximizeOnAction(final ActionEvent event) {
+    @FXML
+    private void windowButtonsMaximizeOnAction(final ActionEvent event) {
         Core.maximizeWindow();
     }
 }

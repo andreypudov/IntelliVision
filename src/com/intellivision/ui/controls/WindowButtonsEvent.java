@@ -26,45 +26,36 @@
 
 package com.intellivision.ui.controls;
 
-import com.intellivision.ui.controllers.ModuleBarController;
-import com.intellivision.util.StatusCodes;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.HBox;
 
 /**
- * Module list with an icons and names for application modules.
+ * An event represents window buttons action such as closing, minimizing
+ * and maximizing.
  *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
- * %name      ModuleBar.java
- * %date      02:00:00 PM, Oct 16, 2012
+ * %name      WindowButtonsEvent.java
+ * %date      02:00:00 AM, Oct 21, 2012
  */
-public class ModuleBar extends HBox {
+public class WindowButtonsEvent extends ActionEvent {
 
+    private static final long serialVersionUID = 0x73db_f19f_c5d3_3626L;
     private static final java.util.logging.Logger LOG
             = java.util.logging.Logger.getLogger("IntelliVision");
 
-    /* loads an object hierarchy from an XML document */
-    private final FXMLLoader fxmlLoader;
+    /* window button state */
+    private final WindowButtonsState state;
 
-    /* controller initialization interface */
-    private final ModuleBarController controller;
+    public WindowButtonsEvent(WindowButtonsState state) {
+        this.state = state;
+    }
 
-    public ModuleBar() {
-        fxmlLoader = new FXMLLoader(getClass().getResource(
-                    "/com/intellivision/resources/schemas/ModuleBar.fxml"));
-
-        fxmlLoader.setRoot(this);
-
-        try {
-            fxmlLoader.load();
-        } catch (java.io.IOException e) {
-            LOG.severe(e.getMessage());
-            System.exit(StatusCodes.EXIT_FAILURE);
-        }
-
-        controller = fxmlLoader.getController();
+    /**
+     * Returns a window state value;
+     *
+     * @return the window state.
+     */
+    public WindowButtonsState getState() {
+        return state;
     }
 }

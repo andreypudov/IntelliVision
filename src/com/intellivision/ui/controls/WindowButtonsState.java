@@ -26,45 +26,14 @@
 
 package com.intellivision.ui.controls;
 
-import com.intellivision.ui.controllers.ModuleBarController;
-import com.intellivision.util.StatusCodes;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.HBox;
-
 /**
- * Module list with an icons and names for application modules.
+ * FXML Controller class provides window closing, minimizing and maximizing.
  *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
- * %name      ModuleBar.java
- * %date      02:00:00 PM, Oct 16, 2012
+ * %name      WindowButtonsState.java
+ * %date      02:00:00 AM, Oct 21, 2012
  */
-public class ModuleBar extends HBox {
-
-    private static final java.util.logging.Logger LOG
-            = java.util.logging.Logger.getLogger("IntelliVision");
-
-    /* loads an object hierarchy from an XML document */
-    private final FXMLLoader fxmlLoader;
-
-    /* controller initialization interface */
-    private final ModuleBarController controller;
-
-    public ModuleBar() {
-        fxmlLoader = new FXMLLoader(getClass().getResource(
-                    "/com/intellivision/resources/schemas/ModuleBar.fxml"));
-
-        fxmlLoader.setRoot(this);
-
-        try {
-            fxmlLoader.load();
-        } catch (java.io.IOException e) {
-            LOG.severe(e.getMessage());
-            System.exit(StatusCodes.EXIT_FAILURE);
-        }
-
-        controller = fxmlLoader.getController();
-    }
+public enum WindowButtonsState {
+    CLOSED, MINIMIZED, MAXIMIZED;
 }

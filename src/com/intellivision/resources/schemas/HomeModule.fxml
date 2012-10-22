@@ -1,4 +1,6 @@
-/*
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
  * IntelliVision Intelligence Image Processing System
  *
  * The MIT License
@@ -22,13 +24,30 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- */
+-->
 
-/*
-    Document   : HelpModule.css
-    Created on : Oct 19, 2012, 07:20:00 PM
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<!--
+    Document   : HelpModule.fxml
+    Created on : Oct 22, 2012, 12:00:00 AM
     Author     : Andrey Pudov        <mail@andreypudov.com>
     Description:
-        Brief description about application functionality, development team,
-        and application license.
-*/
+        General application module with the the list of log files.
+-->
+
+<fx:root fx:id="homeModule" type="javafx.scene.layout.Region"
+         prefWidth="150.0" prefHeight="24.0" minHeight="24.0" maxHeight="24.0"
+         xmlns:fx="http://javafx.com/fxml"
+         fx:controller="com.intellivision.ui.controllers.HomeModuleController">
+    <children>
+        <TextField fx:id="searchTextField" promptText="Search"  />
+        <Button fx:id="searchClearButton" />
+    </children>
+    <stylesheets>
+        <URL value="@../styles/HomeModule.css" />
+    </stylesheets>
+</fx:root>

@@ -24,11 +24,34 @@
  * THE SOFTWARE.
  */
 
-/*
-    Document   : HelpModule.css
-    Created on : Oct 19, 2012, 07:20:00 PM
-    Author     : Andrey Pudov        <mail@andreypudov.com>
-    Description:
-        Brief description about application functionality, development team,
-        and application license.
-*/
+package com.intellivision.ui.controllers;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.fxml.Initializable;
+
+/**
+ * FXML Controller class provides general view functionality.
+ *
+ * @author    Andrey Pudov        <mail@andreypudov.com>
+ * @version   0.00.00
+ * %name      HomeModuleController.java
+ * %date      12:00:00 AM, Oct 22, 2012
+ */
+public class HomeModuleController implements Initializable {
+
+    private static final java.util.logging.Logger LOG
+            = java.util.logging.Logger.getLogger("IntelliVision");
+
+    /**
+     * Initializes the controller class.
+     *
+     * @param url the location used to resolve relative paths for the root
+     *            object, or null if the location is not known.
+     * @param rb  the resources used to localize the root object, or null if the
+     *            root object was not localized.
+     */
+    @Override
+    public void initialize(final URL url, final ResourceBundle rb) {
+    }
+}

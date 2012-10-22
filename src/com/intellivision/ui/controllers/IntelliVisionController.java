@@ -28,6 +28,7 @@ package com.intellivision.ui.controllers;
 
 import com.intellivision.ui.controls.WindowButtons;
 import com.intellivision.ui.controls.WindowButtonsEvent;
+import com.intellivision.ui.modules.HomeModule;
 import com.intellivision.util.pools.Core;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -106,10 +107,13 @@ public class IntelliVisionController implements Initializable {
                         Core.maximizeWindow();;
                         break;
                     default:
+                        LOG.severe("Unpredictable value for enumeration.");
                         throw new AssertionError(t.getState().name());
                 }
             }
         });
+
+        //mainPanel.getChildren().add(HomeModule.getInstance());
     }
 
     /**

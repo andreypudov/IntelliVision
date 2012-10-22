@@ -74,7 +74,6 @@
                         <Insets top="0.0" right="0.0" bottom="0.0" left="10.0"/>
                     </HBox.margin>
                 </NavigationBar>
-                <Region prefWidth="84.0"/>
                 <Region>
                     <HBox.hgrow>ALWAYS</HBox.hgrow>
                 </Region>

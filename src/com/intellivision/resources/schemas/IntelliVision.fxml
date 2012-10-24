@@ -89,11 +89,11 @@
                     </HBox.margin>
                 </SearchBar>
             </ToolBar>
-            <Region fx:id="moduleRegion"
-                    AnchorPane.leftAnchor="0.0"
-                    AnchorPane.rightAnchor="0.0"
-                    AnchorPane.topAnchor="70.0"
-                    AnchorPane.bottomAnchor="0.0" />
+            <Pane fx:id="moduleRegion"
+                  AnchorPane.leftAnchor="0.0"
+                  AnchorPane.rightAnchor="0.0"
+                  AnchorPane.topAnchor="70.0"
+                  AnchorPane.bottomAnchor="0.0" />
         </children>
     </AnchorPane>
   </children>

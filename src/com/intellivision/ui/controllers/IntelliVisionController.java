@@ -32,19 +32,17 @@ import com.intellivision.ui.modules.HomeModule;
 import com.intellivision.util.pools.Core;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToolBar;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Region;
+import javafx.scene.layout.Pane;
 
 /**
  * FXML Controller class provides window resizing and moving functionality.
@@ -69,7 +67,7 @@ public class IntelliVisionController implements Initializable {
     @FXML private AnchorPane mainPanel;
     @FXML private ToolBar    toolBar;
     @FXML private Label      title;
-    @FXML private Region     moduleRegion;
+    @FXML private Pane       moduleRegion;
 
     @FXML private WindowButtons windowButtons;
 
@@ -113,7 +111,7 @@ public class IntelliVisionController implements Initializable {
             }
         });
 
-        //mainPanel.getChildren().add(HomeModule.getInstance());
+        moduleRegion.getChildren().add(HomeModule.getInstance());
     }
 
     /**

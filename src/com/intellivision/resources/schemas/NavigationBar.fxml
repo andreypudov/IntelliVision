@@ -46,11 +46,9 @@
          fx:controller="com.intellivision.ui.controllers.NavigationBarController">
     <children>
         <Button fx:id="navigationBarBack" disable="true"
-                minWidth="28.0" maxHeight="1.7976931348623157E308"
-                onAction="#navigationBarNextOnAction" />
+                minWidth="28.0" onAction="#navigationBarNextOnAction" />
         <Button fx:id="navigationBarNext" disable="true"
-                minWidth="28.0" maxHeight="1.7976931348623157E308"
-                onAction="#navigationBarNextOnAction" />
+                minWidth="28.0" onAction="#navigationBarNextOnAction" />
     </children>
     <stylesheets>
         <URL value="@../styles/NavigationBar.css" />

@@ -25,10 +25,14 @@
  */
 
 /*
-    Document   : StatusBar.css
+    Document   : HomeModule.css
     Created on : Oct 22, 2012, 12:00:00 AM
     Author     : Andrey Pudov        <mail@andreypudov.com>
     Description:
         General application module with the the list of log files.
 */
+
+#homeModule {
+    -fx-background-color: red;
+}
 

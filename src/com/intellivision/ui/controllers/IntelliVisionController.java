@@ -26,8 +26,11 @@
 
 package com.intellivision.ui.controllers;
 
+import com.intellivision.ui.controls.ModuleBar;
+import com.intellivision.ui.controls.ModuleBarEvent;
 import com.intellivision.ui.controls.WindowButtons;
 import com.intellivision.ui.controls.WindowButtonsEvent;
+import com.intellivision.ui.modules.HelpModule;
 import com.intellivision.ui.modules.HomeModule;
 import com.intellivision.util.pools.Core;
 import java.net.URL;
@@ -42,7 +45,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 
 /**
  * FXML Controller class provides window resizing and moving functionality.
@@ -67,9 +70,10 @@ public class IntelliVisionController implements Initializable {
     @FXML private AnchorPane mainPanel;
     @FXML private ToolBar    toolBar;
     @FXML private Label      title;
-    @FXML private Pane       moduleRegion;
+    @FXML private StackPane  moduleRegion;
 
     @FXML private WindowButtons windowButtons;
+    @FXML private ModuleBar     moduleBar;
 
     private Movement movement = Movement.SOUTH_EAST;
 
@@ -93,8 +97,8 @@ public class IntelliVisionController implements Initializable {
     public void initialize(final URL url, final ResourceBundle rb) {
         windowButtons.setOnAction(new EventHandler<WindowButtonsEvent>() {
             @Override
-            public void handle(WindowButtonsEvent t) {
-                switch (t.getState()) {
+            public void handle(WindowButtonsEvent event) {
+                switch (event.getState()) {
                     case CLOSED:
                         Core.closeWindow();
                         break;
@@ -106,7 +110,32 @@ public class IntelliVisionController implements Initializable {
                         break;
                     default:
                         LOG.severe("Unpredictable value for enumeration.");
-                        throw new AssertionError(t.getState().name());
+                        throw new AssertionError(event.getState().name());
+                }
+            }
+        });
+
+        moduleBar.setOnAction(new EventHandler<ModuleBarEvent>() {
+            @Override
+            public void handle(ModuleBarEvent event) {
+                moduleRegion.getChildren().clear();
+
+                switch (event.getState()) {
+                    case HOME:
+                        moduleRegion.getChildren().add(
+                                HomeModule.getInstance());
+                        break;
+                    case CATEGORIES:
+                        break;
+                    case REMOTE:
+                        break;
+                    case HELP:
+                        moduleRegion.getChildren().add(
+                                HelpModule.getInstance());
+                        break;
+                    default:
+                        LOG.severe("Unpredictable value for enumeration.");
+                        throw new AssertionError(event.getState().name());
                 }
             }
         });

@@ -27,7 +27,7 @@
 package com.intellivision.ui.controls;
 
 /**
- * FXML Controller class provides window closing, minimizing and maximizing.
+ * Windows buttons states for closing, minimizing and maximizing.
  *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00

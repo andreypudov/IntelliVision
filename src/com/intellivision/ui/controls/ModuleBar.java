@@ -28,7 +28,6 @@ package com.intellivision.ui.controls;
 
 import com.intellivision.ui.controllers.ModuleBarController;
 import com.intellivision.util.StatusCodes;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.HBox;
@@ -66,5 +65,18 @@ public class ModuleBar extends HBox {
         }
 
         controller = fxmlLoader.getController();
+    }
+
+    /**
+     * Sets the value of the property onAction.
+     *
+     * @param handler the button's action, which is invoked whenever the button
+     *                is fired. This may be due to the user clicking on the
+     *                button with the mouse, or by a touch event, or by a key
+     *                press, or if the developer programmatically invokes
+     *                the fire() method.
+     */
+    public void setOnAction(EventHandler<ModuleBarEvent> handler) {
+        controller.onAction().setValue(handler);
     }
 }

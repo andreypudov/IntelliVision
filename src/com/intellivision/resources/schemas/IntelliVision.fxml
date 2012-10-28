@@ -74,12 +74,10 @@
                         <Insets top="0.0" right="0.0" bottom="0.0" left="10.0"/>
                     </HBox.margin>
                 </NavigationBar>
-                <Region>
-                    <HBox.hgrow>ALWAYS</HBox.hgrow>
-                </Region>
-                <ModuleBar fx:id="moduleBar" maxWidth="1.7976931348623157E308">
+                <Region HBox.hgrow="ALWAYS"/>
+                <ModuleBar fx:id="moduleBar">
                     <HBox.margin>
-                        <Insets top="5.0" right="0.0" bottom="0.0" left="0.0"/>
+                        <Insets top="20.0" right="0.0" bottom="0.0" left="0.0"/>
                     </HBox.margin>
                 </ModuleBar>
                 <Region HBox.hgrow="ALWAYS"/>
@@ -89,11 +87,11 @@
                     </HBox.margin>
                 </SearchBar>
             </ToolBar>
-            <Pane fx:id="moduleRegion"
-                  AnchorPane.leftAnchor="0.0"
-                  AnchorPane.rightAnchor="0.0"
-                  AnchorPane.topAnchor="70.0"
-                  AnchorPane.bottomAnchor="0.0" />
+            <StackPane fx:id="moduleRegion"
+                       AnchorPane.leftAnchor="0.0"
+                       AnchorPane.rightAnchor="0.0"
+                       AnchorPane.topAnchor="70.0"
+                       AnchorPane.bottomAnchor="0.0" />
         </children>
     </AnchorPane>
   </children>

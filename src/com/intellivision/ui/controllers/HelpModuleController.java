@@ -28,7 +28,10 @@ package com.intellivision.ui.controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Region;
 
 /**
  * FXML Controller class provides application information.
@@ -42,6 +45,9 @@ public class HelpModuleController implements Initializable {
 
     private static final java.util.logging.Logger LOG
             = java.util.logging.Logger.getLogger("IntelliVision");
+
+    @FXML private Region     helpModule;
+    @FXML private ImageView  helpImageView;
 
     /**
      * Initializes the controller class.

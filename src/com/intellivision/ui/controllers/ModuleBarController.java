@@ -26,6 +26,8 @@
 
 package com.intellivision.ui.controllers;
 
+import com.intellivision.ui.controls.ModuleBarEvent;
+import com.intellivision.ui.controls.ModuleBarState;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.property.ObjectProperty;
@@ -54,6 +56,9 @@ public class ModuleBarController implements Initializable {
     @FXML private ToggleButton moduleBarRemote;
     @FXML private ToggleButton moduleBarHelp;
 
+    private final ObjectProperty<EventHandler<ModuleBarEvent>> onAction
+            = new SimpleObjectProperty<>();
+
     /**
      * Initializes the controller class.
      *
@@ -67,12 +72,23 @@ public class ModuleBarController implements Initializable {
     }
 
     /**
+     * Defines a function to be called when the module selection is fired.
+     *
+     * @return the onAction property.
+     */
+    public ObjectProperty<EventHandler<ModuleBarEvent>> onAction() {
+        return onAction;
+    }
+
+    /**
      * Changes current application module to Home.
      *
      * @param event the event source.
      */
     @FXML
     private void moduleBarHomeOnAction(final ActionEvent event) {
+        onAction.get().handle(
+                new ModuleBarEvent(ModuleBarState.HOME));
     }
 
     /**
@@ -82,6 +98,8 @@ public class ModuleBarController implements Initializable {
      */
     @FXML
     private void moduleBarCategoriesOnAction(final ActionEvent event) {
+        onAction.get().handle(
+                new ModuleBarEvent(ModuleBarState.CATEGORIES));
     }
 
     /**
@@ -91,6 +109,8 @@ public class ModuleBarController implements Initializable {
      */
     @FXML
     private void moduleBarRemoteOnAction(final ActionEvent event) {
+        onAction.get().handle(
+                new ModuleBarEvent(ModuleBarState.REMOTE));
     }
 
     /**
@@ -100,6 +120,8 @@ public class ModuleBarController implements Initializable {
      */
     @FXML
     private void moduleBarHelpOnAction(final ActionEvent event) {
+        onAction.get().handle(
+                new ModuleBarEvent(ModuleBarState.HELP));
     }
 
 }

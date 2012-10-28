@@ -28,7 +28,7 @@ package com.intellivision.ui.modules;
 
 import com.intellivision.util.StatusCodes;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 /**
  * Brief description about application functionality, development team,
@@ -39,7 +39,7 @@ import javafx.scene.layout.HBox;
  * %name      HelpModule.java
  * %date      07:00:00 PM, Oct 19, 2012
  */
-public class HelpModule extends HBox implements AbstractModule {
+public class HelpModule extends VBox implements AbstractModule {
 
     private static final java.util.logging.Logger LOG
             = java.util.logging.Logger.getLogger("IntelliVision");

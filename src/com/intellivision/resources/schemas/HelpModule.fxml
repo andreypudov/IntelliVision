@@ -29,7 +29,9 @@
 <?import java.lang.*?>
 <?import java.net.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
 
 <!--
     Document   : HelpModule.fxml
@@ -40,13 +42,31 @@
         and application license.
 -->
 
-<fx:root fx:id="helpModule" type="javafx.scene.layout.Region"
-         prefWidth="150.0" prefHeight="24.0" minHeight="24.0" maxHeight="24.0"
-         xmlns:fx="http://javafx.com/fxml"
+<fx:root fx:id="helpModule" type="javafx.scene.layout.VBox"
+         xmlns:fx="http://javafx.com/fxml" alignment="top_center"
          fx:controller="com.intellivision.ui.controllers.HelpModuleController">
     <children>
-        <TextField fx:id="searchTextField" promptText="Search"  />
-        <Button fx:id="searchClearButton" />
+        <ImageView fx:id="helpImageView" fitWidth="700.0"
+                   preserveRatio="true" cache="true">
+            <effect>
+                <Reflection topOffset="-2.0" fraction="0.45" topOpacity="0.5" bottomOpacity="0.0" />
+            </effect>
+            <image>
+                <Image url="@../images/IntelliLogic-title.png"
+                       preserveRatio="false" smooth="true" />
+            </image>
+        </ImageView>
+        <VBox maxWidth="680.0">
+            <Region prefHeight="20.0" />
+            <Label fx:id="helpProductName"
+                   text="IntelliVision Intelligence Image Processing System" />
+            <Label fx:id="helpProductVersion" text="Version: 1.00.00" />
+            <Label fx:id="helpVendorName"     text="© 2012 Andrey Pudov." />
+            <Label fx:id="helpCopyright"      text="All rights reserved." />
+            <Region prefHeight="20.0" />
+            <Label fx:id="helpWarning" wrapText="true"
+                   text="Warning: This computer program is protected by copyright lay and international treaties. Unauthorized reproduction or distribution of this program, or any portion of it, may result in severe civil penalties, and will be prosecuted to the maximum extent possible under the law." />
+        </VBox>
     </children>
     <stylesheets>
         <URL value="@../styles/HelpModule.css" />

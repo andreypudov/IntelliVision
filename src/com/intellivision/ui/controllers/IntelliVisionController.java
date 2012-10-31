@@ -32,6 +32,7 @@ import com.intellivision.ui.controls.WindowButtons;
 import com.intellivision.ui.controls.WindowButtonsEvent;
 import com.intellivision.ui.modules.HelpModule;
 import com.intellivision.ui.modules.HomeModule;
+import com.intellivision.ui.modules.RemoteModule;
 import com.intellivision.util.pools.Core;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -72,6 +73,7 @@ public class IntelliVisionController implements Initializable {
     @FXML private Label      title;
     @FXML private StackPane  moduleRegion;
 
+    /* application modules */
     @FXML private WindowButtons windowButtons;
     @FXML private ModuleBar     moduleBar;
 
@@ -128,6 +130,8 @@ public class IntelliVisionController implements Initializable {
                     case CATEGORIES:
                         break;
                     case REMOTE:
+                        moduleRegion.getChildren().add(
+                                RemoteModule.getInstance());
                         break;
                     case HELP:
                         moduleRegion.getChildren().add(
@@ -140,6 +144,7 @@ public class IntelliVisionController implements Initializable {
             }
         });
 
+        /* set home module at start */
         moduleRegion.getChildren().add(HomeModule.getInstance());
     }
 

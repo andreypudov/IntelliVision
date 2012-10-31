@@ -39,12 +39,17 @@
         General application module with the the list of log files.
 -->
 
-<fx:root fx:id="homeModule" type="javafx.scene.layout.Region"
+<fx:root fx:id="homeModule" type="javafx.scene.layout.StackPane"
          xmlns:fx="http://javafx.com/fxml"
          fx:controller="com.intellivision.ui.controllers.HomeModuleController">
     <children>
-        <TextField fx:id="searchTextField" promptText="Search"  />
-        <Button fx:id="searchClearButton" />
+        <HBox fx:id="homeNoLogsBox" alignment="CENTER"
+              maxHeight="-Infinity" maxWidth="-Infinity"
+              prefHeight="36.0"     prefWidth="200.0">
+            <Label fx:id="openCurlyBracket" text="{ " />
+            <Label fx:id="homeNoLogsLabel"  text="Log files are not found" />
+            <Label fx:id="closeCurlyBracke" text=" }" />
+        </HBox>
     </children>
     <stylesheets>
         <URL value="@../styles/HomeModule.css" />

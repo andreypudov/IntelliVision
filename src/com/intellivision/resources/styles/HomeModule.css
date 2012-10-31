@@ -32,7 +32,26 @@
         General application module with the the list of log files.
 */
 
-#homeModule {
-    -fx-background-color: red;
+#homeNoLogsBox {
+    -fx-background-color:  #2A2A2A;
+    -fx-background-radius: 8;
+    -fx-effect:            innershadow(gaussian, #0A0A0A, 24, 0, 0, 0);
+    -fx-padding:           0 0 4 0;
 }
 
+.label {
+    -fx-text-fill: #E3E3DF;
+    -fx-effect:    dropshadow(one-pass-box, #0A0A0A, 4, 0, 0, -1);
+}
+
+#openCurlyBracket {
+    -fx-font:      bold normal 21pt "Source Sans Pro Semibold";
+}
+
+#homeNoLogsLabel {
+    -fx-font:      bold normal 15pt "Source Sans Pro Semibold";
+}
+
+#closeCurlyBracke {
+    -fx-font:      bold normal 21pt "Source Sans Pro Semibold";
+}

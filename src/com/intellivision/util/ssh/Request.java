@@ -57,12 +57,12 @@ abstract class Request{
         if(timeout>0L &&
            (System.currentTimeMillis()-start)>timeout){
           channel.reply=0;
-          throw new JSchException("channel request: timeout");
+          throw new SSHException("channel request: timeout");
         }
       }
 
       if(channel.reply==0){
-	throw new JSchException("failed to send channel request");
+	throw new SSHException("failed to send channel request");
       }
     }
   }

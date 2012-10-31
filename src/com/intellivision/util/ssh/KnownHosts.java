@@ -41,19 +41,19 @@ class KnownHosts implements HostKeyRepository{
   static final int UNKNOWN=2;
   */
 
-  private JSch jsch=null;
+  private SSHConnection jsch=null;
   private String known_hosts=null;
   private java.util.Vector pool=null;
 
   private MAC hmacsha1=null;
 
-  KnownHosts(JSch jsch){
+  KnownHosts(SSHConnection jsch){
     super();
     this.jsch=jsch;
     pool=new java.util.Vector();
   }
 
-  void setKnownHosts(String foo) throws JSchException{
+  void setKnownHosts(String foo) throws SSHException{
     try{
       known_hosts=foo;
       FileInputStream fis=new FileInputStream(foo);
@@ -62,7 +62,7 @@ class KnownHosts implements HostKeyRepository{
     catch(FileNotFoundException e){
     }
   }
-  void setKnownHosts(InputStream foo) throws JSchException{
+  void setKnownHosts(InputStream foo) throws SSHException{
     pool.removeAllElements();
     StringBuffer sb=new StringBuffer();
     byte i;
@@ -161,18 +161,18 @@ loop:
       }
       fis.close();
       if(error){
-	throw new JSchException("KnownHosts: invalid format");
+	throw new SSHException("KnownHosts: invalid format");
       }
     }
     catch(Exception e){
-      if(e instanceof JSchException)
-	throw (JSchException)e;
+      if(e instanceof SSHException)
+	throw (SSHException)e;
       if(e instanceof Throwable)
-        throw new JSchException(e.toString(), (Throwable)e);
-      throw new JSchException(e.toString());
+        throw new SSHException(e.toString(), (Throwable)e);
+      throw new SSHException(e.toString());
     }
   }
-  private void addInvalidLine(String line) throws JSchException {
+  private void addInvalidLine(String line) throws SSHException {
     HostKey hk = new HostKey(line, HostKey.UNKNOWN, null);
     pool.addElement(hk);
   }
@@ -415,7 +415,7 @@ loop:
     return hmacsha1;
   }
 
-  HostKey createHashedHostKey(String host, byte[]key) throws JSchException {
+  HostKey createHashedHostKey(String host, byte[]key) throws SSHException {
     HashedHostKey hhk=new HashedHostKey(host, key);
     hhk.hash();
     return hhk;
@@ -429,10 +429,10 @@ loop:
     byte[] hash=null;
 
 
-    HashedHostKey(String host, byte[] key) throws JSchException {
+    HashedHostKey(String host, byte[] key) throws SSHException {
       this(host, GUESS, key);
     }
-    HashedHostKey(String host, int type, byte[] key) throws JSchException {
+    HashedHostKey(String host, int type, byte[] key) throws SSHException {
       super(host, type, key);
       if(this.host.startsWith(HASH_MAGIC) &&
          this.host.substring(HASH_MAGIC.length()).indexOf(HASH_DELIM)>0){

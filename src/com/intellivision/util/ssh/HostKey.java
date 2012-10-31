@@ -42,16 +42,16 @@ public class HostKey{
   protected int type;
   protected byte[] key;
 
-  public HostKey(String host, byte[] key) throws JSchException {
+  public HostKey(String host, byte[] key) throws SSHException {
     this(host, GUESS, key);
   }
 
-  public HostKey(String host, int type, byte[] key) throws JSchException {
+  public HostKey(String host, int type, byte[] key) throws SSHException {
     this.host=host;
     if(type==GUESS){
       if(key[8]=='d'){ this.type=SSHDSS; }
       else if(key[8]=='r'){ this.type=SSHRSA; }
-      else { throw new JSchException("invalid key type");}
+      else { throw new SSHException("invalid key type");}
     }
     else{
       this.type=type;
@@ -68,7 +68,7 @@ public class HostKey{
   public String getKey(){
     return Util.byte2str(Util.toBase64(key, 0, key.length));
   }
-  public String getFingerPrint(JSch jsch){
+  public String getFingerPrint(SSHConnection jsch){
     HASH hash=null;
     try{
       Class c=Class.forName(jsch.getConfig("md5"));

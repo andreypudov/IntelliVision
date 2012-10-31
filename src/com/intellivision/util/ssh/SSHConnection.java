@@ -32,7 +32,7 @@ package com.intellivision.util.ssh;
 import java.io.InputStream;
 import java.util.Vector;
 
-public class JSch{
+public class SSHConnection{
   /**
    * The version number.
    */
@@ -156,7 +156,7 @@ public class JSch{
     };
   static Logger logger=DEVNULL;
 
-  public JSch(){
+  public SSHConnection(){
 
     try{
       String osname=(String)(System.getProperties().get("os.name"));
@@ -182,7 +182,7 @@ public class JSch{
    * @param username user name
    * @param host hostname
    *
-   * @throws JSchException
+   * @throws SSHException
    *         if <code>username</code> or <code>host</code> are invalid.
    *
    * @return the instance of <code>Session</code> class.
@@ -191,7 +191,7 @@ public class JSch{
    * @see com.intellivision.util.ssh.Session
    */
   public Session getSession(String username, String host)
-     throws JSchException {
+     throws SSHException {
     return getSession(username, host, 22);
   }
 
@@ -205,7 +205,7 @@ public class JSch{
    * @param host hostname
    * @param post port number
    *
-   * @throws JSchException
+   * @throws SSHException
    *         if <code>username</code> or <code>host</code> are invalid.
    *
    * @return the instance of <code>Session</code> class.
@@ -213,12 +213,12 @@ public class JSch{
    * @see #getSession(String username, String host, int port)
    * @see com.intellivision.util.ssh.Session
    */
-  public Session getSession(String username, String host, int port) throws JSchException {
+  public Session getSession(String username, String host, int port) throws SSHException {
     if(username==null){
-      throw new JSchException("username must not be null.");
+      throw new SSHException("username must not be null.");
     }
     if(host==null){
-      throw new JSchException("host must not be null.");
+      throw new SSHException("host must not be null.");
     }
     Session s=new Session(this);
     s.setUserName(username);
@@ -257,12 +257,12 @@ public class JSch{
    *
    * @param filename filename of known_hosts file.
    *
-   * @throws JSchException
+   * @throws SSHException
    *         if the given filename is invalid.
    *
    * @see com.intellivision.util.ssh.KnownHosts
    */
-  public void setKnownHosts(String filename) throws JSchException{
+  public void setKnownHosts(String filename) throws SSHException{
     if(known_hosts==null) known_hosts=new KnownHosts(this);
     if(known_hosts instanceof KnownHosts){
       synchronized(known_hosts){
@@ -277,12 +277,12 @@ public class JSch{
    *
    * @param stream the instance of InputStream from known_hosts file.
    *
-   * @throws JSchException
+   * @throws SSHException
    *         if an I/O error occurs.
    *
    * @see com.intellivision.util.ssh.KnownHosts
    */
-  public void setKnownHosts(InputStream stream) throws JSchException{
+  public void setKnownHosts(InputStream stream) throws SSHException{
     if(known_hosts==null) known_hosts=new KnownHosts(this);
     if(known_hosts instanceof KnownHosts){
       synchronized(known_hosts){
@@ -311,11 +311,11 @@ public class JSch{
    *
    * @param prvkey filename of the private key.
    *
-   * @throws JSchException if <code>prvkey</code> is invalid.
+   * @throws SSHException if <code>prvkey</code> is invalid.
    *
    * @see #addIdentity(String prvkey, String passphrase)
    */
-  public void addIdentity(String prvkey) throws JSchException{
+  public void addIdentity(String prvkey) throws SSHException{
     addIdentity(prvkey, (byte[])null);
   }
 
@@ -328,11 +328,11 @@ public class JSch{
    * @param prvkey filename of the private key.
    * @param passphrase passphrase for <code>prvkey</code>.
    *
-   * @throws JSchException if <code>passphrase</code> is not right.
+   * @throws SSHException if <code>passphrase</code> is not right.
    *
    * @see #addIdentity(String prvkey, byte[] passphrase)
    */
-  public void addIdentity(String prvkey, String passphrase) throws JSchException{
+  public void addIdentity(String prvkey, String passphrase) throws SSHException{
     byte[] _passphrase=null;
     if(passphrase!=null){
       _passphrase=Util.str2byte(passphrase);
@@ -351,11 +351,11 @@ public class JSch{
    * @param prvkey filename of the private key.
    * @param passphrase passphrase for <code>prvkey</code>.
    *
-   * @throws JSchException if <code>passphrase</code> is not right.
+   * @throws SSHException if <code>passphrase</code> is not right.
    *
    * @see #addIdentity(String prvkey, String pubkey, byte[] passphrase)
    */
-  public void addIdentity(String prvkey, byte[] passphrase) throws JSchException{
+  public void addIdentity(String prvkey, byte[] passphrase) throws SSHException{
     Identity identity=IdentityFile.newInstance(prvkey, null, this);
     addIdentity(identity, passphrase);
   }
@@ -370,9 +370,9 @@ public class JSch{
    * @param pubkey filename of the public key.
    * @param passphrase passphrase for <code>prvkey</code>.
    *
-   * @throws JSchException if <code>passphrase</code> is not right.
+   * @throws SSHException if <code>passphrase</code> is not right.
    */
-  public void addIdentity(String prvkey, String pubkey, byte[] passphrase) throws JSchException{
+  public void addIdentity(String prvkey, String pubkey, byte[] passphrase) throws SSHException{
     Identity identity=IdentityFile.newInstance(prvkey, pubkey, this);
     addIdentity(identity, passphrase);
   }
@@ -390,7 +390,7 @@ public class JSch{
    * @param passphrase passphrase for <code>prvkey</code>.
    *
    */
-  public void addIdentity(String name, byte[]prvkey, byte[]pubkey, byte[] passphrase) throws JSchException{
+  public void addIdentity(String name, byte[]prvkey, byte[]pubkey, byte[] passphrase) throws SSHException{
     Identity identity=IdentityFile.newInstance(name, prvkey, pubkey, this);
     addIdentity(identity, passphrase);
   }
@@ -404,9 +404,9 @@ public class JSch{
    * @param identity private key.
    * @param passphrase passphrase for <code>identity</code>.
    *
-   * @throws JSchException if <code>passphrase</code> is not right.
+   * @throws SSHException if <code>passphrase</code> is not right.
    */
-  public void addIdentity(Identity identity, byte[] passphrase) throws JSchException{
+  public void addIdentity(Identity identity, byte[] passphrase) throws SSHException{
     if(passphrase!=null){
       try{
         byte[] goo=new byte[passphrase.length];
@@ -430,7 +430,7 @@ public class JSch{
   /**
    * @deprecated use #removeIdentity(Identity identity)
    */
-  public void removeIdentity(String name) throws JSchException{
+  public void removeIdentity(String name) throws SSHException{
     Vector identities = identityRepository.getIdentities();
     for(int i=0; i<identities.size(); i++){
       Identity identity=(Identity)(identities.elementAt(i));
@@ -446,9 +446,9 @@ public class JSch{
    *
    * @param identity the indentity to be removed.
    *
-   * @throws JSchException if <code>identity</code> is invalid.
+   * @throws SSHException if <code>identity</code> is invalid.
    */
-  public void removeIdentity(Identity identity) throws JSchException{
+  public void removeIdentity(Identity identity) throws SSHException{
     identityRepository.remove(identity.getPublicKeyBlob());
   }
 
@@ -457,9 +457,9 @@ public class JSch{
    *
    * @return names of identities
    *
-   * @throws JSchException if identityReposory has problems.
+   * @throws SSHException if identityReposory has problems.
    */
-  public Vector getIdentityNames() throws JSchException{
+  public Vector getIdentityNames() throws SSHException{
     Vector foo=new Vector();
     Vector identities = identityRepository.getIdentities();
     for(int i=0; i<identities.size(); i++){
@@ -472,9 +472,9 @@ public class JSch{
   /**
    * Removes all identities from identityRepository.
    *
-   * @throws JSchException if identityReposory has problems.
+   * @throws SSHException if identityReposory has problems.
    */
-  public void removeAllIdentity() throws JSchException{
+  public void removeAllIdentity() throws SSHException{
     identityRepository.removeAll();
   }
 
@@ -523,7 +523,7 @@ public class JSch{
    */
   public static void setLogger(Logger logger){
     if(logger==null) logger=DEVNULL;
-    JSch.logger=logger;
+    SSHConnection.logger=logger;
   }
 
   static Logger getLogger(){

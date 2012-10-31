@@ -65,7 +65,7 @@ public class ProxyHTTP implements Proxy{
     this.user=user;
     this.passwd=passwd;
   }
-  public void connect(SocketFactory socket_factory, String host, int port, int timeout) throws JSchException{
+  public void connect(SocketFactory socket_factory, String host, int port, int timeout) throws SSHException{
     try{
       if(socket_factory==null){
         socket=Util.createSocket(proxy_host, proxy_port, timeout);
@@ -155,8 +155,8 @@ public class ProxyHTTP implements Proxy{
       }
       String message="ProxyHTTP: "+e.toString();
       if(e instanceof Throwable)
-        throw new JSchException(message, (Throwable)e);
-      throw new JSchException(message);
+        throw new SSHException(message, (Throwable)e);
+      throw new SSHException(message);
     }
   }
   public InputStream getInputStream(){ return in; }

@@ -104,10 +104,10 @@ public class DHGEX extends KeyExchange{
     buf.putInt(max);
     session.write(packet);
 
-    if(JSch.getLogger().isEnabled(Logger.INFO)){
-      JSch.getLogger().log(Logger.INFO,
+    if(SSHConnection.getLogger().isEnabled(Logger.INFO)){
+      SSHConnection.getLogger().log(Logger.INFO,
                            "SSH_MSG_KEX_DH_GEX_REQUEST("+min+"<"+preferred+"<"+max+") sent");
-      JSch.getLogger().log(Logger.INFO,
+      SSHConnection.getLogger().log(Logger.INFO,
                            "expecting SSH_MSG_KEX_DH_GEX_GROUP");
     }
 
@@ -155,10 +155,10 @@ System.err.println("0x"+Integer.toHexString(g[iii]&0xff)+",");
       buf.putMPInt(e);
       session.write(packet);
 
-      if(JSch.getLogger().isEnabled(Logger.INFO)){
-        JSch.getLogger().log(Logger.INFO,
+      if(SSHConnection.getLogger().isEnabled(Logger.INFO)){
+        SSHConnection.getLogger().log(Logger.INFO,
                              "SSH_MSG_KEX_DH_GEX_INIT sent");
-        JSch.getLogger().log(Logger.INFO,
+        SSHConnection.getLogger().log(Logger.INFO,
                              "expecting SSH_MSG_KEX_DH_GEX_REPLY");
       }
 
@@ -270,8 +270,8 @@ System.err.println("0x"+Integer.toHexString(g[iii]&0xff)+",");
 	sig.update(H);
 	result=sig.verify(sig_of_H);
 
-        if(JSch.getLogger().isEnabled(Logger.INFO)){
-          JSch.getLogger().log(Logger.INFO,
+        if(SSHConnection.getLogger().isEnabled(Logger.INFO)){
+          SSHConnection.getLogger().log(Logger.INFO,
                                "ssh_rsa_verify: signature "+result);
         }
 
@@ -316,8 +316,8 @@ System.err.println("0x"+Integer.toHexString(g[iii]&0xff)+",");
 	sig.update(H);
 	result=sig.verify(sig_of_H);
 
-        if(JSch.getLogger().isEnabled(Logger.INFO)){
-          JSch.getLogger().log(Logger.INFO,
+        if(SSHConnection.getLogger().isEnabled(Logger.INFO)){
+          SSHConnection.getLogger().log(Logger.INFO,
                                "ssh_dss_verify: signature "+result);
         }
 

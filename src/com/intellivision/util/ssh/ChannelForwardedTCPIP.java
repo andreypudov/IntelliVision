@@ -150,7 +150,7 @@ public class ChannelForwardedTCPIP extends Channel{
     try{
       _session=getSession();
     }
-    catch(JSchException e){
+    catch(SSHException e){
       // session has been already down.
     }
 
@@ -209,11 +209,11 @@ public class ChannelForwardedTCPIP extends Channel{
     else{ return address; }
   }
 
-  static void addPort(Session session, String _address_to_bind, int port, String target, int lport, SocketFactory factory) throws JSchException{
+  static void addPort(Session session, String _address_to_bind, int port, String target, int lport, SocketFactory factory) throws SSHException{
     String address_to_bind=normalize(_address_to_bind);
     synchronized(pool){
       if(getPort(session, port)!=null){
-        throw new JSchException("PortForwardingR: remote port "+port+" is already registered.");
+        throw new SSHException("PortForwardingR: remote port "+port+" is already registered.");
       }
       Object[] foo=new Object[6];
       foo[0]=session; foo[1]=new Integer(port);
@@ -223,11 +223,11 @@ public class ChannelForwardedTCPIP extends Channel{
       pool.addElement(foo);
     }
   }
-  static void addPort(Session session, String _address_to_bind, int port, String daemon, Object[] arg) throws JSchException{
+  static void addPort(Session session, String _address_to_bind, int port, String daemon, Object[] arg) throws SSHException{
     String address_to_bind=normalize(_address_to_bind);
     synchronized(pool){
       if(getPort(session, port)!=null){
-        throw new JSchException("PortForwardingR: remote port "+port+" is already registered.");
+        throw new SSHException("PortForwardingR: remote port "+port+" is already registered.");
       }
       Object[] foo=new Object[5];
       foo[0]=session; foo[1]=new Integer(port);
@@ -241,7 +241,7 @@ public class ChannelForwardedTCPIP extends Channel{
     try{
       _session=c.getSession();
     }
-    catch(JSchException e){
+    catch(SSHException e){
       // session has been already down.
     }
     if(_session!=null)
@@ -288,7 +288,7 @@ public class ChannelForwardedTCPIP extends Channel{
       session.write(packet);
     }
     catch(Exception e){
-//    throw new JSchException(e.toString());
+//    throw new SSHException(e.toString());
     }
   }
   static void delPort(Session session){

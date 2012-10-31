@@ -30,9 +30,9 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package com.intellivision.util.ssh;
 
 public interface GSSContext{
-  public void create(String user, String host) throws JSchException;
+  public void create(String user, String host) throws SSHException;
   public boolean isEstablished();
-  public byte[] init(byte[] token, int s, int l) throws JSchException;
+  public byte[] init(byte[] token, int s, int l) throws SSHException;
   public byte[] getMIC(byte[] message, int s, int l);
   public void dispose();
 }

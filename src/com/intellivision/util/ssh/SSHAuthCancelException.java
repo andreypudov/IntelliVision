@@ -29,20 +29,17 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package com.intellivision.util.ssh;
 
-public class JSchException extends Exception{
-  //private static final long serialVersionUID=-1319309923966731989L;
-  private Throwable cause=null;
-  public JSchException () {
+class SSHAuthCancelException extends SSHException{
+  //private static final long serialVersionUID=3204965907117900987L;
+  String method;
+  SSHAuthCancelException () {
     super();
   }
-  public JSchException (String s) {
+  SSHAuthCancelException (String s) {
     super(s);
+    this.method=s;
   }
-  public JSchException (String s, Throwable e) {
-    super(s);
-    this.cause=e;
-  }
-  public Throwable getCause(){
-    return this.cause;
+  public String getMethod(){
+    return method;
   }
 }

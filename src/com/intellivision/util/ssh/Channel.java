@@ -138,14 +138,14 @@ public abstract class Channel implements Runnable{
     return recipient;
   }
 
-  void init() throws JSchException {
+  void init() throws SSHException {
   }
 
-  public void connect() throws JSchException{
+  public void connect() throws SSHException{
     connect(0);
   }
 
-  public void connect(int connectTimeout) throws JSchException{
+  public void connect(int connectTimeout) throws SSHException{
     this.connectTimeout=connectTimeout;
     try{
       sendChannelOpen();
@@ -154,16 +154,16 @@ public abstract class Channel implements Runnable{
     catch(Exception e){
       connected=false;
       disconnect();
-      if(e instanceof JSchException)
-        throw (JSchException)e;
-      throw new JSchException(e.toString(), e);
+      if(e instanceof SSHException)
+        throw (SSHException)e;
+      throw new SSHException(e.toString(), e);
     }
   }
 
   public void setXForwarding(boolean foo){
   }
 
-  public void start() throws JSchException{}
+  public void start() throws SSHException{}
 
   public boolean isEOF() {return eof_remote;}
 
@@ -573,10 +573,10 @@ public abstract class Channel implements Runnable{
     this.session=session;
   }
 
-  public Session getSession() throws JSchException{
+  public Session getSession() throws SSHException{
     Session _session=session;
     if(_session==null){
-      throw new JSchException("session is not available");
+      throw new SSHException("session is not available");
     }
     return _session;
   }
@@ -630,7 +630,7 @@ public abstract class Channel implements Runnable{
   protected void sendChannelOpen() throws Exception {
     Session _session=getSession();
     if(!_session.isConnected()){
-      throw new JSchException("session is down");
+      throw new SSHException("session is down");
     }
 
     Packet packet = genChannelOpenPacket();
@@ -664,13 +664,13 @@ public abstract class Channel implements Runnable{
       }
     }
     if(!_session.isConnected()){
-      throw new JSchException("session is down");
+      throw new SSHException("session is down");
     }
     if(this.getRecipient()==-1){  // timeout
-      throw new JSchException("channel is not opened.");
+      throw new SSHException("channel is not opened.");
     }
     if(this.open_confirmation==false){  // SSH_MSG_CHANNEL_OPEN_FAILURE
-      throw new JSchException("channel is not opened.");
+      throw new SSHException("channel is not opened.");
     }
     connected=true;
   }

@@ -126,10 +126,10 @@ public class DHG1 extends KeyExchange{
     buf.putMPInt(e);
     session.write(packet);
 
-    if(JSch.getLogger().isEnabled(Logger.INFO)){
-      JSch.getLogger().log(Logger.INFO,
+    if(SSHConnection.getLogger().isEnabled(Logger.INFO)){
+      SSHConnection.getLogger().log(Logger.INFO,
                            "SSH_MSG_KEXDH_INIT sent");
-      JSch.getLogger().log(Logger.INFO,
+      SSHConnection.getLogger().log(Logger.INFO,
                            "expecting SSH_MSG_KEXDH_REPLY");
     }
 
@@ -241,8 +241,8 @@ System.err.println("");
 	sig.update(H);
 	result=sig.verify(sig_of_H);
 
-        if(JSch.getLogger().isEnabled(Logger.INFO)){
-          JSch.getLogger().log(Logger.INFO,
+        if(SSHConnection.getLogger().isEnabled(Logger.INFO)){
+          SSHConnection.getLogger().log(Logger.INFO,
                                "ssh_rsa_verify: signature "+result);
         }
 
@@ -286,8 +286,8 @@ System.err.println("");
 	sig.update(H);
 	result=sig.verify(sig_of_H);
 
-        if(JSch.getLogger().isEnabled(Logger.INFO)){
-          JSch.getLogger().log(Logger.INFO,
+        if(SSHConnection.getLogger().isEnabled(Logger.INFO)){
+          SSHConnection.getLogger().log(Logger.INFO,
                                "ssh_dss_verify: signature "+result);
         }
 

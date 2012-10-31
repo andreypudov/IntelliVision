@@ -102,7 +102,7 @@ class UserAuthPublicKey extends UserAuth{
             }
             else{
 	    //System.err.println("USERAUTH fail ("+command+")");
-	    //throw new JSchException("USERAUTH fail ("+command+")");
+	    //throw new SSHException("USERAUTH fail ("+command+")");
               break;
             }
           }
@@ -117,11 +117,11 @@ class UserAuthPublicKey extends UserAuth{
         int count=5;
         while(true){
           if((identity.isEncrypted() && passphrase==null)){
-            if(userinfo==null) throw new JSchException("USERAUTH fail");
+            if(userinfo==null) throw new SSHException("USERAUTH fail");
             if(identity.isEncrypted() &&
                !userinfo.promptPassphrase("Passphrase for "+identity.getName())){
-              throw new JSchAuthCancelException("publickey");
-              //throw new JSchException("USERAUTH cancel");
+              throw new SSHAuthCancelException("publickey");
+              //throw new SSHException("USERAUTH cancel");
               //break;
             }
             String _passphrase=userinfo.getPassphrase();
@@ -212,13 +212,13 @@ class UserAuthPublicKey extends UserAuth{
 	  //System.err.println(new String(foo)+
 	  //                   " partial_success:"+(partial_success!=0));
             if(partial_success!=0){
-              throw new JSchPartialAuthException(Util.byte2str(foo));
+              throw new SSHPartialAuthException(Util.byte2str(foo));
             }
             session.auth_failures++;
             break;
           }
           //System.err.println("USERAUTH fail ("+command+")");
-          //throw new JSchException("USERAUTH fail ("+command+")");
+          //throw new SSHException("USERAUTH fail ("+command+")");
           break;
         }
       }

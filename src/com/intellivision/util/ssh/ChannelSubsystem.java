@@ -38,7 +38,7 @@ public class ChannelSubsystem extends ChannelSession{
   public void setPty(boolean foo){ pty=foo; }
   public void setWantReply(boolean foo){ want_reply=foo; }
   public void setSubsystem(String foo){ subsystem=foo; }
-  public void start() throws JSchException{
+  public void start() throws SSHException{
     Session _session=getSession();
     try{
       Request request;
@@ -54,10 +54,10 @@ public class ChannelSubsystem extends ChannelSession{
       ((RequestSubsystem)request).request(_session, this, subsystem, want_reply);
     }
     catch(Exception e){
-      if(e instanceof JSchException){ throw (JSchException)e; }
+      if(e instanceof SSHException){ throw (SSHException)e; }
       if(e instanceof Throwable)
-        throw new JSchException("ChannelSubsystem", (Throwable)e);
-      throw new JSchException("ChannelSubsystem");
+        throw new SSHException("ChannelSubsystem", (Throwable)e);
+      throw new SSHException("ChannelSubsystem");
     }
     if(io.in!=null){
       thread=new Thread(this);
@@ -69,7 +69,7 @@ public class ChannelSubsystem extends ChannelSession{
     }
   }
 
-  void init() throws JSchException {
+  void init() throws SSHException {
     io.setInputStream(getSession().in);
     io.setOutputStream(getSession().out);
   }

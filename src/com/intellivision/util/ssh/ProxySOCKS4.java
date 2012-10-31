@@ -70,7 +70,7 @@ public class ProxySOCKS4 implements Proxy{
     this.user=user;
     this.passwd=passwd;
   }
-  public void connect(SocketFactory socket_factory, String host, int port, int timeout) throws JSchException{
+  public void connect(SocketFactory socket_factory, String host, int port, int timeout) throws SSHException{
     try{
       if(socket_factory==null){
         socket=Util.createSocket(proxy_host, proxy_port, timeout);
@@ -124,7 +124,7 @@ public class ProxySOCKS4 implements Proxy{
         }
       }
       catch(UnknownHostException uhe){
-        throw new JSchException("ProxySOCKS4: "+uhe.toString(), uhe);
+        throw new SSHException("ProxySOCKS4: "+uhe.toString(), uhe);
       }
 
       if(user!=null){
@@ -166,19 +166,19 @@ public class ProxySOCKS4 implements Proxy{
       while(s<len){
         int i=in.read(buf, s, len-s);
         if(i<=0){
-          throw new JSchException("ProxySOCKS4: stream is closed");
+          throw new SSHException("ProxySOCKS4: stream is closed");
         }
         s+=i;
       }
       if(buf[0]!=0){
-        throw new JSchException("ProxySOCKS4: server returns VN "+buf[0]);
+        throw new SSHException("ProxySOCKS4: server returns VN "+buf[0]);
       }
       if(buf[1]!=90){
         try{ socket.close(); }
 	catch(Exception eee){
 	}
         String message="ProxySOCKS4: server returns CD "+buf[1];
-        throw new JSchException(message);
+        throw new SSHException(message);
       }
     }
     catch(RuntimeException e){
@@ -188,7 +188,7 @@ public class ProxySOCKS4 implements Proxy{
       try{ if(socket!=null)socket.close(); }
       catch(Exception eee){
       }
-      throw new JSchException("ProxySOCKS4: "+e.toString());
+      throw new SSHException("ProxySOCKS4: "+e.toString());
     }
   }
   public InputStream getInputStream(){ return in; }

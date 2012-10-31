@@ -54,11 +54,11 @@ public class ChannelDirectTCPIP extends Channel{
     io=new IO();
   }
 
-  public void connect() throws JSchException{
+  public void connect() throws SSHException{
     try{
       Session _session=getSession();
       if(!_session.isConnected()){
-        throw new JSchException("session is down");
+        throw new SSHException("session is down");
       }
 
       if(io.in!=null){
@@ -77,8 +77,8 @@ public class ChannelDirectTCPIP extends Channel{
       io.close();
       io=null;
       Channel.del(this);
-      if (e instanceof JSchException) {
-        throw (JSchException) e;
+      if (e instanceof SSHException) {
+        throw (SSHException) e;
       }
     }
   }

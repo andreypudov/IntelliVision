@@ -44,11 +44,11 @@ public class KeyPairRSA extends KeyPair{
 
   private int key_size=1024;
 
-  public KeyPairRSA(JSch jsch){
+  public KeyPairRSA(SSHConnection jsch){
     this(jsch, null, null, null);
   }
 
-  public KeyPairRSA(JSch jsch,
+  public KeyPairRSA(SSHConnection jsch,
                     byte[] n_array,
                     byte[] pub_array,
                     byte[] prv_array){
@@ -61,7 +61,7 @@ public class KeyPairRSA extends KeyPair{
     }
   }
 
-  void generate(int key_size) throws JSchException{
+  void generate(int key_size) throws SSHException{
     this.key_size=key_size;
     try{
       Class c=Class.forName(jsch.getConfig("keypairgen.rsa"));
@@ -82,8 +82,8 @@ public class KeyPairRSA extends KeyPair{
     catch(Exception e){
       //System.err.println("KeyPairRSA: "+e);
       if(e instanceof Throwable)
-        throw new JSchException(e.toString(), (Throwable)e);
-      throw new JSchException(e.toString());
+        throw new SSHException(e.toString(), (Throwable)e);
+      throw new SSHException(e.toString());
     }
   }
 
@@ -140,7 +140,7 @@ public class KeyPairRSA extends KeyPair{
           q_array = tmp[2];
           c_array = tmp[3];
         }
-        catch(JSchException e){
+        catch(SSHException e){
           return false;
         }
 
@@ -356,7 +356,7 @@ public class KeyPairRSA extends KeyPair{
     return null;
   }
 
-  static KeyPair fromSSHAgent(JSch jsch, Buffer buf) throws JSchException {
+  static KeyPair fromSSHAgent(SSHConnection jsch, Buffer buf) throws SSHException {
 
     byte[][] tmp = buf.getBytes(8, "invalid key format");
 
@@ -372,9 +372,9 @@ public class KeyPairRSA extends KeyPair{
     return kpair;
   }
 
-  public byte[] forSSHAgent() throws JSchException {
+  public byte[] forSSHAgent() throws SSHException {
     if(isEncrypted()){
-      throw new JSchException("key is encrypted.");
+      throw new SSHException("key is encrypted.");
     }
     Buffer buf = new Buffer();
     buf.putString(sshrsa);

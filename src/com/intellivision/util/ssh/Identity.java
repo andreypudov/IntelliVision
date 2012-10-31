@@ -37,7 +37,7 @@ public interface Identity{
    * @return <tt>true</tt> if the decryption is succeeded
    * or this identity is not cyphered.
    */
-  public boolean setPassphrase(byte[] passphrase) throws JSchException;
+  public boolean setPassphrase(byte[] passphrase) throws SSHException;
 
   /**
    * Returns the public-key blob.

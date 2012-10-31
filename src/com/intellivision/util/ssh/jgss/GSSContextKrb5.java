@@ -8,8 +8,8 @@ modification, are permitted provided that the following conditions are met:
   1. Redistributions of source code must retain the above copyright notice,
      this list of conditions and the following disclaimer.
 
-  2. Redistributions in binary form must reproduce the above copyright 
-     notice, this list of conditions and the following disclaimer in 
+  2. Redistributions in binary form must reproduce the above copyright
+     notice, this list of conditions and the following disclaimer in
      the documentation and/or other materials provided with the distribution.
 
   3. The names of the authors may not be used to endorse or promote products
@@ -29,7 +29,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package com.intellivision.util.ssh.jgss;
 
-import com.intellivision.util.ssh.JSchException;
+import com.intellivision.util.ssh.SSHException;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -43,13 +43,13 @@ import org.ietf.jgss.Oid;
 
 public class GSSContextKrb5 implements com.intellivision.util.ssh.GSSContext{
 
-  private static final String pUseSubjectCredsOnly = 
+  private static final String pUseSubjectCredsOnly =
     "javax.security.auth.useSubjectCredsOnly";
-  private static String useSubjectCredsOnly = 
+  private static String useSubjectCredsOnly =
     getSystemProperty(pUseSubjectCredsOnly);
 
   private GSSContext context=null;
-  public void create(String user, String host) throws JSchException{
+  public void create(String user, String host) throws SSHException{
     try{
       // RFC 1964
       Oid krb5=new Oid("1.2.840.113554.1.2.2");
@@ -107,7 +107,7 @@ public class GSSContextKrb5 implements com.intellivision.util.ssh.GSSContext{
       return;
     }
     catch(GSSException ex){
-      throw new JSchException(ex.toString());
+      throw new SSHException(ex.toString());
     }
   }
 
@@ -115,7 +115,7 @@ public class GSSContextKrb5 implements com.intellivision.util.ssh.GSSContext{
     return context.isEstablished();
   }
 
-  public byte[] init(byte[] token, int s, int l) throws JSchException {
+  public byte[] init(byte[] token, int s, int l) throws SSHException {
     try{
       // Without setting "javax.security.auth.useSubjectCredsOnly" to "false",
       // Sun's JVM for Un*x will show messages to stderr in
@@ -129,10 +129,10 @@ public class GSSContextKrb5 implements com.intellivision.util.ssh.GSSContext{
       return context.initSecContext(token, 0, l);
     }
     catch(GSSException ex){
-      throw new JSchException(ex.toString());
+      throw new SSHException(ex.toString());
     }
     catch(java.lang.SecurityException ex){
-      throw new JSchException(ex.toString());
+      throw new SSHException(ex.toString());
     }
     finally{
       if(useSubjectCredsOnly==null){
@@ -162,15 +162,15 @@ public class GSSContextKrb5 implements com.intellivision.util.ssh.GSSContext{
 
   private static String getSystemProperty(String key){
     try{ return System.getProperty(key); }
-    catch(Exception e){ 
+    catch(Exception e){
       // We are not allowed to get the System properties.
-      return null; 
-    } 
+      return null;
+    }
   }
 
   private static void setSystemProperty(String key, String value){
     try{ System.setProperty(key, value); }
-    catch(Exception e){ 
+    catch(Exception e){
       // We are not allowed to set the System properties.
     }
   }

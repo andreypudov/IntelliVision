@@ -29,13 +29,13 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package com.intellivision.util.ssh;
 
-class JSchPartialAuthException extends JSchException{
+class SSHPartialAuthException extends SSHException{
   //private static final long serialVersionUID=-378849862323360367L;
   String methods;
-  public JSchPartialAuthException () {
+  public SSHPartialAuthException () {
     super();
   }
-  public JSchPartialAuthException (String s) {
+  public SSHPartialAuthException (String s) {
     super(s);
     this.methods=s;
   }

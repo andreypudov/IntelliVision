@@ -70,7 +70,7 @@ public class ProxySOCKS5 implements Proxy{
     this.user=user;
     this.passwd=passwd;
   }
-  public void connect(SocketFactory socket_factory, String host, int port, int timeout) throws JSchException{
+  public void connect(SocketFactory socket_factory, String host, int port, int timeout) throws SSHException{
     try{
       if(socket_factory==null){
         socket=Util.createSocket(proxy_host, proxy_port, timeout);
@@ -197,7 +197,7 @@ public class ProxySOCKS5 implements Proxy{
         try{ socket.close(); }
 	catch(Exception eee){
 	}
-        throw new JSchException("fail in SOCKS5 proxy");
+        throw new SSHException("fail in SOCKS5 proxy");
       }
 
 /*
@@ -284,7 +284,7 @@ public class ProxySOCKS5 implements Proxy{
         try{ socket.close(); }
 	catch(Exception eee){
 	}
-        throw new JSchException("ProxySOCKS5: server returns "+buf[1]);
+        throw new SSHException("ProxySOCKS5: server returns "+buf[1]);
       }
 
       switch(buf[3]&0xff){
@@ -314,8 +314,8 @@ public class ProxySOCKS5 implements Proxy{
       }
       String message="ProxySOCKS5: "+e.toString();
       if(e instanceof Throwable)
-        throw new JSchException(message, (Throwable)e);
-      throw new JSchException(message);
+        throw new SSHException(message, (Throwable)e);
+      throw new SSHException(message);
     }
   }
   public InputStream getInputStream(){ return in; }
@@ -336,12 +336,12 @@ public class ProxySOCKS5 implements Proxy{
   public static int getDefaultPort(){
     return DEFAULTPORT;
   }
-  private void fill(InputStream in, byte[] buf, int len) throws JSchException, IOException{
+  private void fill(InputStream in, byte[] buf, int len) throws SSHException, IOException{
     int s=0;
     while(s<len){
       int i=in.read(buf, s, len-s);
       if(i<=0){
-        throw new JSchException("ProxySOCKS5: stream is closed");
+        throw new SSHException("ProxySOCKS5: stream is closed");
       }
       s+=i;
     }

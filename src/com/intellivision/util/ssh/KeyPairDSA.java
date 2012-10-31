@@ -39,11 +39,11 @@ public class KeyPairDSA extends KeyPair{
   //private int key_size=0;
   private int key_size=1024;
 
-  public KeyPairDSA(JSch jsch){
+  public KeyPairDSA(SSHConnection jsch){
     this(jsch, null, null, null, null, null);
   }
 
-  public KeyPairDSA(JSch jsch,
+  public KeyPairDSA(SSHConnection jsch,
                     byte[] P_array,
                     byte[] Q_array,
                     byte[] G_array,
@@ -59,7 +59,7 @@ public class KeyPairDSA extends KeyPair{
       key_size = (new java.math.BigInteger(P_array)).bitLength();
   }
 
-  void generate(int key_size) throws JSchException{
+  void generate(int key_size) throws SSHException{
     this.key_size=key_size;
     try{
       Class c=Class.forName(jsch.getConfig("keypairgen.dsa"));
@@ -76,8 +76,8 @@ public class KeyPairDSA extends KeyPair{
     catch(Exception e){
       //System.err.println("KeyPairDSA: "+e);
       if(e instanceof Throwable)
-        throw new JSchException(e.toString(), (Throwable)e);
-      throw new JSchException(e.toString());
+        throw new SSHException(e.toString(), (Throwable)e);
+      throw new SSHException(e.toString());
     }
   }
 
@@ -137,7 +137,7 @@ public class KeyPairDSA extends KeyPair{
           byte[][] tmp = buf.getBytes(1, "");
           prv_array = tmp[0];
         }
-        catch(JSchException e){
+        catch(SSHException e){
           return false;
         }
 
@@ -291,7 +291,7 @@ public class KeyPairDSA extends KeyPair{
     return null;
   }
 
-  static KeyPair fromSSHAgent(JSch jsch, Buffer buf) throws JSchException {
+  static KeyPair fromSSHAgent(SSHConnection jsch, Buffer buf) throws SSHException {
 
     byte[][] tmp = buf.getBytes(7, "invalid key format");
 
@@ -308,9 +308,9 @@ public class KeyPairDSA extends KeyPair{
     return kpair;
   }
 
-  public byte[] forSSHAgent() throws JSchException {
+  public byte[] forSSHAgent() throws SSHException {
     if(isEncrypted()){
-      throw new JSchException("key is encrypted.");
+      throw new SSHException("key is encrypted.");
     }
     Buffer buf = new Buffer();
     buf.putString(sshdss);

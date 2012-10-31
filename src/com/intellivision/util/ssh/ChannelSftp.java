@@ -186,11 +186,11 @@ public class ChannelSftp extends ChannelSession{
    *
    * @param bulk_requests how many requests may be outstanding at any one time.
    */
-  public void setBulkRequests(int bulk_requests) throws JSchException {
+  public void setBulkRequests(int bulk_requests) throws SSHException {
     if(bulk_requests>0)
       rq = new RequestQueue(bulk_requests);
     else
-      throw new JSchException("setBulkRequests: "+
+      throw new SSHException("setBulkRequests: "+
                               bulk_requests+" must be greater than 0.");
   }
 
@@ -214,7 +214,7 @@ public class ChannelSftp extends ChannelSession{
   void init(){
   }
 
-  public void start() throws JSchException{
+  public void start() throws SSHException{
     try{
 
       PipedOutputStream pos=new PipedOutputStream();
@@ -225,7 +225,7 @@ public class ChannelSftp extends ChannelSession{
       io_in=io.in;
 
       if(io_in==null){
-        throw new JSchException("channel is down");
+        throw new SSHException("channel is down");
       }
 
       Request request=new RequestSftp();
@@ -283,10 +283,10 @@ public class ChannelSftp extends ChannelSession{
     }
     catch(Exception e){
       //System.err.println(e);
-      if(e instanceof JSchException) throw (JSchException)e;
+      if(e instanceof SSHException) throw (SSHException)e;
       if(e instanceof Throwable)
-        throw new JSchException(e.toString(), (Throwable)e);
-      throw new JSchException(e.toString());
+        throw new SSHException(e.toString(), (Throwable)e);
+      throw new SSHException(e.toString());
     }
   }
 

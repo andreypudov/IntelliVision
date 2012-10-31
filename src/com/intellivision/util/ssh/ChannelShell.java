@@ -38,7 +38,7 @@ public class ChannelShell extends ChannelSession{
     pty=true;
   }
 
-  public void start() throws JSchException{
+  public void start() throws SSHException{
     Session _session=getSession();
     try{
       sendRequests();
@@ -47,10 +47,10 @@ public class ChannelShell extends ChannelSession{
       request.request(_session, this);
     }
     catch(Exception e){
-      if(e instanceof JSchException) throw (JSchException)e;
+      if(e instanceof SSHException) throw (SSHException)e;
       if(e instanceof Throwable)
-        throw new JSchException("ChannelShell", (Throwable)e);
-      throw new JSchException("ChannelShell");
+        throw new SSHException("ChannelShell", (Throwable)e);
+      throw new SSHException("ChannelShell");
     }
 
     if(io.in!=null){
@@ -63,7 +63,7 @@ public class ChannelShell extends ChannelSession{
     }
   }
 
-  void init() throws JSchException {
+  void init() throws SSHException {
     io.setInputStream(getSession().in);
     io.setOutputStream(getSession().out);
   }

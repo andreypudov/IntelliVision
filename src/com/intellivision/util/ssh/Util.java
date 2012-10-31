@@ -332,7 +332,7 @@ class Util{
     //try{while(true){i--; if(foo[i]!=bar[i])return false;}}catch(Exception e){}
     return true;
   }
-  static Socket createSocket(String host, int port, int timeout) throws JSchException{
+  static Socket createSocket(String host, int port, int timeout) throws SSHException{
     Socket socket=null;
     if(timeout==0){
       try{
@@ -342,8 +342,8 @@ class Util{
       catch(Exception e){
         String message=e.toString();
         if(e instanceof Throwable)
-          throw new JSchException(message, (Throwable)e);
-        throw new JSchException(message);
+          throw new SSHException(message, (Throwable)e);
+        throw new SSHException(message);
       }
     }
     final String _host=host;
@@ -387,7 +387,7 @@ class Util{
       }
       tmp.interrupt();
       tmp=null;
-      throw new JSchException(message);
+      throw new SSHException(message);
     }
     return socket;
   }

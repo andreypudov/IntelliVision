@@ -35,9 +35,9 @@ class LocalIdentityRepository implements IdentityRepository {
   private static final String name = "Local Identity Repository";
 
   private Vector identities = new Vector();
-  private JSch jsch;
+  private SSHConnection jsch;
 
-  LocalIdentityRepository(JSch jsch){
+  LocalIdentityRepository(SSHConnection jsch){
     this.jsch = jsch;
   }
 
@@ -70,7 +70,7 @@ class LocalIdentityRepository implements IdentityRepository {
       identities.addElement(_identity);
       return true;
     }
-    catch(JSchException e){
+    catch(SSHException e){
       return false;
     }
   }

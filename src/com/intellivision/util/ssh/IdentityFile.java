@@ -32,21 +32,21 @@ package com.intellivision.util.ssh;
 import java.io.*;
 
 class IdentityFile implements Identity{
-  private JSch jsch;
+  private SSHConnection jsch;
   private KeyPair kpair;
   private String identity;
 
-  static IdentityFile newInstance(String prvfile, String pubfile, JSch jsch) throws JSchException{
+  static IdentityFile newInstance(String prvfile, String pubfile, SSHConnection jsch) throws SSHException{
     KeyPair kpair = KeyPair.load(jsch, prvfile, pubfile);
     return new IdentityFile(jsch, prvfile, kpair);
   }
 
-  static IdentityFile newInstance(String name, byte[] prvkey, byte[] pubkey, JSch jsch) throws JSchException{
+  static IdentityFile newInstance(String name, byte[] prvkey, byte[] pubkey, SSHConnection jsch) throws SSHException{
     KeyPair kpair = KeyPair.load(jsch, prvkey, pubkey);
     return new IdentityFile(jsch, name, kpair);
   }
 
-  private IdentityFile(JSch jsch, String name, KeyPair kpair) throws JSchException{
+  private IdentityFile(SSHConnection jsch, String name, KeyPair kpair) throws SSHException{
     this.jsch = jsch;
     this.identity = name;
     this.kpair = kpair;
@@ -58,7 +58,7 @@ class IdentityFile implements Identity{
    * @return <tt>true</tt> if the decryption is succeeded
    * or this identity is not cyphered.
    */
-  public boolean setPassphrase(byte[] passphrase) throws JSchException{
+  public boolean setPassphrase(byte[] passphrase) throws SSHException{
     return kpair.decrypt(passphrase);
   }
 

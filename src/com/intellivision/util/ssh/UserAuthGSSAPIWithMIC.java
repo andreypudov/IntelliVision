@@ -124,7 +124,7 @@ public class UserAuthGSSAPIWithMIC extends UserAuth {
     try{
       context.create(username, session.host);
     }
-    catch(JSchException e){
+    catch(SSHException e){
       return false;
     }
 
@@ -134,7 +134,7 @@ public class UserAuthGSSAPIWithMIC extends UserAuth {
       try{
         token=context.init(token, 0, token.length);
       }
-      catch(JSchException e){
+      catch(SSHException e){
         // TODO
         // ERRTOK should be sent?
         // byte        SSH_MSG_USERAUTH_GSSAPI_ERRTOK
@@ -217,7 +217,7 @@ public class UserAuthGSSAPIWithMIC extends UserAuth {
       //System.err.println(new String(foo)+
       //		 " partial_success:"+(partial_success!=0));
       if(partial_success!=0){
-        throw new JSchPartialAuthException(Util.byte2str(foo));
+        throw new SSHPartialAuthException(Util.byte2str(foo));
       }
     }
     return false;

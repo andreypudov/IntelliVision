@@ -117,7 +117,7 @@ class ChannelAgentForwarding extends Channel{
     try{
       _session=getSession();
     }
-    catch(JSchException e){
+    catch(SSHException e){
       throw new java.io.IOException(e.toString());
     }
 
@@ -189,7 +189,7 @@ class ChannelAgentForwarding extends Channel{
                   break;
                 }
               }
-              catch(JSchException e){
+              catch(SSHException e){
                 break;
               }
             }

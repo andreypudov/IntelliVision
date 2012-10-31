@@ -55,13 +55,13 @@ class UserAuthPassword extends UserAuth{
 	  return false;
 	}
 	if(!userinfo.promptPassword("Password for "+dest)){
-	  throw new JSchAuthCancelException("password");
+	  throw new SSHAuthCancelException("password");
 	  //break;
 	}
 
 	String _password=userinfo.getPassword();
 	if(_password==null){
-	  throw new JSchAuthCancelException("password");
+	  throw new SSHAuthCancelException("password");
 	  //break;
 	}
         password=Util.str2byte(_password);
@@ -127,7 +127,7 @@ class UserAuthPassword extends UserAuth{
                                                  prompt,
                                                  echo);
           if(response==null){
-            throw new JSchAuthCancelException("password");
+            throw new SSHAuthCancelException("password");
           }
 
           byte[] newpassword=Util.str2byte(response[0]);
@@ -160,7 +160,7 @@ class UserAuthPassword extends UserAuth{
 	  //System.err.println(new String(foo)+
 	  //		 " partial_success:"+(partial_success!=0));
 	  if(partial_success!=0){
-	    throw new JSchPartialAuthException(Util.byte2str(foo));
+	    throw new SSHPartialAuthException(Util.byte2str(foo));
 	  }
           session.auth_failures++;
 	  break;

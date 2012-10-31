@@ -98,7 +98,7 @@ class UserAuthKeyboardInteractive extends UserAuth{
 //			     " partial_success:"+(partial_success!=0));
 
 	  if(partial_success!=0){
-	    throw new JSchPartialAuthException(Util.byte2str(foo));
+	    throw new SSHPartialAuthException(Util.byte2str(foo));
 	  }
 
 	  if(firsttime){
@@ -194,7 +194,7 @@ class UserAuthKeyboardInteractive extends UserAuth{
 	return false;
       }
       if(cancel){
-	throw new JSchAuthCancelException("keyboard-interactive");
+	throw new SSHAuthCancelException("keyboard-interactive");
 	//break;
       }
     }

@@ -48,10 +48,10 @@ public abstract class KeyPair{
 
   private static final byte[] cr=Util.str2byte("\n");
 
-  public static KeyPair genKeyPair(JSch jsch, int type) throws JSchException{
+  public static KeyPair genKeyPair(SSHConnection jsch, int type) throws SSHException{
     return genKeyPair(jsch, type, 1024);
   }
-  public static KeyPair genKeyPair(JSch jsch, int type, int key_size) throws JSchException{
+  public static KeyPair genKeyPair(SSHConnection jsch, int type, int key_size) throws SSHException{
     KeyPair kpair=null;
     if(type==DSA){ kpair=new KeyPairDSA(jsch); }
     else if(type==RSA){ kpair=new KeyPairRSA(jsch); }
@@ -61,7 +61,7 @@ public abstract class KeyPair{
     return kpair;
   }
 
-  abstract void generate(int key_size) throws JSchException;
+  abstract void generate(int key_size) throws SSHException;
 
   abstract byte[] getBegin();
   abstract byte[] getEnd();
@@ -70,7 +70,7 @@ public abstract class KeyPair{
   public abstract byte[] getSignature(byte[] data);
   public abstract Signature getVerifier();
 
-  public abstract byte[] forSSHAgent() throws JSchException;
+  public abstract byte[] forSSHAgent() throws SSHException;
 
   public String getPublicKeyComment(){
     return publicKeyComment;
@@ -82,14 +82,14 @@ public abstract class KeyPair{
 
   protected String publicKeyComment = "no comment";
 
-  JSch jsch=null;
+  SSHConnection jsch=null;
   private Cipher cipher;
   private HASH hash;
   private Random random;
 
   private byte[] passphrase;
 
-  public KeyPair(JSch jsch){
+  public KeyPair(SSHConnection jsch){
     this.jsch=jsch;
   }
 
@@ -430,14 +430,14 @@ public abstract class KeyPair{
     return !encrypted;
   }
 
-  public static KeyPair load(JSch jsch, String prvkey) throws JSchException{
+  public static KeyPair load(SSHConnection jsch, String prvkey) throws SSHException{
     String pubkey=prvkey+".pub";
     if(!new File(pubkey).exists()){
       pubkey=null;
     }
     return load(jsch, prvkey, pubkey);
   }
-  public static KeyPair load(JSch jsch, String prvfile, String pubfile) throws JSchException{
+  public static KeyPair load(SSHConnection jsch, String prvfile, String pubfile) throws SSHException{
 
     byte[] prvkey=null;
     byte[] pubkey=null;
@@ -446,7 +446,7 @@ public abstract class KeyPair{
       prvkey = Util.fromFile(prvfile);
     }
     catch(IOException e){
-      throw new JSchException(e.toString(), (Throwable)e);
+      throw new SSHException(e.toString(), (Throwable)e);
     }
 
     String _pubfile=pubfile;
@@ -459,7 +459,7 @@ public abstract class KeyPair{
     }
     catch(IOException e){
       if(pubfile!=null){
-        throw new JSchException(e.toString(), (Throwable)e);
+        throw new SSHException(e.toString(), (Throwable)e);
       }
     }
 
@@ -471,7 +471,7 @@ public abstract class KeyPair{
     }
   }
 
-  public static KeyPair load(JSch jsch, byte[] prvkey, byte[] pubkey) throws JSchException{
+  public static KeyPair load(SSHConnection jsch, byte[] prvkey, byte[] pubkey) throws SSHException{
 
     byte[] iv=new byte[8];       // 8
     boolean encrypted=true;
@@ -503,7 +503,7 @@ public abstract class KeyPair{
         kpair=KeyPairDSA.fromSSHAgent(jsch, buf);
       }
       else{
-        throw new JSchException("privatekey: invalid key "+new String(prvkey, 4, 7));
+        throw new SSHException("privatekey: invalid key "+new String(prvkey, 4, 7));
       }
       return kpair;
     }
@@ -534,7 +534,7 @@ public abstract class KeyPair{
         if(buf[i]=='B'&& i+3<len && buf[i+1]=='E'&& buf[i+2]=='G'&& buf[i+3]=='I'){
           i+=6;
           if(i+2 >= len)
-	    throw new JSchException("invalid privatekey: "+prvkey);
+	    throw new SSHException("invalid privatekey: "+prvkey);
           if(buf[i]=='D'&& buf[i+1]=='S'&& buf[i+2]=='A'){ type=DSA; }
 	  else if(buf[i]=='R'&& buf[i+1]=='S'&& buf[i+2]=='A'){ type=RSA; }
 	  else if(buf[i]=='S'&& buf[i+1]=='S'&& buf[i+2]=='H'){ // FSecure
@@ -542,7 +542,7 @@ public abstract class KeyPair{
 	    vendor=VENDOR_FSECURE;
 	  }
 	  else{
-	    throw new JSchException("invalid privatekey: "+prvkey);
+	    throw new SSHException("invalid privatekey: "+prvkey);
 	  }
           i+=3;
 	  continue;
@@ -557,7 +557,7 @@ public abstract class KeyPair{
             iv=new byte[cipher.getIVSize()];
           }
           else{
-            throw new JSchException("privatekey: aes256-cbc is not available "+prvkey);
+            throw new SSHException("privatekey: aes256-cbc is not available "+prvkey);
           }
           continue;
         }
@@ -571,7 +571,7 @@ public abstract class KeyPair{
             iv=new byte[cipher.getIVSize()];
           }
           else{
-            throw new JSchException("privatekey: aes192-cbc is not available "+prvkey);
+            throw new SSHException("privatekey: aes192-cbc is not available "+prvkey);
           }
           continue;
         }
@@ -585,7 +585,7 @@ public abstract class KeyPair{
             iv=new byte[cipher.getIVSize()];
           }
           else{
-            throw new JSchException("privatekey: aes128-cbc is not available "+prvkey);
+            throw new SSHException("privatekey: aes128-cbc is not available "+prvkey);
           }
           continue;
         }
@@ -624,7 +624,7 @@ public abstract class KeyPair{
       if(buf!=null){
 
         if(type==ERROR){
-          throw new JSchException("invalid privatekey: "+prvkey);
+          throw new SSHException("invalid privatekey: "+prvkey);
         }
 
         int start = i;
@@ -634,7 +634,7 @@ public abstract class KeyPair{
         }
 
         if((len-i) == 0 || (i-start) == 0){
-          throw new JSchException("invalid privatekey: "+prvkey);
+          throw new SSHException("invalid privatekey: "+prvkey);
         }
 
         // The content of 'buf' will be changed, so it should be copied.
@@ -689,7 +689,7 @@ public abstract class KeyPair{
 	   _buf.getByte(foo);
 	   data=foo;
 	   encrypted=true;
-	   throw new JSchException("unknown privatekey format: "+prvkey);
+	   throw new SSHException("unknown privatekey format: "+prvkey);
 	}
 	else if(_cipher.equals("none")){
   	   _buf.getInt();
@@ -778,10 +778,10 @@ public abstract class KeyPair{
       }
     }
     catch(Exception e){
-      if(e instanceof JSchException) throw (JSchException)e;
+      if(e instanceof SSHException) throw (SSHException)e;
       if(e instanceof Throwable)
-        throw new JSchException(e.toString(), (Throwable)e);
-      throw new JSchException(e.toString());
+        throw new SSHException(e.toString(), (Throwable)e);
+      throw new SSHException(e.toString());
     }
 
     KeyPair kpair=null;
@@ -806,7 +806,7 @@ public abstract class KeyPair{
 	  return kpair;
 	}
 	else{
-	  throw new JSchException("invalid privatekey: "+prvkey);
+	  throw new SSHException("invalid privatekey: "+prvkey);
 	}
       }
     }
@@ -846,7 +846,7 @@ public abstract class KeyPair{
     "Private-MAC: "
   };
 
-  static KeyPair loadPPK(JSch jsch, byte[] buf) throws JSchException {
+  static KeyPair loadPPK(SSHConnection jsch, byte[] buf) throws SSHException {
     byte[] pubkey = null;
     byte[] prvkey = null;
     int lines = 0;
@@ -935,11 +935,11 @@ public abstract class KeyPair{
           kpair.iv=new byte[kpair.cipher.getIVSize()];
         }
         catch(Exception e){
-          throw new JSchException("The cipher 'aes256-cbc' is required, but it is not available.");
+          throw new SSHException("The cipher 'aes256-cbc' is required, but it is not available.");
         }
       }
       else {
-        throw new JSchException("The cipher 'aes256-cbc' is required, but it is not available.");
+        throw new SSHException("The cipher 'aes256-cbc' is required, but it is not available.");
       }
       kpair.data = prvkey;
     }

@@ -1,0 +1,89 @@
+/*
+ * IntelliVision Intelligence Image Processing System
+ *
+ * The MIT License
+ *
+ * Copyright 2011-2012 Andrey Pudov.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+/*
+    Document   : HomeModule.css
+    Created on : Oct 28, 2012, 05:30:00 PM
+    Author     : Andrey Pudov        <mail@andreypudov.com>
+    Description:
+        General application module with the the list of machines to scan.
+*/
+
+#remoteSplitPane {
+    -fx-background-insets: 0;
+    -fx-padding:           0;
+}
+
+#remoteSplitPane *.split-pane-divider{
+    -fx-padding:           0 1 0 0;
+    -fx-background-color:  transparent, #333333;
+    -fx-background-insets: 0 -3 0 -3, 0;
+    -fx-border-color:      null;
+}
+
+#remoteSplitPane *.horizontal-grabber {
+    -fx-padding:           0;
+    -fx-shape:             "";
+}
+
+#remoteMachineList {
+    -fx-background-insets: 0;
+    -fx-background-color:  #535353;
+    -fx-padding:           0;
+}
+
+#remoteMachineList *.list-cell {
+}
+
+#remoteLabel {
+    -fx-font:              bold normal 16pt "Source Sans Pro Semibold";
+    -fx-background-radius: 12;
+    -fx-background-color:  #535353;
+}
+
+#remoteNoMachinesBox {
+    -fx-background-color:  #2A2A2A;
+    -fx-background-radius: 8;
+    -fx-effect:            innershadow(gaussian, #0A0A0A, 24, 0, 0, 0);
+    -fx-padding:           0 0 4 0;
+}
+
+.label {
+    -fx-text-fill: #E3E3DF;
+    -fx-effect:    dropshadow(one-pass-box, #0A0A0A, 4, 0, 0, -1);
+}
+
+#openCurlyBracket {
+    -fx-font:      bold normal 21pt "Source Sans Pro Semibold";
+}
+
+#remoteNoMachinesLabel {
+    -fx-font:      bold normal 15pt "Source Sans Pro Semibold";
+}
+
+#closeCurlyBracke {
+    -fx-font:      bold normal 21pt "Source Sans Pro Semibold";
+}

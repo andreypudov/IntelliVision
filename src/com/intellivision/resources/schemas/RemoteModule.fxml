@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ * IntelliVision Intelligence Image Processing System
+ *
+ * The MIT License
+ *
+ * Copyright 2011-2012 Andrey Pudov.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+-->
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.collections.*?>
+
+<!--
+    Document   : RemoteModule.fxml
+    Created on : Oct 28, 2012, 05:30:00 PM
+    Author     : Andrey Pudov        <mail@andreypudov.com>
+    Description:
+        General application module with the the list of machines to scan.
+-->
+
+<fx:root fx:id="remoteModule" type="javafx.scene.layout.HBox"
+         xmlns:fx="http://javafx.com/fxml"
+         fx:controller="com.intellivision.ui.controllers.RemoteModuleController">
+    <fx:define>
+        <FXCollections fx:id="list" fx:factory="observableArrayList">
+            <String fx:value="A"/>
+            <String fx:value="B"/>
+            <String fx:value="C"/>
+        </FXCollections>
+    </fx:define>
+    <children>
+        <ListView fx:id="remoteMachineList" VBox.vgrow="ALWAYS"
+                  mouseTransparent="false" items="$list" />
+        <StackPane fx:id="remoteMainPane" HBox.hgrow="ALWAYS">
+            <HBox fx:id="remoteNoMachinesBox" alignment="CENTER"
+                  maxHeight="-Infinity" maxWidth="-Infinity"
+                  prefHeight="36.0"     prefWidth="220.0">
+                <Label fx:id="openCurlyBracket" text="{ " />
+                <Label fx:id="remoteNoMachinesLabel"
+                       text="No machines are selected" />
+                <Label fx:id="closeCurlyBracke" text=" }" />
+            </HBox>
+        </StackPane>
+    </children>
+    <stylesheets>
+        <URL value="@../styles/RemoteModule.css" />
+    </stylesheets>
+</fx:root>

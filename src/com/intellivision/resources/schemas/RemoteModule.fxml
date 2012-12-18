@@ -44,16 +44,19 @@
 <fx:root fx:id="remoteModule" type="javafx.scene.layout.HBox"
          xmlns:fx="http://javafx.com/fxml"
          fx:controller="com.intellivision.ui.controllers.RemoteModuleController">
-    <fx:define>
-        <FXCollections fx:id="list" fx:factory="observableArrayList">
-            <String fx:value="A"/>
-            <String fx:value="B"/>
-            <String fx:value="C"/>
-        </FXCollections>
-    </fx:define>
     <children>
-        <ListView fx:id="remoteMachineList" VBox.vgrow="ALWAYS"
-                  mouseTransparent="false" items="$list" />
+        <VBox>
+            <ListView fx:id="remoteMachineList" VBox.vgrow="ALWAYS" />
+            <HBox fx:id="remoteToolbar" prefHeight="22">
+                <Region HBox.hgrow="ALWAYS" />
+                <Button fx:id="remoteAddButton"
+                        onAction="#remoteAddButtonOnAction" />
+                <Region prefWidth="32" />
+                <Button fx:id="remoteRemoveButton"
+                        onAction="#remoteRemoveButtonOnAction" />
+                <Region HBox.hgrow="ALWAYS" />
+            </HBox>
+        </VBox>
         <StackPane fx:id="remoteMainPane" HBox.hgrow="ALWAYS">
             <HBox fx:id="remoteNoMachinesBox" alignment="CENTER"
                   maxHeight="-Infinity" maxWidth="-Infinity"

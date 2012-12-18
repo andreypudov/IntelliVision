@@ -24,40 +24,34 @@
  * THE SOFTWARE.
  */
 
-/*
-    Document   : IntelliVision.css
-    Created on : Aug 15, 2012, 09:50:00 PM
-    Author     : Andrey Pudov        <mail@andreypudov.com>
-    Description:
-        The general application style sheet.
-*/
+package com.intellivision.ui.controllers;
 
-#mainPanelRoot {
-    -fx-background-insets: 32;
-    -fx-border-radius:     5 5 0 0;
-    -fx-effect:            dropshadow(one-pass-box,
-                                      #1F1F1F, 30.0, 0.0, 0.0, 4.0);
-}
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.fxml.Initializable;
 
-#mainPanel {
-    -fx-background-color:  #262626;
-    -fx-background-radius: 5 5 0 0;
- /* -fx-border-color:      #0F0F0F; border is disabled*/
-    -fx-border-radius:     4 4 0 0;
-}
+/**
+ * FXML Controller class provides remote machine control functionality.
+ *
+ * @author    Andrey Pudov        <mail@andreypudov.com>
+ * @version   0.00.00
+ * %name      MachineBarController.java
+ * %date      10:00:00 PM, Oct 31, 2012
+ */
+public class MachineBarController implements Initializable {
 
-#toolBar {
-    -fx-background-color:  #535353;
-    -fx-background-radius: 4 4 0 0;
-    -fx-pref-height:       80;
-    -fx-background-color:  linear-gradient(from 0px 0px to 0px 80px,
-                                           #6A6A6A, #4F4F4F 100%,
-                                           dimgray 99%, #4F4F4F);
-    -fx-padding:           0 0 2 0;
-}
+    private static final java.util.logging.Logger LOG
+            = java.util.logging.Logger.getLogger("IntelliVision");
 
-#title {
-    -fx-font:              bold normal 15pt "Source Sans Pro Semibold";
-    -fx-text-fill:         #E3E3DF;
-    -fx-effect:            dropshadow(one-pass-box, #464646, 1, 0, 0, -1);
+    /**
+     * Initializes the controller class.
+     *
+     * @param url the location used to resolve relative paths for the root
+     *            object, or null if the location is not known.
+     * @param rb  the resources used to localize the root object, or null if the
+     *            root object was not localized.
+     */
+    @Override
+    public void initialize(final URL url, final ResourceBundle rb) {
+    }
 }

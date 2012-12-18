@@ -51,11 +51,50 @@
 
 #remoteMachineList {
     -fx-background-insets: 0;
-    -fx-background-color:  #535353;
+    -fx-border-color:      #282828;
+    -fx-border-width:      1 1 0 0;
     -fx-padding:           0;
 }
 
 #remoteMachineList *.list-cell {
+    -fx-background-color:  #464646;
+}
+
+#remoteMachineList .scroll-bar:horizontal,
+#remoteMachineList .scroll-bar:vertical {
+    -fx-background-color:  transparent;
+    -fx-border-color:      #282828;
+    -fx-border-width:      0 0 0 1;
+}
+
+#remoteMachineList .increment-button,
+#remoteMachineList .decrement-button {
+    -fx-background-color:  linear-gradient(from 0% 0% to 100% 0%,
+                                           #363636, #3C3C3C);
+    -fx-padding:           4px;
+}
+
+#remoteMachineList .scroll-bar .increment-arrow,
+#remoteMachineList .scroll-bar .decrement-arrow {
+    -fx-background-color:  #E8E8E8;
+}
+
+#remoteMachineList .scroll-bar:horizontal .track,
+#remoteMachineList .scroll-bar:vertical   .track {
+    -fx-background-color:  linear-gradient(from 0% 0% to 100% 0%,
+                                           #363636, #3C3C3C);
+    -fx-border-width:      0px;
+    -fx-background-radius: 0em;
+}
+
+#remoteMachineList .scroll-bar:horizontal .thumb,
+#remoteMachineList .scroll-bar:vertical   .thumb {
+    -fx-background-color:  linear-gradient(from 0% 0% to 100% 0%,
+                                           #9A9A9A, #6B6B6B);
+    -fx-background-insets: 0, 0, 0;
+    -fx-background-radius: 8px;
+    -fx-border-color:      #3A3A3A;
+    -fx-border-radius:     3px;
 }
 
 #remoteLabel {
@@ -86,4 +125,24 @@
 
 #closeCurlyBracke {
     -fx-font:      bold normal 21pt "Source Sans Pro Semibold";
+}
+
+#remoteToolbar {
+    -fx-background-color:   linear-gradient(to bottom, #3C3C3C, #373737);
+    -fx-border-color:       #282828;
+    -fx-border-width:       1 1 0 0;
+}
+
+#remoteAddButton {
+    -fx-background-color:    null;
+    -fx-background-position: right center;
+    -fx-background-repeat:   no-repeat;
+    -fx-background-image:    url("../images/button-remote-add-unfocused.png");
+}
+
+#remoteRemoveButton {
+    -fx-background-color:    null;
+    -fx-background-position: right center;
+    -fx-background-repeat:   no-repeat;
+    -fx-background-image:    url("../images/button-remoe-delete-unfocused.png");
 }

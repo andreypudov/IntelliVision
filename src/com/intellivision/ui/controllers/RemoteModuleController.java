@@ -26,9 +26,14 @@
 
 package com.intellivision.ui.controllers;
 
+import com.intellivision.ui.controls.MachineBar;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 
 /**
  * FXML Controller class provides the list of machines to scan.
@@ -43,6 +48,11 @@ public class RemoteModuleController implements Initializable {
     private static final java.util.logging.Logger LOG
             = java.util.logging.Logger.getLogger("IntelliVision");
 
+    @FXML private Button remoteAddButton;
+    @FXML private Button remoteRemoveButton;
+
+    @FXML private ListView<MachineBar> remoteMachineList;
+
     /**
      * Initializes the controller class.
      *
@@ -55,4 +65,24 @@ public class RemoteModuleController implements Initializable {
     public void initialize(final URL url, final ResourceBundle rb) {
     }
 
+    /**
+     * Adds new machine item to the list of remote machines.
+     *
+     * @param event the event source.
+     */
+    @FXML
+    private void remoteAddButtonOnAction(final ActionEvent event) {
+        MachineBar machine = new MachineBar();
+
+        remoteMachineList.getItems().add(machine);
+    }
+
+    /**
+     * Remove selected machine item from the list of remote machines.
+     *
+     * @param event the event source.
+     */
+    @FXML
+    private void remoteRemoveButtonOnAction(final ActionEvent event) {
+    }
 }

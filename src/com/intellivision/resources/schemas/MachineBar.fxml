@@ -1,4 +1,6 @@
-/*
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
  * IntelliVision Intelligence Image Processing System
  *
  * The MIT License
@@ -22,42 +24,29 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- */
+-->
 
-/*
-    Document   : IntelliVision.css
-    Created on : Aug 15, 2012, 09:50:00 PM
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<!--
+    Document   : MachineBar.fxml
+    Created on : Oct 31, 2012, 10:00:00 PM
     Author     : Andrey Pudov        <mail@andreypudov.com>
     Description:
-        The general application style sheet.
-*/
+        Remote machine panel with OS type icon and machine name.
+-->
 
-#mainPanelRoot {
-    -fx-background-insets: 32;
-    -fx-border-radius:     5 5 0 0;
-    -fx-effect:            dropshadow(one-pass-box,
-                                      #1F1F1F, 30.0, 0.0, 0.0, 4.0);
-}
-
-#mainPanel {
-    -fx-background-color:  #262626;
-    -fx-background-radius: 5 5 0 0;
- /* -fx-border-color:      #0F0F0F; border is disabled*/
-    -fx-border-radius:     4 4 0 0;
-}
-
-#toolBar {
-    -fx-background-color:  #535353;
-    -fx-background-radius: 4 4 0 0;
-    -fx-pref-height:       80;
-    -fx-background-color:  linear-gradient(from 0px 0px to 0px 80px,
-                                           #6A6A6A, #4F4F4F 100%,
-                                           dimgray 99%, #4F4F4F);
-    -fx-padding:           0 0 2 0;
-}
-
-#title {
-    -fx-font:              bold normal 15pt "Source Sans Pro Semibold";
-    -fx-text-fill:         #E3E3DF;
-    -fx-effect:            dropshadow(one-pass-box, #464646, 1, 0, 0, -1);
-}
+<fx:root fx:id="moduleBar" type="javafx.scene.layout.HBox"
+         xmlns:fx="http://javafx.com/fxml"
+         fx:controller="com.intellivision.ui.controllers.MachineBarController">
+    <children>
+        <Label text="Machine Name" />
+        <Button text="Machine" />
+    </children>
+    <stylesheets>
+        <URL value="@../styles/MachineBar.css" />
+    </stylesheets>
+</fx:root>

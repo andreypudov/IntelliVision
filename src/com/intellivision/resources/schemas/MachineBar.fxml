@@ -29,6 +29,7 @@
 <?import java.lang.*?>
 <?import java.net.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
 <!--
@@ -39,12 +40,19 @@
         Remote machine panel with OS type icon and machine name.
 -->
 
-<fx:root fx:id="moduleBar" type="javafx.scene.layout.HBox"
+<fx:root fx:id="machineBar" type="javafx.scene.layout.HBox" prefHeight="40.0"
          xmlns:fx="http://javafx.com/fxml"
          fx:controller="com.intellivision.ui.controllers.MachineBarController">
     <children>
-        <Label text="Machine Name" />
-        <Button text="Machine" />
+        <ImageView fx:id="machineImageView">
+            <image>
+                <Image url="@../images/machine-os-default.png" />
+            </image>
+        </ImageView>
+        <VBox>
+            <Label fx:id="machineName" text="Remote Machine" />
+            <Label fx:id="machineStat" text="Not Connected" />
+        </VBox>
     </children>
     <stylesheets>
         <URL value="@../styles/MachineBar.css" />

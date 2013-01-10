@@ -87,6 +87,12 @@ public class ModuleBarController implements Initializable {
      */
     @FXML
     private void moduleBarHomeOnAction(final ActionEvent event) {
+        /* keep selection when clicked on already selected button */
+        if (moduleBarHome.isSelected() == false) {
+            moduleBarHome.setSelected(true);
+            return;
+        }
+
         onAction.get().handle(
                 new ModuleBarEvent(ModuleBarState.HOME));
     }
@@ -98,6 +104,12 @@ public class ModuleBarController implements Initializable {
      */
     @FXML
     private void moduleBarCategoriesOnAction(final ActionEvent event) {
+        /* keep selection when clicked on already selected button */
+        if (moduleBarCategories.isSelected() == false) {
+            moduleBarCategories.setSelected(true);
+            return;
+        }
+
         onAction.get().handle(
                 new ModuleBarEvent(ModuleBarState.CATEGORIES));
     }
@@ -109,6 +121,12 @@ public class ModuleBarController implements Initializable {
      */
     @FXML
     private void moduleBarRemoteOnAction(final ActionEvent event) {
+        /* keep selection when clicked on already selected button */
+        if (moduleBarRemote.isSelected() == false) {
+            moduleBarRemote.setSelected(true);
+            return;
+        }
+
         onAction.get().handle(
                 new ModuleBarEvent(ModuleBarState.REMOTE));
     }
@@ -120,6 +138,12 @@ public class ModuleBarController implements Initializable {
      */
     @FXML
     private void moduleBarHelpOnAction(final ActionEvent event) {
+        /* keep selection when clicked on already selected button */
+        if (moduleBarHelp.isSelected() == false) {
+            moduleBarHelp.setSelected(true);
+            return;
+        }
+
         onAction.get().handle(
                 new ModuleBarEvent(ModuleBarState.HELP));
     }

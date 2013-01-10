@@ -34,7 +34,7 @@
 
 #moduleBarHome {
     -fx-background-color: null;
-    -fx-graphic:          url("../images/button-home-unpressed.png");
+    -fx-graphic:          url("../images/button-home.png");
     -fx-font:             bold normal 13pt "Source Sans Pro Light";
     -fx-text-fill:        #E3E3DF;
     -fx-effect:           dropshadow(one-pass-box, #464646, 1, 0, 1, 1);
@@ -42,7 +42,7 @@
 
 #moduleBarCategories {
     -fx-background-color: null;
-    -fx-graphic:          url("../images/button-categories-unpressed.png");
+    -fx-graphic:          url("../images/button-categories.png");
     -fx-font:             bold normal 13pt "Source Sans Pro Light";
     -fx-text-fill:        #E3E3DF;
     -fx-effect:           dropshadow(one-pass-box, #464646, 1, 0, 1, 1);
@@ -50,7 +50,7 @@
 
 #moduleBarRemote {
     -fx-background-color: null;
-    -fx-graphic:          url("../images/button-remote-unpressed.png");
+    -fx-graphic:          url("../images/button-remote.png");
     -fx-font:             bold normal 13pt "Source Sans Pro Light";
     -fx-text-fill:        #E3E3DF;
     -fx-effect:           dropshadow(one-pass-box, #464646, 1, 0, 1, 1);
@@ -58,28 +58,28 @@
 
 #moduleBarHelp {
     -fx-background-color: null;
-    -fx-graphic:          url("../images/button-help-unpressed.png");
+    -fx-graphic:          url("../images/button-help.png");
     -fx-font:             bold normal 13pt "Source Sans Pro Light";
     -fx-text-fill:        #E3E3DF;
     -fx-effect:           dropshadow(one-pass-box, #464646, 1, 0, 1, 1);
 }
 
 #moduleBarHome:selected {
-    -fx-graphic:          url("../images/button-home-pressed.png");
-    -fx-effect:           dropshadow(two-pass-box, #0F0F0F, 20, 0, 0, 0);
+    -fx-effect:           dropshadow(two-pass-box, #AFAFAF, 20, 0, 0, 0);
+    -fx-text-fill:        #F3F3FF;
 }
 
 #moduleBarCategories:selected {
-    -fx-graphic:          url("../images/button-categories-pressed.png");
-    -fx-effect:           dropshadow(two-pass-box, #0F0F0F, 20, 0, 0, 0);
+    -fx-effect:           dropshadow(two-pass-box, #AFAFAF, 20, 0, 0, 0);
+    -fx-text-fill:        #F3F3FF;
 }
 
 #moduleBarRemote:selected {
-    -fx-graphic:          url("../images/button-remote-pressed.png");
-    -fx-effect:           dropshadow(two-pass-box, #0F0F0F, 20, 0, 0, 0);
+    -fx-effect:           dropshadow(two-pass-box, #AFAFAF, 20, 0, 0, 0);
+    -fx-text-fill:        #F3F3FF;
 }
 
 #moduleBarHelp:selected {
-    -fx-graphic:          url("../images/button-help-pressed.png");
-    -fx-effect:           dropshadow(two-pass-box, #0F0F0F, 20, 0, 0, 0);
+    -fx-effect:           dropshadow(two-pass-box, #AFAFAF, 20, 0, 0, 0);
+    -fx-text-fill:        #F3F3FF;
 }

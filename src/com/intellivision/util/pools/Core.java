@@ -204,7 +204,7 @@ public class Core {
 
                     primaryScene.getRoot().setStyle(
                         "-fx-effect: dropshadow(gaussian,\n" +
-                        "               derive(black, 24%), 26, 0.0, 0, 16)");
+                        "               #1F1F1F, 26, 0.0, 0.0, 16)");
                 }
             }});
 

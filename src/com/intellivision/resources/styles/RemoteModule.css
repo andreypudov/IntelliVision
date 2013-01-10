@@ -58,6 +58,12 @@
 
 #remoteMachineList *.list-cell {
     -fx-background-color:  #464646;
+    -fx-cell-size:         41;
+    -fx-padding:           0;
+}
+
+#remoteMachineList *.list-cell:selected {
+    -fx-background-color: #596678;
 }
 
 #remoteMachineList .scroll-bar:horizontal,

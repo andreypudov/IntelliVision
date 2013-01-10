@@ -29,5 +29,27 @@
     Created on : Oct 31, 2012, 10:00:00 PM
     Author     : Andrey Pudov        <mail@andreypudov.com>
     Description:
-        The general application style sheet.
+        Remote machine panel with OS type icon and machine name.
 */
+
+#machineBar {
+    -fx-border-color: #333333;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding:      4;
+}
+
+#machineImageView {
+    -fx-border-insets: 10;
+}
+
+#machineName {
+    -fx-font:         bold normal 13pt "Source Sans Pro Semibold";
+    -fx-text-fill:    #ffffff;
+    -fx-effect:       dropshadow(one-pass-box, #404040, 1, 0, 1, -1);
+}
+
+#machineStat {
+    -fx-font:         normal normal 11pt "Source Sans Pro";
+    -fx-text-fill:    #E3E3DF;
+    -fx-effect:       null;
+}

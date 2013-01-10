@@ -27,6 +27,7 @@
 package com.intellivision.ui.controllers;
 
 import com.intellivision.ui.controls.MachineBar;
+import com.intellivision.ui.controls.MachinePanel;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -34,6 +35,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 
 /**
  * FXML Controller class provides the list of machines to scan.
@@ -52,6 +55,10 @@ public class RemoteModuleController implements Initializable {
     @FXML private Button remoteRemoveButton;
 
     @FXML private ListView<MachineBar> remoteMachineList;
+    @FXML private StackPane            remoteMainPane;
+    @FXML private HBox                 remoteNoMachinesBox;
+
+    @FXML private MachinePanel         remoteMachinePanel = new MachinePanel();
 
     /**
      * Initializes the controller class.
@@ -75,6 +82,12 @@ public class RemoteModuleController implements Initializable {
         MachineBar machine = new MachineBar();
 
         remoteMachineList.getItems().add(machine);
+        remoteMachineList.getSelectionModel().select(
+                remoteMachineList.getItems().size() - 1);
+
+        /* update configuration panel */
+        remoteMainPane.getChildren().clear();
+        remoteMainPane.getChildren().add(remoteMachinePanel);
     }
 
     /**
@@ -84,5 +97,21 @@ public class RemoteModuleController implements Initializable {
      */
     @FXML
     private void remoteRemoveButtonOnAction(final ActionEvent event) {
+        int index = remoteMachineList.getSelectionModel().getSelectedIndex();
+
+        /* bounds validation */
+        if ((index < 0) || (index >= remoteMachineList.getItems().size())) {
+            return;
+        }
+
+        remoteMachineList.getSelectionModel().select(
+                (index == 0) ? 0 : index - 1);
+        remoteMachineList.getItems().remove(index);
+
+        /* update configuration panel */
+        if (remoteMachineList.getItems().size() == 0) {
+            remoteMainPane.getChildren().clear();
+            remoteMainPane.getChildren().add(remoteNoMachinesBox);
+        }
     }
 }

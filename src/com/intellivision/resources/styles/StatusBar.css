@@ -1,9 +1,9 @@
 /*
- * IntelliVision Intelligence Image Processing System 
+ * IntelliVision Intelligence Image Processing System
  *
  * The MIT License
  *
- * Copyright 2011-2012 Andrey Pudov.
+ * Copyright 2011-2013 Andrey Pudov.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,7 @@
  * THE SOFTWARE.
  */
 
-/* 
+/*
     Document   : StatusBar.css
     Created on : Oct 05, 2012, 01:50:00 PM
     Author     : Andrey Pudov        <mail@andreypudov.com>
@@ -33,7 +33,7 @@
 */
 
 #statusBar {
-    -fx-background-color:  
+    -fx-background-color:
                            linear-gradient(#686868 0%, #232723 25%, #373837 75%, #757575 100%),
                            linear-gradient(#020b02, #3a3a3a),
                            linear-gradient(#9d9e9d 0%, #6b6a6b 20%, #343534 80%, #242424 100%),
@@ -42,6 +42,6 @@
     -fx-background-radius: 6.0;
     -fx-border-radius:     6.0;
     -fx-border-color:      #6B6D5F;
-    -fx-effect:            innershadow(gaussian, 
+    -fx-effect:            innershadow(gaussian,
                                       derive(black, 24%), 10, 0.0, 0, 0);
 }

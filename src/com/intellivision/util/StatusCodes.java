@@ -1,9 +1,9 @@
 /*
- * IntelliVision Intelligence Image Processing System 
+ * IntelliVision Intelligence Image Processing System
  *
  * The MIT License
  *
- * Copyright 2011-2012 Andrey Pudov.
+ * Copyright 2011-2013 Andrey Pudov.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,9 +27,9 @@
 package com.intellivision.util;
 
 /**
- * The enumeration of application specific status codes. By convention, 
+ * The enumeration of application specific status codes. By convention,
  * a nonzero status code indicates abnormal termination.
- * 
+ *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
  * %name      StatusCodes.java

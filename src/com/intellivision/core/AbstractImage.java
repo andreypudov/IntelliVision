@@ -1,9 +1,9 @@
 /*
- * IntelliVision Intelligence Image Processing System 
+ * IntelliVision Intelligence Image Processing System
  *
  * The MIT License
  *
- * Copyright 2011-2012 Andrey Pudov.
+ * Copyright 2011-2013 Andrey Pudov.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,14 +29,14 @@ package com.intellivision.core;
 import java.awt.Dimension;
 
 /**
- * The AbstractImage 
- * 
+ * The AbstractImage
+ *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
  * %name      AbstractImage.java
  * %date      07:40:00 PM, Aug 15, 2012
  */
 public interface AbstractImage {
-    
+
     public Dimension getSize();
 }

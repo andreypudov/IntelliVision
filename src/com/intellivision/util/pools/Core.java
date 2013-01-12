@@ -3,7 +3,7 @@
  *
  * The MIT License
  *
- * Copyright 2011-2012 Andrey Pudov.
+ * Copyright 2011-2013 Andrey Pudov.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -112,7 +112,7 @@ public class Core {
         }
 
         LOG.info("IntelliVision Intelligence Image Processing System\n"
-                + "Copyright (C) 2011-2012 Andrey Pudov. "
+                + "Copyright (C) 2011-2013 Andrey Pudov. "
                 + "All rights reserved.\n");
 
         /* adds first-level module to the appliation window */

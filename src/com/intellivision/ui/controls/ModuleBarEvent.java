@@ -3,7 +3,7 @@
  *
  * The MIT License
  *
- * Copyright 2011-2012 Andrey Pudov.
+ * Copyright 2011-2013 Andrey Pudov.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -40,7 +40,8 @@ public class ModuleBarEvent extends ActionEvent {
 
     private static final long serialVersionUID = 0x73db_f19f_c5d3_3626L;
     private static final java.util.logging.Logger LOG
-            = java.util.logging.Logger.getLogger("IntelliVision");
+            = java.util.logging.Logger.getLogger(
+              com.intellivision.core.Manifest.NAME);
 
     /* module bar state */
     private final ModuleBarState state;

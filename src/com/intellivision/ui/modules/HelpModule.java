@@ -3,7 +3,7 @@
  *
  * The MIT License
  *
- * Copyright 2011-2012 Andrey Pudov.
+ * Copyright 2011-2013 Andrey Pudov.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -42,7 +42,8 @@ import javafx.scene.layout.VBox;
 public class HelpModule extends VBox implements AbstractModule {
 
     private static final java.util.logging.Logger LOG
-            = java.util.logging.Logger.getLogger("IntelliVision");
+            = java.util.logging.Logger.getLogger(
+              com.intellivision.core.Manifest.NAME);
 
     /* the instance of the help module */
     private static volatile HelpModule INSTANCE;

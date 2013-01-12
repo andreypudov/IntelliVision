@@ -3,7 +3,7 @@
  *
  * The MIT License
  *
- * Copyright 2011-2012 Andrey Pudov.
+ * Copyright 2011-2013 Andrey Pudov.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -42,7 +42,8 @@ import java.io.IOException;
 public class Log {
 
     private static final java.util.logging.Logger LOG
-            = java.util.logging.Logger.getLogger("IntelliVision");
+            = java.util.logging.Logger.getLogger(
+              com.intellivision.core.Manifest.NAME);
 
     /* the current log file object */
     private final File logFile;

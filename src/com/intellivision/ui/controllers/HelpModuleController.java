@@ -30,8 +30,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.Region;
+import javafx.scene.control.Label;
 
 /**
  * FXML Controller class provides application information.
@@ -47,8 +46,8 @@ public class HelpModuleController implements Initializable {
             = java.util.logging.Logger.getLogger(
               com.intellivision.core.Manifest.NAME);
 
-    @FXML private Region     helpModule;
-    @FXML private ImageView  helpImageView;
+    @FXML private Label helpProductName;
+    @FXML private Label helpProductVersion;
 
     /**
      * Initializes the controller class.
@@ -60,6 +59,10 @@ public class HelpModuleController implements Initializable {
      */
     @Override
     public void initialize(final URL url, final ResourceBundle rb) {
+        helpProductName.setText(com.intellivision.core.Manifest.DESCRIPTION);
+        helpProductVersion.setText("Version: "
+                + com.intellivision.core.Manifest.VERSION + " "
+                + com.intellivision.core.Manifest.RELEASE);
     }
 
 }

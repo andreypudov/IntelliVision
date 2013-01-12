@@ -55,7 +55,6 @@ public class Machine {
     private final SSHConnection connection = new SSHConnection();
 
     /* connection details */
-    private final System system;
     private final String username;
     private final String password;
     private final String address;
@@ -66,7 +65,6 @@ public class Machine {
     public Machine(final String username, final String password,
                    final String address) {
 
-        this.system   = System.UNDEFINED;
         this.username = username;
         this.password = password;
         this.address  = address;
@@ -99,34 +97,34 @@ public class Machine {
         session.disconnect();
     }
 
-    public System getSystem() throws SSHException, IOException {
-        final ChannelExec channel = (ChannelExec) session.openChannel("exec");
-
-        channel.setCommand("uname");
-        channel.setInputStream(null);
-        channel.connect();
-
-        final StringBuffer   buffer = new StringBuffer(16);
-        final InputStream    stream = channel.getInputStream();
-        final BufferedReader reader = new BufferedReader(
-            new InputStreamReader(stream));
-
-        String line = reader.readLine();
-        while (line != null) {
-            buffer.append(line).append('\n');
-            line = reader.readLine();
-        }
-
-        channel.disconnect();
-
-        /* determine operating system */
-        switch(buffer.toString()) {
-            case "Darwin":
-                return System.OSX;
-            case "Linux":
-                return System.LINUX;
-            default:
-                return System.UNDEFINED;
-        }
-    }
+//    public System getSystem() throws SSHException, IOException {
+//        final ChannelExec channel = (ChannelExec) session.openChannel("exec");
+//
+//        channel.setCommand("uname");
+//        channel.setInputStream(null);
+//        channel.connect();
+//
+//        final StringBuffer   buffer = new StringBuffer(16);
+//        final InputStream    stream = channel.getInputStream();
+//        final BufferedReader reader = new BufferedReader(
+//            new InputStreamReader(stream));
+//
+//        String line = reader.readLine();
+//        while (line != null) {
+//            buffer.append(line).append('\n');
+//            line = reader.readLine();
+//        }
+//
+//        channel.disconnect();
+//
+//        /* determine operating system */
+//        switch(buffer.toString()) {
+//            case "Darwin":
+//                return System.OSX;
+//            case "Linux":
+//                return System.LINUX;
+//            default:
+//                return System.UNDEFINED;
+//        }
+//    }
 }

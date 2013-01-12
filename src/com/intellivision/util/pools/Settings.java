@@ -196,7 +196,7 @@ public enum Settings {
 
         try {
             properties.storeToXML(new FileOutputStream(settings),
-                    "IntelliVision Intelligence Image Processing System");
+                    com.intellivision.core.Manifest.DESCRIPTION);
         } catch (IOException e) {
             LOG.warning(new StringBuffer(256
                     ).append("Could not write application properties. "

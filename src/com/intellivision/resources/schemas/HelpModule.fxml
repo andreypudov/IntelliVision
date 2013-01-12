@@ -61,7 +61,7 @@
             <Label fx:id="helpProductName"
                    text="IntelliVision Intelligence Image Processing System" />
             <Label fx:id="helpProductVersion" text="Version: 1.00.00 Alpha" />
-            <Label fx:id="helpVendorName"     text="© 2012 Andrey Pudov." />
+            <Label fx:id="helpVendorName"     text="© 2013 Andrey Pudov." />
             <Label fx:id="helpCopyright"      text="All rights reserved." />
             <Region prefHeight="20.0" />
             <Label fx:id="helpWarning" wrapText="true"

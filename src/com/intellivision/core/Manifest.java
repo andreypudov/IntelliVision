@@ -43,6 +43,7 @@ public class Manifest {
     public static final String NAME        = "IntelliVision";
     public static final String DESCRIPTION = "IntelliVision Intelligence Image Processing System";
     public static final String VERSION     = "0.00.00";
+    public static final String RELEASE     = "Alpha";
 
     private static final java.util.logging.Logger LOG
             = java.util.logging.Logger.getLogger(NAME);

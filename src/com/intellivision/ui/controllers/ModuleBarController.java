@@ -52,7 +52,7 @@ public class ModuleBarController implements Initializable {
             = java.util.logging.Logger.getLogger("IntelliVision");
 
     @FXML private ToggleButton moduleBarHome;
-    @FXML private ToggleButton moduleBarCategories;
+    @FXML private ToggleButton moduleBarLibrary;
     @FXML private ToggleButton moduleBarRemote;
     @FXML private ToggleButton moduleBarHelp;
 
@@ -103,15 +103,15 @@ public class ModuleBarController implements Initializable {
      * @param event the event source.
      */
     @FXML
-    private void moduleBarCategoriesOnAction(final ActionEvent event) {
+    private void moduleBarLibraryOnAction(final ActionEvent event) {
         /* keep selection when clicked on already selected button */
-        if (moduleBarCategories.isSelected() == false) {
-            moduleBarCategories.setSelected(true);
+        if (moduleBarLibrary.isSelected() == false) {
+            moduleBarLibrary.setSelected(true);
             return;
         }
 
         onAction.get().handle(
-                new ModuleBarEvent(ModuleBarState.CATEGORIES));
+                new ModuleBarEvent(ModuleBarState.LIBRARY));
     }
 
     /**

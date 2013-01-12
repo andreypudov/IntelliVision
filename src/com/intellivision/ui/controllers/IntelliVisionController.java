@@ -127,7 +127,7 @@ public class IntelliVisionController implements Initializable {
                         moduleRegion.getChildren().add(
                                 HomeModule.getInstance());
                         break;
-                    case CATEGORIES:
+                    case LIBRARY:
                         break;
                     case REMOTE:
                         moduleRegion.getChildren().add(

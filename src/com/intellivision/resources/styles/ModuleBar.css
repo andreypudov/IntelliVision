@@ -40,9 +40,9 @@
     -fx-effect:           dropshadow(one-pass-box, #464646, 1, 0, 1, 1);
 }
 
-#moduleBarCategories {
+#moduleBarLibrary {
     -fx-background-color: null;
-    -fx-graphic:          url("../images/button-categories.png");
+    -fx-graphic:          url("../images/button-library.png");
     -fx-font:             bold normal 13pt "Source Sans Pro Light";
     -fx-text-fill:        #E3E3DF;
     -fx-effect:           dropshadow(one-pass-box, #464646, 1, 0, 1, 1);
@@ -69,7 +69,7 @@
     -fx-text-fill:        #F3F3FF;
 }
 
-#moduleBarCategories:selected {
+#moduleBarLibrary:selected {
     -fx-effect:           dropshadow(two-pass-box, #AFAFAF, 20, 0, 0, 0);
     -fx-text-fill:        #F3F3FF;
 }

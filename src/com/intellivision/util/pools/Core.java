@@ -202,9 +202,7 @@ public class Core {
                     AnchorPane.setRightAnchor(primaryPanel,  32.0);
                     AnchorPane.setTopAnchor(primaryPanel,    32.0);
 
-                    primaryScene.getRoot().setStyle(
-                        "-fx-effect: dropshadow(gaussian,\n" +
-                        "               #1F1F1F, 26, 0.0, 0.0, 16)");
+                    primaryScene.getRoot().setStyle("");
                 }
             }});
 

@@ -50,9 +50,9 @@
         <ToggleButton fx:id="moduleBarHome" text="Home" selected="true"
                 toggleGroup="$moduleBarToggleGroup" contentDisplay="TOP"
                 minWidth="80.0" onAction="#moduleBarHomeOnAction" />
-        <ToggleButton fx:id="moduleBarCategories" text="Categories"
+        <ToggleButton fx:id="moduleBarLibrary" text="Library"
                 toggleGroup="$moduleBarToggleGroup" contentDisplay="TOP"
-                minWidth="80.0" onAction="#moduleBarCategoriesOnAction" />
+                minWidth="80.0" onAction="#moduleBarLibraryOnAction" />
         <ToggleButton fx:id="moduleBarRemote" text="Remote"
                 toggleGroup="$moduleBarToggleGroup" contentDisplay="TOP"
                 minWidth="80.0" onAction="#moduleBarRemoteOnAction" />

@@ -35,5 +35,5 @@ package com.intellivision.ui.controls;
  * %date      08:30:00 PM, Oct 26, 2012
  */
 public enum ModuleBarState {
-    HOME, CATEGORIES, REMOTE, HELP;
+    HOME, LIBRARY, REMOTE, HELP;
 }

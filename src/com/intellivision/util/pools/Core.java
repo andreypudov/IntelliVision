@@ -61,7 +61,8 @@ import javafx.stage.WindowEvent;
 public class Core {
 
     private static final java.util.logging.Logger LOG
-            = java.util.logging.Logger.getLogger("IntelliVision");
+            = java.util.logging.Logger.getLogger(
+            com.intellivision.core.Manifest.NAME);
 
     static {
         try {

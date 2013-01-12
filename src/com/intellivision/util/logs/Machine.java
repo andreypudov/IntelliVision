@@ -48,7 +48,8 @@ import java.util.Properties;
 public class Machine {
 
     private static final java.util.logging.Logger LOG
-            = java.util.logging.Logger.getLogger("IntelliVision");
+            = java.util.logging.Logger.getLogger(
+            com.intellivision.core.Manifest.NAME);
 
     /* secure connection to the remote machine */
     private final SSHConnection connection = new SSHConnection();
@@ -94,7 +95,7 @@ public class Machine {
         if ((session == null) || !(session.isConnected())) {
             return;
         }
-        
+
         session.disconnect();
     }
 

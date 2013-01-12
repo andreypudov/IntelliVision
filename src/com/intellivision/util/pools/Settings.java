@@ -45,7 +45,8 @@ public enum Settings {
     INSTANCE;
 
     private static final java.util.logging.Logger LOG
-            = java.util.logging.Logger.getLogger("IntelliVision");
+            = java.util.logging.Logger.getLogger(
+            com.intellivision.core.Manifest.NAME);
 
     private static final Properties properties = new Properties();
 
@@ -56,6 +57,17 @@ public enum Settings {
          * default values will be used).
          */
         init();
+
+        /*
+         * Merge application configuration with default and exists values when
+         * existing configuration file contains entries corresponds to
+         * different application version.
+         */
+        if (properties.getProperty("intellivision.application.version"
+                ).equals(com.intellivision.core.Manifest.VERSION) == false) {
+            properties.setProperty("intellivision.application.version",
+                    com.intellivision.core.Manifest.VERSION);
+        }
 
         final File[] directoryList = {
             /* .IntelliVision */
@@ -141,6 +153,9 @@ public enum Settings {
         final File settings = new File(System.getProperty("user.home")
                 + System.getProperty("file.separator") + ".IntelliVision"
                 + System.getProperty("file.separator") + ".settings");
+
+        properties.setProperty("intellivision.application.version",
+                com.intellivision.core.Manifest.VERSION);
 
         properties.setProperty("intellivision.window.width",  "1020.0");
         properties.setProperty("intellivision.window.height", "700.0");

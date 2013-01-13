@@ -98,7 +98,9 @@ public class MachineHandler extends DefaultHandler {
         if (currentElement.equalsIgnoreCase("machine")) {
             String ver = currentAttributes.getValue("version");
 
-            if (ver.equals("0.00.00") == false) {
+            if (ver.equals(
+                        com.intellivision.core.Manifest.MACHINE_FORMAT_VERSION
+                    ) == false) {
                 throw new SAXException(new StringBuffer(256
                     ).append("Invalid machine file format. "
                     ).append("Required: "

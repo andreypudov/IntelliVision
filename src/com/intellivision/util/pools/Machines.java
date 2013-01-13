@@ -34,16 +34,24 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 import javax.xml.XMLConstants;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
-import org.xml.sax.Attributes;
+import org.w3c.dom.Comment;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * Remote machine list pool.
@@ -94,22 +102,35 @@ public enum Machines {
 
 
             try {
+                /* the remote machine file parser */
                 final SAXParserFactory factory = SAXParserFactory.newInstance();
                 final SAXParser        parser  = factory.newSAXParser();
 
+                /* the remote machine file format definition */
                 final SchemaFactory    schemaFactory = SchemaFactory.newInstance(
                         XMLConstants.W3C_XML_SCHEMA_NS_URI);
                 final Schema           schema = schemaFactory.newSchema(
                         Machines.class.getResource(
                         "/com/intellivision/resources/schemas/RemoteMachine.xsd"));
 
+                /* the remote machine file validator */
                 final Validator        validator = schema.newValidator();
 
                 final MachineHandler   handler = new MachineHandler();
 
+                /* validate and parse remote machine file */
                 validator.validate(new StreamSource(entry));
                 parser.parse(entry, handler);
-                list.add(handler.getMachine());
+
+                /* add machine to the remote machine list */
+                final Machine machine = handler.getMachine();
+                if (machine.getName().equals(entry.getName()) == false) {
+                    entry.renameTo(new File(entry.getParentFile().getPath()
+                            + System.getProperty("file.separator")
+                            + machine.getName()));
+                }
+
+                list.add(machine);
             } catch (ParserConfigurationException | SAXException | IOException e) {
                 LOG.severe(new StringBuffer(256
                         ).append("Could not read machine configuration file. "
@@ -136,8 +157,79 @@ public enum Machines {
      *
      * @param machine the remote machine.
      */
-    public synchronized void add(Machine machine) {
+    public synchronized void add(Machine machine)  {
+        /* .IntelliVision/machines/<NAME> */
+        final File file = new File(System.getProperty("user.home")
+                + System.getProperty("file.separator")
+                + "." + com.intellivision.core.Manifest.NAME
+                + System.getProperty("file.separator")
+                + "machines"
+                + System.getProperty("file.separator")
+                + machine.getName());
+
+        try {
+            DocumentBuilderFactory factory  = DocumentBuilderFactory.newInstance();
+            DocumentBuilder        builder  = factory.newDocumentBuilder();
+            Document               document = builder.newDocument();
+
+            Element root = document.createElement("machine");
+            root.setAttribute("version",
+                    com.intellivision.core.Manifest.MACHINE_FORMAT_VERSION);
+            document.appendChild(root);
+
+            Comment comment = document.createComment(
+                    com.intellivision.core.Manifest.DESCRIPTION);
+            document.appendChild(comment);
+
+            Element name = document.createElement("name");
+            name.setTextContent(machine.getName());
+            root.appendChild(name);
+
+            Element username = document.createElement("username");
+            username.setTextContent(machine.getUserName());
+            root.appendChild(username);
+
+            Element password = document.createElement("password");
+            password.setTextContent(machine.getUserPassword());
+            root.appendChild(password);
+
+            Element address = document.createElement("address");
+            address.setTextContent(machine.getAddress());
+            root.appendChild(address);
+
+            TransformerFactory factory0    = TransformerFactory.newInstance();
+            Transformer        transformer = factory0.newTransformer();
+            DOMSource          source      = new DOMSource(document);
+            StreamResult       result      = new StreamResult(file);
+
+            transformer.transform(source, result);
+        } catch (ParserConfigurationException
+                | TransformerException e) {
+            LOG.severe(new StringBuffer(256
+                    ).append("Could not write machine configuration file. "
+                    ).append(e.getMessage()).toString());
+        }
+
         list.add(machine);
+    }
+
+    /**
+     * Removes machine from the remote machine list.
+     *
+     * @param machine the remote machine.
+     */
+    public synchronized void remoev(Machine machine) {
+        /* .IntelliVision/machines/<NAME> */
+        final File file = new File(System.getProperty("user.home")
+                + System.getProperty("file.separator")
+                + "." + com.intellivision.core.Manifest.NAME
+                + System.getProperty("file.separator")
+                + "machines"
+                + System.getProperty("file.separator")
+                + machine.getName());
+
+        list.remove(machine);
+        file.delete();
     }
 
     /**

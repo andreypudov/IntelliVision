@@ -114,6 +114,8 @@ public class RemoteModuleController implements Initializable {
         Machine    machine = new Machine("Remote Machine", "", "", "");
         MachineBar bar     = new MachineBar(machine);
 
+        MACHINES.add(machine);
+
         remoteMachineList.getItems().add(bar);
         remoteMachineList.getSelectionModel().select(
                 remoteMachineList.getItems().size() - 1);
@@ -139,6 +141,7 @@ public class RemoteModuleController implements Initializable {
 
         remoteMachineList.getSelectionModel().select(
                 (index == 0) ? 0 : index - 1);
+        MACHINES.remoev(remoteMachineList.getItems().get(index).getMachine());
         remoteMachineList.getItems().remove(index);
 
         /* update configuration panel */

@@ -73,14 +73,14 @@ public enum Settings {
             /* .IntelliVision */
             new File(System.getProperty("user.home")
                 + System.getProperty("file.separator")
-                + ".IntelliVision")
+                + "." + com.intellivision.core.Manifest.NAME)
         };
 
         final File[] fileList = {
             /* .IntelliVision/.settings */
             new File(System.getProperty("user.home")
                 + System.getProperty("file.separator")
-                + ".IntelliVision"
+                + "." + com.intellivision.core.Manifest.NAME
                 + System.getProperty("file.separator")
                 + ".settings")
         };
@@ -117,7 +117,7 @@ public enum Settings {
      *
      * @return the suitable settings list.
      */
-    public static Settings getSettings() {
+    public static synchronized Settings getSettings() {
         return Settings.INSTANCE;
     }
 
@@ -129,7 +129,7 @@ public enum Settings {
      * @return    the value to which the specified key is mapped, or null if
      *            this map contains no mapping for the key.
      */
-    public String getValue(final String key) {
+    public synchronized String getValue(final String key) {
         return properties.getProperty(key);
     }
 
@@ -142,16 +142,17 @@ public enum Settings {
      * @return      the previous value of the specified key in this property
      *              list, or null if it did not have one.
      */
-    public String setValue(final String key, final String value) {
+    public synchronized String setValue(final String key, final String value) {
         return (String) properties.setProperty(key, value);
     }
 
     /**
      * Initialize application settings.
      */
-    private static void init() {
+    private static synchronized void init() {
         final File settings = new File(System.getProperty("user.home")
-                + System.getProperty("file.separator") + ".IntelliVision"
+                + System.getProperty("file.separator")
+                + "." + com.intellivision.core.Manifest.NAME
                 + System.getProperty("file.separator") + ".settings");
 
         properties.setProperty("intellivision.application.version",
@@ -172,9 +173,10 @@ public enum Settings {
     /**
      * Reads application settings from configuration file.
      */
-    public void load() {
+    public synchronized void load() {
         final File settings = new File(System.getProperty("user.home")
-                + System.getProperty("file.separator") + ".IntelliVision"
+                + System.getProperty("file.separator")
+                + "." + com.intellivision.core.Manifest.NAME
                 + System.getProperty("file.separator") + ".settings");
 
         try {
@@ -189,9 +191,10 @@ public enum Settings {
     /**
      * Writes application settings to configuration files.
      */
-    public void save() {
+    public synchronized void save() {
         final File settings = new File(System.getProperty("user.home")
-                + System.getProperty("file.separator") + ".IntelliVision"
+                + System.getProperty("file.separator")
+                + "." + com.intellivision.core.Manifest.NAME
                 + System.getProperty("file.separator") + ".settings");
 
         try {

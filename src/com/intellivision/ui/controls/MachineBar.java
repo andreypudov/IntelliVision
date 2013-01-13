@@ -28,6 +28,7 @@ package com.intellivision.ui.controls;
 
 import com.intellivision.ui.controllers.MachineBarController;
 import com.intellivision.util.StatusCodes;
+import com.intellivision.util.logs.Machine;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.HBox;
 
@@ -51,7 +52,7 @@ public class MachineBar extends HBox {
     /* controller initialization interface */
     private final MachineBarController controller;
 
-    public MachineBar() {
+    public MachineBar(Machine machine) {
         fxmlLoader = new FXMLLoader(getClass().getResource(
                     "/com/intellivision/resources/schemas/MachineBar.fxml"));
 
@@ -65,5 +66,10 @@ public class MachineBar extends HBox {
         }
 
         controller = fxmlLoader.getController();
+        controller.setMachine(machine);
+    }
+
+    public Machine getMachine() {
+        return controller.getMachine();
     }
 }

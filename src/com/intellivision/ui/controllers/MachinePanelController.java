@@ -28,7 +28,10 @@ package com.intellivision.ui.controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 /**
  * FXML Controller class provides remote machine control functionality.
@@ -44,6 +47,14 @@ public class MachinePanelController implements Initializable {
             = java.util.logging.Logger.getLogger(
               com.intellivision.core.Manifest.NAME);
 
+    @FXML private Label machineStausField;
+    @FXML private Label machineStausDesc;
+
+    @FXML private TextField machineNameField;
+    @FXML private TextField machineAddressField;
+    @FXML private TextField userNameField;
+    @FXML private TextField userPasswordField;
+
     /**
      * Initializes the controller class.
      *
@@ -54,5 +65,41 @@ public class MachinePanelController implements Initializable {
      */
     @Override
     public void initialize(final URL url, final ResourceBundle rb) {
+    }
+
+    /**
+     * Sets remote machine name.
+     *
+     * @param name the remote machine name.
+     */
+    public void setName(String name) {
+        machineNameField.setText(name);
+    }
+
+    /**
+     * Sets remote machine user name.
+     *
+     * @param username the remote machine user name.
+     */
+    public void setUserName(String username) {
+        userNameField.setText(username);
+    }
+
+    /**
+     * Sets remote machine user password.
+     *
+     * @param password the remote machine user password.
+     */
+    public void setUserPassword(String password) {
+        userPasswordField.setText(password);
+    }
+
+    /**
+     * Sets remote machine address.
+     *
+     * @param address the remote machine address.
+     */
+    public void setAddress(String address) {
+        machineAddressField.setText(address);
     }
 }

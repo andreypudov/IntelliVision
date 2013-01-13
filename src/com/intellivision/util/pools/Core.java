@@ -120,8 +120,7 @@ public class Core {
     }
 
     /* the list of application properties */
-    private static final com.intellivision.util.pools.Settings SETTINGS
-            = com.intellivision.util.pools.Settings.getSettings();
+    private static final Settings SETTINGS = Settings.getSettings();
 
     /* do not let anyone instantiate this class */
     private Core() {
@@ -145,7 +144,7 @@ public class Core {
      *
      * @return the primary stage of the application.
      */
-    public static Stage getPrimaryStage() {
+    public static synchronized Stage getPrimaryStage() {
         return primaryStage;
     }
 
@@ -160,8 +159,8 @@ public class Core {
      * @throws IllegalArgumentException
      *        method has been passed an illegal or inappropriate argument
      */
-    public static void setPrimaryStage(final Stage stage, final Scene scene)
-            throws IOException {
+    public static synchronized void setPrimaryStage(final Stage stage,
+            final Scene scene) throws IOException {
         if ((stage == null) || (scene == null)) {
             throw new IllegalArgumentException();
         }
@@ -220,7 +219,7 @@ public class Core {
     /**
      * Closes application window.
      */
-    public static void closeWindow() {
+    public static synchronized void closeWindow() {
         SETTINGS.setValue("intellivision.window.width",
                  Double.toString(primaryStage.getWidth()));
         SETTINGS.setValue("intellivision.window.height",
@@ -235,14 +234,14 @@ public class Core {
      *
      * @return true if window is maximized and false otherwise.
      */
-    public static boolean isMaximized() {
+    public static synchronized boolean isMaximized() {
         return maximized || primaryStage.isFullScreen();
     }
 
     /**
      * Maximizes application window.
      */
-    public static void maximizeWindow() {
+    public static synchronized void maximizeWindow() {
         final Screen screen  = Screen.getScreensForRectangle(
                 primaryStage.getX(),
                 primaryStage.getY(), 1, 1).get(0);
@@ -289,14 +288,14 @@ public class Core {
     /**
      * Sets application window to full screen mode.
      */
-    public static void maximizeWindowToScreen() {
+    public static synchronized void maximizeWindowToScreen() {
         primaryStage.setFullScreen(!primaryStage.isFullScreen());
     }
 
     /**
      * Minimizes application window.
      */
-    public static void minimizeWindow() {
+    public static synchronized void minimizeWindow() {
         primaryStage.setIconified(true);
     }
 }

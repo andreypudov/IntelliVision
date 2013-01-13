@@ -28,8 +28,11 @@ package com.intellivision.ui.controllers;
 
 import com.intellivision.ui.controls.MachineBar;
 import com.intellivision.ui.controls.MachinePanel;
+import com.intellivision.util.logs.Machine;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -52,6 +55,10 @@ public class RemoteModuleController implements Initializable {
             = java.util.logging.Logger.getLogger(
               com.intellivision.core.Manifest.NAME);
 
+    /* the remote machine list */
+    private static final com.intellivision.util.pools.Machines MACHINES
+            = com.intellivision.util.pools.Machines.getMachines();
+
     @FXML private Button remoteAddButton;
     @FXML private Button remoteRemoveButton;
 
@@ -71,6 +78,30 @@ public class RemoteModuleController implements Initializable {
      */
     @Override
     public void initialize(final URL url, final ResourceBundle rb) {
+        remoteMachineList.getSelectionModel().selectedItemProperty().addListener(
+                new ChangeListener<MachineBar>() {
+            @Override
+            public void changed(ObservableValue<? extends MachineBar> observable,
+                    MachineBar oldValue, MachineBar newValue) {
+                remoteMachinePanel.setName(newValue.getMachine().getName());
+                remoteMachinePanel.setUserName(newValue.getMachine().getUserName());
+                remoteMachinePanel.setUserPassword(newValue.getMachine().getUserPassword());
+                remoteMachinePanel.setAddress(newValue.getMachine().getAddress());
+            }
+        });
+
+        for (Machine machine : MACHINES.getList()) {
+            MachineBar bar = new MachineBar(machine);
+
+            remoteMachineList.getItems().add(bar);
+        }
+
+        remoteMachineList.getSelectionModel().select(
+                remoteMachineList.getItems().size() - 1);
+
+        /* update configuration panel */
+        remoteMainPane.getChildren().clear();
+        remoteMainPane.getChildren().add(remoteMachinePanel);
     }
 
     /**
@@ -80,9 +111,10 @@ public class RemoteModuleController implements Initializable {
      */
     @FXML
     private void remoteAddButtonOnAction(final ActionEvent event) {
-        MachineBar machine = new MachineBar();
+        Machine    machine = new Machine("Remote Machine", "", "", "");
+        MachineBar bar     = new MachineBar(machine);
 
-        remoteMachineList.getItems().add(machine);
+        remoteMachineList.getItems().add(bar);
         remoteMachineList.getSelectionModel().select(
                 remoteMachineList.getItems().size() - 1);
 

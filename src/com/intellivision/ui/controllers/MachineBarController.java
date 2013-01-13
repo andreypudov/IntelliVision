@@ -26,9 +26,12 @@
 
 package com.intellivision.ui.controllers;
 
+import com.intellivision.util.logs.Machine;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 
 /**
  * FXML Controller class provides remote machine control functionality.
@@ -44,6 +47,12 @@ public class MachineBarController implements Initializable {
             = java.util.logging.Logger.getLogger(
               com.intellivision.core.Manifest.NAME);
 
+    @FXML private Label machineName;
+    @FXML private Label machineStat;
+
+    /* the remote machine instance */
+    private Machine machine = null;
+
     /**
      * Initializes the controller class.
      *
@@ -54,5 +63,25 @@ public class MachineBarController implements Initializable {
      */
     @Override
     public void initialize(final URL url, final ResourceBundle rb) {
+    }
+
+    /**
+     * Returns remote machine instance.
+     *
+     * @return the remote machine instance.
+     */
+    public Machine getMachine() {
+        return machine;
+    }
+
+    /**
+     * Sets remote machine instance.
+     *
+     * @param machine the remote machine.
+     */
+    public void setMachine(Machine machine) {
+        this.machine = machine;
+
+        machineName.setText(machine.getName());
     }
 }

@@ -55,6 +55,7 @@ public class Machine {
     private final SSHConnection connection = new SSHConnection();
 
     /* connection details */
+    private final String name;
     private final String username;
     private final String password;
     private final String address;
@@ -62,9 +63,10 @@ public class Machine {
     /* openned session to the remote machine */
     private Session session;
 
-    public Machine(final String username, final String password,
-                   final String address) {
+    public Machine(final String name, final String username,
+            final String password, final String address) {
 
+        this.name     = name;
         this.username = username;
         this.password = password;
         this.address  = address;
@@ -127,4 +129,76 @@ public class Machine {
 //                return System.UNDEFINED;
 //        }
 //    }
+
+    /**
+     * Returns remote machine name.
+     *
+     * @return the remote machine name.
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Returns user name for this remote machine instance.
+     *
+     * @return the user name.
+     */
+    public String getUserName() {
+        return username;
+    }
+
+    /**
+     * Returns user password for this remote machine instance.
+     *
+     * @return the user password.
+     */
+    public String getUserPassword() {
+        return password;
+    }
+
+    /**
+     * Returns machine address for this remote machine instance.
+     *
+     * @return the remote machine address.
+     */
+    public String getAddress() {
+        return address;
+    }
+
+    /**
+     * Indicates whether some other object is "equal to" this one.
+     *
+     * @param object the reference object with which to compare.
+     * @return       {@code true} if this object is the same as the object
+     *               argument; {@code false} otherwise.
+     */
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+
+        if (object instanceof Machine) {
+            Machine anotherMachine = (Machine) object;
+
+            return (anotherMachine.name.equals(name)
+                    && anotherMachine.username.equals(username)
+                    && anotherMachine.password.equals(password)
+                    && anotherMachine.address.equals(address));
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns a hash code value for the object.
+     *
+     * @return a hash code value for this object.
+     */
+    @Override
+    public int hashCode() {
+        return name.hashCode() & username.hashCode() & password.hashCode()
+                & address.hashCode();
+    }
 }

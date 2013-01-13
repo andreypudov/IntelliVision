@@ -66,4 +66,40 @@ public class MachinePanel extends GridPane {
 
         controller = fxmlLoader.getController();
     }
+
+    /**
+     * Sets remote machine name.
+     *
+     * @param name the remote machine name.
+     */
+    public void setName(String name) {
+        controller.setName(name);
+    }
+
+    /**
+     * Sets remote machine user name.
+     *
+     * @param username the remote machine user name.
+     */
+    public void setUserName(String username) {
+        controller.setUserName(username);
+    }
+
+    /**
+     * Sets remote machine user password.
+     *
+     * @param password the remote machine user password.
+     */
+    public void setUserPassword(String password) {
+        controller.setUserPassword(password);
+    }
+
+    /**
+     * Sets remote machine address.
+     *
+     * @param address the remote machine address.
+     */
+    public void setAddress(String address) {
+        controller.setAddress(address);
+    }
 }

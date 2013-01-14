@@ -94,14 +94,16 @@ public class RemoteModuleController implements Initializable {
             MachineBar bar = new MachineBar(machine);
 
             remoteMachineList.getItems().add(bar);
-        }
 
-        remoteMachineList.getSelectionModel().select(
+            remoteMachineList.getSelectionModel().select(
                 remoteMachineList.getItems().size() - 1);
 
-        /* update configuration panel */
-        remoteMainPane.getChildren().clear();
-        remoteMainPane.getChildren().add(remoteMachinePanel);
+            /* update configuration panel */
+            remoteMainPane.getChildren().clear();
+            remoteMainPane.getChildren().add(remoteMachinePanel);
+        }
+
+
     }
 
     /**

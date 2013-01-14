@@ -27,6 +27,9 @@
 package com.intellivision.util.pools;
 
 import com.intellivision.util.logs.Machine;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -49,7 +52,8 @@ public class MachineHandler extends DefaultHandler {
     private String     currentElement    = null;
     private Attributes currentAttributes = null;
 
-    private Machine machine = null;
+    /* remote machine list */
+    private List<Machine> list = new ArrayList<>(10);
 
     private String name     = "";
     private String username = "";
@@ -59,10 +63,10 @@ public class MachineHandler extends DefaultHandler {
     /**
      * Returns parsing result.
      *
-     * @return the remote machine.
+     * @return the unmodifiable remote machine list.
      */
-    public Machine getMachine() {
-        return machine;
+    public List<Machine> getMachines() {
+        return Collections.unmodifiableList(list);
     }
 
     /*
@@ -83,6 +87,10 @@ public class MachineHandler extends DefaultHandler {
             throws SAXException {
         currentElement    = null;
         currentAttributes = null;
+
+        if (qName.equalsIgnoreCase("machine")) {
+            list.add(new Machine(name, username, password, address));
+        }
     }
 
     /*
@@ -95,12 +103,10 @@ public class MachineHandler extends DefaultHandler {
             return;
         }
 
-        if (currentElement.equalsIgnoreCase("machine")) {
+        if (currentElement.equalsIgnoreCase("machines")) {
             String ver = currentAttributes.getValue("version");
 
-            if (ver.equals(
-                        com.intellivision.core.Manifest.MACHINE_FORMAT_VERSION
-                    ) == false) {
+            if (ver.equalsIgnoreCase(com.intellivision.core.Manifest.VERSION) == false) {
                 throw new SAXException(new StringBuffer(256
                     ).append("Invalid machine file format. "
                     ).append("Required: "
@@ -126,13 +132,5 @@ public class MachineHandler extends DefaultHandler {
         if (currentElement.equalsIgnoreCase("address")) {
             address = new String(ch, start, length);
         }
-    }
-
-    /*
-     * Receive notification of the end of the document.
-     */
-    @Override
-    public void endDocument () throws SAXException {
-        machine = new Machine(name, username, password, address);
     }
 }

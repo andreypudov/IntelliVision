@@ -45,8 +45,6 @@ public class Manifest {
     public static final String VERSION     = "0.00.00";
     public static final String RELEASE     = "Alpha";
 
-    public static final String MACHINE_FORMAT_VERSION = "0.00.00";
-
     private static final java.util.logging.Logger LOG
             = java.util.logging.Logger.getLogger(NAME);
 }

@@ -83,27 +83,28 @@ public class RemoteModuleController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends MachineBar> observable,
                     MachineBar oldValue, MachineBar newValue) {
-                remoteMachinePanel.setName(newValue.getMachine().getName());
-                remoteMachinePanel.setUserName(newValue.getMachine().getUserName());
-                remoteMachinePanel.setUserPassword(newValue.getMachine().getUserPassword());
-                remoteMachinePanel.setAddress(newValue.getMachine().getAddress());
+                if (newValue instanceof MachineBar) {
+                    remoteMachinePanel.setName(newValue.getMachine().getName());
+                    remoteMachinePanel.setUserName(newValue.getMachine().getUserName());
+                    remoteMachinePanel.setUserPassword(newValue.getMachine().getUserPassword());
+                    remoteMachinePanel.setAddress(newValue.getMachine().getAddress());
+                }
             }
         });
 
-        for (Machine machine : MACHINES.getList()) {
-            MachineBar bar = new MachineBar(machine);
+        if (MACHINES.getList().isEmpty() == false) {
+            for (Machine machine : MACHINES.getList()) {
+                MachineBar bar = new MachineBar(machine);
 
-            remoteMachineList.getItems().add(bar);
+                remoteMachineList.getItems().add(bar);
+            }
 
-            remoteMachineList.getSelectionModel().select(
-                remoteMachineList.getItems().size() - 1);
+            remoteMachineList.getSelectionModel().selectFirst();
 
             /* update configuration panel */
             remoteMainPane.getChildren().clear();
             remoteMainPane.getChildren().add(remoteMachinePanel);
         }
-
-
     }
 
     /**

@@ -26,12 +26,18 @@
 
 package com.intellivision.ui.controllers;
 
+import com.intellivision.ui.controls.MachinePanelEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 /**
  * FXML Controller class provides remote machine control functionality.
@@ -55,6 +61,9 @@ public class MachinePanelController implements Initializable {
     @FXML private TextField userNameField;
     @FXML private TextField userPasswordField;
 
+    private final ObjectProperty<EventHandler<MachinePanelEvent>> onAction
+            = new SimpleObjectProperty<>();
+
     /**
      * Initializes the controller class.
      *
@@ -65,6 +74,26 @@ public class MachinePanelController implements Initializable {
      */
     @Override
     public void initialize(final URL url, final ResourceBundle rb) {
+        userNameField.addEventFilter(KeyEvent.KEY_TYPED, new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(final KeyEvent event) {
+                char array[] = event.getCharacter().toCharArray();
+                char letter  = array[array.length - 1];
+
+                if (letter == ' ') {
+                    event.consume();
+                }
+            }
+        });
+    }
+
+    /**
+     * Defines a function to be called when the remote machine is changed.
+     *
+     * @return the onAction property.
+     */
+    public ObjectProperty<EventHandler<MachinePanelEvent>> onAction() {
+        return onAction;
     }
 
     /**
@@ -72,7 +101,7 @@ public class MachinePanelController implements Initializable {
      *
      * @param name the remote machine name.
      */
-    public void setName(String name) {
+    public void setName(final String name) {
         machineNameField.setText(name);
     }
 
@@ -81,7 +110,7 @@ public class MachinePanelController implements Initializable {
      *
      * @param username the remote machine user name.
      */
-    public void setUserName(String username) {
+    public void setUserName(final String username) {
         userNameField.setText(username);
     }
 
@@ -90,7 +119,7 @@ public class MachinePanelController implements Initializable {
      *
      * @param password the remote machine user password.
      */
-    public void setUserPassword(String password) {
+    public void setUserPassword(final String password) {
         userPasswordField.setText(password);
     }
 
@@ -99,7 +128,7 @@ public class MachinePanelController implements Initializable {
      *
      * @param address the remote machine address.
      */
-    public void setAddress(String address) {
+    public void setAddress(final String address) {
         machineAddressField.setText(address);
     }
 }

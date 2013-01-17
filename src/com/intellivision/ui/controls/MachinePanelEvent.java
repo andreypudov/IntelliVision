@@ -24,39 +24,22 @@
  * THE SOFTWARE.
  */
 
-/*
-    Document   : IntelliVision.css
-    Created on : Aug 15, 2012, 09:50:00 PM
-    Author     : Andrey Pudov        <mail@andreypudov.com>
-    Description:
-        The general application style sheet.
-*/
+package com.intellivision.ui.controls;
 
-#mainPanelRoot {
-    -fx-background-insets: 32;
-    -fx-border-radius:     5 5 0 0;
-    -fx-effect:            dropshadow(two-pass-box, #1F1F1F, 26.0, 0.0, 0.0, 16.0);
-}
+import javafx.event.ActionEvent;
 
-#mainPanel {
-    -fx-background-color:  #262626;
-    -fx-background-radius: 5 5 0 0;
- /* -fx-border-color:      #0F0F0F; border is disabled*/
-    -fx-border-radius:     4 4 0 0;
-}
+/**
+ * An event represents module bar action fired on choosing a module.
+ *
+ * @author    Andrey Pudov        <mail@andreypudov.com>
+ * @version   0.00.00
+ * %name      MachinePanelEvent.java
+ * %date      07:30:00 AM, Jan 16, 2013
+ */
+public class MachinePanelEvent extends ActionEvent {
 
-#toolBar {
-    -fx-background-color:  #535353;
-    -fx-background-radius: 4 4 0 0;
-    -fx-pref-height:       80;
-    -fx-background-color:  linear-gradient(from 0px 0px to 0px 80px,
-                                           #6A6A6A, #4F4F4F 100%,
-                                           dimgray 99%, #4F4F4F);
-    -fx-padding:           0 0 2 0;
-}
-
-#title {
-    -fx-font:              bold normal 15pt "Source Sans Pro Semibold";
-    -fx-text-fill:         #E3E3DF;
-    -fx-effect:            dropshadow(one-pass-box, #464646, 1, 0, 0, -1);
+    private static final long serialVersionUID = 0xa2cd_aead_0bca_8ac4L;
+    private static final java.util.logging.Logger LOG
+            = java.util.logging.Logger.getLogger(
+              com.intellivision.core.Manifest.NAME);
 }

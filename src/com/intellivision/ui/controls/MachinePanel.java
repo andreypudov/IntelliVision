@@ -28,6 +28,7 @@ package com.intellivision.ui.controls;
 
 import com.intellivision.ui.controllers.MachinePanelController;
 import com.intellivision.util.StatusCodes;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.GridPane;
 
@@ -65,6 +66,15 @@ public class MachinePanel extends GridPane {
         }
 
         controller = fxmlLoader.getController();
+    }
+
+    /**
+     * Sets the value of the property onAction.
+     *
+     * @param handler the remote machine state is changed.
+     */
+    public void setOnAction(EventHandler<MachinePanelEvent> handler) {
+        controller.onAction().setValue(handler);
     }
 
     /**

@@ -77,7 +77,7 @@ public class ModuleBar extends HBox {
      *                press, or if the developer programmatically invokes
      *                the fire() method.
      */
-    public void setOnAction(EventHandler<ModuleBarEvent> handler) {
+    public void setOnAction(final EventHandler<ModuleBarEvent> handler) {
         controller.onAction().setValue(handler);
     }
 }

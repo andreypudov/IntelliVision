@@ -79,7 +79,7 @@ public class MachineBarController implements Initializable {
      *
      * @param machine the remote machine.
      */
-    public void setMachine(Machine machine) {
+    public void setMachine(final Machine machine) {
         this.machine = machine;
 
         machineName.setText(machine.getName());

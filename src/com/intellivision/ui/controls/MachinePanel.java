@@ -73,7 +73,7 @@ public class MachinePanel extends GridPane {
      *
      * @param handler the remote machine state is changed.
      */
-    public void setOnAction(EventHandler<MachinePanelEvent> handler) {
+    public void setOnAction(final EventHandler<MachinePanelEvent> handler) {
         controller.onAction().setValue(handler);
     }
 
@@ -82,7 +82,7 @@ public class MachinePanel extends GridPane {
      *
      * @param name the remote machine name.
      */
-    public void setName(String name) {
+    public void setName(final String name) {
         controller.setName(name);
     }
 
@@ -91,7 +91,7 @@ public class MachinePanel extends GridPane {
      *
      * @param username the remote machine user name.
      */
-    public void setUserName(String username) {
+    public void setUserName(final String username) {
         controller.setUserName(username);
     }
 
@@ -100,7 +100,7 @@ public class MachinePanel extends GridPane {
      *
      * @param password the remote machine user password.
      */
-    public void setUserPassword(String password) {
+    public void setUserPassword(final String password) {
         controller.setUserPassword(password);
     }
 
@@ -109,7 +109,7 @@ public class MachinePanel extends GridPane {
      *
      * @param address the remote machine address.
      */
-    public void setAddress(String address) {
+    public void setAddress(final String address) {
         controller.setAddress(address);
     }
 }

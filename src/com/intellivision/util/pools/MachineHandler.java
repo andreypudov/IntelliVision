@@ -73,8 +73,9 @@ public class MachineHandler extends DefaultHandler {
      * Receive notification of the start of an element.
      */
     @Override
-    public void startElement (String uri, String localName, String qName,
-            Attributes attributes) throws SAXException {
+    public void startElement(final String uri, final String localName,
+            final String qName, final Attributes attributes)
+            throws SAXException {
         currentElement    = qName;
         currentAttributes = attributes;
     }
@@ -83,8 +84,8 @@ public class MachineHandler extends DefaultHandler {
      * Receive notification of the end of an element.
      */
     @Override
-    public void endElement (String uri, String localName, String qName)
-            throws SAXException {
+    public void endElement(final String uri, final String localName,
+            final String qName) throws SAXException {
         currentElement    = null;
         currentAttributes = null;
 
@@ -97,7 +98,7 @@ public class MachineHandler extends DefaultHandler {
      * Receive notification of character data inside an element.
      */
     @Override
-    public void characters (char ch[], int start, int length)
+    public void characters(final char ch[], final int start, final int length)
             throws SAXException {
         if ((currentElement == null) || (currentAttributes == null)) {
             return;

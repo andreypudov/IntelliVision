@@ -120,7 +120,7 @@ public class IntelliVisionController implements Initializable {
 
         moduleBar.setOnAction(new EventHandler<ModuleBarEvent>() {
             @Override
-            public void handle(ModuleBarEvent event) {
+            public void handle(final ModuleBarEvent event) {
                 moduleRegion.getChildren().clear();
 
                 switch (event.getState()) {

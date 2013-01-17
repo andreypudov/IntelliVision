@@ -141,7 +141,7 @@ public enum Machines {
      *
      * @param machine the remote machine.
      */
-    public synchronized void add(Machine machine)  {
+    public synchronized void add(final Machine machine)  {
         list.add(machine);
 
         save();
@@ -152,7 +152,7 @@ public enum Machines {
      *
      * @param machine the remote machine.
      */
-    public synchronized void remoev(Machine machine) {
+    public synchronized void remoev(final Machine machine) {
         list.remove(machine);
 
         save();

@@ -52,7 +52,7 @@ public class MachineBar extends HBox {
     /* controller initialization interface */
     private final MachineBarController controller;
 
-    public MachineBar(Machine machine) {
+    public MachineBar(final Machine machine) {
         fxmlLoader = new FXMLLoader(getClass().getResource(
                     "/com/intellivision/resources/schemas/MachineBar.fxml"));
 

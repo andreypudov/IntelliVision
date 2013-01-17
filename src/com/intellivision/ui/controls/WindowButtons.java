@@ -77,7 +77,7 @@ public class WindowButtons extends HBox {
      *                press, or if the developer programmatically invokes
      *                the fire() method.
      */
-    public void setOnAction(EventHandler<WindowButtonsEvent> handler) {
+    public void setOnAction(final EventHandler<WindowButtonsEvent> handler) {
         controller.onAction().setValue(handler);
     }
 }

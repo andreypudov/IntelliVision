@@ -47,7 +47,7 @@ public class WindowButtonsEvent extends ActionEvent {
     /* window button state */
     private final WindowButtonsState state;
 
-    public WindowButtonsEvent(WindowButtonsState state) {
+    public WindowButtonsEvent(final WindowButtonsState state) {
         this.state = state;
     }
 

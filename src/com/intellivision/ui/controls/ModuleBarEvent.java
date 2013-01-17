@@ -46,7 +46,7 @@ public class ModuleBarEvent extends ActionEvent {
     /* module bar state */
     private final ModuleBarState state;
 
-    public ModuleBarEvent(ModuleBarState state) {
+    public ModuleBarEvent(final ModuleBarState state) {
         this.state = state;
     }
 

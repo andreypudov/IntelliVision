@@ -187,8 +187,8 @@ public class Core {
         primaryStage.fullScreenProperty().addListener(
                 new ChangeListener<Boolean>(){
             @Override
-            public void changed(ObservableValue<? extends Boolean> ov,
-                                Boolean t, Boolean t1) {
+            public void changed(final ObservableValue<? extends Boolean> ov,
+                                final Boolean t, final Boolean t1) {
                 if (ov.getValue()) {
                     AnchorPane.setBottomAnchor(primaryPanel, 0.0);
                     AnchorPane.setLeftAnchor(primaryPanel,   0.0);
@@ -208,7 +208,7 @@ public class Core {
 
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
-            public void handle(WindowEvent event) {
+            public void handle(final WindowEvent event) {
                 closeWindow();
 
                 event.consume();

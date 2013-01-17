@@ -74,11 +74,12 @@ public class MachinePanelController implements Initializable {
      */
     @Override
     public void initialize(final URL url, final ResourceBundle rb) {
-        userNameField.addEventFilter(KeyEvent.KEY_TYPED, new EventHandler<KeyEvent>() {
+        userNameField.addEventFilter(KeyEvent.KEY_TYPED,
+                new EventHandler<KeyEvent>() {
             @Override
             public void handle(final KeyEvent event) {
-                char array[] = event.getCharacter().toCharArray();
-                char letter  = array[array.length - 1];
+                char[] array = event.getCharacter().toCharArray();
+                char   letter  = array[array.length - 1];
 
                 if (letter == ' ') {
                     event.consume();

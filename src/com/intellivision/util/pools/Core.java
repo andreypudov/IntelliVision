@@ -37,6 +37,8 @@ import java.util.Date;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.XMLFormatter;
+import javafx.application.ConditionalFeature;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
@@ -139,6 +141,13 @@ public class Core {
     private static Rectangle2D windowBounds = null;
     private static boolean     maximized    = false;
 
+     /* transparent feature support property */
+    private static final boolean transparent = Platform.isSupported(
+            ConditionalFeature.TRANSPARENT_WINDOW);
+    private static double primarySceneAnchor = transparent ? 32.0 : 0.0;
+    private static String primarySceneStyle  = transparent ? ""
+                                                           : "-fx-effect: null";
+
     /**
      * Returns the primary stage of the application.
      *
@@ -164,6 +173,8 @@ public class Core {
         if ((stage == null) || (scene == null)) {
             throw new IllegalArgumentException();
         }
+
+
 
         primaryScene = scene;
         primaryPanel = scene.lookup("#mainPanel");
@@ -197,12 +208,12 @@ public class Core {
 
                     primaryScene.getRoot().setStyle("-fx-effect: null");
                 } else {
-                    AnchorPane.setBottomAnchor(primaryPanel, 32.0);
-                    AnchorPane.setLeftAnchor(primaryPanel,   32.0);
-                    AnchorPane.setRightAnchor(primaryPanel,  32.0);
-                    AnchorPane.setTopAnchor(primaryPanel,    32.0);
+                    AnchorPane.setBottomAnchor(primaryPanel, primarySceneAnchor);
+                    AnchorPane.setLeftAnchor(primaryPanel,   primarySceneAnchor);
+                    AnchorPane.setRightAnchor(primaryPanel,  primarySceneAnchor);
+                    AnchorPane.setTopAnchor(primaryPanel,    primarySceneAnchor);
 
-                    primaryScene.getRoot().setStyle("");
+                    primaryScene.getRoot().setStyle(primarySceneStyle);
                 }
             }});
 
@@ -256,14 +267,12 @@ public class Core {
                 primaryStage.setHeight(windowBounds.getHeight());
             }
 
-            primaryScene.getRoot().setStyle(
-                    "-fx-effect: dropshadow(gaussian,\n" +
-                    "               derive(black, 24%), 26, 0.0, 0, 16)");
+            primaryScene.getRoot().setStyle(primarySceneStyle);
 
-            AnchorPane.setBottomAnchor(primaryPanel, 32.0);
-            AnchorPane.setLeftAnchor(primaryPanel,   32.0);
-            AnchorPane.setRightAnchor(primaryPanel,  32.0);
-            AnchorPane.setTopAnchor(primaryPanel,    32.0);
+            AnchorPane.setBottomAnchor(primaryPanel, primarySceneAnchor);
+            AnchorPane.setLeftAnchor(primaryPanel,   primarySceneAnchor);
+            AnchorPane.setRightAnchor(primaryPanel,  primarySceneAnchor);
+            AnchorPane.setTopAnchor(primaryPanel,    primarySceneAnchor);
         } else {
             maximized = true;
 

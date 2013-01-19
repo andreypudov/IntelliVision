@@ -36,9 +36,12 @@ import com.intellivision.ui.modules.RemoteModule;
 import com.intellivision.util.pools.Core;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.ConditionalFeature;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToolBar;
@@ -69,6 +72,7 @@ public class IntelliVisionController implements Initializable {
         SOUTH
     }
 
+    @FXML private AnchorPane mainPanelRoot;
     @FXML private AnchorPane mainPanel;
     @FXML private ToolBar    toolBar;
     @FXML private Label      title;
@@ -147,6 +151,18 @@ public class IntelliVisionController implements Initializable {
 
         /* set home module at start */
         moduleRegion.getChildren().add(HomeModule.getInstance());
+
+        /* transparent feature support property */
+        boolean transparent = Platform.isSupported(
+                ConditionalFeature.TRANSPARENT_WINDOW);
+        if (transparent == false) {
+            mainPanelRoot.setStyle("-fx-effect: null");
+
+            AnchorPane.setBottomAnchor(mainPanel, 0.0);
+            AnchorPane.setTopAnchor(mainPanel,    0.0);
+            AnchorPane.setLeftAnchor(mainPanel,   0.0);
+            AnchorPane.setRightAnchor(mainPanel,  0.0);
+        }
     }
 
     /**

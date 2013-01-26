@@ -24,22 +24,52 @@
  * THE SOFTWARE.
  */
 
-package com.intellivision.ui.controls;
+package com.intellivision.util.logs;
 
-import javafx.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
- * An event represents module bar action fired on choosing a module.
+ * The machine changed event source.
  *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
- * %name      MachinePanelEvent.java
- * %date      07:30:00 AM, Jan 16, 2013
+ * %name      MachineChangedEvent.java
+ * %date      04:40:00 PM, Jan 26, 2013
  */
-public class MachinePanelEvent extends ActionEvent {
+public class MachineChangedEventHandler {
 
-    private static final long serialVersionUID = 0xa2cd_aead_0bca_8ac4L;
     private static final java.util.logging.Logger LOG
             = java.util.logging.Logger.getLogger(
               com.intellivision.core.Manifest.NAME);
+
+    private final List<MachineChangedEventListener> list = new ArrayList<>(2);
+
+    /**
+     * Default constructor.
+     */
+    public MachineChangedEventHandler() {
+    }
+
+    public synchronized void addEventListener(
+            final MachineChangedEventListener listener) {
+        list.add(listener);
+    }
+
+    public synchronized void removeEventListener(
+            final MachineChangedEventListener listener) {
+        list.remove(listener);
+    }
+
+    public synchronized void fireEvent() {
+        final MachineChangedEvent event = new MachineChangedEvent(this);
+        final Iterator<MachineChangedEventListener> iterator = list.iterator();
+
+        while (iterator.hasNext()) {
+            MachineChangedEventListener listener = iterator.next();
+
+            listener.handleMachineChangedEvent(event);
+        }
+    }
 }

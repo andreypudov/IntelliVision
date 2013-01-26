@@ -69,6 +69,11 @@ public class MachineBar extends HBox {
         controller.setMachine(machine);
     }
 
+    /**
+     * Returns remote machine instance.
+     *
+     * @return the remote machine instance.
+     */
     public Machine getMachine() {
         return controller.getMachine();
     }

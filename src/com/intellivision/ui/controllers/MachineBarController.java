@@ -27,7 +27,9 @@
 package com.intellivision.ui.controllers;
 
 import com.intellivision.util.logs.Machine;
+import com.intellivision.util.logs.MachineChangedEventListener;
 import java.net.URL;
+import java.util.EventObject;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -47,11 +49,11 @@ public class MachineBarController implements Initializable {
             = java.util.logging.Logger.getLogger(
               com.intellivision.core.Manifest.NAME);
 
+    /* remote machine instance */
+    private Machine machine;
+
     @FXML private Label machineName;
     @FXML private Label machineStat;
-
-    /* the remote machine instance */
-    private Machine machine = null;
 
     /**
      * Initializes the controller class.
@@ -81,6 +83,13 @@ public class MachineBarController implements Initializable {
      */
     public void setMachine(final Machine machine) {
         this.machine = machine;
+
+        machine.addListener(new MachineChangedEventListener() {
+            @Override
+            public void handleMachineChangedEvent(EventObject event) {
+                machineName.setText(machine.getName());
+            }
+        });
 
         machineName.setText(machine.getName());
     }

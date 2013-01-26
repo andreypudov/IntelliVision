@@ -81,13 +81,10 @@ public class RemoteModuleController implements Initializable {
         remoteMachineList.getSelectionModel().selectedItemProperty().addListener(
                 new ChangeListener<MachineBar>() {
             @Override
-            public void changed(ObservableValue<? extends MachineBar> observable,
-                    MachineBar oldValue, MachineBar newValue) {
+            public void changed(final ObservableValue<? extends MachineBar> observable,
+                    final MachineBar oldValue, final MachineBar newValue) {
                 if (newValue instanceof MachineBar) {
-                    remoteMachinePanel.setName(newValue.getMachine().getName());
-                    remoteMachinePanel.setUserName(newValue.getMachine().getUserName());
-                    remoteMachinePanel.setUserPassword(newValue.getMachine().getUserPassword());
-                    remoteMachinePanel.setAddress(newValue.getMachine().getAddress());
+                    remoteMachinePanel.setMachine(newValue.getMachine());
                 }
             }
         });
@@ -144,7 +141,7 @@ public class RemoteModuleController implements Initializable {
 
         remoteMachineList.getSelectionModel().select(
                 (index == 0) ? 0 : index - 1);
-        MACHINES.remoev(remoteMachineList.getItems().get(index).getMachine());
+        MACHINES.remove(remoteMachineList.getItems().get(index).getMachine());
         remoteMachineList.getItems().remove(index);
 
         /* update configuration panel */

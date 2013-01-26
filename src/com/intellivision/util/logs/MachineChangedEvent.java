@@ -24,65 +24,25 @@
  * THE SOFTWARE.
  */
 
-package com.intellivision.ui.controls;
+package com.intellivision.util.logs;
 
-import com.intellivision.ui.controllers.MachinePanelController;
-import com.intellivision.util.StatusCodes;
-import com.intellivision.util.logs.Machine;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.GridPane;
+import java.util.EventObject;
 
 /**
- * Remote machine configuration panel.
+ * An event represents machine state changed.
  *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
- * %name      MachinePanel.java
- * %date      12:00:00 PM, Dec 19, 2012
+ * %name      MachineChangedEvent.java
+ * %date      04:30:00 PM, Jan 26, 2013
  */
-public class MachinePanel extends GridPane {
-
+public class MachineChangedEvent extends EventObject {
+    private static final long serialVersionUID = 0xa2cd_aead_0bca_8ac4L;
     private static final java.util.logging.Logger LOG
             = java.util.logging.Logger.getLogger(
               com.intellivision.core.Manifest.NAME);
 
-    /* loads an object hierarchy from an XML document */
-    private final FXMLLoader fxmlLoader;
-
-    /* controller initialization interface */
-    private final MachinePanelController controller;
-
-    public MachinePanel() {
-        fxmlLoader = new FXMLLoader(getClass().getResource(
-                    "/com/intellivision/resources/schemas/MachinePanel.fxml"));
-
-        fxmlLoader.setRoot(this);
-
-        try {
-            fxmlLoader.load();
-        } catch (java.io.IOException e) {
-            LOG.severe(e.getMessage());
-            System.exit(StatusCodes.EXIT_FAILURE);
-        }
-
-        controller = fxmlLoader.getController();
-    }
-
-    /**
-     * Returns remote machine instance.
-     *
-     * @return the remote machine instance.
-     */
-    public Machine getMachine() {
-        return controller.getMachine();
-    }
-
-    /**
-     * Sets remote machine instance.
-     *
-     * @param machine the remote machine instance.
-     */
-    public void setMachine(final Machine machine) {
-        controller.setMachine(machine);
+    public MachineChangedEvent(final Object source) {
+        super(source);
     }
 }

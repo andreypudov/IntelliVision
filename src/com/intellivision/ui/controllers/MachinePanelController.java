@@ -26,17 +26,16 @@
 
 package com.intellivision.ui.controllers;
 
-import com.intellivision.ui.controls.MachinePanelEvent;
+import com.intellivision.util.logs.Machine;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 /**
@@ -61,8 +60,7 @@ public class MachinePanelController implements Initializable {
     @FXML private TextField userNameField;
     @FXML private TextField userPasswordField;
 
-    private final ObjectProperty<EventHandler<MachinePanelEvent>> onAction
-            = new SimpleObjectProperty<>();
+    private Machine machine;
 
     /**
      * Initializes the controller class.
@@ -74,62 +72,132 @@ public class MachinePanelController implements Initializable {
      */
     @Override
     public void initialize(final URL url, final ResourceBundle rb) {
+        /*
+         * The series of user input filetr handlers.
+         */
+        machineNameField.addEventFilter(KeyEvent.KEY_TYPED,
+                new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(final KeyEvent event) {
+                char[] array  = event.getCharacter().toCharArray();
+                char   letter = array[array.length - 1];
+
+                /* XML invalid characters */
+                if ((letter == '&') || (letter == '<') || (letter == '>')
+                        || (letter == '\'') || (letter == '\"')) {
+                    event.consume();
+                }
+            }
+        });
+
+        machineAddressField.addEventFilter(KeyEvent.KEY_TYPED,
+                new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(final KeyEvent event) {
+                char[] array  = event.getCharacter().toCharArray();
+                char   letter = array[array.length - 1];
+
+                /* only alphabet and digit letters, or numbers */
+                if ((Character.isLetterOrDigit(letter) == false)
+                        && (letter != '-') && (letter != '.')
+                        && (letter != ':')) {
+                    event.consume();
+                }
+            }
+        });
+
         userNameField.addEventFilter(KeyEvent.KEY_TYPED,
                 new EventHandler<KeyEvent>() {
             @Override
             public void handle(final KeyEvent event) {
-                char[] array = event.getCharacter().toCharArray();
-                char   letter  = array[array.length - 1];
+                char[] array  = event.getCharacter().toCharArray();
+                char   letter = array[array.length - 1];
 
-                if (letter == ' ') {
+                /* XML invalid characters and space */
+                if ((letter == ' ') || (letter == '&') || (letter == '<')
+                        || (letter == '>') || (letter == '\'')
+                        || (letter == '\"')) {
                     event.consume();
                 }
+            }
+        });
+
+        userPasswordField.addEventFilter(KeyEvent.KEY_TYPED,
+                new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(final KeyEvent event) {
+                char[] array  = event.getCharacter().toCharArray();
+                char   letter = array[array.length - 1];
+
+                /* XML invalid characters and space */
+                if ((letter == ' ') || (letter == '&') || (letter == '<')
+                        || (letter == '>') || (letter == '\'')
+                        || (letter == '\"')) {
+                    event.consume();
+                }
+            }
+        });
+
+        /*
+         * The series of remote machine property handlers.
+         */
+        machineNameField.textProperty().addListener(
+                new ChangeListener<String>() {
+            @Override
+            public void changed(final ObservableValue<? extends String> ov,
+                                final String t, final String t1) {
+                machine.setName(t1);
+            }
+        });
+
+        userNameField.textProperty().addListener(
+                new ChangeListener<String>() {
+            @Override
+            public void changed(final ObservableValue<? extends String> ov,
+                                final String t, final String t1) {
+                machine.setUserName(t1);
+            }
+        });
+
+        userPasswordField.textProperty().addListener(
+                new ChangeListener<String>() {
+            @Override
+            public void changed(final ObservableValue<? extends String> ov,
+                                final String t, final String t1) {
+                machine.setUserPassword(t1);
+            }
+        });
+
+        machineAddressField.textProperty().addListener(
+                new ChangeListener<String>() {
+            @Override
+            public void changed(final ObservableValue<? extends String> ov,
+                                final String t, final String t1) {
+                machine.setAddress(t1);
             }
         });
     }
 
     /**
-     * Defines a function to be called when the remote machine is changed.
+     * Returns remote machine instance.
      *
-     * @return the onAction property.
+     * @return the remote machine instance.
      */
-    public ObjectProperty<EventHandler<MachinePanelEvent>> onAction() {
-        return onAction;
+    public Machine getMachine() {
+        return machine;
     }
 
     /**
-     * Sets remote machine name.
+     * Sets remote machine instance.
      *
-     * @param name the remote machine name.
+     * @param machine the remote machine instance.
      */
-    public void setName(final String name) {
-        machineNameField.setText(name);
-    }
+    public void setMachine(final Machine machine) {
+        this.machine = machine;
 
-    /**
-     * Sets remote machine user name.
-     *
-     * @param username the remote machine user name.
-     */
-    public void setUserName(final String username) {
-        userNameField.setText(username);
-    }
-
-    /**
-     * Sets remote machine user password.
-     *
-     * @param password the remote machine user password.
-     */
-    public void setUserPassword(final String password) {
-        userPasswordField.setText(password);
-    }
-
-    /**
-     * Sets remote machine address.
-     *
-     * @param address the remote machine address.
-     */
-    public void setAddress(final String address) {
-        machineAddressField.setText(address);
+        machineNameField.setText(machine.getName());
+        userNameField.setText(machine.getUserName());
+        userPasswordField.setText(machine.getUserPassword());
+        machineAddressField.setText(machine.getAddress());
     }
 }

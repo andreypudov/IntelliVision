@@ -124,6 +124,9 @@ public class Core {
     /* the list of application properties */
     private static final Settings SETTINGS = Settings.getSettings();
 
+    /* the remote machine list */
+    private static final Machines MACHINES = Machines.getMachines();
+
     /* do not let anyone instantiate this class */
     private Core() {
     }
@@ -235,6 +238,8 @@ public class Core {
                  Double.toString(primaryStage.getWidth()));
         SETTINGS.setValue("intellivision.window.height",
                 Double.toString(primaryStage.getHeight()));
+
+        MACHINES.save();
         SETTINGS.save();
 
         primaryStage.close();

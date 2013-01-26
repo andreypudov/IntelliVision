@@ -34,6 +34,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.security.SecureRandom;
 import java.util.Properties;
 
 /**
@@ -55,10 +56,16 @@ public class Machine {
     private final SSHConnection connection = new SSHConnection();
 
     /* connection details */
-    private final String name;
-    private final String username;
-    private final String password;
-    private final String address;
+    private String name;
+    private String username;
+    private String password;
+    private String address;
+
+    private final MachineChangedEventHandler handler
+            = new MachineChangedEventHandler();
+
+    /* unique identification number for the remote machine */
+    private final int UID;
 
     /* openned session to the remote machine */
     private Session session;
@@ -66,10 +73,14 @@ public class Machine {
     public Machine(final String name, final String username,
             final String password, final String address) {
 
+        SecureRandom random = new SecureRandom();
+
         this.name     = name;
         this.username = username;
         this.password = password;
         this.address  = address;
+
+        UID = random.nextInt();
     }
 
     public void connect() throws SSHException {
@@ -131,6 +142,15 @@ public class Machine {
 //    }
 
     /**
+     * Adds external machine event listener.
+     *
+     * @param listener the remote machine changed event listener.
+     */
+    public void addListener(final MachineChangedEventListener listener) {
+        handler.addEventListener(listener);
+    }
+
+    /**
      * Returns remote machine name.
      *
      * @return the remote machine name.
@@ -167,10 +187,54 @@ public class Machine {
     }
 
     /**
+     * Sets remote machine name.
+     *
+     * @param name the remote machine name.
+     */
+    public void setName(final String name) {
+        this.name = name;
+
+        handler.fireEvent();
+    }
+
+    /**
+     * Sets user name for this remote machine instance.
+     *
+     * @param username the user name.
+     */
+    public void setUserName(final String username) {
+        this.username = username;
+
+        handler.fireEvent();
+    }
+
+    /**
+     * Sets user password for this remote machine instance.
+     *
+     * @param password the user password.
+     */
+    public void setUserPassword(final String password) {
+        this.password = password;
+
+        handler.fireEvent();
+    }
+
+    /**
+     * Sets machine address for this remote machine instance.
+     *
+     * @param address the remote machine address.
+     */
+    public void setAddress(final String address) {
+        this.address = address;
+
+        handler.fireEvent();
+    }
+
+    /**
      * Indicates whether some other object is "equal to" this one.
      *
      * @param object the reference object with which to compare.
-     * @return       {@code true} if this object is the same as the object
+     * @return       {@code true} if this machine is the same as the object
      *               argument; {@code false} otherwise.
      */
     @Override
@@ -182,23 +246,30 @@ public class Machine {
         if (object instanceof Machine) {
             Machine anotherMachine = (Machine) object;
 
-            return (anotherMachine.name.equals(name)
-                    && anotherMachine.username.equals(username)
-                    && anotherMachine.password.equals(password)
-                    && anotherMachine.address.equals(address));
+            return (anotherMachine.UID == UID);
         }
 
         return false;
     }
 
     /**
-     * Returns a hash code value for the object.
+     * Returns a hash code value for the machine.
      *
-     * @return a hash code value for this object.
+     * @return a hash code value for this machine.
      */
     @Override
     public int hashCode() {
-        return name.hashCode() & username.hashCode() & password.hashCode()
-                & address.hashCode();
+        return UID;
+    }
+
+    /**
+     *
+     * @return
+     */
+    @Override
+    public String toString() {
+        return new StringBuilder(256).append("Name: ").append(name
+                ).append(", User: ").append(username
+                ).append(", Address: ").append(address).toString();
     }
 }

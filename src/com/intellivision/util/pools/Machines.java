@@ -152,7 +152,7 @@ public enum Machines {
      *
      * @param machine the remote machine.
      */
-    public synchronized void remoev(final Machine machine) {
+    public synchronized void remove(final Machine machine) {
         list.remove(machine);
 
         save();
@@ -179,7 +179,7 @@ public enum Machines {
     /**
      * Save remote machine list to application configuration.
      */
-    private void save() {
+    public synchronized void save() {
         /* .IntelliVision/.machines */
         final File file = new File(System.getProperty("user.home")
                 + System.getProperty("file.separator")

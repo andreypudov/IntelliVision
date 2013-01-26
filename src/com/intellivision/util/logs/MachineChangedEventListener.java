@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<!--
+/*
  * IntelliVision Intelligence Image Processing System
  *
  * The MIT License
@@ -24,37 +22,20 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
--->
+ */
 
-<?import java.lang.*?>
-<?import java.net.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
+package com.intellivision.util.logs;
 
-<!--
-    Document   : MachineBar.fxml
-    Created on : Oct 31, 2012, 10:00:00 PM
-    Author     : Andrey Pudov        <mail@andreypudov.com>
-    Description:
-        Remote machine panel with OS type icon and machine name.
--->
+import java.util.EventObject;
 
-<fx:root fx:id="machineBar" type="javafx.scene.layout.HBox" prefHeight="40.0"
-         xmlns:fx="http://javafx.com/fxml"
-         fx:controller="com.intellivision.ui.controllers.MachineBarController">
-    <children>
-        <ImageView fx:id="machineImageView">
-            <image>
-                <Image url="@../images/machine-os-default.png" />
-            </image>
-        </ImageView>
-        <VBox>
-            <Label fx:id="machineName" text="Remote Machine" maxWidth="180.0" />
-            <Label fx:id="machineStat" text="Not Connected" />
-        </VBox>
-    </children>
-    <stylesheets>
-        <URL value="@../styles/MachineBar.css" />
-    </stylesheets>
-</fx:root>
+/**
+ * The machine changed event listener interface.
+ *
+ * @author    Andrey Pudov        <mail@andreypudov.com>
+ * @version   0.00.00
+ * %name      MachineChangedEvent.java
+ * %date      04:40:00 PM, Jan 26, 2013
+ */
+public interface MachineChangedEventListener {
+    public void handleMachineChangedEvent(EventObject event);
+}

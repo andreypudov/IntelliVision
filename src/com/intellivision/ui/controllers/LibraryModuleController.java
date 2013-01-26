@@ -24,57 +24,36 @@
  * THE SOFTWARE.
  */
 
-package com.intellivision.ui.modules;
+package com.intellivision.ui.controllers;
 
-import com.intellivision.util.StatusCodes;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.HBox;
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.fxml.Initializable;
 
 /**
- * General application module with the the list of machines to scan.
+ * FXML Controller class provides log library entries.
  *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
- * %name      RemoteModule.java
- * %date      05:20:00 PM, Oct 28, 2012
+ * %name      LibraryModuleController.java
+ * %date      10:50:00 PM, Jan 16, 2013
  */
-public class RemoteModule extends HBox implements AbstractModule {
+public class LibraryModuleController implements Initializable {
 
     private static final java.util.logging.Logger LOG
             = java.util.logging.Logger.getLogger(
               com.intellivision.core.Manifest.NAME);
 
-    /* the instance of the remote module */
-    private static volatile RemoteModule INSTANCE;
-
-    private RemoteModule() {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
-                    "/com/intellivision/resources/schemas/RemoteModule.fxml"));
-
-        fxmlLoader.setRoot(this);
-
-        try {
-            fxmlLoader.load();
-        } catch (java.io.IOException e) {
-            LOG.severe(e.getMessage());
-            System.exit(StatusCodes.EXIT_FAILURE);
-        }
-    }
-
     /**
-     * Returns an instance of remote module.
+     * Initializes the controller class.
      *
-     * @return the instance of this module.
+     * @param url the location used to resolve relative paths for the root
+     *            object, or null if the location is not known.
+     * @param rb  the resources used to localize the root object, or null if the
+     *            root object was not localized.
      */
-    public static RemoteModule getInstance() {
-        if (INSTANCE == null) {
-            synchronized (RemoteModule.class) {
-                if (INSTANCE == null) {
-                    INSTANCE = new RemoteModule();
-                }
-            }
-        }
+    @Override
+    public void initialize(final URL url, final ResourceBundle rb) {
 
-        return INSTANCE;
     }
 }

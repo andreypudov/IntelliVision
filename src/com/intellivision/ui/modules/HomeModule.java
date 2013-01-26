@@ -62,7 +62,7 @@ public class HomeModule extends StackPane implements AbstractModule {
     }
 
     /**
-     * Returns an instance of help module.
+     * Returns an instance of home module.
      *
      * @return the instance of this module.
      */

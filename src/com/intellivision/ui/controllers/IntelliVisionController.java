@@ -32,6 +32,7 @@ import com.intellivision.ui.controls.WindowButtons;
 import com.intellivision.ui.controls.WindowButtonsEvent;
 import com.intellivision.ui.modules.HelpModule;
 import com.intellivision.ui.modules.HomeModule;
+import com.intellivision.ui.modules.LibraryModule;
 import com.intellivision.ui.modules.RemoteModule;
 import com.intellivision.util.pools.Core;
 import java.net.URL;
@@ -132,6 +133,8 @@ public class IntelliVisionController implements Initializable {
                                 HomeModule.getInstance());
                         break;
                     case LIBRARY:
+                        moduleRegion.getChildren().add(
+                                LibraryModule.getInstance());
                         break;
                     case REMOTE:
                         moduleRegion.getChildren().add(

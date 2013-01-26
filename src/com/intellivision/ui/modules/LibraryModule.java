@@ -28,28 +28,28 @@ package com.intellivision.ui.modules;
 
 import com.intellivision.util.StatusCodes;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 /**
- * General application module with the the list of machines to scan.
+ * General application module with the the list of log library entries.
  *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
- * %name      RemoteModule.java
- * %date      05:20:00 PM, Oct 28, 2012
+ * %name      LibraryModule.java
+ * %date      10:40:00 PM, Jan 26, 2013
  */
-public class RemoteModule extends HBox implements AbstractModule {
+public class LibraryModule extends VBox implements AbstractModule {
 
     private static final java.util.logging.Logger LOG
             = java.util.logging.Logger.getLogger(
               com.intellivision.core.Manifest.NAME);
 
-    /* the instance of the remote module */
-    private static volatile RemoteModule INSTANCE;
+    /* the instance of the library module */
+    private static volatile LibraryModule INSTANCE;
 
-    private RemoteModule() {
+    private LibraryModule() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
-                    "/com/intellivision/resources/schemas/RemoteModule.fxml"));
+                    "/com/intellivision/resources/schemas/LibraryModule.fxml"));
 
         fxmlLoader.setRoot(this);
 
@@ -62,15 +62,15 @@ public class RemoteModule extends HBox implements AbstractModule {
     }
 
     /**
-     * Returns an instance of remote module.
+     * Returns an instance of library module.
      *
      * @return the instance of this module.
      */
-    public static RemoteModule getInstance() {
+    public static LibraryModule getInstance() {
         if (INSTANCE == null) {
-            synchronized (RemoteModule.class) {
+            synchronized (LibraryModule.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = new RemoteModule();
+                    INSTANCE = new LibraryModule();
                 }
             }
         }

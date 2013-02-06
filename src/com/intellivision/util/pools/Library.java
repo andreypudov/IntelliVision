@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<!--
+/*
  * IntelliVision Intelligence Image Processing System
  *
  * The MIT License
@@ -24,27 +22,41 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
--->
+ */
 
-<?import java.lang.*?>
-<?import java.net.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+package com.intellivision.util.pools;
 
-<!--
-    Document   : HomeModule.fxml
-    Created on : Oct 22, 2012, 12:00:00 AM
-    Author     : Andrey Pudov        <mail@andreypudov.com>
-    Description:
-        General application module with the the list of log files.
--->
+/**
+ * Product logs library interface to work with archived log files.
+ *
+ * @author    Andrey Pudov        <mail@andreypudov.com>
+ * @version   0.00.00
+ * %name      Library.java
+ * %date      10:40:00 PM, Jan 29, 2013
+ */
+public enum Library {
+    INSTANCE;
 
-<fx:root fx:id="homeModule" type="javafx.scene.layout.StackPane"
-         xmlns:fx="http://javafx.com/fxml"
-         fx:controller="com.intellivision.ui.controllers.HomeModuleController">
-    <children>
-    </children>
-    <stylesheets>
-        <URL value="@../styles/HomeModule.css" />
-    </stylesheets>
-</fx:root>
+    private static final java.util.logging.Logger LOG
+            = java.util.logging.Logger.getLogger(
+            com.intellivision.core.Manifest.NAME);
+
+    static {
+        /*
+         * Inithialize the product logs library.
+         */
+    }
+
+    /* do not let anyone instantiate this class */
+    private Library() {
+    }
+
+    /**
+     * Returns an instance of library.
+     *
+     * @return the product logs library.
+     */
+    public static synchronized Library getLibrary() {
+        return Library.INSTANCE;
+    }
+}

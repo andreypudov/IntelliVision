@@ -24,32 +24,36 @@
  * THE SOFTWARE.
  */
 
-package com.intellivision.ui.modules;
+package com.intellivision.ui.controls;
 
+import com.intellivision.ui.controllers.ProductBarController;
 import com.intellivision.util.StatusCodes;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.VBox;
 
 /**
- * General application module with the the list of log library entries.
+ * Product panel with product specific icon and name.
  *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
- * %name      LibraryModule.java
- * %date      10:40:00 PM, Jan 26, 2013
+ * %name      ProductBar.java
+ * %date      09:30:00 PM, Jan 27, 2013
  */
-public class LibraryModule extends FlowPane implements AbstractModule {
+public class ProductBar extends VBox {
 
     private static final java.util.logging.Logger LOG
             = java.util.logging.Logger.getLogger(
               com.intellivision.core.Manifest.NAME);
 
-    /* the instance of the library module */
-    private static volatile LibraryModule INSTANCE;
+    /* loads an object hierarchy from an XML document */
+    private final FXMLLoader fxmlLoader;
 
-    private LibraryModule() {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
-                    "/com/intellivision/resources/schemas/LibraryModule.fxml"));
+    /* controller initialization interface */
+    private final ProductBarController controller;
+
+    public ProductBar() {
+        fxmlLoader = new FXMLLoader(getClass().getResource(
+                    "/com/intellivision/resources/schemas/ProductBar.fxml"));
 
         fxmlLoader.setRoot(this);
 
@@ -59,22 +63,7 @@ public class LibraryModule extends FlowPane implements AbstractModule {
             LOG.severe(e.getMessage());
             System.exit(StatusCodes.EXIT_FAILURE);
         }
-    }
 
-    /**
-     * Returns an instance of library module.
-     *
-     * @return the instance of this module.
-     */
-    public static LibraryModule getInstance() {
-        if (INSTANCE == null) {
-            synchronized (LibraryModule.class) {
-                if (INSTANCE == null) {
-                    INSTANCE = new LibraryModule();
-                }
-            }
-        }
-
-        return INSTANCE;
+        controller = fxmlLoader.getController();
     }
 }

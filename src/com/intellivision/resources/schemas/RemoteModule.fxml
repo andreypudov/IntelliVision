@@ -58,14 +58,6 @@
             </HBox>
         </VBox>
         <StackPane fx:id="remoteMainPane" HBox.hgrow="ALWAYS">
-            <HBox fx:id="remoteNoMachinesBox" alignment="CENTER"
-                  maxHeight="-Infinity" maxWidth="-Infinity"
-                  prefHeight="36.0"     prefWidth="220.0">
-                <Label fx:id="openCurlyBracket" text="{ " />
-                <Label fx:id="remoteNoMachinesLabel"
-                       text="No machines are selected" />
-                <Label fx:id="closeCurlyBracke" text=" }" />
-            </HBox>
         </StackPane>
     </children>
     <stylesheets>

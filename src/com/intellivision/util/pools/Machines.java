@@ -71,9 +71,6 @@ public enum Machines {
     /* remote machine list */
     private static final List<Machine> list = new ArrayList<>(10);
 
-    /* the list of application properties */
-    private static final Settings SETTINGS = Settings.getSettings();
-
     static {
         /*
          * Inithialize machine list with entries from application configuration.

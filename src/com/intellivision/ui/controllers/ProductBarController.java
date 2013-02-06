@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<!--
+/*
  * IntelliVision Intelligence Image Processing System
  *
  * The MIT License
@@ -24,27 +22,37 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
--->
+ */
 
-<?import java.lang.*?>
-<?import java.net.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+package com.intellivision.ui.controllers;
 
-<!--
-    Document   : HomeModule.fxml
-    Created on : Oct 22, 2012, 12:00:00 AM
-    Author     : Andrey Pudov        <mail@andreypudov.com>
-    Description:
-        General application module with the the list of log files.
--->
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.fxml.Initializable;
 
-<fx:root fx:id="homeModule" type="javafx.scene.layout.StackPane"
-         xmlns:fx="http://javafx.com/fxml"
-         fx:controller="com.intellivision.ui.controllers.HomeModuleController">
-    <children>
-    </children>
-    <stylesheets>
-        <URL value="@../styles/HomeModule.css" />
-    </stylesheets>
-</fx:root>
+/**
+ * FXML Controller class provides product icon and name.
+ *
+ * @author    Andrey Pudov        <mail@andreypudov.com>
+ * @version   0.00.00
+ * %name      ProductBarController.java
+ * %date      09:30:00 PM, Jan 27, 2013
+ */
+public class ProductBarController implements Initializable {
+
+    private static final java.util.logging.Logger LOG
+            = java.util.logging.Logger.getLogger(
+              com.intellivision.core.Manifest.NAME);
+
+    /**
+     * Initializes the controller class.
+     *
+     * @param url the location used to resolve relative paths for the root
+     *            object, or null if the location is not known.
+     * @param rb  the resources used to localize the root object, or null if the
+     *            root object was not localized.
+     */
+    @Override
+    public void initialize(final URL url, final ResourceBundle rb) {
+    }
+}

@@ -64,7 +64,6 @@ public class RemoteModuleController implements Initializable {
 
     @FXML private ListView<MachineBar> remoteMachineList;
     @FXML private StackPane            remoteMainPane;
-    @FXML private HBox                 remoteNoMachinesBox;
 
     @FXML private MachinePanel         remoteMachinePanel = new MachinePanel();
 
@@ -147,7 +146,6 @@ public class RemoteModuleController implements Initializable {
         /* update configuration panel */
         if (remoteMachineList.getItems().size() == 0) {
             remoteMainPane.getChildren().clear();
-            remoteMainPane.getChildren().add(remoteNoMachinesBox);
         }
     }
 }

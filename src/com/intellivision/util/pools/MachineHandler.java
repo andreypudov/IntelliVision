@@ -91,6 +91,11 @@ public class MachineHandler extends DefaultHandler {
 
         if (qName.equalsIgnoreCase("machine")) {
             list.add(new Machine(name, username, password, address));
+
+            name     = "";
+            username = "";
+            password = "";
+            address  = "";
         }
     }
 

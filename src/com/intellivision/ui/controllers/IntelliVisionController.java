@@ -28,14 +28,19 @@ package com.intellivision.ui.controllers;
 
 import com.intellivision.ui.controls.ModuleBar;
 import com.intellivision.ui.controls.ModuleBarEvent;
+import com.intellivision.ui.controls.SearchBar;
 import com.intellivision.ui.controls.WindowButtons;
 import com.intellivision.ui.controls.WindowButtonsEvent;
+import com.intellivision.ui.modules.AbstractModule;
 import com.intellivision.ui.modules.HelpModule;
 import com.intellivision.ui.modules.HomeModule;
 import com.intellivision.ui.modules.LibraryModule;
 import com.intellivision.ui.modules.RemoteModule;
+import com.intellivision.ui.modules.SearchEvent;
+import com.intellivision.ui.modules.SearchEventListener;
 import com.intellivision.util.pools.Core;
 import java.net.URL;
+import java.util.EventObject;
 import java.util.ResourceBundle;
 import javafx.application.ConditionalFeature;
 import javafx.application.Platform;
@@ -43,6 +48,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToolBar;
 import javafx.scene.input.KeyCode;
@@ -81,6 +87,10 @@ public class IntelliVisionController implements Initializable {
     /* application modules */
     @FXML private WindowButtons windowButtons;
     @FXML private ModuleBar     moduleBar;
+    @FXML private SearchBar     searchBar;
+
+    /* the current application module */
+    private AbstractModule currentModule;
 
     private Movement movement = Movement.SOUTH_EAST;
 
@@ -129,25 +139,30 @@ public class IntelliVisionController implements Initializable {
 
                 switch (event.getState()) {
                     case HOME:
-                        moduleRegion.getChildren().add(
-                                HomeModule.getInstance());
+                        currentModule = HomeModule.getInstance();
                         break;
                     case LIBRARY:
-                        moduleRegion.getChildren().add(
-                                LibraryModule.getInstance());
+                        currentModule = LibraryModule.getInstance();
                         break;
                     case REMOTE:
-                        moduleRegion.getChildren().add(
-                                RemoteModule.getInstance());
+                        currentModule = RemoteModule.getInstance();
                         break;
                     case HELP:
-                        moduleRegion.getChildren().add(
-                                HelpModule.getInstance());
+                        currentModule = HelpModule.getInstance();
                         break;
                     default:
                         LOG.severe("Unpredictable value for enumeration.");
                         throw new AssertionError(event.getState().name());
                 }
+
+                moduleRegion.getChildren().add((Node) currentModule);
+            }
+        });
+
+        searchBar.addSearchListener(new SearchEventListener() {
+            @Override
+            public void handleSearchEvent(SearchEvent event) {
+                currentModule.search(event.getPattern());
             }
         });
 

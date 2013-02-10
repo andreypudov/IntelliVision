@@ -26,6 +26,8 @@
 
 package com.intellivision.ui.controllers;
 
+import com.intellivision.ui.modules.SearchEventHandler;
+import com.intellivision.ui.modules.SearchEventListener;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
@@ -57,6 +59,8 @@ public class SearchBarController implements Initializable {
     @FXML private TextField searchTextField;
     @FXML private Button    searchClearButton;
 
+    private final SearchEventHandler handler = new SearchEventHandler();
+
     /**
      * Initializes the controller class.
      *
@@ -84,8 +88,19 @@ public class SearchBarController implements Initializable {
                                 final String t, final String t1) {
                 searchClearButton.setVisible(
                         searchTextField.getText().length() != 0);
+
+                handler.fireEvent(searchTextField.getText());
             }
         });
+    }
+
+    /**
+     * Adds search event listener.
+     *
+     * @param listener the search action event listener.
+     */
+    public void addSearchListener(final SearchEventListener listener) {
+        handler.addEventListener(listener);
     }
 
     /**

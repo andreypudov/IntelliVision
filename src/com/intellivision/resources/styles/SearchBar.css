@@ -42,6 +42,7 @@
     -fx-border-image-width:  12 12 12 22;
     -fx-border-image-repeat: stretch;
     -fx-font:                normal italic 14pt "Source Sans Pro";
+    -fx-text-fill:           white;
     -fx-prompt-text-fill:    #C8C8C8;
 }
 

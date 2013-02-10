@@ -38,7 +38,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 
 /**
@@ -147,5 +146,20 @@ public class RemoteModuleController implements Initializable {
         if (remoteMachineList.getItems().size() == 0) {
             remoteMainPane.getChildren().clear();
         }
+    }
+
+    /**
+     * Search for the pattern over the module content.
+     *
+     * @param pattern the pattern value for the search.
+     */
+    public void search(String pattern) {
+        for (MachineBar machineBar : remoteMachineList.getItems()) {
+            final boolean visible = (machineBar.getMachine().getName(
+                    ).toLowerCase().contains(pattern.toLowerCase()));
+            machineBar.setVisible(visible);
+        }
+
+        remoteMachineList.getSelectionModel().selectFirst();
     }
 }

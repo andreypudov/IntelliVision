@@ -24,53 +24,52 @@
  * THE SOFTWARE.
  */
 
-package com.intellivision.ui.controls;
+package com.intellivision.ui.modules;
 
-import com.intellivision.ui.controllers.SearchBarController;
-import com.intellivision.ui.modules.SearchEventListener;
-import com.intellivision.util.StatusCodes;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.HBox;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
- * Search box with drop down with results.
+ * The search action event source.
  *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
- * %name      SearchBar.java
- * %date      09:40:00 AM, Sep 25, 2012
+ * %name      SearchEventHandler.java
+ * %date      12:50:00 AM, Feb 09, 2013
  */
-public class SearchBar extends HBox {
+public class SearchEventHandler {
 
     private static final java.util.logging.Logger LOG
             = java.util.logging.Logger.getLogger(
               com.intellivision.core.Manifest.NAME);
 
-    /* controller initialization interface */
-    private final SearchBarController controller;
-
-    public SearchBar() {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
-                    "/com/intellivision/resources/schemas/SearchBar.fxml"));
-
-        fxmlLoader.setRoot(this);
-
-        try {
-            fxmlLoader.load();
-        } catch (java.io.IOException e) {
-            LOG.severe(e.getMessage());
-            System.exit(StatusCodes.EXIT_FAILURE);
-        }
-
-        controller = fxmlLoader.getController();
-    }
+    private final List<SearchEventListener> list = new ArrayList<>(2);
 
     /**
-     * Adds search event listener.
-     *
-     * @param listener the search action event listener.
+     * Default constructor.
      */
-    public void addSearchListener(final SearchEventListener listener) {
-        controller.addSearchListener(listener);
+    public SearchEventHandler() {
+    }
+
+    public synchronized void addEventListener(
+            final SearchEventListener listener) {
+        list.add(listener);
+    }
+
+    public synchronized void removeEventListener(
+            final SearchEventListener listener) {
+        list.remove(listener);
+    }
+
+    public synchronized void fireEvent(final String pattern) {
+        final SearchEvent event = new SearchEvent(pattern);
+        final Iterator<SearchEventListener> iterator = list.iterator();
+
+        while (iterator.hasNext()) {
+            SearchEventListener listener = iterator.next();
+
+            listener.handleSearchEvent(event);
+        }
     }
 }

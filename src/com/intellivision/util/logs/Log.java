@@ -46,24 +46,53 @@ public class Log {
               com.intellivision.core.Manifest.NAME);
 
     /* the current log file object */
-    private final File logFile;
+    private final File file;
 
-    /* default constructor */
-    public Log(final String fileName) throws FileNotFoundException {
-        this(new File(fileName));
+    /* the product name for this log */
+    private final String product;
+
+    /**
+     * Constructs log file representation.
+     *
+     * @param fileName    the log file name.
+     * @param product     the product name for this log.
+     *
+     * @throws FileNotFoundException an exception thrown if file is not exists.
+     */
+    public Log(final String fileName, String product)
+            throws FileNotFoundException {
+        this(new File(fileName), product);
     }
 
-    /* overloaded constructor */
-    public Log(final File file) throws FileNotFoundException {
-        logFile = file;
+    /**
+     * Constructs log file representation.
+     *
+     * @param file    the log file name.
+     * @param product the product name for this log.
+     *
+     * @throws FileNotFoundException an exception thrown if file is not exists.
+     */
+    public Log(final File file,  String product)
+            throws FileNotFoundException {
+        this.file    = file;
+        this.product = product;
 
-        if (logFile.exists() == false) {
+        if (file.exists() == false) {
             throw new java.io.FileNotFoundException(
-                    new StringBuilder(30 + logFile.getAbsolutePath().length()
+                    new StringBuilder(30 + file.getAbsolutePath().length()
                     ).append("Log file <"
-                    ).append(logFile.getAbsolutePath()
+                    ).append(file.getAbsolutePath()
                     ).append("> doesn't exists!").toString());
         }
+    }
+
+    /**
+     * Returns the product name for this log file.
+     *
+     * @return the product name for this log file
+     */
+    public String getProductName() {
+        return product;
     }
 
     /**
@@ -77,10 +106,10 @@ public class Log {
      *         error occurred during reading of the log file.
      */
     public String getLogContent() throws FileNotFoundException, IOException {
-        final FileInputStream stream = new FileInputStream(logFile);
+        final FileInputStream stream = new FileInputStream(file);
 
         /* the buffer into which the data is read */
-        final byte[] byteArray = new byte[(int) logFile.length()];
+        final byte[] byteArray = new byte[(int) file.length()];
 
         /* the total number of bytes read into the buffer */
         int read = 0;
@@ -90,5 +119,27 @@ public class Log {
         }
 
         return new String(byteArray);
+    }
+
+    /**
+     * Indicates whether some other object is "equal to" this one.
+     *
+     * @param object the reference object with which to compare.
+     * @return       {@code true} if this log is the same as the object
+     *               argument; {@code false} otherwise.
+     */
+    @Override
+    public boolean equals(final Object object) {
+        return file.equals(object);
+    }
+
+    /**
+     * Returns a hash code value for the machine.
+     *
+     * @return a hash code value for this machine.
+     */
+    @Override
+    public int hashCode() {
+        return file.hashCode();
     }
 }

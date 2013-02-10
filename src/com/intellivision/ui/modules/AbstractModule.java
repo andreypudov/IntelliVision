@@ -36,4 +36,10 @@ package com.intellivision.ui.modules;
  */
 public interface AbstractModule {
 
+    /**
+     * Search for the pattern over the module content.
+     *
+     * @param pattern the pattern value for the search.
+     */
+    public void search(final String pattern);
 }

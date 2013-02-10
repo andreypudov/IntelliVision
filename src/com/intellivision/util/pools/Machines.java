@@ -232,7 +232,7 @@ public enum Machines {
             transformer.transform(source, result);
         } catch (ParserConfigurationException
                 | TransformerException e) {
-            LOG.severe(new StringBuffer(256
+            LOG.warning(new StringBuffer(256
                     ).append("Could not write machine configuration file. "
                     ).append(e.getMessage()).toString());
         }

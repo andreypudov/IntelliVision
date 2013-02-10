@@ -24,53 +24,35 @@
  * THE SOFTWARE.
  */
 
-package com.intellivision.ui.controls;
+package com.intellivision.ui.modules;
 
-import com.intellivision.ui.controllers.SearchBarController;
-import com.intellivision.ui.modules.SearchEventListener;
-import com.intellivision.util.StatusCodes;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.HBox;
+import java.util.EventObject;
 
 /**
- * Search box with drop down with results.
+ * An event represents search action.
  *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
- * %name      SearchBar.java
- * %date      09:40:00 AM, Sep 25, 2012
+ * %name      SearchEvent.java
+ * %date      12:40:00 AM, Feb 09, 2013
  */
-public class SearchBar extends HBox {
+public class SearchEvent extends EventObject {
 
+    private static final long serialVersionUID = 0x6db9_9ae3_2d75_b68cL;
     private static final java.util.logging.Logger LOG
             = java.util.logging.Logger.getLogger(
               com.intellivision.core.Manifest.NAME);
 
-    /* controller initialization interface */
-    private final SearchBarController controller;
+    /* the search pattern */
+    private final String pattern;
 
-    public SearchBar() {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
-                    "/com/intellivision/resources/schemas/SearchBar.fxml"));
+    public SearchEvent(final String pattern) {
+        super(pattern);
 
-        fxmlLoader.setRoot(this);
-
-        try {
-            fxmlLoader.load();
-        } catch (java.io.IOException e) {
-            LOG.severe(e.getMessage());
-            System.exit(StatusCodes.EXIT_FAILURE);
-        }
-
-        controller = fxmlLoader.getController();
+        this.pattern = pattern;
     }
 
-    /**
-     * Adds search event listener.
-     *
-     * @param listener the search action event listener.
-     */
-    public void addSearchListener(final SearchEventListener listener) {
-        controller.addSearchListener(listener);
+    public String getPattern() {
+        return pattern;
     }
 }

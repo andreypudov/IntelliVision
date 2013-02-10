@@ -124,6 +124,9 @@ public class Core {
     /* the list of application properties */
     private static final Settings SETTINGS = Settings.getSettings();
 
+    /* the log files library */
+    private static final Library LIBRARY = Library.getLibrary();
+
     /* the remote machine list */
     private static final Machines MACHINES = Machines.getMachines();
 

@@ -26,6 +26,7 @@
 
 package com.intellivision.ui.modules;
 
+import com.intellivision.ui.controllers.RemoteModuleController;
 import com.intellivision.util.StatusCodes;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.HBox;
@@ -47,6 +48,9 @@ public class RemoteModule extends HBox implements AbstractModule {
     /* the instance of the remote module */
     private static volatile RemoteModule INSTANCE;
 
+    /* controller initialization interface */
+    private final RemoteModuleController controller;
+
     private RemoteModule() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
                     "/com/intellivision/resources/schemas/RemoteModule.fxml"));
@@ -59,6 +63,8 @@ public class RemoteModule extends HBox implements AbstractModule {
             LOG.severe(e.getMessage());
             System.exit(StatusCodes.EXIT_FAILURE);
         }
+
+        controller = fxmlLoader.getController();
     }
 
     /**
@@ -76,5 +82,15 @@ public class RemoteModule extends HBox implements AbstractModule {
         }
 
         return INSTANCE;
+    }
+
+    /**
+     * Search for the pattern over the module content.
+     *
+     * @param pattern the pattern value for the search.
+     */
+    @Override
+    public void search(String pattern) {
+        controller.search(pattern);
     }
 }

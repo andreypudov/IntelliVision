@@ -26,6 +26,15 @@
 
 package com.intellivision.util.pools;
 
+import com.intellivision.util.logs.Log;
+import com.intellivision.util.logs.Product;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.ListIterator;
+
 /**
  * Product logs library interface to work with archived log files.
  *
@@ -41,10 +50,42 @@ public enum Library {
             = java.util.logging.Logger.getLogger(
             com.intellivision.core.Manifest.NAME);
 
+    /* the product entries list */
+    private static final List<Product> list = new ArrayList<>(10);
+
     static {
         /*
          * Inithialize the product logs library.
          */
+
+        /* .IntelliVision/.library */
+        final File library = new File(System.getProperty("user.home")
+                + System.getProperty("file.separator")
+                + "." + com.intellivision.core.Manifest.NAME
+                + System.getProperty("file.separator")
+                + ".library");
+
+        if (!(library.exists()) || !(library.isDirectory())) {
+            library.delete();
+            library.mkdir();
+        }
+
+        try {
+            for (File productDir : library.listFiles()) {
+                final String  name    = productDir.getName();
+                final Product product = new Product(name);
+
+                for (File logFile : productDir.listFiles()) {
+                    product.add(new Log(logFile, name));
+                }
+
+                list.add(product);
+            }
+        } catch (FileNotFoundException e) {
+            LOG.warning(new StringBuffer(256
+                        ).append("Could not read log file. "
+                        ).append(e.getMessage()).toString());
+        }
     }
 
     /* do not let anyone instantiate this class */
@@ -58,5 +99,55 @@ public enum Library {
      */
     public static synchronized Library getLibrary() {
         return Library.INSTANCE;
+    }
+
+    /**
+     * Adds product log entry to library. If library doesn't contains product
+     * entry for specified log entry, new product will be generated.
+     *
+     * @param log the product log entry.
+     */
+    public synchronized void add(final Log log) {
+        for (Product product : list) {
+            if (product.getName().equals(log.getProductName())) {
+                product.add(log);
+
+                return;
+            }
+        }
+
+        /* add new product and specified log file */
+        final Product product = new Product(log.getProductName());
+        product.add(log);
+        list.add(product);
+    }
+
+    /**
+     * Removes product log entry from library.
+     *
+     * @param log the product log entry.
+     */
+    public synchronized void remove(final Log log) {
+        for (Product product : list) {
+            product.remove(log);
+        }
+    }
+
+    /**
+     * Returns the list iterator over the products in library.
+     *
+     * @return the list iterator over the products in library.
+     */
+    public synchronized ListIterator<Product> getIterator() {
+        return list.listIterator();
+    }
+
+    /**
+     * Return an unmodifiable view of the products in library.
+     *
+     * @return an unmodifiable view of the products in library.
+     */
+    public synchronized List<Product> getList() {
+        return Collections.unmodifiableList(list);
     }
 }

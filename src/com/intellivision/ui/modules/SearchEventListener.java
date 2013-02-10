@@ -24,26 +24,18 @@
  * THE SOFTWARE.
  */
 
-package com.intellivision.util.logs;
+package com.intellivision.ui.modules;
 
 import java.util.EventObject;
 
 /**
- * An event represents machine state changed.
+ * The search action event listener interface.
  *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
- * %name      MachineChangedEvent.java
- * %date      04:30:00 PM, Jan 26, 2013
+ * %name      SearchEventListener.java
+ * %date      12:50:00 AM, Feb 09, 2013
  */
-public class MachineChangedEvent extends EventObject {
-    
-    private static final long serialVersionUID = 0xa2cd_aead_0bca_8ac4L;
-    private static final java.util.logging.Logger LOG
-            = java.util.logging.Logger.getLogger(
-              com.intellivision.core.Manifest.NAME);
-
-    public MachineChangedEvent(final Object source) {
-        super(source);
-    }
+public interface SearchEventListener {
+    public void handleSearchEvent(SearchEvent event);
 }

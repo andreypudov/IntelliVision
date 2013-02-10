@@ -77,4 +77,14 @@ public class HomeModule extends StackPane implements AbstractModule {
 
         return INSTANCE;
     }
+
+    /**
+     * Search for the pattern over the module content.
+     *
+     * @param pattern the pattern value for the search.
+     */
+    @Override
+    public void search(String pattern) {
+        /* */
+    }
 }

@@ -73,4 +73,13 @@ public class SearchBar extends HBox {
     public void addSearchListener(final SearchEventListener listener) {
         controller.addSearchListener(listener);
     }
+
+    /**
+     * Returns the search pattern.
+     *
+     * @return the search pattern.
+     */
+    public String getPattern() {
+        return controller.getPattern();
+    }
 }

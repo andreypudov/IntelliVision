@@ -104,6 +104,15 @@ public class SearchBarController implements Initializable {
     }
 
     /**
+     * Returns the search pattern.
+     *
+     * @return the search pattern.
+     */
+    public String getPattern() {
+        return searchTextField.getText();
+    }
+
+    /**
      * Clears text field and returns to default state.
      *
      * @param actionEvent  the event source.

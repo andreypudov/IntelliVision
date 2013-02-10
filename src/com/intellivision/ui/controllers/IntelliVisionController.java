@@ -155,6 +155,8 @@ public class IntelliVisionController implements Initializable {
                         throw new AssertionError(event.getState().name());
                 }
 
+                /* specify global values to the module and add it to app */
+                currentModule.search(searchBar.getPattern());
                 moduleRegion.getChildren().add((Node) currentModule);
             }
         });

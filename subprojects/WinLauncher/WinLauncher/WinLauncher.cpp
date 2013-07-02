@@ -1,5 +1,5 @@
 //
-// IntelliVision Intelligence Image Processing System
+// IntelliJustice Intelligence Referee Assistant System
 //
 // The MIT License
 //

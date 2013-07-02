@@ -1,5 +1,5 @@
 /*
- * IntelliVision Intelligence Image Processing System
+ * IntelliJustice Intelligence Referee Assistant System
  *
  * The MIT License
  *
@@ -41,7 +41,7 @@ public class Manifest {
     }
 
     public static final String NAME        = "IntelliVision";
-    public static final String DESCRIPTION = "IntelliVision Intelligence Image Processing System";
+    public static final String DESCRIPTION = "IntelliJustice Intelligence Referee Assistant System";
     public static final String VERSION     = "0.00.00";
     public static final String RELEASE     = "Alpha";
 

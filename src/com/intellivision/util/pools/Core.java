@@ -1,5 +1,5 @@
 /*
- * IntelliVision Intelligence Image Processing System
+ * IntelliJustice Intelligence Referee Assistant System
  *
  * The MIT License
  *
@@ -113,7 +113,7 @@ public class Core {
             System.exit(StatusCodes.EXIT_FAILURE);
         }
 
-        LOG.info("IntelliVision Intelligence Image Processing System\n"
+        LOG.info("IntelliJustice Intelligence Referee Assistant System\n"
                 + "Copyright (C) 2011-2013 Andrey Pudov. "
                 + "All rights reserved.\n");
 

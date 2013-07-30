@@ -55,6 +55,7 @@ public class ModuleBarController implements Initializable {
     @FXML private ToggleButton moduleBarHome;
     @FXML private ToggleButton moduleBarLibrary;
     @FXML private ToggleButton moduleBarRemote;
+    @FXML private ToggleButton moduleBarSettings;
     @FXML private ToggleButton moduleBarHelp;
 
     private final ObjectProperty<EventHandler<ModuleBarEvent>> onAction
@@ -130,6 +131,23 @@ public class ModuleBarController implements Initializable {
 
         onAction.get().handle(
                 new ModuleBarEvent(ModuleBarState.REMOTE));
+    }
+
+    /**
+     * Changes current application module to Settings.
+     *
+     * @param event the event source.
+     */
+    @FXML
+    private void moduleBarSettingsOnAction(final ActionEvent event) {
+        /* keep selection when clicked on already selected button */
+        if (moduleBarSettings.isSelected() == false) {
+            moduleBarSettings.setSelected(true);
+            return;
+        }
+
+        onAction.get().handle(
+                new ModuleBarEvent(ModuleBarState.SETTINGS));
     }
 
     /**

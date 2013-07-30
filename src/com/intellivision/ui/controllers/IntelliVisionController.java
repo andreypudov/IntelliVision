@@ -38,9 +38,9 @@ import com.intellivision.ui.modules.LibraryModule;
 import com.intellivision.ui.modules.RemoteModule;
 import com.intellivision.ui.modules.SearchEvent;
 import com.intellivision.ui.modules.SearchEventListener;
+import com.intellivision.ui.modules.SettingsModule;
 import com.intellivision.util.pools.Core;
 import java.net.URL;
-import java.util.EventObject;
 import java.util.ResourceBundle;
 import javafx.application.ConditionalFeature;
 import javafx.application.Platform;
@@ -146,6 +146,9 @@ public class IntelliVisionController implements Initializable {
                         break;
                     case REMOTE:
                         currentModule = RemoteModule.getInstance();
+                        break;
+                    case SETTINGS:
+                        currentModule = SettingsModule.getInstance();
                         break;
                     case HELP:
                         currentModule = HelpModule.getInstance();

@@ -26,14 +26,44 @@
 
 package com.intellivision.ui.controls;
 
+import com.intellivision.ui.controllers.ServerPanelController;
+import com.intellivision.util.StatusCodes;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.layout.GridPane;
+
 /**
- * Module bar state for Home, Categories, Remote and Help representations.
+ * Server machine configuration panel.
  *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
- * %name      ModuleBarState.java
- * %date      08:30:00 PM, Oct 26, 2012
+ * %name      ServerPanel.java
+ * %date      05:10:00 PM, Jul 30, 2013
  */
-public enum ModuleBarState {
-    HOME, LIBRARY, REMOTE, SETTINGS, HELP;
+public class ServerPanel extends GridPane {
+
+    private static final java.util.logging.Logger LOG
+            = java.util.logging.Logger.getLogger(
+              com.intellivision.core.Manifest.NAME);
+
+    /* loads an object hierarchy from an XML document */
+    private final FXMLLoader fxmlLoader;
+
+    /* controller initialization interface */
+    private final ServerPanelController controller;
+
+    public ServerPanel() {
+        fxmlLoader = new FXMLLoader(getClass().getResource(
+                    "/com/intellivision/resources/schemas/ServerPanel.fxml"));
+
+        fxmlLoader.setRoot(this);
+
+        try {
+            fxmlLoader.load();
+        } catch (java.io.IOException e) {
+            LOG.severe(e.getMessage());
+            System.exit(StatusCodes.EXIT_FAILURE);
+        }
+
+        controller = fxmlLoader.getController();
+    }
 }

@@ -24,16 +24,38 @@
  * THE SOFTWARE.
  */
 
-package com.intellivision.ui.controls;
+package com.intellivision.util.pools;
 
 /**
- * Module bar state for Home, Categories, Remote and Help representations.
+ * Provides a database server managing layer.
  *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
- * %name      ModuleBarState.java
- * %date      08:30:00 PM, Oct 26, 2012
+ * %name      DatabaseServer.java
+ * %date      05:30:00 PM, Jul 30, 2013
  */
-public enum ModuleBarState {
-    HOME, LIBRARY, REMOTE, SETTINGS, HELP;
+public enum DatabaseServer {
+
+    INSTANCE;
+
+    private static final java.util.logging.Logger LOG
+            = java.util.logging.Logger.getLogger(
+            com.intellivision.core.Manifest.NAME);
+
+    /* do not let anyone instantiate this class */
+    private DatabaseServer() {
+    }
+
+    /**
+     * Returns an instance of database server manager.
+     *
+     * @return the database server manager.
+     */
+    public static synchronized DatabaseServer getDatabaseServer() {
+        return DatabaseServer.INSTANCE;
+    }
+
+    public synchronized int getStatus() {
+        return 0;
+    }
 }

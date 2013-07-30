@@ -24,16 +24,28 @@
  * THE SOFTWARE.
  */
 
-package com.intellivision.ui.controls;
+/*
+    Document   : ServerPanel.css
+    Created on : Jul 30, 2013, 05:00:00 PM
+    Author     : Andrey Pudov        <mail@andreypudov.com>
+    Description:
+        Server machine configuration panel.
+*/
 
-/**
- * Module bar state for Home, Categories, Remote and Help representations.
- *
- * @author    Andrey Pudov        <mail@andreypudov.com>
- * @version   0.00.00
- * %name      ModuleBarState.java
- * %date      08:30:00 PM, Oct 26, 2012
- */
-public enum ModuleBarState {
-    HOME, LIBRARY, REMOTE, SETTINGS, HELP;
+.label {
+    -fx-text-fill:         #FFFFFF;
+}
+
+#machineStausField {
+    -fx-font-weight:       bold;
+}
+
+.text-field {
+    -fx-background-color:  #333333, #3A3A3A,
+                           linear-gradient(to bottom, #333333 2%, #3A3A3A 98%);
+    -fx-background-insets: 0, 1 1 1 0, 2 1 1 1 1;
+    -fx-border-color:      #232323;
+    -fx-effect:            innershadow(one-pass-box, #101010, 10, 0, 0, 1),
+                           dropshadow(one-pass-box, #333333, 1, 0, 0, 1);
+    -fx-text-fill:         #FFFFFF;
 }

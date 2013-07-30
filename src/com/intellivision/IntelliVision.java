@@ -51,6 +51,18 @@ public class IntelliVision extends Application {
             com.intellivision.core.Manifest.NAME);
 
     /**
+     * The main() method is ignored in correctly deployed JavaFX application.
+     * main() serves only as fallback in case the application can not be
+     * launched through deployment artifacts, e.g., in IDEs with limited FX
+     * support. NetBeans ignores main().
+     *
+     * @param args the command line arguments
+     */
+        public static void main(final String[] args) {
+        launch(args);
+    }
+
+    /**
      * The main entry point for all JavaFX applications. The start method is
      * called after the init method has returned, and after the system is ready
      * for the application to begin running.
@@ -73,17 +85,5 @@ public class IntelliVision extends Application {
             LOG.severe(e.getMessage());
             System.exit(StatusCodes.EXIT_FAILURE);
         }
-    }
-
-    /**
-     * The main() method is ignored in correctly deployed JavaFX application.
-     * main() serves only as fallback in case the application can not be
-     * launched through deployment artifacts, e.g., in IDEs with limited FX
-     * support. NetBeans ignores main().
-     *
-     * @param args the command line arguments
-     */
-    public static void main(final String[] args) {
-        launch(args);
     }
 }

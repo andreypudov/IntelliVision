@@ -24,46 +24,56 @@
  * THE SOFTWARE.
  */
 
-package com.intellivision.ui.controls;
+package com.intellivision.util.pools;
 
-import com.intellivision.ui.controllers.ServerPanelController;
-import com.intellivision.util.StatusCodes;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.GridPane;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 /**
- * Server machine configuration panel.
+ * Provides a database server managing layer.
  *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
- * %name      ServerPanel.java
- * %date      05:10:00 PM, Jul 30, 2013
+ * %name      Server.java
+ * %date      05:30:00 PM, Jul 30, 2013
  */
-public class ServerPanel extends GridPane {
+public enum Server {
+
+    INSTANCE;
 
     private static final java.util.logging.Logger LOG
             = java.util.logging.Logger.getLogger(
-              com.intellivision.core.Manifest.NAME);
+            com.intellivision.core.Manifest.NAME);
 
-    /* loads an object hierarchy from an XML document */
-    private final FXMLLoader fxmlLoader;
+    private static Connection connection;
 
-    /* controller initialization interface */
-    private final ServerPanelController controller;
+    /* do not let anyone instantiate this class */
+    private Server() {
+    }
 
-    public ServerPanel() {
-        fxmlLoader = new FXMLLoader(getClass().getResource(
-                    "/com/intellivision/resources/schemas/ServerPanel.fxml"));
+    /**
+     * Returns an instance of database server manager.
+     *
+     * @return the database server manager.
+     */
+    public static synchronized Server getDatabaseServer() {
+        return Server.INSTANCE;
+    }
 
-        fxmlLoader.setRoot(this);
+    public synchronized int getStatus() {
+        return 0;
+    }
 
+    private synchronized void connect() {
         try {
-            fxmlLoader.load();
-        } catch (java.io.IOException e) {
-            LOG.severe(e.getMessage());
-            System.exit(StatusCodes.EXIT_FAILURE);
-        }
+            /* load MySQL driver */
+            Class.forName("com.mysql.jdbc.Driver");
 
-        controller = fxmlLoader.getController();
+            /* setup the connection to the database server */
+            connection = DriverManager.getConnection("dbname", "username", "password");
+        } catch (ClassNotFoundException | SQLException e) {
+            //
+        }
     }
 }

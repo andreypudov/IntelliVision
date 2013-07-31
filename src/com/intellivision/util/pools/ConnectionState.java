@@ -1,5 +1,5 @@
 /*
- * IntelliJustice Intelligence Referee Assistant System
+ * IntelliJustice Intelligent Referee Assistant System 
  *
  * The MIT License
  *
@@ -27,35 +27,13 @@
 package com.intellivision.util.pools;
 
 /**
- * Provides a database server managing layer.
+ * Database server connection states.
  *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
- * %name      DatabaseServer.java
- * %date      05:30:00 PM, Jul 30, 2013
+ * %name      ConnectionState.java
+ * %date      12:50:00 PM, Jul 31, 2013
  */
-public enum DatabaseServer {
-
-    INSTANCE;
-
-    private static final java.util.logging.Logger LOG
-            = java.util.logging.Logger.getLogger(
-            com.intellivision.core.Manifest.NAME);
-
-    /* do not let anyone instantiate this class */
-    private DatabaseServer() {
-    }
-
-    /**
-     * Returns an instance of database server manager.
-     *
-     * @return the database server manager.
-     */
-    public static synchronized DatabaseServer getDatabaseServer() {
-        return DatabaseServer.INSTANCE;
-    }
-
-    public synchronized int getStatus() {
-        return 0;
-    }
+public enum ConnectionState {
+    CONNECTED, DISCONNECTED, CONNECTING;
 }

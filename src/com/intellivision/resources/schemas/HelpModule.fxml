@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
- * IntelliJustice Intelligence Referee Assistant System
+ * IntelliJustice Intelligent Referee Assistant System 
  *
  * The MIT License
  *
@@ -59,7 +59,7 @@
         <VBox maxWidth="680.0">
             <Region prefHeight="12.0" />
             <Label fx:id="helpProductName"
-                   text="IntelliJustice Intelligence Referee Assistant System" />
+                   text="IntelliJustice Intelligent Referee Assistant System " />
             <Label fx:id="helpProductVersion" text="Version: 1.00.00 Alpha" />
             <Label fx:id="helpVendorName"     text="© 2013 Andrey Pudov." />
             <Label fx:id="helpCopyright"      text="All rights reserved." />

@@ -1,5 +1,5 @@
 /*
- * IntelliJustice Intelligence Referee Assistant System
+ * IntelliJustice Intelligent Referee Assistant System 
  *
  * The MIT License
  *
@@ -66,6 +66,37 @@ public class Core {
             = java.util.logging.Logger.getLogger(
             com.intellivision.core.Manifest.NAME);
 
+    /* the list of application properties */
+    private static final Settings SETTINGS = Settings.getSettings();
+
+    /* the database server connection layer */
+    private static final Server SERVER = Server.getDatabaseServer();
+
+    /* the log files library */
+    private static final Library LIBRARY = Library.getLibrary();
+
+    /* the remote machine list */
+    private static final Machines MACHINES = Machines.getMachines();
+
+    /* the primary stage for the application */
+    private static Stage primaryStage;
+
+    /* the primary scene for the stage */
+    private static Scene primaryScene;
+
+    /* the primary panel for the scene */
+    private static Node  primaryPanel;
+
+    /* window maximizing stuff */
+    private static Rectangle2D windowBounds = null;
+    private static boolean     maximized    = false;
+
+     /* transparent feature support property */
+    private static final boolean transparent = Platform.isSupported(
+            ConditionalFeature.TRANSPARENT_WINDOW);
+    private static double primarySceneAnchor = transparent ? 32.0 : 0.0;
+    private static String primarySceneStyle  = transparent ? ""
+                                                           : "-fx-effect: null";
     static {
         try {
             /* Initialize general application logging */
@@ -113,46 +144,13 @@ public class Core {
             System.exit(StatusCodes.EXIT_FAILURE);
         }
 
-        LOG.info("IntelliJustice Intelligence Referee Assistant System\n"
+        LOG.info("IntelliJustice Intelligent Referee Assistant System \n"
                 + "Copyright (C) 2011-2013 Andrey Pudov. "
                 + "All rights reserved.\n");
 
         /* adds first-level module to the appliation window */
         Modules.addModule(HelpModule.getInstance());
     }
-
-    /* the list of application properties */
-    private static final Settings SETTINGS = Settings.getSettings();
-
-    /* the log files library */
-    private static final Library LIBRARY = Library.getLibrary();
-
-    /* the remote machine list */
-    private static final Machines MACHINES = Machines.getMachines();
-
-    /* do not let anyone instantiate this class */
-    private Core() {
-    }
-
-    /* the primary stage for the application */
-    private static Stage primaryStage;
-
-    /* the primary scene for the stage */
-    private static Scene primaryScene;
-
-    /* the primary panel for the scene */
-    private static Node  primaryPanel;
-
-    /* window maximizing stuff */
-    private static Rectangle2D windowBounds = null;
-    private static boolean     maximized    = false;
-
-     /* transparent feature support property */
-    private static final boolean transparent = Platform.isSupported(
-            ConditionalFeature.TRANSPARENT_WINDOW);
-    private static double primarySceneAnchor = transparent ? 32.0 : 0.0;
-    private static String primarySceneStyle  = transparent ? ""
-                                                           : "-fx-effect: null";
 
     /**
      * Returns the primary stage of the application.
@@ -314,5 +312,9 @@ public class Core {
      */
     public static synchronized void minimizeWindow() {
         primaryStage.setIconified(true);
+    }
+
+    /* do not let anyone instantiate this class */
+    private Core() {
     }
 }

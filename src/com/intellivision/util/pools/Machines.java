@@ -1,5 +1,5 @@
 /*
- * IntelliJustice Intelligence Referee Assistant System
+ * IntelliJustice Intelligent Referee Assistant System 
  *
  * The MIT License
  *
@@ -62,6 +62,7 @@ import org.xml.sax.SAXException;
  * %date      04:00:00 PM, Jan 12, 2013
  */
 public enum Machines {
+    
     INSTANCE;
 
     private static final java.util.logging.Logger LOG

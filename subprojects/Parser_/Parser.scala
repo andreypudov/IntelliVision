@@ -1,5 +1,5 @@
 /*
- * IntelliJustice Intelligence Referee Assistant System
+ * IntelliJustice Intelligent Referee Assistant System 
  *
  * The MIT License
  *
@@ -54,7 +54,7 @@ object Parser {
       "\t--help\t\tprint this message and exit\n" +
       "\t--version\tprint version information and exit"
 
-    println("IntelliJustice Intelligence Referee Assistant System")
+    println("IntelliJustice Intelligent Referee Assistant System ")
     println("Copyright (C) 2013. Andrey Pudov. All rights reserved.\n")
 
     if (args.length == 0) {

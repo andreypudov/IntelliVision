@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #
-# IntelliJustice Intelligence Referee Assistant System
+# IntelliJustice Intelligent Referee Assistant System 
 #
 # The MIT License
 #

@@ -1,5 +1,5 @@
 /*
- * IntelliJustice Intelligent Referee Assistant System 
+ * IntelliJustice Intelligent Referee Assistant System
  *
  * The MIT License
  *
@@ -54,7 +54,6 @@ public class ModuleBarController implements Initializable {
 
     @FXML private ToggleButton moduleBarHome;
     @FXML private ToggleButton moduleBarLibrary;
-    @FXML private ToggleButton moduleBarRemote;
     @FXML private ToggleButton moduleBarSettings;
     @FXML private ToggleButton moduleBarHelp;
 
@@ -114,23 +113,6 @@ public class ModuleBarController implements Initializable {
 
         onAction.get().handle(
                 new ModuleBarEvent(ModuleBarState.LIBRARY));
-    }
-
-    /**
-     * Changes current application module to Remote.
-     *
-     * @param event the event source.
-     */
-    @FXML
-    private void moduleBarRemoteOnAction(final ActionEvent event) {
-        /* keep selection when clicked on already selected button */
-        if (moduleBarRemote.isSelected() == false) {
-            moduleBarRemote.setSelected(true);
-            return;
-        }
-
-        onAction.get().handle(
-                new ModuleBarEvent(ModuleBarState.REMOTE));
     }
 
     /**

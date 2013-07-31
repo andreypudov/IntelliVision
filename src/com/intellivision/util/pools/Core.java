@@ -1,5 +1,5 @@
 /*
- * IntelliJustice Intelligent Referee Assistant System 
+ * IntelliJustice Intelligent Referee Assistant System
  *
  * The MIT License
  *
@@ -71,12 +71,6 @@ public class Core {
 
     /* the database server connection layer */
     private static final Server SERVER = Server.getDatabaseServer();
-
-    /* the log files library */
-    private static final Library LIBRARY = Library.getLibrary();
-
-    /* the remote machine list */
-    private static final Machines MACHINES = Machines.getMachines();
 
     /* the primary stage for the application */
     private static Stage primaryStage;
@@ -240,8 +234,7 @@ public class Core {
         SETTINGS.setValue("intellivision.window.height",
                 Double.toString(primaryStage.getHeight()));
 
-        MACHINES.save();
-        SETTINGS.save();
+        //SERVER.disconnect();
 
         primaryStage.close();
     }

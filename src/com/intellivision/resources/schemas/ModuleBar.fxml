@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
- * IntelliJustice Intelligent Referee Assistant System 
+ * IntelliJustice Intelligent Referee Assistant System
  *
  * The MIT License
  *
@@ -53,9 +53,6 @@
         <ToggleButton fx:id="moduleBarLibrary" text="Library"
                 toggleGroup="$moduleBarToggleGroup" contentDisplay="TOP"
                 minWidth="80.0" onAction="#moduleBarLibraryOnAction" />
-        <ToggleButton fx:id="moduleBarRemote" text="Remote"
-                toggleGroup="$moduleBarToggleGroup" contentDisplay="TOP"
-                minWidth="80.0" onAction="#moduleBarRemoteOnAction" />
         <ToggleButton fx:id="moduleBarHelp" text="Help"
                 toggleGroup="$moduleBarToggleGroup" contentDisplay="TOP"
                 minWidth="80.0" onAction="#moduleBarHelpOnAction" />

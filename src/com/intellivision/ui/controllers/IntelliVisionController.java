@@ -1,5 +1,5 @@
 /*
- * IntelliJustice Intelligent Referee Assistant System 
+ * IntelliJustice Intelligent Referee Assistant System
  *
  * The MIT License
  *
@@ -35,7 +35,6 @@ import com.intellivision.ui.modules.AbstractModule;
 import com.intellivision.ui.modules.HelpModule;
 import com.intellivision.ui.modules.HomeModule;
 import com.intellivision.ui.modules.LibraryModule;
-import com.intellivision.ui.modules.RemoteModule;
 import com.intellivision.ui.modules.SearchEvent;
 import com.intellivision.ui.modules.SearchEventListener;
 import com.intellivision.ui.modules.SettingsModule;
@@ -143,9 +142,6 @@ public class IntelliVisionController implements Initializable {
                         break;
                     case LIBRARY:
                         currentModule = LibraryModule.getInstance();
-                        break;
-                    case REMOTE:
-                        currentModule = RemoteModule.getInstance();
                         break;
                     case SETTINGS:
                         currentModule = SettingsModule.getInstance();

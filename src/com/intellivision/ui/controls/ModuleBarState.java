@@ -1,5 +1,5 @@
 /*
- * IntelliJustice Intelligent Referee Assistant System 
+ * IntelliJustice Intelligent Referee Assistant System
  *
  * The MIT License
  *
@@ -35,5 +35,5 @@ package com.intellivision.ui.controls;
  * %date      08:30:00 PM, Oct 26, 2012
  */
 public enum ModuleBarState {
-    HOME, LIBRARY, REMOTE, SETTINGS, HELP;
+    HOME, LIBRARY, SETTINGS, HELP;
 }

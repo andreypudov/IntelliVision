@@ -155,25 +155,13 @@ public enum Settings {
                 + "." + com.intellivision.core.Manifest.NAME
                 + System.getProperty("file.separator") + ".settings");
 
-        /* default values for application properties */
-        properties.setProperty("intellivision.application.version",
-                com.intellivision.core.Manifest.VERSION);
-
-        properties.setProperty("intellivision.window.width",  "1020.0");
-        properties.setProperty("intellivision.window.height", "700.0");
-
-        properties.setProperty("intellivision.database.driver",         "com.mysql.jdbc.Driver");
-        properties.setProperty("intellivision.database.url",            "jdbc:mysql");
-        properties.setProperty("intellivision.database.hostname",       "localhost");
-        properties.setProperty("intellivision.database.port",           "3306");
-        properties.setProperty("intellivision.database.database",       "intellijustice");
-        properties.setProperty("intellivision.database.username",       "");
-        properties.setProperty("intellivision.database.password",       "");
-        properties.setProperty("intellivision.database.connectTimeout", "1000");
-        properties.setProperty("intellivision.database.autoReconnect",  "true");
-        properties.setProperty("intellivision.database.maxReconnects",  "3");
-
         try {
+            /* load default values for application properties */
+            properties.loadFromXML(Settings.class.getResource(
+                    "/com/intellivision/resources/schemas/InitialConfiguration.xml"
+                    ).openStream());
+
+            /* load user configuration file */
             properties.loadFromXML(new FileInputStream(settings));
         } catch (IOException e) {
             LOG.warning(new StringBuffer(256

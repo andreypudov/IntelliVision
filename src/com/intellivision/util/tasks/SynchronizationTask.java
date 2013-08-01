@@ -1,5 +1,5 @@
 /*
- * IntelliJustice Intelligent Referee Assistant System 
+ * IntelliJustice Intelligent Referee Assistant System
  *
  * The MIT License
  *
@@ -24,19 +24,32 @@
  * THE SOFTWARE.
  */
 
-package com.intellivision.util.formats;
+package com.intellivision.util.tasks;
 
-import com.intellivision.core.AbstractImage;
-import java.io.File;
+import com.intellivision.util.pools.Server;
 
 /**
- * The Abstract format
+ * The database synchronization task.
  *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
- * %name      AbstractFormat.java
- * %date      08:00:00 PM, Aug 15, 2012
+ * %name      Executor.java
+ * %date      03:15:00 PM, Aug 01, 2013
  */
-public interface AbstractFormat {
-    public AbstractImage getImage(final File fileName);
+public class SynchronizationTask implements Runnable {
+
+    private static final java.util.logging.Logger LOG
+            = java.util.logging.Logger.getLogger(
+            com.intellivision.core.Manifest.NAME);
+
+    /* the database server connection layer */
+    private static final Server SERVER = Server.getDatabaseServer();
+
+    @Override
+    public void run() {
+        if (SERVER.isConnected() == false) {
+            LOG.info("Database connection is closed. Reconnecting to server...");
+            SERVER.connect();
+        }
+    }
 }

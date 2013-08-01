@@ -1,5 +1,5 @@
 /*
- * IntelliJustice Intelligent Referee Assistant System 
+ * IntelliJustice Intelligent Referee Assistant System
  *
  * The MIT License
  *
@@ -29,6 +29,7 @@ package com.intellivision.util.pools;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 /**
  * Provides a database server managing layer.
@@ -46,7 +47,13 @@ public enum Server {
             = java.util.logging.Logger.getLogger(
             com.intellivision.core.Manifest.NAME);
 
-    private static Connection connection;
+    /* the list of application properties */
+    private static final Settings SETTINGS = Settings.getSettings();
+
+    /* connection timeout in seconds */
+    private static final int CONENCTION_TIMEOUT = 1;
+
+    private static Connection connection = null;
 
     /* do not let anyone instantiate this class */
     private Server() {
@@ -61,19 +68,70 @@ public enum Server {
         return Server.INSTANCE;
     }
 
-    public synchronized int getStatus() {
-        return 0;
+    /**
+     * Returns database connection status.
+     *
+     * @return true if connection is alive, false otherwise.
+     */
+    public synchronized boolean isConnected() {
+        try {
+            if ((connection == null) || (connection.isClosed())) {
+                return false;
+            }
+
+            return connection.isValid(CONENCTION_TIMEOUT);
+        } catch (SQLException e) {
+            LOG.warning(e.getMessage());
+        }
+
+        return false;
     }
 
-    private synchronized void connect() {
+    /**
+     * Connects to the database server.
+     */
+    public synchronized void connect() {
         try {
+            Properties properties = new Properties();
+            /*
+             * http://dev.mysql.com/doc/refman/5.0/en/
+             * connector-j-reference-configuration-properties.html
+             */
+            properties.put("user",           SETTINGS.getValue("intellivision.database.username"));
+            properties.put("password",       SETTINGS.getValue("intellivision.database.password"));
+            properties.put("connectTimeout", SETTINGS.getValue("intellivision.database.connectTimeout"));
+            properties.put("autoReconnect",  SETTINGS.getValue("intellivision.database.autoReconnect"));
+            properties.put("maxReconnects",  SETTINGS.getValue("intellivision.database.maxReconnects"));
+
+            /* the name of a class that will be used to log messages */
+            properties.put("logger",         "com.intellivision.util.pools.ConnectionLogger");
+
             /* load MySQL driver */
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName(SETTINGS.getValue("intellivision.database.driver"));
 
             /* setup the connection to the database server */
-            connection = DriverManager.getConnection("dbname", "username", "password");
+            connection = DriverManager.getConnection(
+                    /* jdbc:mysql://localhost:3306/database */
+                    SETTINGS.getValue("intellivision.database.url")
+                    + "://" + SETTINGS.getValue("intellivision.database.hostname")
+                    + ":"   + SETTINGS.getValue("intellivision.database.port")
+                    + "/"   + SETTINGS.getValue("intellivision.database.database"),
+                    properties);
         } catch (ClassNotFoundException | SQLException e) {
-            //
+            LOG.warning(e.getMessage());
+        }
+    }
+
+    /**
+     * Releases a connection to the database server.
+     */
+    public synchronized void disconnect() {
+        try {
+            if ((connection != null) && (connection.isClosed() != false)) {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            LOG.warning(e.getMessage());
         }
     }
 }

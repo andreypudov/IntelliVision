@@ -1,5 +1,5 @@
 /*
- * IntelliJustice Intelligent Referee Assistant System
+ * IntelliJustice Intelligent Referee Assistant System 
  *
  * The MIT License
  *
@@ -24,27 +24,16 @@
  * THE SOFTWARE.
  */
 
-package com.intellivision.core;
+package com.intellivision.util.pools;
 
 /**
- * The general application manifest.
+ * Database server connection states.
  *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
- * %name      Manifest.java
- * %date      04:30:00 PM, Jan 12, 2012
+ * %name      ConnectionState.java
+ * %date      12:50:00 PM, Jul 31, 2013
  */
-public class Manifest {
-
-    public static final String NAME        = "IntelliJustice";
-    public static final String DESCRIPTION = "IntelliJustice Intelligent Referee Assistant System";
-    public static final String VERSION     = "0.00.00";
-    public static final String RELEASE     = "Alpha";
-
-    private static final java.util.logging.Logger LOG
-            = java.util.logging.Logger.getLogger(NAME);
-
-    /* do not let anyone instantiate this class */
-    private Manifest() {
-    }
+public enum ConnectionState {
+    CONNECTED, DISCONNECTED, CONNECTING;
 }

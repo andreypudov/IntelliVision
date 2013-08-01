@@ -1,5 +1,5 @@
 /*
- * IntelliJustice Intelligent Referee Assistant System 
+ * IntelliJustice Intelligent Referee Assistant System
  *
  * The MIT License
  *
@@ -30,7 +30,7 @@ import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
 
 /**
- * d
+ * Console logging records formatter.
  *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00

@@ -29,11 +29,13 @@ package com.intellivision.util.pools;
 import com.intellivision.ui.modules.HelpModule;
 import com.intellivision.util.ConsoleFormatter;
 import com.intellivision.util.StatusCodes;
+import com.intellivision.util.tasks.SynchronizationTask;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.XMLFormatter;
@@ -71,6 +73,9 @@ public class Core {
 
     /* the database server connection layer */
     private static final Server SERVER = Server.getDatabaseServer();
+
+    /* the task execution pool */
+    private static final Executor EXECUTOR = Executor.getExecutor();
 
     /* the primary stage for the application */
     private static Stage primaryStage;
@@ -144,6 +149,10 @@ public class Core {
 
         /* adds first-level module to the appliation window */
         Modules.addModule(HelpModule.getInstance());
+
+        /* schedule application level tasks */
+        EXECUTOR.schedulePeriodicTask(new SynchronizationTask(),
+                1000L, 3000L, TimeUnit.MILLISECONDS);
     }
 
     /**
@@ -171,8 +180,6 @@ public class Core {
         if ((stage == null) || (scene == null)) {
             throw new IllegalArgumentException();
         }
-
-
 
         primaryScene = scene;
         primaryPanel = scene.lookup("#mainPanel");
@@ -234,9 +241,12 @@ public class Core {
         SETTINGS.setValue("intellivision.window.height",
                 Double.toString(primaryStage.getHeight()));
 
-        //SERVER.disconnect();
-
+        /* close window while processing application tasks */
         primaryStage.close();
+
+        EXECUTOR.shutdown();
+        SERVER.disconnect();
+        SETTINGS.save();
     }
 
     /**

@@ -150,9 +150,12 @@ public class Core {
         /* adds first-level module to the appliation window */
         Modules.addModule(HelpModule.getInstance());
 
+        /* connect to the database server */
+        SERVER.connect();
+
         /* schedule application level tasks */
         EXECUTOR.schedulePeriodicTask(new SynchronizationTask(),
-                1000L, 3000L, TimeUnit.MILLISECONDS);
+                3000L, 3000L, TimeUnit.MILLISECONDS);
     }
 
     /**

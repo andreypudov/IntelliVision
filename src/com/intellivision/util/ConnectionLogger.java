@@ -24,7 +24,7 @@
  * THE SOFTWARE.
  */
 
-package com.intellivision.util.pools;
+package com.intellivision.util;
 
 import com.mysql.jdbc.Util;
 import com.mysql.jdbc.log.Log;

@@ -158,8 +158,8 @@ public enum Settings {
         try {
             /* load default values for application properties */
             properties.loadFromXML(Settings.class.getResource(
-                    "/com/intellivision/resources/schemas/InitialConfiguration.xml"
-                    ).openStream());
+                "/com/intellivision/resources/schemas/InitialConfiguration.xml"
+                ).openStream());
 
             /* load user configuration file */
             properties.loadFromXML(new FileInputStream(settings));

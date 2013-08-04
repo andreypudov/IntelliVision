@@ -1,5 +1,5 @@
 /*
- * IntelliJustice Intelligent Referee Assistant System 
+ * IntelliJustice Intelligent Referee Assistant System
  *
  * The MIT License
  *
@@ -26,17 +26,23 @@
 
 package com.intellivision.core;
 
-import java.awt.Dimension;
-
 /**
- * The AbstractImage
+ * The competition entity representation.
  *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
- * %name      AbstractImage.java
- * %date      07:40:00 PM, Aug 15, 2012
+ * %name      Athlete.java
+ * %date      01:50:00 PM, Aug 03, 2013
  */
-public interface AbstractImage {
+public class Competition {
 
-    public Dimension getSize();
+    private static final java.util.logging.Logger LOG
+            = java.util.logging.Logger.getLogger(
+            com.intellivision.core.Manifest.NAME);
+
+    /**
+     * Constructs new competition object.
+     */
+    public Competition() {
+    }
 }

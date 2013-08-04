@@ -104,7 +104,7 @@ public enum Server {
             properties.put("maxReconnects",  SETTINGS.getValue("intellivision.database.maxReconnects"));
 
             /* the name of a class that will be used to log messages */
-            properties.put("logger",         "com.intellivision.util.pools.ConnectionLogger");
+            properties.put("logger",         "com.intellivision.util.ConnectionLogger");
 
             /* load MySQL driver */
             Class.forName(SETTINGS.getValue("intellivision.database.driver"));

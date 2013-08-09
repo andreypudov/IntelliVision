@@ -26,6 +26,10 @@
 
 package com.intellijustice.core;
 
+import com.intellijustice.util.StatusCodes;
+import java.io.IOException;
+import java.util.Properties;
+
 /**
  * The general application manifest.
  *
@@ -36,13 +40,43 @@ package com.intellijustice.core;
  */
 public class Manifest {
 
-    public static final String NAME        = "IntelliJustice";
-    public static final String DESCRIPTION = "IntelliJustice Intelligent Referee Assistant System";
-    public static final String VERSION     = "0.00.00";
-    public static final String RELEASE     = "Alpha";
+    public static final String NAME;
+    public static final String DESCRIPTION;
+    public static final String VERSION;
+    public static final String RELEASE;
 
-    private static final java.util.logging.Logger LOG
-            = java.util.logging.Logger.getLogger(NAME);
+    private static final java.util.logging.Logger LOG;
+
+        /* initialize application level variables */
+    static {
+        String name        = "IntelliJustice";
+        String description = "IntelliJustice Intelligent Referee Assistant System";
+        String version     = "0.00.00";
+        String release     = "Alpha";
+
+        LOG = java.util.logging.Logger.getLogger(name);
+
+        try {
+
+            final Properties manifest = new Properties();
+            manifest.loadFromXML(Manifest.class.getResource(
+                    "/com/intellijustice/resources/schemas/Manifest.xml"
+                    ).openStream());
+            
+            name        = manifest.getProperty("NAME");
+            description = manifest.getProperty("DESCRIPTION");
+            version     = manifest.getProperty("VERSION");
+            release     = manifest.getProperty("RELEASE");
+        } catch (IOException e) {
+            LOG.severe("Could not load manifest file.");
+            System.exit(StatusCodes.EXIT_FAILURE);
+        }
+
+        NAME        = name;
+        DESCRIPTION = description;
+        VERSION     = version;
+        RELEASE     = release;
+    }
 
     /* do not let anyone instantiate this class */
     private Manifest() {

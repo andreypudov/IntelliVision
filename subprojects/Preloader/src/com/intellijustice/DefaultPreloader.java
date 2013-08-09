@@ -1,5 +1,5 @@
 /*
- * IntelliJustice Intelligent Referee Assistant System 
+ * IntelliJustice Intelligent Referee Assistant System
  *
  * The MIT License
  *
@@ -24,7 +24,7 @@
  * THE SOFTWARE.
  */
 
-package com.intellivision;
+package com.intellijustice;
 
 import javafx.application.Preloader;
 import javafx.application.Preloader.ProgressNotification;
@@ -43,6 +43,9 @@ import javafx.stage.Stage;
  * %date      04:30:00 PM, Oct 19, 2012
  */
 public class DefaultPreloader extends Preloader {
+
+    private static final java.util.logging.Logger LOG
+            = java.util.logging.Logger.getLogger("IntelliJustice");
 
     ProgressBar bar;
     Stage stage;
@@ -63,21 +66,31 @@ public class DefaultPreloader extends Preloader {
      * @throws Exception the source of exception.
      */
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(final Stage stage) throws Exception {
         this.stage = stage;
         stage.setScene(createPreloaderScene());
         stage.show();
     }
 
+    /**
+     * Indicates a change in application state.
+     *
+     * @param info the state change notification.
+     */
     @Override
-    public void handleStateChangeNotification(StateChangeNotification scn) {
-        if (scn.getType() == StateChangeNotification.Type.BEFORE_START) {
+    public void handleStateChangeNotification(final StateChangeNotification info) {
+        if (info.getType() == StateChangeNotification.Type.BEFORE_START) {
             stage.hide();
         }
     }
 
+    /**
+     * Indicates progress.
+     *
+     * @param info the progress notification.
+     */
     @Override
-    public void handleProgressNotification(ProgressNotification pn) {
-        bar.setProgress(pn.getProgress());
+    public void handleProgressNotification(final ProgressNotification info) {
+        bar.setProgress(info.getProgress());
     }
 }

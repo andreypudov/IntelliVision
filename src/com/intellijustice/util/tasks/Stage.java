@@ -26,30 +26,14 @@
 
 package com.intellijustice.util.tasks;
 
-import com.intellijustice.util.pools.Server;
-
 /**
- * The database synchronization task.
+ * Package entry used by application update task.
  *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
- * %name      SynchronizationTask.java
- * %date      03:15:00 PM, Aug 01, 2013
+ * %name      Stage.java
+ * %date      11:25:00 AM, Aug 07, 2013
  */
-public class SynchronizationTask implements Runnable {
-
-    private static final java.util.logging.Logger LOG
-            = java.util.logging.Logger.getLogger(
-            com.intellijustice.core.Manifest.NAME);
-
-    /* the database server connection layer */
-    private static final Server SERVER = Server.getDatabaseServer();
-
-    @Override
-    public void run() {
-        if (SERVER.isConnected() == false) {
-            LOG.info("Connecting to database server...");
-            SERVER.connect();
-        }
-    }
+public enum Stage {
+    ALPHA, BETA, RELEASE
 }

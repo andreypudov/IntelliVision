@@ -47,7 +47,7 @@ public class ConsoleFormatter extends Formatter {
     public String format(final LogRecord record) {
         final StringBuilder builder = new StringBuilder(100);
 
-        builder.append(record.getMessage()
+        builder.append(formatMessage(record)
                 ).append('\n');
 
         return builder.toString();

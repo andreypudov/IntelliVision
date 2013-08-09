@@ -26,8 +26,11 @@
 
 package com.intellijustice;
 
+import com.intellijustice.util.ParametersParser;
 import com.intellijustice.util.StatusCodes;
 import com.intellijustice.util.pools.Core;
+import com.intellijustice.util.tasks.UpdateTask;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -58,7 +61,7 @@ public class IntelliJustice extends Application {
      *
      * @param args the command line arguments
      */
-        public static void main(final String[] args) {
+    public static void main(final String[] args) {
         launch(args);
     }
 
@@ -79,7 +82,15 @@ public class IntelliJustice extends Application {
                         "/com/intellijustice/resources/styles/IntelliJustice.css"
                     ).toExternalForm());
 
+            /* specify primary application scene  */
             Core.setPrimaryStage(primaryStage, scene);
+
+            /* parse application parameters */
+            ParametersParser.parse(this);
+
+            /* detect updated version */
+            UpdateTask.launch();
+
             Core.getPrimaryStage().show();
         } catch (java.io.IOException | IllegalArgumentException e) {
             LOG.severe(e.getMessage());

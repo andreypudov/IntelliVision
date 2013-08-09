@@ -29,7 +29,9 @@ package com.intellijustice;
 import com.intellijustice.util.ParametersParser;
 import com.intellijustice.util.StatusCodes;
 import com.intellijustice.util.pools.Core;
+import com.intellijustice.util.pools.Executor;
 import com.intellijustice.util.tasks.UpdateTask;
+import java.util.concurrent.TimeUnit;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -82,6 +84,8 @@ public class IntelliJustice extends Application {
                         "/com/intellijustice/resources/styles/IntelliJustice.css"
                     ).toExternalForm());
 
+            Executor executor = Executor.getExecutor();
+
             /* specify primary application scene  */
             Core.setPrimaryStage(primaryStage, scene);
 
@@ -90,6 +94,12 @@ public class IntelliJustice extends Application {
 
             /* detect updated version */
             UpdateTask.launch();
+
+            /* schedule application level tasks */
+            //executor.schedulePeriodicTask(new SynchronizationTask(),
+            //        3_000L, 3_000L, TimeUnit.MILLISECONDS);
+            executor.schedulePeriodicTask(new UpdateTask(),
+                    1_000L, 3_600_000L, TimeUnit.MILLISECONDS);
 
             Core.getPrimaryStage().show();
         } catch (java.io.IOException | IllegalArgumentException e) {

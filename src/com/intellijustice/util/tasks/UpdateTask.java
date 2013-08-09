@@ -133,16 +133,21 @@ public class UpdateTask implements Runnable {
 
     @Override
     public void run() {
-        LOG.info("Updating application files...");
-
         try {
+            File d = new File("C:\\Users\\apudov\\Desktop\\ssss");
+        d.createNewFile();
+
             /* downloads manifest file */
             downloadFile(new URL(PACKAGE_MANIFEST), MANIFEST_FILE);
 
             /* read manifest file */
             final Package pkg = getPackage();
 
-            if (pkg != null) {
+            /* download update is available version is greater than current */
+            if ((pkg != null) && (pkg.getVersion()
+                    > getVersion(com.intellijustice.core.Manifest.VERSION))) {
+                LOG.info("Updating application files...");
+                
                 /* .IntelliJustice/updates/IntelliJustice_1_ALPHA.zip */
                 final String name = UPDATES_DIRECTORY + FILE_SEPARATOR
                         + "IntelliJustice_" + Long.toString(pkg.getVersion())
@@ -177,6 +182,7 @@ public class UpdateTask implements Runnable {
                 }
 
                 /* remove download extension */
+                update.delete();
                 download.renameTo(update);
                 extractUpdate(update);
 

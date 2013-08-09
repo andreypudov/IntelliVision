@@ -29,17 +29,13 @@ package com.intellijustice.util.pools;
 import com.intellijustice.ui.modules.HelpModule;
 import com.intellijustice.util.ConsoleFormatter;
 import com.intellijustice.util.StatusCodes;
-import com.intellijustice.util.tasks.SynchronizationTask;
-import com.intellijustice.util.tasks.UpdateTask;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
-import java.util.logging.Level;
 import java.util.logging.XMLFormatter;
 import javafx.application.ConditionalFeature;
 import javafx.application.Platform;
@@ -151,12 +147,6 @@ public class Core {
 
         /* adds first-level module to the appliation window */
         Modules.addModule(HelpModule.getInstance());
-
-        /* schedule application level tasks */
-        //EXECUTOR.schedulePeriodicTask(new SynchronizationTask(),
-        //        3_000L, 3_000L, TimeUnit.MILLISECONDS);
-        //EXECUTOR.schedulePeriodicTask(new UpdateTask(),
-        //        1_000L, 3_600_000L, TimeUnit.MILLISECONDS);
     }
 
     /**

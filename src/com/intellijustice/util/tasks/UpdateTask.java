@@ -54,6 +54,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 
 import java.util.Enumeration;
 import java.util.List;
@@ -63,6 +64,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
+import javafx.application.Application.Parameters;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.ParserConfigurationException;
@@ -134,9 +136,6 @@ public class UpdateTask implements Runnable {
     @Override
     public void run() {
         try {
-            File d = new File("C:\\Users\\apudov\\Desktop\\ssss");
-        d.createNewFile();
-
             /* downloads manifest file */
             downloadFile(new URL(PACKAGE_MANIFEST), MANIFEST_FILE);
 
@@ -147,7 +146,7 @@ public class UpdateTask implements Runnable {
             if ((pkg != null) && (pkg.getVersion()
                     > getVersion(com.intellijustice.core.Manifest.VERSION))) {
                 LOG.info("Updating application files...");
-                
+
                 /* .IntelliJustice/updates/IntelliJustice_1_ALPHA.zip */
                 final String name = UPDATES_DIRECTORY + FILE_SEPARATOR
                         + "IntelliJustice_" + Long.toString(pkg.getVersion())
@@ -200,8 +199,13 @@ public class UpdateTask implements Runnable {
      * version of binary, extracted to the update directory, and if the version
      * of this binary is greater (newly) than version of application itself,
      * new Java Virtual Machine will be created to execute that binary.
+     *
+     * @param params the parameters for this Application, including any
+     *               arguments passed on the command line and any parameters
+     *               specified in a JNLP file for an applet or WebStart
+     *               application.
      */
-    public static void launch() {
+    public static void launch(final Parameters params) {
         final String update = UPDATES_DIRECTORY + FILE_SEPARATOR
                 + "IntelliJustice.jar";
 
@@ -216,10 +220,14 @@ public class UpdateTask implements Runnable {
                 final String java = System.getProperty("java.home")
                     + FILE_SEPARATOR + "bin" + FILE_SEPARATOR + "java";
 
-                final ProcessBuilder builder = new ProcessBuilder(
-                        new String[] {java, "-jar", update});
-                builder.redirectOutput(Redirect.INHERIT);
-                builder.redirectError(Redirect.INHERIT);
+                final List<String> args = new ArrayList<>(16);
+                args.add(java);
+                args.add("-jar");
+                args.add(update);
+                args.addAll(params.getRaw());
+
+                final ProcessBuilder builder = new ProcessBuilder(args);
+                builder.inheritIO();
 
                 /* launch updated version */
                 final Process process = builder.start();

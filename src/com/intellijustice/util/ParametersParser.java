@@ -27,10 +27,8 @@
 package com.intellijustice.util;
 
 import com.intellijustice.core.Manifest;
-
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 import javafx.application.Application;
 
 /**
@@ -50,7 +48,7 @@ public class ParametersParser {
     private static final String help
             = "Usage: java -jar IntelliJustice [parameters]\n"
             + "    --help\tprint this message and exit\n"
-            + "    --version\tprint version information and exit";
+            + "    --version\tprint product version and exit\n";
 
     /* do not let anyone instantiate this class */
     private ParametersParser() {
@@ -76,14 +74,14 @@ public class ParametersParser {
 
         for (String arg : unnamed) {
             switch (arg) {
+                case "-v":
                 case "-version":
-                    /* fall through */
                 case "--version":
                     LOG.info(("Version: " + Manifest.VERSION));
                     System.exit(StatusCodes.EXIT_SUCCESS);
                     break;
+                case "-h":
                 case "-help":
-                    /* fall through */
                 case "--help":
                     /* fall through */
                 default:

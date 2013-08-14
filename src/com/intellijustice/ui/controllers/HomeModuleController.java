@@ -1,5 +1,5 @@
 /*
- * IntelliJustice Intelligent Referee Assistant System 
+ * IntelliJustice Intelligent Referee Assistant System
  *
  * The MIT License
  *
@@ -26,9 +26,12 @@
 
 package com.intellijustice.ui.controllers;
 
+import com.intellijustice.ui.controls.CompetitionBar;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.layout.FlowPane;
 
 /**
  * FXML Controller class provides general view functionality.
@@ -44,6 +47,8 @@ public class HomeModuleController implements Initializable {
             = java.util.logging.Logger.getLogger(
               com.intellijustice.core.Manifest.NAME);
 
+    @FXML private FlowPane competitionsList;
+
     /**
      * Initializes the controller class.
      *
@@ -54,5 +59,7 @@ public class HomeModuleController implements Initializable {
      */
     @Override
     public void initialize(final URL url, final ResourceBundle rb) {
+        final CompetitionBar bar = new CompetitionBar();
+        competitionsList.getChildren().add(bar);
     }
 }

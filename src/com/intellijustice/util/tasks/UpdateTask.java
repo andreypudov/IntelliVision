@@ -28,17 +28,13 @@ package com.intellijustice.util.tasks;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.lang.ProcessBuilder.Redirect;
 
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
@@ -53,8 +49,8 @@ import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import java.util.Enumeration;
 import java.util.List;
@@ -63,7 +59,6 @@ import java.util.logging.Level;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
-import java.util.zip.ZipInputStream;
 import javafx.application.Application.Parameters;
 
 import javax.xml.XMLConstants;
@@ -221,9 +216,7 @@ public class UpdateTask implements Runnable {
                     + FILE_SEPARATOR + "bin" + FILE_SEPARATOR + "java";
 
                 final List<String> args = new ArrayList<>(16);
-                args.add(java);
-                args.add("-jar");
-                args.add(update);
+                args.addAll(Arrays.asList(new String[] {java, "-jar", update}));
                 args.addAll(params.getRaw());
 
                 final ProcessBuilder builder = new ProcessBuilder(args);

@@ -39,10 +39,12 @@
         General application module with the the list of log files.
 -->
 
-<fx:root fx:id="homeModule" type="javafx.scene.layout.StackPane"
+<fx:root fx:id="homeModule" type="javafx.scene.layout.GridPane"
          xmlns:fx="http://javafx.com/fxml"
          fx:controller="com.intellijustice.ui.controllers.HomeModuleController">
     <children>
+        <FlowPane fx:id="competitionsList">
+        </FlowPane>
     </children>
     <stylesheets>
         <URL value="@../styles/HomeModule.css" />

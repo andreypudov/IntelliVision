@@ -50,6 +50,16 @@ public enum Settings {
 
     private static final Properties properties = new Properties();
 
+    /* configuration file structure */
+    private static final String FILE_SEPARATOR =
+            System.getProperty("file.separator");
+    private static final String HOME_DIRECTORY =
+            System.getProperty("user.home");
+    private static final String CONFIG_DIRECTORY = HOME_DIRECTORY
+            + FILE_SEPARATOR + "." + com.intellijustice.core.Manifest.NAME;
+    private static final String SETTINGS_FILE = CONFIG_DIRECTORY
+            + FILE_SEPARATOR + ".settings";
+
     static {
         /*
          * Initialize application settings with default values and load
@@ -71,18 +81,12 @@ public enum Settings {
 
         final File[] directoryList = {
             /* .IntelliJustice */
-            new File(System.getProperty("user.home")
-                + System.getProperty("file.separator")
-                + "." + com.intellijustice.core.Manifest.NAME)
+            new File(CONFIG_DIRECTORY)
         };
 
         final File[] fileList = {
             /* .IntelliJustice/.settings */
-            new File(System.getProperty("user.home")
-                + System.getProperty("file.separator")
-                + "." + com.intellijustice.core.Manifest.NAME
-                + System.getProperty("file.separator")
-                + ".settings")
+            new File(SETTINGS_FILE)
         };
 
         for (File directory : directoryList) {
@@ -150,10 +154,7 @@ public enum Settings {
      * Initialize application settings.
      */
     private static synchronized void init() {
-        final File settings = new File(System.getProperty("user.home")
-                + System.getProperty("file.separator")
-                + "." + com.intellijustice.core.Manifest.NAME
-                + System.getProperty("file.separator") + ".settings");
+        final File settings = new File(SETTINGS_FILE);
 
         try {
             /* load default values for application properties */
@@ -174,10 +175,7 @@ public enum Settings {
      * Reads application settings from configuration file.
      */
     public synchronized void load() {
-        final File settings = new File(System.getProperty("user.home")
-                + System.getProperty("file.separator")
-                + "." + com.intellijustice.core.Manifest.NAME
-                + System.getProperty("file.separator") + ".settings");
+        final File settings = new File(SETTINGS_FILE);
 
         try {
             properties.loadFromXML(new FileInputStream(settings));
@@ -192,10 +190,7 @@ public enum Settings {
      * Writes application settings to configuration files.
      */
     public synchronized void save() {
-        final File settings = new File(System.getProperty("user.home")
-                + System.getProperty("file.separator")
-                + "." + com.intellijustice.core.Manifest.NAME
-                + System.getProperty("file.separator") + ".settings");
+        final File settings = new File(SETTINGS_FILE);
 
         try {
             properties.storeToXML(new FileOutputStream(settings),

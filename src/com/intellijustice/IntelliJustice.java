@@ -96,8 +96,8 @@ public class IntelliJustice extends Application {
             UpdateTask.launch(this.getParameters());
 
             /* schedule application level tasks */
-            executor.schedulePeriodicTask(new SynchronizationTask(),
-                    3_000L, 3_000L, TimeUnit.MILLISECONDS);
+            /* executor.schedulePeriodicTask(new SynchronizationTask(),
+                    3_000L, 3_000L, TimeUnit.MILLISECONDS); */
             executor.schedulePeriodicTask(new UpdateTask(),
                     1_000L, 3_600_000L, TimeUnit.MILLISECONDS);
 

@@ -28,7 +28,7 @@ package com.intellijustice.ui.modules;
 
 import com.intellijustice.util.StatusCodes;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.GridPane;
 
 /**
  * General application module with the the list of log files.
@@ -38,7 +38,7 @@ import javafx.scene.layout.StackPane;
  * %name      HomeModule.java
  * %date      12:00:00 AM, Oct 22, 2012
  */
-public class HomeModule extends StackPane implements AbstractModule {
+public class HomeModule extends GridPane implements AbstractModule {
 
     private static final java.util.logging.Logger LOG
             = java.util.logging.Logger.getLogger(

@@ -41,7 +41,7 @@
         Competition bar with a brief competition summary.
 -->
 
-<fx:root fx:id="competitionBar" type="javafx.scene.layout.VBox"
+<fx:root fx:id="competitionBar" type="javafx.scene.layout.HBox"
          xmlns:fx="http://javafx.com/fxml" alignment="top_center"
          fx:controller="com.intellijustice.ui.controllers.CompetitionBarController">
     <children>

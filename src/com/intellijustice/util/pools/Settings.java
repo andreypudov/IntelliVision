@@ -30,7 +30,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.TreeMap;
 
 /**
  * Provides a persistent set of properties.
@@ -67,6 +70,9 @@ public enum Settings {
          * default values will be used).
          */
         init();
+
+        /* prepare  settings by replacing templates with an appropriate values */
+        replaceTemplates();
 
         /*
          * Merge application configuration with default and exists values when
@@ -168,6 +174,33 @@ public enum Settings {
             LOG.warning(new StringBuffer(256
                     ).append("Could not read application properties. "
                     ).append(e.getMessage()).toString());
+        }
+    }
+
+    /**
+     * Replaces templates in application settings values by the corresponding
+     * configuration values.
+     */
+    private static synchronized void replaceTemplates() {
+        final Map<String, String> templates = new TreeMap<>();
+        templates.put("${FILE_SEPARATOR}",   FILE_SEPARATOR);
+        templates.put("${HOME_DIRECTORY}",   HOME_DIRECTORY);
+        templates.put("${CONFIG_DIRECTORY}", CONFIG_DIRECTORY);
+
+        for (Entry<Object, Object> entry : properties.entrySet()) {
+            final String key   = (String) entry.getKey();
+            final String value = (String) entry.getValue();
+
+            /* replace templates */
+            if (value.indexOf('$') != -1) {
+                String str = value;
+
+                for (Entry<String, String> template : templates.entrySet()) {
+                    str = str.replace(template.getKey(), template.getValue());
+                }
+
+                properties.setProperty(key, str);
+            }
         }
     }
 

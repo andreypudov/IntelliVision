@@ -34,6 +34,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.TreeMap;
+import java.util.logging.Level;
 
 /**
  * Provides a persistent set of properties.
@@ -110,9 +111,9 @@ public enum Settings {
                 try {
                     file.createNewFile();
                 } catch (IOException e) {
-                    LOG.warning(new StringBuffer(256
-                        ).append("Could not create properties file. "
-                        ).append(e.getMessage()).toString());
+                    LOG.log(Level.WARNING,
+                            "Could not create properties file. {0}",
+                            e.getMessage());
                 }
             }
         }
@@ -171,9 +172,9 @@ public enum Settings {
             /* load user configuration file */
             properties.loadFromXML(new FileInputStream(settings));
         } catch (IOException e) {
-            LOG.warning(new StringBuffer(256
-                    ).append("Could not read application properties. "
-                    ).append(e.getMessage()).toString());
+            LOG.log(Level.WARNING,
+                    "Could not read application properties. {0}",
+                    e.getMessage());
         }
     }
 
@@ -213,9 +214,9 @@ public enum Settings {
         try {
             properties.loadFromXML(new FileInputStream(settings));
         } catch (IOException e) {
-            LOG.warning(new StringBuffer(256
-                    ).append("Could not read application properties. "
-                    ).append(e.getMessage()).toString());
+            LOG.log(Level.WARNING,
+                    "Could not read application properties. {0}",
+                    e.getMessage());
         }
     }
 
@@ -229,9 +230,9 @@ public enum Settings {
             properties.storeToXML(new FileOutputStream(settings),
                     com.intellijustice.core.Manifest.DESCRIPTION);
         } catch (IOException e) {
-            LOG.warning(new StringBuffer(256
-                    ).append("Could not write application properties. "
-                    ).append(e.getMessage()).toString());
+            LOG.log(Level.WARNING,
+                    "Could not write application properties. {0}",
+                    e.getMessage());
         }
     }
 }

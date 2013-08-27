@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<!--
+/*
  * IntelliJustice Intelligent Referee Assistant System
  *
  * The MIT License
@@ -24,29 +22,18 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
--->
+ */
 
-<?import java.lang.*?>
-<?import java.net.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+package com.intellijustice.core;
 
-<!--
-    Document   : HomeModule.fxml
-    Created on : Oct 22, 2012, 12:00:00 AM
-    Author     : Andrey Pudov        <mail@andreypudov.com>
-    Description:
-        General application module with the the list of log files.
--->
-
-<fx:root fx:id="homeModule" type="javafx.scene.layout.GridPane"
-         xmlns:fx="http://javafx.com/fxml"
-         fx:controller="com.intellijustice.ui.controllers.HomeModuleController">
-    <children>
-        <FlowPane fx:id="competitionList">
-        </FlowPane>
-    </children>
-    <stylesheets>
-        <URL value="@../styles/HomeModule.css" />
-    </stylesheets>
-</fx:root>
+/**
+ * The championship format entity representation.
+ *
+ * @author    Andrey Pudov        <mail@andreypudov.com>
+ * @version   0.00.00
+ * %name      ChampionshipFormat.java
+ * %date      04:40:00 PM, Aug 14, 2013
+ */
+public enum ChampionshipFormat {
+    INDOOR, OUTDOOR
+}

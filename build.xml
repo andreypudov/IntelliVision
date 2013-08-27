@@ -1,11 +1,16 @@
-<?xml version="1.0" encoding="UTF-8"?><!-- You may freely edit this file. See commented blocks below for --><!-- some examples of how to customize the build. --><!-- (If you delete it and reopen the project it will be recreated.) --><!-- By default, only the Clean and Build commands use this build script. --><project name="IntelliVision" default="default" basedir="." xmlns:fx="javafx:com.sun.javafx.tools.ant">
+<?xml version="1.0" encoding="UTF-8"?>
+    <!-- You may freely edit this file. See commented blocks below for -->
+    <!-- some examples of how to customize the build. -->
+    <!-- (If you delete it and reopen the project it will be recreated.) -->
+    <!-- By default, only the Clean and Build commands use this build script. -->
+    <project name="IntelliVision" default="default" basedir="." xmlns:fx="javafx:com.sun.javafx.tools.ant">
     <description>Builds, tests, and runs the project IntelliVision.</description>
     <import file="nbproject/build-impl.xml"/>
     <!--
 
-    There exist several targets which are by default empty and which can be 
-    used for execution of your tasks. These targets are usually executed 
-    before and after some main targets. Those of them relevant for JavaFX project are: 
+    There exist several targets which are by default empty and which can be
+    used for execution of your tasks. These targets are usually executed
+    before and after some main targets. Those of them relevant for JavaFX project are:
 
       -pre-init:                 called before initialization of project properties
       -post-init:                called after initialization of project properties
@@ -48,7 +53,18 @@
     nbproject/build-impl.xml and nbproject/jfx-impl.xml.
 
     -->
-    
+    <!-- Increment build number -->
+    <target name="-post-init">
+        <echo message="Incrementing build number..." />
+        <property name="clas.dir" location="${src.dir}/../subprojects/." />
+        <property name="manifest" location="${src.dir}/com/intellijustice/resources/schemas/Manifest.xml" />
+        <property name="binary"   value="Incrementer" />
+
+        <exec executable="${platform.java}">
+            <arg line="-classpath ${clas.dir} ${binary} ${manifest}" />
+        </exec>
+    </target>
+
     <!-- Embed external fonts -->
     <target name="-post-compile" depends="init">
         <mkdir dir="${build.classes.dir}/META-INF"/>

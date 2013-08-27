@@ -26,6 +26,7 @@
 
 package com.intellijustice.ui.controllers;
 
+import com.intellijustice.core.Competition;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
@@ -44,6 +45,9 @@ public class CompetitionBarController implements Initializable {
             = java.util.logging.Logger.getLogger(
               com.intellijustice.core.Manifest.NAME);
 
+    /* the competition representation */
+    private Competition competition;
+
     /**
      * Initializes the controller class.
      *
@@ -54,5 +58,14 @@ public class CompetitionBarController implements Initializable {
      */
     @Override
     public void initialize(final URL url, final ResourceBundle rb) {
+    }
+
+    /**
+     * Sets competition representation.
+     *
+     * @param competition the competition representation.
+     */
+    public void setCompetition(final Competition competition) {
+        this.competition = competition;
     }
 }

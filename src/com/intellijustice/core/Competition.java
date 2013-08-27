@@ -26,6 +26,10 @@
 
 package com.intellijustice.core;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * The competition entity representation.
  *
@@ -40,9 +44,84 @@ public class Competition {
             = java.util.logging.Logger.getLogger(
             com.intellijustice.core.Manifest.NAME);
 
+    private final List<Athlete>   list;
+
+    private final int             id;
+    private final CompetitionType type;
+    private final String          name;
+    private final long            time;
+    private final boolean         sex; /* true(1) is male, false(0) is female */
+
     /**
      * Constructs new competition object.
+     *
+     * @param id   the identification number for the competition.
+     * @param type the type of competition (the discipline).
+     * @param name the name of the competition.
+     * @param time the starting time of the competition.
+     * @param sex  the sex of athletes in the competition.
      */
-    public Competition() {
+    public Competition(final int id, final CompetitionType type,
+            final String name, final long time, final boolean sex) {
+        this.list = new ArrayList<>(16);
+        this.id   = id;
+        this.type = type;
+        this.name = name;
+        this.time = time;
+        this.sex  = sex;
+    }
+
+    /**
+     * Returns the identification number for the competition.
+     *
+     * @return the identification number for the competition.
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * Returns the type of competition (the discipline).
+     *
+     * @return the type of competition (the discipline).
+     */
+    public CompetitionType getType() {
+        return type;
+    }
+
+    /**
+     * Returns the name of the competition.
+     *
+     * @return the name of the competition.
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Returns the starting time of the competition.
+     *
+     * @return the starting time of the competition.
+     */
+    public long getTime() {
+        return time;
+    }
+
+    /**
+     * Returns the sex of athletes in the competition.
+     *
+     * @return the sex of athletes in the competition.
+     */
+    public boolean isSex() {
+        return sex;
+    }
+
+    /**
+     * Returns the list of athletes in this competition.
+     *
+     * @return the list of athletes.
+     */
+    public List<Athlete> getAthleteList() {
+        return Collections.unmodifiableList(list);
     }
 }

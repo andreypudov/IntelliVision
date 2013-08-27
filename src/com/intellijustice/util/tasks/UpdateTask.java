@@ -184,8 +184,7 @@ public class UpdateTask implements Runnable {
             }
         } catch (IOException | ParserConfigurationException
                 | SAXException | NoSuchAlgorithmException e) {
-            LOG.info("Could not download and install updates.");
-            LOG.info(e.getMessage());
+            /* LOG.info("Could not download and install updates."); */
         }
     }
 
@@ -445,38 +444,39 @@ public class UpdateTask implements Runnable {
         Enumeration<ZipEntry> zipFileEntries = (Enumeration<ZipEntry>) zip.entries();
 
         while (zipFileEntries.hasMoreElements()) {
-            ZipEntry entry        = zipFileEntries.nextElement();
-            String   currentEntry = entry.getName();
-            File     destFile     = new File(parent, currentEntry);
-            //destFile = new File(newPath, destFile.getName());
-            File destinationParent = destFile.getParentFile();
+            final ZipEntry entry        = zipFileEntries.nextElement();
+            final String   currentEntry = entry.getName();
+            final File     destFile     = new File(parent, currentEntry);
 
-            // create the parent directory structure if needed
+            final File destinationParent = destFile.getParentFile();
+
+            /* create the parent directory structure if needed */
             destinationParent.mkdirs();
 
             if (entry.isDirectory() == false) {
-                BufferedInputStream inputStream = new BufferedInputStream(
-                        zip.getInputStream(entry));
-                int currentByte;
-                // establish buffer for writing file
-                byte buffer[] = new byte[BUFFER_LENGTH];
+                try (final BufferedInputStream inputStream
+                        = new BufferedInputStream(zip.getInputStream(entry))) {
+                    int currentByte;
+                    /* establish buffer for writing file */
+                    final byte buffer[] = new byte[BUFFER_LENGTH];
 
-                // write the current file to disk
-                BufferedOutputStream outputStream = new BufferedOutputStream(
-                        new FileOutputStream(destFile), BUFFER_LENGTH);
+                    /* write the current file to disk */
+                   final BufferedOutputStream outputStream
+                           = new BufferedOutputStream(
+                           new FileOutputStream(destFile), BUFFER_LENGTH);
 
-                // read and write until last byte is encountered
-                while ((currentByte
+                    /* read and write until last byte is encountered */
+                    while ((currentByte
                         = inputStream.read(buffer, 0, BUFFER_LENGTH)) != -1) {
-                    outputStream.write(buffer, 0, currentByte);
+                        outputStream.write(buffer, 0, currentByte);
+                    }
+                    outputStream.flush();
+                    outputStream.close();
                 }
-                outputStream.flush();
-                outputStream.close();
-                inputStream.close();
             }
 
             if (currentEntry.endsWith(".zip")) {
-                // found a zip file, try to open
+                /* extract internal Zip archive */
                 extractUpdate(destFile);
             }
         }

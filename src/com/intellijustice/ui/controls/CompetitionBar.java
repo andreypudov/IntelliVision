@@ -26,6 +26,7 @@
 
 package com.intellijustice.ui.controls;
 
+import com.intellijustice.core.Competition;
 import com.intellijustice.ui.controllers.CompetitionBarController;
 import com.intellijustice.util.StatusCodes;
 import javafx.fxml.FXMLLoader;
@@ -51,9 +52,9 @@ public class CompetitionBar extends HBox {
     /* controller initialization interface */
     private final CompetitionBarController controller;
 
-    public CompetitionBar() {
+    public CompetitionBar(final Competition competition) {
         fxmlLoader = new FXMLLoader(getClass().getResource(
-                    "/com/intellijustice/resources/schemas/CompetitionBar.fxml"));
+            "/com/intellijustice/resources/schemas/CompetitionBar.fxml"));
 
         fxmlLoader.setRoot(this);
 
@@ -65,5 +66,6 @@ public class CompetitionBar extends HBox {
         }
 
         controller = fxmlLoader.getController();
+        controller.setCompetition(competition);
     }
 }

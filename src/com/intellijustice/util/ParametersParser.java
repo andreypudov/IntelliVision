@@ -67,7 +67,7 @@ public class ParametersParser {
             switch (arg.getKey()) {
                 default:
                     LOG.info(help);
-                    System.exit(StatusCodes.EXIT_SUCCESS);
+                    System.exit(StatusCodes.EXIT_FAILURE);
                     break;
             }
         }
@@ -86,7 +86,7 @@ public class ParametersParser {
                     /* fall through */
                 default:
                     LOG.info(help);
-                    System.exit(StatusCodes.EXIT_SUCCESS);
+                    System.exit(StatusCodes.EXIT_FAILURE);
                     break;
             }
         }

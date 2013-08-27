@@ -26,7 +26,11 @@
 
 package com.intellijustice.ui.controllers;
 
+import com.intellijustice.core.Championship;
+import com.intellijustice.core.Competition;
+import com.intellijustice.core.DefaultDataProvider;
 import com.intellijustice.ui.controls.CompetitionBar;
+import com.intellijustice.util.pools.Core;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -47,7 +51,10 @@ public class HomeModuleController implements Initializable {
             = java.util.logging.Logger.getLogger(
               com.intellijustice.core.Manifest.NAME);
 
-    @FXML private FlowPane competitionsList;
+    /* championship data provider */
+    private final DefaultDataProvider provider = Core.getDataProvider();
+
+    @FXML private FlowPane competitionList;
 
     /**
      * Initializes the controller class.
@@ -59,7 +66,19 @@ public class HomeModuleController implements Initializable {
      */
     @Override
     public void initialize(final URL url, final ResourceBundle rb) {
-        final CompetitionBar bar = new CompetitionBar();
-        competitionsList.getChildren().add(bar);
+        update();
+    }
+
+    /**
+     * Updates competition list.
+     */
+    private void update() {
+        final Championship championship = provider.getChampionship();
+
+        for (Competition competition : championship.getCompetitionList()) {
+            final CompetitionBar bar = new CompetitionBar(competition);
+
+            competitionList.getChildren().add(bar);
+        }
     }
 }

@@ -26,9 +26,13 @@
 
 package com.intellijustice.util.pools;
 
+import com.intellijustice.core.DefaultDataProvider;
+import com.intellijustice.core.ExcelDataProvider;
+import com.intellijustice.core.SQLDataProvider;
 import com.intellijustice.ui.modules.HelpModule;
 import com.intellijustice.util.ConsoleFormatter;
 import com.intellijustice.util.StatusCodes;
+import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.text.DateFormat;
@@ -74,6 +78,9 @@ public class Core {
 
     /* the task execution pool */
     private static final Executor EXECUTOR = Executor.getExecutor();
+
+    /* the data provider instance */
+    private static final DefaultDataProvider dataProvider;
 
     /* the primary stage for the application */
     private static Stage primaryStage;
@@ -141,12 +148,32 @@ public class Core {
             System.exit(StatusCodes.EXIT_FAILURE);
         }
 
-        LOG.info("IntelliJustice Intelligent Referee Assistant System \n"
-                + "Copyright (C) 2011-2013 Andrey Pudov. "
+        LOG.info("IntelliJustice Intelligent Referee Assistant System\n"
+                + "Copyright (C) 2011-2013 Andrey Pudov."
                 + "All rights reserved.\n");
 
         /* adds first-level module to the appliation window */
         Modules.addModule(HelpModule.getInstance());
+
+        /* running data provider */
+        final String provider = SETTINGS.getValue("intellijustice.provider");
+        switch(provider) {
+            case "Excel":
+                /* use Excel data provider as a primary data provider */
+                final File worksheet = new File(SETTINGS.getValue(
+                        "intellijustice.provider.excel.document"));
+
+                dataProvider = new ExcelDataProvider(worksheet);
+                break;
+            default:
+                /* use MySQL data provider as a prmary data provider */
+                dataProvider = new SQLDataProvider();
+                break;
+        }
+    }
+
+    /* do not let anyone instantiate this class */
+    private Core() {
     }
 
     /**
@@ -311,7 +338,12 @@ public class Core {
         primaryStage.setIconified(true);
     }
 
-    /* do not let anyone instantiate this class */
-    private Core() {
+    /**
+     * Returns selected data provider.
+     *
+     * @return the data provider used by application settings.
+     */
+    public static synchronized DefaultDataProvider getDataProvider() {
+        return dataProvider;
     }
 }

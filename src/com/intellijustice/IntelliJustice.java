@@ -30,7 +30,6 @@ import com.intellijustice.util.ParametersParser;
 import com.intellijustice.util.StatusCodes;
 import com.intellijustice.util.pools.Core;
 import com.intellijustice.util.pools.Executor;
-import com.intellijustice.util.tasks.SynchronizationTask;
 import com.intellijustice.util.tasks.UpdateTask;
 import java.util.concurrent.TimeUnit;
 import javafx.application.Application;

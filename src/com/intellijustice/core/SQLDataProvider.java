@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<!--
+/*
  * IntelliJustice Intelligent Referee Assistant System
  *
  * The MIT License
@@ -24,29 +22,38 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
--->
+ */
 
-<?import java.lang.*?>
-<?import java.net.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+package com.intellijustice.core;
 
-<!--
-    Document   : HomeModule.fxml
-    Created on : Oct 22, 2012, 12:00:00 AM
-    Author     : Andrey Pudov        <mail@andreypudov.com>
-    Description:
-        General application module with the the list of log files.
--->
+/**
+ * The SQL data provider adds support to use MySQL Database as a source data
+ * for retrieving championship information.
+ *
+ * @author    Andrey Pudov        <mail@andreypudov.com>
+ * @version   0.00.00
+ * %name      SQLDataProvider.java
+ * %date      02:40:00 PM, Aug 24, 2013
+ */
+public class SQLDataProvider implements DefaultDataProvider {
 
-<fx:root fx:id="homeModule" type="javafx.scene.layout.GridPane"
-         xmlns:fx="http://javafx.com/fxml"
-         fx:controller="com.intellijustice.ui.controllers.HomeModuleController">
-    <children>
-        <FlowPane fx:id="competitionList">
-        </FlowPane>
-    </children>
-    <stylesheets>
-        <URL value="@../styles/HomeModule.css" />
-    </stylesheets>
-</fx:root>
+    private static final java.util.logging.Logger LOG
+            = java.util.logging.Logger.getLogger(
+            com.intellijustice.core.Manifest.NAME);
+
+    /**
+     * Constructs new SQL data provider.
+     */
+    public SQLDataProvider() {
+    }
+
+    /**
+     * Returns current championship representation.
+     *
+     * @return the championship representation.
+     */
+    @Override
+    public Championship getChampionship() {
+        return null;
+    }
+}

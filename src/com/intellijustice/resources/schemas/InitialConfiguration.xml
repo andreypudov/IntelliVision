@@ -53,4 +53,7 @@
     <entry key="intellijustice.database.connectTimeout">100</entry>
     <entry key="intellijustice.database.autoReconnect">true</entry>
     <entry key="intellijustice.database.maxReconnects">3</entry>
+
+    <entry key="intellijustice.provider">Excel</entry>
+    <entry key="intellijustice.provider.excel.document">${HOME_DIRECTORY}${FILE_SEPARATOR}IntelliJustice.xlsx</entry>
 </properties>

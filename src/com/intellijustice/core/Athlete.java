@@ -28,7 +28,6 @@ package com.intellijustice.core;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -48,8 +47,9 @@ public class Athlete {
     private final int     id;
     private final String  firstName;
     private final String  secondName;
-    private final Date    birthday;
+    private final long    birthday;
     private final boolean sex;       /* thue is male, false is female */
+    private final String  country;
 
     /**
      * Constructs new Athletic object.
@@ -59,14 +59,17 @@ public class Athlete {
      * @param secondName the second name of the athlete.
      * @param birthday   the birthday of the athlete.
      * @param sex        the sex of the athlete (true for male).
+     * @param country    the country where the athlete from.
      */
     public Athlete(final int id, final String firstName,
-            final String secondName, final long birthday, final boolean sex) {
+            final String secondName, final long birthday, final boolean sex,
+            final String country) {
         this.id          = id;
         this.firstName   = firstName;
         this.secondName  = secondName;
-        this.birthday    = new Date(birthday);
+        this.birthday    = birthday;
         this.sex         = sex;
+        this.country     = country;
     }
 
     /**
@@ -103,7 +106,7 @@ public class Athlete {
      * @return the birthday of the athlete.
      */
     public long getBirthday() {
-        return birthday.getTime();
+        return birthday;
     }
 
     /**
@@ -117,6 +120,15 @@ public class Athlete {
     }
 
     /**
+     * Returns the country where the athlete from.
+     *
+     * @return the country where the athlete from.
+     */
+    public String getCountry() {
+        return country;
+    }
+
+    /**
      * Indicates whether some other object is "equal to" this one.
      *
      * @param obj the reference object with which to compare.
@@ -124,7 +136,7 @@ public class Athlete {
      *            false otherwise.
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == null) {
             return false;
         }
@@ -137,7 +149,7 @@ public class Athlete {
         if (this.id != other.id) {
             return false;
         }
-        
+
         if (!Objects.equals(this.firstName, other.firstName)) {
             return false;
         }
@@ -146,11 +158,15 @@ public class Athlete {
             return false;
         }
 
-        if (!Objects.equals(this.birthday, other.birthday)) {
+        if (this.birthday != other.birthday) {
             return false;
         }
 
         if (this.sex != other.sex) {
+            return false;
+        }
+
+        if (!Objects.equals(this.country, other.country)) {
             return false;
         }
 
@@ -165,6 +181,7 @@ public class Athlete {
     @Override
     public int hashCode() {
         int hash = 3;
+
         hash = 67 * hash + this.id;
 
         return hash;
@@ -185,7 +202,8 @@ public class Athlete {
                 ).append((sex == true) ? "M" : "F").append(" "
                 ).append(firstName).append(" "
                 ).append(secondName).append(" "
-                ).append(formatter.format(birthday));
+                ).append(formatter.format(birthday)).append(" "
+                ).append(country);
 
         return builder.toString();
     }

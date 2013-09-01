@@ -46,26 +46,29 @@ public class Championship {
 
     private final List<Competition>  list;
 
-    private final int                id;
-    private final String             name;
-    private final String             city;
-    private final ChampionshipFormat format;
+    private final int    id;
+    private final String name;
+    private final String country;
+    private final String city;
+    private final Format format;
 
     /**
      * Constructs new championship object.
      *
-     * @param id     the identification number for the championship.
-     * @param name   the name of the championship.
-     * @param city   the city of the championship.
-     * @param format the format of the championship (indoor, outdoor).
+     * @param id      the identification number for the championship.
+     * @param name    the name of the championship.
+     * @param country the country of the competition.
+     * @param city    the city of the championship.
+     * @param format  the format of the championship (indoor, outdoor).
      */
     public Championship(final int id, final String name, final String city,
-            final ChampionshipFormat format) {
-        this.list   = new ArrayList<>(16);
-        this.id     = id;
-        this.name   = name;
-        this.city   = city;
-        this.format = format;
+            final String country, final Format format) {
+        this.list    = new ArrayList<>(16);
+        this.id      = id;
+        this.name    = name;
+        this.country = country;
+        this.city    = city;
+        this.format  = format;
     }
 
     /**
@@ -87,6 +90,15 @@ public class Championship {
     }
 
     /**
+     * Returns the country of the championship.
+     *
+     * @return the country of the championship.
+     */
+    public String getCountry() {
+        return country;
+    }
+
+    /**
      * Returns the city of the championship.
      *
      * @return the city of the championship.
@@ -100,7 +112,7 @@ public class Championship {
      *
      * @return the format of the championship (indoor, outdoor).
      */
-    public ChampionshipFormat getFormat() {
+    public Format getFormat() {
         return format;
     }
 

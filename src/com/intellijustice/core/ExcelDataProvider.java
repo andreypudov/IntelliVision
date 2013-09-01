@@ -72,7 +72,7 @@ public class ExcelDataProvider implements DefaultDataProvider {
      */
     @Override
     public Championship getChampionship() {
-        return new Championship(-1, "Name", "City", ChampionshipFormat.OUTDOOR);
+        return new Championship(-1, "Name", "Country", "City", Format.OUTDOOR);
     }
 
     /**

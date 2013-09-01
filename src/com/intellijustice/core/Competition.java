@@ -45,30 +45,42 @@ public class Competition {
             com.intellijustice.core.Manifest.NAME);
 
     private final List<Athlete>   list;
+    //private final RecordEntry     records;
 
-    private final int             id;
-    private final CompetitionType type;
-    private final String          name;
-    private final long            time;
-    private final boolean         sex; /* true(1) is male, false(0) is female */
+    private final int        id;
+    private final Discipline discipline;
+    private final Round      round;
+    private final boolean    sex; /* true(1) is male, false(0) is female */
+    private final long       startTime;
+    private final long       endTime;
+    private final short      temperature;
+    private final short      humidity;
 
     /**
      * Constructs new competition object.
      *
-     * @param id   the identification number for the competition.
-     * @param type the type of competition (the discipline).
-     * @param name the name of the competition.
-     * @param time the starting time of the competition.
-     * @param sex  the sex of athletes in the competition.
+     * @param id          the identification number for the competition.
+     * @param discipline  the discipline of the competition.
+     * @param round       the round of the competition.
+     * @param sex         the sex of athletes in the competition.
+     * @param startTime   the starting time of the competition.
+     * @param endTime     the ending time of the competition.
+     * @param temperature the temperature of the competition.
+     * @param humidity    the humidity of the competition.
      */
-    public Competition(final int id, final CompetitionType type,
-            final String name, final long time, final boolean sex) {
+    public Competition(final int id, final Discipline discipline,
+            final Round round, final boolean sex, final long startTime,
+            final long endTime, final short temperature, final short humidity) {
         this.list = new ArrayList<>(16);
-        this.id   = id;
-        this.type = type;
-        this.name = name;
-        this.time = time;
-        this.sex  = sex;
+
+        this.id          = id;
+        this.discipline  = discipline;
+        this.round       = round;
+        this.sex         = sex;
+        this.startTime   = startTime;
+        this.endTime     = endTime;
+        this.temperature = temperature;
+        this.humidity    = humidity;
     }
 
     /**
@@ -81,30 +93,21 @@ public class Competition {
     }
 
     /**
-     * Returns the type of competition (the discipline).
+     * Returns the discipline of the competition.
      *
-     * @return the type of competition (the discipline).
+     * @return the discipline for the competition.
      */
-    public CompetitionType getType() {
-        return type;
+    public Discipline getDiscipline() {
+        return discipline;
     }
 
     /**
-     * Returns the name of the competition.
+     * Returns the round of the competition.
      *
-     * @return the name of the competition.
+     * @return the round of the competition.
      */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Returns the starting time of the competition.
-     *
-     * @return the starting time of the competition.
-     */
-    public long getTime() {
-        return time;
+    public Round getRound() {
+        return round;
     }
 
     /**
@@ -112,8 +115,44 @@ public class Competition {
      *
      * @return the sex of athletes in the competition.
      */
-    public boolean isSex() {
+    public boolean getSex() {
         return sex;
+    }
+
+    /**
+     * Returns the starting time of the competition.
+     *
+     * @return the starting time of the competition.
+     */
+    public long getStartTime() {
+        return startTime;
+    }
+
+    /**
+     * Returns the ending time of the competition.
+     *
+     * @return the ending time of the competition.
+     */
+    public long getEndTime() {
+        return endTime;
+    }
+
+    /**
+     * Returns the temperature of the competition.
+     *
+     * @return the temperature of the competition.
+     */
+    public short getTemperature() {
+        return temperature;
+    }
+
+    /**
+     * Returns the humidity of the competition.
+     *
+     * @return the humidity of the competition.
+     */
+    public short getHumidity() {
+        return humidity;
     }
 
     /**

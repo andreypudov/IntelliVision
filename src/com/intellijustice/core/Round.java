@@ -27,13 +27,16 @@
 package com.intellijustice.core;
 
 /**
- * The championship format entity representation.
+ * The competition round entity representation.
  *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
- * %name      ChampionshipFormat.java
- * %date      04:40:00 PM, Aug 14, 2013
+ * %name      Round.java
+ * %date      09:30:00 PM, Aug 28, 2013
  */
-public enum ChampionshipFormat {
-    INDOOR, OUTDOOR
+public enum Round {
+    HEATS, SEMI_FINAL, FINAL, DECATHLON, HEPTATHLON,
+    QUALIFICATION_GROUP_A, QUALIFICATION_GROUP_B,
+    DECATHLON_GROUP_A,     DECATHLON_GROUP_B,
+    HEPTATHLON_GROUP_A,    HEPTATHLON_GROUP_B
 }

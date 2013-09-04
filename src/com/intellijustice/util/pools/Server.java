@@ -93,6 +93,7 @@ public enum Server {
     public synchronized void connect() {
         try {
             Properties properties = new Properties();
+            
             /*
              * http://dev.mysql.com/doc/refman/5.0/en/
              * connector-j-reference-configuration-properties.html

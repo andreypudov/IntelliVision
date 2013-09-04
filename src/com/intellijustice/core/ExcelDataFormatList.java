@@ -24,34 +24,40 @@
  * THE SOFTWARE.
  */
 
-package com.intellijustice.util.tasks;
-
-import com.intellijustice.core.DefaultDataProvider;
-import com.intellijustice.util.pools.Core;
+package com.intellijustice.core;
 
 /**
- * The database synchronization task.
+ * The list of supported Excel data formats.
  *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
- * %name      SynchronizationTask.java
- * %date      03:15:00 PM, Aug 01, 2013
+ * %name      ExcelDataFormatList.java
+ * %date      08:50:00 AM, Sep 04, 2013
  */
-public class SynchronizationTask implements Runnable {
+public enum ExcelDataFormatList {
+    
+    VERSION_1(1), UNSUPPORTED(-1);
 
-    private static final java.util.logging.Logger LOG
-            = java.util.logging.Logger.getLogger(
-            com.intellijustice.core.Manifest.NAME);
+    /* the number of the version */
+    private final int value;
 
-    /* the chamiponship data provider */
-    private final DefaultDataProvider dataProvider;
-
-    public SynchronizationTask() {
-        dataProvider = Core.getDataProvider();
+    ExcelDataFormatList(final int value) {
+        this.value = value;
     }
 
-    @Override
-    public void run() {
-        dataProvider.update();
+    /**
+     * Returns the supported version number.
+     *
+     * @param version the version of the document.
+     * @return        the number of the supported version.
+     */
+    public static ExcelDataFormatList getFormat(final int version) {
+        for (ExcelDataFormatList entry :ExcelDataFormatList.values()) {
+            if (entry.value == version) {
+                return entry;
+            }
+        }
+
+        return UNSUPPORTED;
     }
 }

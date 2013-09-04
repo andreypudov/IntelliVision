@@ -36,4 +36,5 @@ package com.intellijustice.core;
  */
 public interface DefaultDataProvider {
     public Championship getChampionship();
+    public void update();
 }

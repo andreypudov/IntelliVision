@@ -26,6 +26,8 @@
 
 package com.intellijustice.core;
 
+import com.intellijustice.util.pools.Server;
+
 /**
  * The SQL data provider adds support to use MySQL Database as a source data
  * for retrieving championship information.
@@ -41,6 +43,9 @@ public class SQLDataProvider implements DefaultDataProvider {
             = java.util.logging.Logger.getLogger(
             com.intellijustice.core.Manifest.NAME);
 
+    /* the database server connection layer */
+    private static final Server SERVER = Server.getDatabaseServer();
+
     /**
      * Constructs new SQL data provider.
      */
@@ -54,6 +59,19 @@ public class SQLDataProvider implements DefaultDataProvider {
      */
     @Override
     public Championship getChampionship() {
-        return null;
+        return new Championship(-1, "Name", "Country", "City", Format.OUTDOOR);
+    }
+
+    /**
+     * Updates the championship representation and may fire one of the events.
+     * @ChampionshipChangedEvent and @CompetitionChangedEvent in case of the
+     * championship properties and the competition values updates respectively.
+     */
+    @Override
+    public void update() {
+        if (SERVER.isConnected() == false) {
+            LOG.info("Connecting to database server...");
+            SERVER.connect();
+        }
     }
 }

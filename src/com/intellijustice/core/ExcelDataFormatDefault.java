@@ -24,34 +24,16 @@
  * THE SOFTWARE.
  */
 
-package com.intellijustice.util.tasks;
-
-import com.intellijustice.core.DefaultDataProvider;
-import com.intellijustice.util.pools.Core;
+package com.intellijustice.core;
 
 /**
- * The database synchronization task.
+ * The Excel data format support interface.
  *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
- * %name      SynchronizationTask.java
- * %date      03:15:00 PM, Aug 01, 2013
+ * %name      ExcelDataFormatDefault.java
+ * %date      08:50:00 AM, Sep 04, 2013
  */
-public class SynchronizationTask implements Runnable {
-
-    private static final java.util.logging.Logger LOG
-            = java.util.logging.Logger.getLogger(
-            com.intellijustice.core.Manifest.NAME);
-
-    /* the chamiponship data provider */
-    private final DefaultDataProvider dataProvider;
-
-    public SynchronizationTask() {
-        dataProvider = Core.getDataProvider();
-    }
-
-    @Override
-    public void run() {
-        dataProvider.update();
-    }
+public interface ExcelDataFormatDefault {
+    public Championship readChampionship();
 }

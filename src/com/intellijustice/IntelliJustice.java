@@ -30,6 +30,7 @@ import com.intellijustice.util.ParametersParser;
 import com.intellijustice.util.StatusCodes;
 import com.intellijustice.util.pools.Core;
 import com.intellijustice.util.pools.Executor;
+import com.intellijustice.util.tasks.SynchronizationTask;
 import com.intellijustice.util.tasks.UpdateTask;
 import java.util.concurrent.TimeUnit;
 import javafx.application.Application;
@@ -95,8 +96,8 @@ public class IntelliJustice extends Application {
             UpdateTask.launch(this.getParameters());
 
             /* schedule application level tasks */
-            /* executor.schedulePeriodicTask(new SynchronizationTask(),
-                    3_000L, 3_000L, TimeUnit.MILLISECONDS); */
+            executor.schedulePeriodicTask(new SynchronizationTask(),
+                    3_000L, 3_000L, TimeUnit.MILLISECONDS);
             executor.schedulePeriodicTask(new UpdateTask(),
                     1_000L, 3_600_000L, TimeUnit.MILLISECONDS);
 

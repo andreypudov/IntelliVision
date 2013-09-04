@@ -24,34 +24,39 @@
  * THE SOFTWARE.
  */
 
-package com.intellijustice.util.tasks;
-
-import com.intellijustice.core.DefaultDataProvider;
-import com.intellijustice.util.pools.Core;
+package com.intellijustice.core;
 
 /**
- * The database synchronization task.
+ * Signals that illegal operation on data occurred.
  *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
- * %name      SynchronizationTask.java
- * %date      03:15:00 PM, Aug 01, 2013
+ * %name      IllegalOperationException.java
+ * %date      07:00:00 PM, Sep 03, 2013
  */
-public class SynchronizationTask implements Runnable {
+public class IllegalOperationException extends Exception {
 
+    private static final long serialVersionUID = 0x8a7c_9375_e0c5_30eaL;
     private static final java.util.logging.Logger LOG
             = java.util.logging.Logger.getLogger(
             com.intellijustice.core.Manifest.NAME);
 
-    /* the chamiponship data provider */
-    private final DefaultDataProvider dataProvider;
-
-    public SynchronizationTask() {
-        dataProvider = Core.getDataProvider();
+    /**
+     * Constructs an {@code IllegalOperationException} with {@code null}
+     * as its error detail message.
+     */
+    public IllegalOperationException() {
+        super();
     }
 
-    @Override
-    public void run() {
-        dataProvider.update();
+    /**
+     * Constructs an {@code IllegalOperationException} with the specified detail
+     * message.
+     *
+     * @param message the detail message (which is saved for later retrieval
+     *                by the {@link #getMessage()} method)
+     */
+    public IllegalOperationException(final String message) {
+        super(message);
     }
 }

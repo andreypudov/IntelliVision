@@ -162,16 +162,16 @@ public class Entry {
      * @param old     the exist result of the athlete.
      * @param updated the new value for to update.
      *
-     * @throws IllegalArgumentException
+     * @throws IllegalOperationException
      *                the old result value is not exists in the entry.
      */
     public void updateResult(final Result old, final Result updated)
-            throws IllegalArgumentException {
+            throws IllegalOperationException {
         int index = resultList.indexOf(old);
 
         /* the old result not found exception */
         if (index == -1) {
-            throw new IllegalArgumentException("The result value [" + old
+            throw new IllegalOperationException("The result value [" + old
                     + "] is not exists in the entry and can not be updated.");
         }
 

@@ -26,8 +26,11 @@
 
 package com.intellijustice.core;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -162,5 +165,27 @@ public class Competition {
      */
     public List<Athlete> getAthleteList() {
         return Collections.unmodifiableList(list);
+    }
+
+    /**
+     * Returns a string representation of the object.
+     *
+     * @return a string representation of the object.
+     */
+    @Override
+    public String toString() {
+        final StringBuilder builder  = new StringBuilder(128);
+        final DateFormat    formater = new SimpleDateFormat("hh:mm");
+
+
+        builder.append(discipline).append(" "
+                ).append(round).append(" "
+                ).append((sex) ? "M" : "F").append(" "
+                ).append(formater.format(new Date(startTime))).append(" "
+                ).append(formater.format(new Date(endTime))).append(" "
+                ).append(temperature).append(" "
+                ).append(humidity);
+
+        return builder.toString();
     }
 }

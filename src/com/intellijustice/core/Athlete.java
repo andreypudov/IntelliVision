@@ -194,8 +194,8 @@ public class Athlete {
      */
     @Override
     public String toString() {
-        StringBuilder builder   = new StringBuilder(126);
-        DateFormat    formatter = new SimpleDateFormat("dd-MMM-yyyy");
+        final StringBuilder builder   = new StringBuilder(126);
+        final DateFormat    formatter = new SimpleDateFormat("dd-MMM-yyyy");
 
         /* 01 S FistName LastName 01-01-1970 */
         builder.append(id).append(" "

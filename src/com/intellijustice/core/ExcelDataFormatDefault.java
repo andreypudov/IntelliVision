@@ -35,5 +35,5 @@ package com.intellijustice.core;
  * %date      08:50:00 AM, Sep 04, 2013
  */
 public interface ExcelDataFormatDefault {
-    public Championship readChampionship();
+    public Championship readChampionship() throws IncorrectFormatException;
 }

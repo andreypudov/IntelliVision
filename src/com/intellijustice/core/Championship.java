@@ -117,11 +117,37 @@ public class Championship {
     }
 
     /**
+     * Adds competition representation to the list.
+     *
+     * @param competition the competition representation.
+     */
+    public void addCompetition(final Competition competition) {
+        list.add(competition);
+    }
+
+    /**
      * Return the list of championship events.
      *
      * @return the competition list.
      */
     public List<Competition> getCompetitionList() {
         return Collections.unmodifiableList(list);
+    }
+
+    /**
+     * Returns a string representation of the object.
+     *
+     * @return a string representation of the object.
+     */
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder(128);
+
+        builder.append(name).append(" "
+                ).append(country).append(" "
+                ).append(city).append(" "
+                ).append(format);
+
+        return builder.toString();
     }
 }

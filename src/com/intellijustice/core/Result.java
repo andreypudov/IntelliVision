@@ -165,7 +165,7 @@ public class Result implements Comparable<Result> {
      */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder(128);
+        final StringBuilder builder = new StringBuilder(128);
 
         builder.append(attempt).append(" "
                 ).append(value).append(" "

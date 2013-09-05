@@ -141,7 +141,7 @@ public class Record {
      */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder(128);
+        final StringBuilder builder = new StringBuilder(128);
 
         builder.append("WR: ").append(world
                 ).append(" AR: ").append(area

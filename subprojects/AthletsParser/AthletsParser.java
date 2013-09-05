@@ -79,7 +79,7 @@ public class AthletsParser {
 
         public Competition(final String name,          final String world,
                            final String area,          final String national,
-                           final String junior,        final String juniorBest, 
+                           final String junior,        final String juniorBest,
                            final String mediterranean, final String season) {
             this.name          = name;
 
@@ -168,7 +168,7 @@ public class AthletsParser {
 
         @Override
         public String toString() {
-            StringBuilder result = new StringBuilder();
+            final StringBuilder result = new StringBuilder();
 
             return result.append(name).append(" "
                 ).append(world).append(" "
@@ -182,14 +182,14 @@ public class AthletsParser {
 
     private static class Athlete {
         private final String firstName;
-        private final String lastName;        
+        private final String lastName;
         private final String country;
         private final String personal;
         private final String season;
 
         private String birthday;
 
-        public Athlete(final String firstName, final String lastName, 
+        public Athlete(final String firstName, final String lastName,
                        final String country,   final String personal,
                        final String season) {
             this.firstName = firstName;
@@ -230,7 +230,7 @@ public class AthletsParser {
 
         @Override
         public String toString() {
-            StringBuilder result = new StringBuilder();
+            final StringBuilder result = new StringBuilder();
 
             return result.append(firstName).append(" "
                 ).append(lastName).append(" "
@@ -242,31 +242,31 @@ public class AthletsParser {
     }
 
     private static boolean isCountry(final String string) {
-        final String[] countryList = {"AFG",  "ALB",  "ALG",  "ASA",  "AND",  
-            "ANG",  "ANT",  "ARG",  "ARM",  "ARU",  "AUS",  "AUT",  "AZE",  
-            "BAH",  "BRN",  "BAN",  "BAR",  "BLR",  "BEL",  "BIZ",  "BER",  
-            "BEN",  "BHU",  "BOL",  "BIH",  "BOT",  "BRA",  "IVB",  "BRU",  
-            "BUL",  "BUR",  "BDI",  "CAM",  "CMR",  "CAN",  "CPV",  "CAY",  
-            "CAF",  "CHA",  "CHI",  "CHN",  "COL",  "COM",  "CGO",  "COD",  
-            "COK",  "CRC",  "CIV",  "CRO",  "CUB",  "CYP",  "CZE",  "DEN",  
-            "DJI",  "DMA",  "DOM",  "TLS",  "ECU",  "EGY",  "ESA",  "GEQ",  
-            "ERI",  "EST",  "ETH",  "FIJ",  "FIN",  "FRA",  "GAB",  "GAM",  
-            "GEO",  "GER",  "GHA",  "GRE",  "GRN",  "GUM",  "GUA",  "GUI", 
-            "GBS",  "GUY",  "HAI",  "HON",  "HKG",  "HUN",  "ISL",  "IND",  
-            "INA",  "IRI",  "IRQ",  "IRL",  "ISR",  "ITA",  "JAM",  "JPN",  
-            "JOR",  "KAZ",  "KEN",  "KIR",  "PRK",  "KOR",  "KUW",  "KGZ",  
-            "LAO",  "LAT",  "LIB",  "LES",  "LBR",  "LBA",  "LIE",  "LTU",  
-            "LUX",  "MKD",  "MAD",  "MAW",  "MAS",  "MDV",  "MLI",  "MLT",  
-            "MHL",  "MTN",  "MRI",  "MEX",  "FSM",  "MDA",  "MON",  "MGL",  
-            "MNE",  "MAR",  "MOZ",  "MYA",  "NAM",  "NRU",  "NEP",  "NED",  
-            "NZL",  "NCA",  "NIG",  "NGR",  "NOR",  "OMA",  "PAK",  "PLW",  
-            "PLE",  "PAN",  "PNG",  "PAR",  "PER",  "PHI",  "POL",  "POR",  
-            "PUR",  "QAT",  "ROU",  "RUS",  "RWA",  "SKN",  "LCA",  "VIN",  
-            "SAM",  "SMR",  "STP",  "KSA",  "SEN",  "SRB",  "SEY",  "SLE",  
-            "SIN",  "SVK",  "SLO",  "SOL",  "SOM",  "RSA",  "ESP",  "SRI",  
-            "SUD",  "SUR",  "SWZ",  "SWE",  "SUI",  "SYR",  "TPE",  "TJK",  
-            "TAN",  "THA",  "TOG",  "TGA",  "TRI",  "TUN",  "TUR",  "TKM",  
-            "TUV",  "UGA",  "UKR",  "UAE",  "GBR",  "USA",  "URU",  "UZB",  
+        final String[] countryList = {"AFG",  "ALB",  "ALG",  "ASA",  "AND",
+            "ANG",  "ANT",  "ARG",  "ARM",  "ARU",  "AUS",  "AUT",  "AZE",
+            "BAH",  "BRN",  "BAN",  "BAR",  "BLR",  "BEL",  "BIZ",  "BER",
+            "BEN",  "BHU",  "BOL",  "BIH",  "BOT",  "BRA",  "IVB",  "BRU",
+            "BUL",  "BUR",  "BDI",  "CAM",  "CMR",  "CAN",  "CPV",  "CAY",
+            "CAF",  "CHA",  "CHI",  "CHN",  "COL",  "COM",  "CGO",  "COD",
+            "COK",  "CRC",  "CIV",  "CRO",  "CUB",  "CYP",  "CZE",  "DEN",
+            "DJI",  "DMA",  "DOM",  "TLS",  "ECU",  "EGY",  "ESA",  "GEQ",
+            "ERI",  "EST",  "ETH",  "FIJ",  "FIN",  "FRA",  "GAB",  "GAM",
+            "GEO",  "GER",  "GHA",  "GRE",  "GRN",  "GUM",  "GUA",  "GUI",
+            "GBS",  "GUY",  "HAI",  "HON",  "HKG",  "HUN",  "ISL",  "IND",
+            "INA",  "IRI",  "IRQ",  "IRL",  "ISR",  "ITA",  "JAM",  "JPN",
+            "JOR",  "KAZ",  "KEN",  "KIR",  "PRK",  "KOR",  "KUW",  "KGZ",
+            "LAO",  "LAT",  "LIB",  "LES",  "LBR",  "LBA",  "LIE",  "LTU",
+            "LUX",  "MKD",  "MAD",  "MAW",  "MAS",  "MDV",  "MLI",  "MLT",
+            "MHL",  "MTN",  "MRI",  "MEX",  "FSM",  "MDA",  "MON",  "MGL",
+            "MNE",  "MAR",  "MOZ",  "MYA",  "NAM",  "NRU",  "NEP",  "NED",
+            "NZL",  "NCA",  "NIG",  "NGR",  "NOR",  "OMA",  "PAK",  "PLW",
+            "PLE",  "PAN",  "PNG",  "PAR",  "PER",  "PHI",  "POL",  "POR",
+            "PUR",  "QAT",  "ROU",  "RUS",  "RWA",  "SKN",  "LCA",  "VIN",
+            "SAM",  "SMR",  "STP",  "KSA",  "SEN",  "SRB",  "SEY",  "SLE",
+            "SIN",  "SVK",  "SLO",  "SOL",  "SOM",  "RSA",  "ESP",  "SRI",
+            "SUD",  "SUR",  "SWZ",  "SWE",  "SUI",  "SYR",  "TPE",  "TJK",
+            "TAN",  "THA",  "TOG",  "TGA",  "TRI",  "TUN",  "TUR",  "TKM",
+            "TUV",  "UGA",  "UKR",  "UAE",  "GBR",  "USA",  "URU",  "UZB",
             "VAN",  "VEN",  "VIE",  "ISV",  "YEM",  "ZAM",  "ZIM"};
 
         for (String country : countryList) {
@@ -318,8 +318,8 @@ public class AthletsParser {
         boolean startTitle = false;
         boolean recordList = false;
 
-        for (int pageNumber = 1; 
-                pageNumber < preader.getNumberOfPages(); 
+        for (int pageNumber = 1;
+                pageNumber < preader.getNumberOfPages();
                 ++pageNumber) {
             strategy = parser.processContent(pageNumber, new SimpleTextExtractionStrategy());
             reader   = new BufferedReader(new StringReader(strategy.getResultantText()));
@@ -412,7 +412,7 @@ public class AthletsParser {
                             }
                         }
 
-                        Athlete athlete = new Athlete(firstName.trim(), 
+                        Athlete athlete = new Athlete(firstName.trim(),
                             lastName.trim(), list[countryColumn],
                             (list.length > (countryColumn + 1) ? list[countryColumn + 1] : ""),
                             (list.length > (countryColumn + 2) ? list[countryColumn + 2] : ""));
@@ -451,7 +451,7 @@ public class AthletsParser {
             } catch(IOException e) {
                 System.err.printf("Error during parsing %s\n",
                                   e.getMessage());
-            } 
+            }
         }
 
         reader.close();
@@ -509,7 +509,7 @@ public class AthletsParser {
             cellStyleTitleMiddle.setBorderBottom(CellStyle.BORDER_THIN);
             cellStyleTitleMiddle.setBottomBorderColor(IndexedColors.BLACK.getIndex());
             cellStyleTitleMiddle.setFont(fontTitle);
-            
+
             CellStyle cellStyleName = workbook.createCellStyle();
             cellStyleName.setVerticalAlignment(CellStyle.VERTICAL_TOP);
             cellStyleName.setFont(fontName);
@@ -551,7 +551,7 @@ public class AthletsParser {
             cell = row.createCell(3);
             cell.setCellValue("SB");
             cell.setCellStyle(cellStyleTitleMiddle);
-               
+
             for (Athlete athlete : competition.getAthleteList()) {
                 rowIndex++;
                 row = sheet.createRow(rowIndex);

@@ -35,5 +35,22 @@ package com.intellijustice.core;
  * %date      04:40:00 PM, Aug 14, 2013
  */
 public enum Format {
-    INDOOR, OUTDOOR
+
+    INDOOR("Indoor"), OUTDOOR("Outdoor");
+
+    private final String value;
+
+    Format(final String value) {
+        this.value = value;
+    }
+
+    /**
+     * Returns a string representation of the object.
+     *
+     * @return a string representation of the object.
+     */
+    @Override
+    public String toString() {
+        return value;
+    }
 }

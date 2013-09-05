@@ -35,8 +35,50 @@ package com.intellijustice.core;
  * %date      09:30:00 PM, Aug 28, 2013
  */
 public enum Round {
-    HEATS, SEMI_FINAL, FINAL, DECATHLON, HEPTATHLON,
-    QUALIFICATION_GROUP_A, QUALIFICATION_GROUP_B,
-    DECATHLON_GROUP_A,     DECATHLON_GROUP_B,
-    HEPTATHLON_GROUP_A,    HEPTATHLON_GROUP_B
+
+    PRELIMINARY_ROUND("Preliminary Round"),
+    HEATS("Heats"),
+    SEMI_FINAL("Semi-Final"),
+    FINAL("Final"),
+    DECATHLON("Decathlon"),
+    HEPTATHLON("Heptathlon"),
+    QUALIFICATION_GROUP_A("Qualification Group A"),
+    QUALIFICATION_GROUP_B("Qualification Group B"),
+    DECATHLON_GROUP_A("Decathlon Group A"),
+    DECATHLON_GROUP_B("Decathlon Group B"),
+    HEPTATHLON_GROUP_A("Heptathlon Group A"),
+    HEPTATHLON_GROUP_B("Heptathlon Group B"),
+    UNDEFINED("Undefined");
+
+    private final String value;
+
+    Round(final String value) {
+        this.value = value;
+    }
+
+    /**
+     * Returns a string representation of the object.
+     *
+     * @return a string representation of the object.
+     */
+    @Override
+    public String toString() {
+        return value;
+    }
+
+    /**
+     * Return the round representation of the string.
+     *
+     * @param value the string value of round.
+     * @return      the round representation of the string.
+     */
+    public static Round getRound(final String value) {
+        for (Round round : Round.values()) {
+            if (round.toString().equals(value)) {
+                return round;
+            }
+        }
+
+        return UNDEFINED;
+    }
 }

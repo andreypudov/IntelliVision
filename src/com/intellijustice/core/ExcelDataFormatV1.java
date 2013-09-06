@@ -29,7 +29,9 @@ package com.intellijustice.core;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
 import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
@@ -71,6 +73,8 @@ public class ExcelDataFormatV1 implements ExcelDataFormatDefault {
     private static final int HUMIDITY_ROW_INDEX     = 4;
     private static final int HUMIDITY_CELL_INDEX    = 8;
 
+    private static final int COMPETITION_DATA_ROW   = 6;
+
     private static final String FORMAT_INDOOR_VALUE  = "Indoor";
     private static final String FORMAT_OUTDOOR_VALUE = "Outdoor";
     private static final String SEX_MALE_VALUE       = "Men";
@@ -83,10 +87,10 @@ public class ExcelDataFormatV1 implements ExcelDataFormatDefault {
      * Constructs Excel data reader with an support for format version 1.0 for
      * specified Excel workbook.
      *
-     * @param workbook the workbook to read.
+     * @param workbook  the workbook to read.
      */
     public ExcelDataFormatV1(final HSSFWorkbook workbook) {
-        this.workbook = workbook;
+        this.workbook  = workbook;
     }
 
     /**
@@ -131,32 +135,13 @@ public class ExcelDataFormatV1 implements ExcelDataFormatDefault {
                 cellCity.getStringCellValue(),
                 (cellFormat.getStringCellValue().equals(FORMAT_INDOOR_VALUE)
                     ? Format.INDOOR : Format.OUTDOOR));
-        LOG.info(championship.toString());
 
         for (int index = 0; index < workbook.getNumberOfSheets(); ++index) {
             final Competition competition
                     = readCompetition(workbook.getSheetAt(index));
 
             championship.addCompetition(competition);
-            LOG.info(competition.toString());
         }
-
-        //workbook.setForceFormulaRecalculation(true);
-        //FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
-        //evaluator.evaluateAll();
-
-//            Iterator<Row> rowIterator = sheet.iterator();
-//            while (rowIterator.hasNext()) {
-//                Row row = rowIterator.next();
-//
-//                Iterator<Cell> cellIterator = row.iterator();
-//                while (cellIterator.hasNext()) {
-//                    Cell cell = cellIterator.next();
-//
-//                    //LOG.info(cell.getStringCellValue());
-//                    LOG.info(evaluator.evaluate(cell).getStringValue());
-//                }
-//            }
 
         return championship;
     }
@@ -253,7 +238,172 @@ public class ExcelDataFormatV1 implements ExcelDataFormatDefault {
                     + " are in incorrect.");
         }
 
-        return new Competition(-1, discipline, round, sex, startTime, endTime,
-                temperature, humidity);
+        final Competition competition = new Competition(-1, discipline, round,
+                sex, startTime, endTime, temperature, humidity);
+
+        switch (discipline) {
+            case R_100_METRES:
+            case R_200_METRES:
+            case R_300_METRES:
+            case R_400_METRES:
+            case R_600_METRES:
+            case R_800_METRES:
+            case R_1000_METRES:
+            case R_1500_METRES:
+            case R_MILE:
+            case R_2000_METRES:
+            case R_3000_METRES:
+            case R_2_MILES:
+            case R_5000_METRES:
+            case R_10_000_METRES:
+            case R_100_METRES_HURDLES:
+            case R_110_METRES_HURDLES:
+            case R_400_METRES_HURDLES:
+            case R_2000_METRES_STEEPLECHASE:
+            case R_3000_METRES_STEEPLECHASE:
+                readRunning(sheet, competition);
+                break;
+            case HIGH_JUMP:
+            case POLE_VAULT:
+            case LONG_JUMP:
+            case TRIPPLE_JUMP:
+            case SHOT_PUT:
+            case DISCUS_THROW:
+            case HAMMER_THROW:
+            case JAVELIAN_THROW:
+            case R_10_KILOMETRES:
+            case R_15_KILOMETRES:
+            case R_10_MILES:
+            case R_20_KILOMETRES:
+            case HALF_MARATHON:
+            case MARATHON:
+            case W_3000_METRES_RACE_WALK:
+            case W_5000_METRES_RACE_WALK:
+            case W_5_KILOMETRES_RCAE_WALK:
+            case W_10_000_METRES_RCAE_WALK:
+            case W_10_KILOMETRES_RCAE_WALK:
+            case W_20_000_METRES_RCAE_WALK:
+            case W_20_KILOMETRES_RCAE_WALK:
+            case W_35_KILOMETRES_RCAE_WALK:
+            case W_50_KILOMETRES_RCAE_WALK:
+            case HEPTATHLON:
+            case DECATHLON:
+            case R_4_100_METRES_RELAY:
+            case R_4_400_METRES_RELAY:
+                readRunning(sheet, competition);
+                break;
+            case UNDEFINED:
+            default:
+                throw new IncorrectFormatException("The discipline "
+                    + cellDiscipline.getStringCellValue() + " is incorrect.");
+        }
+
+        return competition;
+    }
+
+    /**
+     * Reads running type of the competition.
+     *
+     * @param sheet       the Excel worksheet to read.
+     * @param competition the competition where to add data.
+     * @throws IncorrectFormatException
+     *                    the source of an exception.
+     */
+    private void readRunning(final HSSFSheet sheet,
+            final Competition competition)
+            throws IncorrectFormatException {
+
+        final DateFormat formatter = new SimpleDateFormat("dd.MM.yy");
+
+        /* read entry data row by row */
+        for (int rowIndex = COMPETITION_DATA_ROW;
+                rowIndex <= sheet.getLastRowNum(); ++rowIndex) {
+            final HSSFRow row = sheet.getRow(rowIndex);
+
+            final HSSFCell cellRank     = row.getCell(0);
+            final HSSFCell cellBib      = row.getCell(1);
+            final HSSFCell cellName     = row.getCell(2);
+            final HSSFCell cellBirthday = row.getCell(3);
+            final HSSFCell cellCountry  = row.getCell(4);
+            final HSSFCell cellPersonal = row.getCell(5);
+            final HSSFCell cellSeason   = row.getCell(6);
+            final HSSFCell cellLine     = row.getCell(7);
+            final HSSFCell cellResult   = row.getCell(8);
+            final HSSFCell cellReaction = row.getCell(9);
+
+            /* no more data in the sheet */
+            if (cellRank == null) {
+                break;
+            }
+
+            try {
+                final Athlete athlete = new Athlete(-1,
+                        getFirstName(cellName.getStringCellValue()),
+                        getLastName(cellName.getStringCellValue()),
+                        formatter.parse(cellBirthday.getStringCellValue()).getTime(),
+                        competition.getSex(), cellCountry.getStringCellValue());
+                final Entry entry = new Entry(athlete,
+                        (short) cellRank.getNumericCellValue(),
+                        (short) cellBib.getNumericCellValue(),
+                        (short) cellLine.getNumericCellValue(),
+                        (short) cellReaction.getNumericCellValue(),
+                        (int)   cellPersonal.getNumericCellValue(),
+                        (int)   cellSeason.getNumericCellValue());
+            } catch (Exception e) {
+                throw new IncorrectFormatException(
+                        "The athlete entry for competition "
+                        + competition + " is incorrect.");
+            }
+        }
+    }
+
+    /**
+     * Returns the first name of athlete.
+     *
+     * @param name the string containing the first and last names.
+     * @return     the first name of the athlete.
+     */
+    private String getFirstName(final String name) {
+        final StringBuilder builder = new StringBuilder(name.length());
+        final String[]      list    = name.split(" ");
+
+        for (String entry : list) {
+            for (char character : entry.toCharArray()) {
+                if (Character.isLowerCase(character)) {
+                    builder.append(entry).append(' ');
+                    break;
+                }
+            }
+        }
+
+        return builder.toString().trim();
+    }
+
+    /**
+     * Returns the last name of athlete.
+     *
+     * @param name the string containing the first and last names.
+     * @return     the last name of the athlete.
+     */
+    private String getLastName(final String name) {
+        final StringBuilder builder = new StringBuilder(name.length());
+        final String[]      list    = name.split(" ");
+
+        for (String entry : list) {
+            boolean isLowerCase = false;
+
+            for (char character : entry.toCharArray()) {
+                if (Character.isLowerCase(character)) {
+                    isLowerCase = true;
+                    break;
+                }
+            }
+
+            if (isLowerCase == false) {
+                builder.append(entry).append(' ');
+            }
+        }
+
+        return builder.toString().trim();
     }
 }

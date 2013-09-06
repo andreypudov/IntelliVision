@@ -187,4 +187,25 @@ public class Entry {
     public List<Result> getResults() {
         return Collections.unmodifiableList(resultList);
     }
+
+    /**
+     * Returns a string representation of the object.
+     *
+     * @return a string representation of the object.
+     */
+    @Override
+    public String toString() {
+        final StringBuilder builder   = new StringBuilder(126);
+
+        /* 01 S FistName LastName 01-01-1970 */
+        builder.append(rank).append(" "
+                ).append(bib).append(" "
+                ).append(athlete).append(" "
+                ).append(line).append(" "
+                ).append(reaction).append(" "
+                ).append(personal).append(" "
+                ).append(season);
+
+        return builder.toString();
+    }
 }

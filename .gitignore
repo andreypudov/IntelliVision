@@ -5,15 +5,17 @@ build/
 dist/
 nbproject/
 
+subprojects/AthletsParser/dist/
 subprojects/Preloader/build/
 subprojects/Preloader/dist/
-subprojects/Preloader/nbproject/
 
 subprojects/WinLauncher/Debug/
 subprojects/WinLauncher/ipch/
 subprojects/WinLauncher/Release/
 subprojects/WinLauncher/WinLauncher/Debug/
 subprojects/WinLauncher/WinLauncher/Release/
+
+subprojects/onlineathletics.github.com/packages/
 
 ################################################################################
 ### Compiled source                                                            #
@@ -25,6 +27,7 @@ subprojects/WinLauncher/WinLauncher/Release/
 *.sdf
 *.pch
 *.pchi
+*.ipch
 
 ################################################################################
 ### OS generated files                                                         #

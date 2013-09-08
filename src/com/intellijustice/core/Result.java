@@ -40,32 +40,35 @@ public class Result implements Comparable<Result> {
             = java.util.logging.Logger.getLogger(
             com.intellijustice.core.Manifest.NAME);
 
-    public static final int SUCCESS = -1;
-    public static final int FAILED  = -2;
+    public static final short SUCCESS = -1;
+    public static final short FAILED  = -2;
 
-    public static final int DID_NOT_START  = -3;  /* DNS */
-    public static final int DID_NOT_FINISH = -4;  /* DNF */
-    public static final int DISQUALIFIED   = -5;  /* DSQ */
+    public static final short DID_NOT_START  = -3;  /* DNS */
+    public static final short DID_NOT_FINISH = -4;  /* DNF */
+    public static final short DISQUALIFIED   = -5;  /* DSQ */
 
-    private final int attempt;
-    private final int value;
-    private final int result;
-    private final int wind;
+    private final short attempt;
+    private final short value;
+    private final short result;
+    private final short reaction;
+    private final short wind;
 
     /**
      * Constructs the result entry for the athlete.
      *
-     * @param attempt the number of the attempt during the competition.
-     * @param value   the value of an attempt.
-     * @param result  the result value.
-     * @param wind    the wind speed during an attempt.
+     * @param attempt  the number of the attempt during the competition.
+     * @param value    the value of an attempt.
+     * @param result   the result value.
+     * @param reaction the reaction time of the athlete.
+     * @param wind     the wind speed during an attempt.
      */
-    public Result(final int attempt, final int value, final int result,
-            final int wind) {
-        this.attempt = attempt;
-        this.value   = value;
-        this.result  = result;
-        this.wind    = wind;
+    public Result(final short attempt, final short value, final short result,
+            final short reaction, final short wind) {
+        this.attempt  = attempt;
+        this.value    = value;
+        this.result   = result;
+        this.reaction = reaction;
+        this.wind     = wind;
     }
 
     /**
@@ -73,7 +76,7 @@ public class Result implements Comparable<Result> {
      *
      * @return the number of the attempt during the competition.
      */
-    public int getAttempt() {
+    public short getAttempt() {
         return attempt;
     }
 
@@ -82,7 +85,7 @@ public class Result implements Comparable<Result> {
      *
      * @return the value of an attempt.
      */
-    public int getValue() {
+    public short getValue() {
         return value;
     }
 
@@ -91,8 +94,17 @@ public class Result implements Comparable<Result> {
      *
      * @return the result value.
      */
-    public int getResult() {
+    public short getResult() {
         return result;
+    }
+
+    /**
+     * Returns the reaction time of the athlete.
+     *
+     * @return the reaction time of the athlete.
+     */
+    public short getReaction() {
+        return reaction;
     }
 
     /**
@@ -100,7 +112,7 @@ public class Result implements Comparable<Result> {
      *
      * @return the wind speed during an attempt.
      */
-    public int getWind() {
+    public short getWind() {
         return wind;
     }
 
@@ -153,6 +165,7 @@ public class Result implements Comparable<Result> {
         hash = 71 * hash + this.attempt;
         hash = 71 * hash + this.value;
         hash = 71 * hash + this.result;
+        hash = 71 * hash + this.reaction;
         hash = 71 * hash + this.wind;
 
         return hash;
@@ -170,6 +183,7 @@ public class Result implements Comparable<Result> {
         builder.append(attempt).append(" "
                 ).append(value).append(" "
                 ).append(result).append(" "
+                ).append(reaction).append(" "
                 ).append(wind);
 
         return builder.toString();

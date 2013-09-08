@@ -78,6 +78,7 @@
 
     <!-- Obfuscate binary file -->
     <target name="-post-jfx-jar" if="${obfuscate}">
+        <echo message="Obfuscating binary file..." />
         <property name="proguard.jar.path" value="${src.dir}/../tools/proguard.jar" />
 
         <taskdef resource="proguard/ant/task.properties"
@@ -191,6 +192,7 @@
 
     <!-- Build Native Package -->
     <target name="-post-jfx-deploy" if="${packaging}">
+        <echo message="Building native package.." />
         <fx:deploy width="${javafx.run.width}" height="${javafx.run.height}"
                   nativeBundles="all"
                   outdir="${basedir}/${dist.dir}" outfile="${application.title}"

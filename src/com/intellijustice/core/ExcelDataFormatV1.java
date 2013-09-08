@@ -26,6 +26,7 @@
 
 package com.intellijustice.core;
 
+import com.intellijustice.util.Utilities;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -71,6 +72,8 @@ public class ExcelDataFormatV1 implements ExcelDataFormatDefault {
     private static final int TEMPERATURE_CELL_INDEX = 6;
     private static final int HUMIDITY_ROW_INDEX     = 4;
     private static final int HUMIDITY_CELL_INDEX    = 8;
+    private static final int WIND_ROW_INDEX         = 4;
+    private static final int WIND_CELL_INDEX        = 9;
 
     private static final int COMPETITION_DATA_ROW   = 6;
 
@@ -311,8 +314,12 @@ public class ExcelDataFormatV1 implements ExcelDataFormatDefault {
     private void readRunning(final HSSFSheet sheet,
             final Competition competition)
             throws IncorrectFormatException {
-
         final DateFormat formatter = new SimpleDateFormat("dd.MM.yy");
+
+        final HSSFCell cellWind = workbook.getSheetAt(0
+                ).getRow(WIND_ROW_INDEX
+                ).getCell(WIND_CELL_INDEX);
+        final short wind = parseShort(cellWind.getStringCellValue());
 
         /* read entry data row by row */
         for (int rowIndex = COMPETITION_DATA_ROW;
@@ -341,11 +348,13 @@ public class ExcelDataFormatV1 implements ExcelDataFormatDefault {
                         getLastName(cellName.getStringCellValue()),
                         formatter.parse(cellBirthday.getStringCellValue()).getTime(),
                         competition.getSex(), cellCountry.getStringCellValue());
+                final Result result = new Result((short) -1, (short) -1,
+                        (short) cellResult.getNumericCellValue(),
+                        (short) cellReaction.getNumericCellValue(), wind);
                 final Entry entry = new Entry(athlete,
                         (short) cellRank.getNumericCellValue(),
                         (short) cellBib.getNumericCellValue(),
                         (short) cellLine.getNumericCellValue(),
-                        (short) cellReaction.getNumericCellValue(),
                         (int)   cellPersonal.getNumericCellValue(),
                         (int)   cellSeason.getNumericCellValue());
             } catch (Exception e) {
@@ -404,5 +413,20 @@ public class ExcelDataFormatV1 implements ExcelDataFormatDefault {
         }
 
         return builder.toString().trim();
+    }
+
+    /**
+     * Parses the string argument as a signed decimal short. If string
+     * contains data that can not be converted to short, return zero.
+     *
+     * @param value the string contain short value.
+     * @return      the short representation of the string value or zero.
+     */
+    public static short parseShort(final String value) {
+        try {
+            return Short.parseShort(value);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
     }
 }

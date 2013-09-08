@@ -53,7 +53,6 @@ public class Entry {
     private final short rank;
     private final short bib;
     private final short line;
-    private final short reaction;
 
     private final int   personal;
     private final int   season;
@@ -65,12 +64,11 @@ public class Entry {
      * @param rank     the rank of the athlete (the number of the result).
      * @param bib      the bib number of the athlete for the championship.
      * @param line     the line of the athlete for the competition.
-     * @param reaction the reaction time of the athlete.
      * @param personal the personal result of the athlete in the discipline.
      * @param season   the season result of the athlete in the discipline.
      */
     public Entry(final Athlete athlete, final short rank,
-            final short bib, final short line, final short reaction,
+            final short bib, final short line,
             final int personal, final int season) {
         this.athlete  = athlete;
 
@@ -79,7 +77,6 @@ public class Entry {
         this.rank     = rank;
         this.bib      = bib;
         this.line     = line;
-        this.reaction = reaction;
         this.personal = personal;
         this.season   = season;
     }
@@ -118,15 +115,6 @@ public class Entry {
      */
     public short getLine() {
         return line;
-    }
-
-    /**
-     * Returns the reaction time of the athlete.
-     *
-     * @return the reaction time of the athlete.
-     */
-    public short getReaction() {
-        return reaction;
     }
 
     /**
@@ -202,7 +190,6 @@ public class Entry {
                 ).append(bib).append(" "
                 ).append(athlete).append(" "
                 ).append(line).append(" "
-                ).append(reaction).append(" "
                 ).append(personal).append(" "
                 ).append(season);
 

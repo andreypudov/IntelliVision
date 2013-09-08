@@ -47,9 +47,6 @@ public class Competition {
             = java.util.logging.Logger.getLogger(
             com.intellijustice.core.Manifest.NAME);
 
-    private final List<Athlete>   list;
-    //private final RecordEntry     records;
-
     private final int        id;
     private final Discipline discipline;
     private final Round      round;
@@ -74,8 +71,6 @@ public class Competition {
     public Competition(final int id, final Discipline discipline,
             final Round round, final boolean sex, final long startTime,
             final long endTime, final short temperature, final short humidity) {
-        this.list = new ArrayList<>(16);
-
         this.id          = id;
         this.discipline  = discipline;
         this.round       = round;
@@ -156,15 +151,6 @@ public class Competition {
      */
     public short getHumidity() {
         return humidity;
-    }
-
-    /**
-     * Returns the list of athletes in this competition.
-     *
-     * @return the list of athletes.
-     */
-    public List<Athlete> getAthleteList() {
-        return Collections.unmodifiableList(list);
     }
 
     /**

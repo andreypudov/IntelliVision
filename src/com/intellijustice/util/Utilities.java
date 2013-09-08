@@ -1,7 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
-
-<!--
+/*
  * IntelliJustice Intelligent Referee Assistant System
  *
  * The MIT License
@@ -25,21 +22,25 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
--->
+ */
 
-<!--
-    Document   : Manifest.xml
-    Created on : Aug 09, 2013, 04:50:00 PM
-    Author     : Andrey Pudov        <mail@andreypudov.com>
-    Description:
-        The application manifest file.
--->
+package com.intellijustice.util;
 
-<properties>
-    <comment>IntelliJustice Intelligent Referee Assistant System</comment>
+/**
+ * Utilities provides frequently used methods.
+ *
+ * @author    Andrey Pudov        <mail@andreypudov.com>
+ * @version   0.00.00
+ * %name      Utilities.java
+ * %date      09:50:00 PM, Sep 06, 2013
+ */
+public final class Utilities {
 
-    <entry key="NAME">IntelliJustice</entry>
-    <entry key="DESCRIPTION">IntelliJustice Intelligent Referee Assistant System</entry>
-    <entry key="VERSION">00.01.77</entry>
-    <entry key="RELEASE">Alpha</entry>
-</properties>
+    private static final java.util.logging.Logger LOG
+            = java.util.logging.Logger.getLogger(
+            com.intellijustice.core.Manifest.NAME);
+
+    /* do not let anyone instantiate this class */
+    private Utilities() {
+    }
+}

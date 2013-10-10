@@ -165,26 +165,19 @@ public class ExcelDataFormatV1 implements ExcelDataFormatDefault {
      */
     private Competition readCompetition(final Sheet sheet)
             throws IncorrectFormatException {
-        final Cell cellDiscipline = workbook.getSheetAt(0
-                ).getRow(DISCIPLINE_ROW_INDEX
+        final Cell cellDiscipline = sheet.getRow(DISCIPLINE_ROW_INDEX
                 ).getCell(DISCIPLINE_CELL_INDEX);
-        final Cell cellRound = workbook.getSheetAt(0
-                ).getRow(ROUND_ROW_INDEX
+        final Cell cellRound = sheet.getRow(ROUND_ROW_INDEX
                 ).getCell(ROUND_CELL_INDEX);
-        final Cell cellSex = workbook.getSheetAt(0
-                ).getRow(SEX_ROW_INDEX
+        final Cell cellSex = sheet.getRow(SEX_ROW_INDEX
                 ).getCell(SEX_CELL_INDEX);
-        final Cell cellStartTime = workbook.getSheetAt(0
-                ).getRow(START_TIME_ROW_INDEX
+        final Cell cellStartTime = sheet.getRow(START_TIME_ROW_INDEX
                 ).getCell(START_TIME_CELL_INDEX);
-        final Cell cellEndTime = workbook.getSheetAt(0
-                ).getRow(END_TIME_ROW_INDEX
+        final Cell cellEndTime = sheet.getRow(END_TIME_ROW_INDEX
                 ).getCell(END_TIME_CELL_INDEX);
-        final Cell cellTemperature = workbook.getSheetAt(0
-                ).getRow(TEMPERATURE_ROW_INDEX
+        final Cell cellTemperature = sheet.getRow(TEMPERATURE_ROW_INDEX
                 ).getCell(TEMPERATURE_CELL_INDEX);
-        final Cell cellHumidity = workbook.getSheetAt(0
-                ).getRow(HUMIDITY_ROW_INDEX
+        final Cell cellHumidity = sheet.getRow(HUMIDITY_ROW_INDEX
                 ).getCell(HUMIDITY_CELL_INDEX);
 
         if ((cellDiscipline.getCellType() != Cell.CELL_TYPE_STRING)

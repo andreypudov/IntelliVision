@@ -27,6 +27,8 @@
 package com.intellijustice.core;
 
 import com.intellijustice.util.pools.Server;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 
 /**
  * The SQL data provider adds support to use MySQL Database as a source data
@@ -42,6 +44,9 @@ public class SQLDataProvider implements DefaultDataProvider {
     private static final java.util.logging.Logger LOG
             = java.util.logging.Logger.getLogger(
             com.intellijustice.core.Manifest.NAME);
+
+    private final ObjectProperty<Championship> championshipProperty
+            = new SimpleObjectProperty<>();
 
     /* the database server connection layer */
     private static final Server SERVER = Server.getDatabaseServer();
@@ -73,5 +78,15 @@ public class SQLDataProvider implements DefaultDataProvider {
             LOG.info("Connecting to database server...");
             SERVER.connect();
         }
+    }
+
+    /**
+     * Returns the championship property.
+     *
+     * @return the championship property;
+     */
+    @Override
+    public ObjectProperty<Championship> championshipProperty() {
+        return championshipProperty;
     }
 }

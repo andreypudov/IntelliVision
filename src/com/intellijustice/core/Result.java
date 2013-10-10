@@ -164,6 +164,10 @@ public class Result implements Comparable<Result> {
             return false;
         }
 
+        if (this.reaction != other.reaction) {
+            return false;
+        }
+
         if (this.wind != other.wind) {
             return false;
         }
@@ -180,13 +184,13 @@ public class Result implements Comparable<Result> {
     public int hashCode() {
         int hash = 7;
 
-        hash = 71 * hash + this.id;
-        hash = 71 * hash + this.attempt;
-        hash = 71 * hash + this.value;
-        hash = 71 * hash + this.result;
-        hash = 71 * hash + this.reaction;
-        hash = 71 * hash + this.wind;
-
+        hash = 61 * hash + this.id;
+        hash = 61 * hash + this.attempt;
+        hash = 61 * hash + this.value;
+        hash = 61 * hash + this.result;
+        hash = 61 * hash + this.reaction;
+        hash = 61 * hash + this.wind;
+        
         return hash;
     }
 

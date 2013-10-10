@@ -29,6 +29,8 @@ package com.intellijustice.core;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 
 /**
  * The Excel data provider adds support to use Excel worksheet as a source data
@@ -44,6 +46,9 @@ public class ExcelDataProvider implements DefaultDataProvider {
     private static final java.util.logging.Logger LOG
             = java.util.logging.Logger.getLogger(
             com.intellijustice.core.Manifest.NAME);
+
+    private final ObjectProperty<Championship> championshipProperty
+            = new SimpleObjectProperty<>();
 
     /* the Excel worksheets */
     private final File worksheet;
@@ -67,12 +72,45 @@ public class ExcelDataProvider implements DefaultDataProvider {
      */
     @Override
     public Championship getChampionship() {
+        update();
+
+        return lastState;
+    }
+
+    /**
+     * Updates the championship representation and set new value to
+     * the @championshipProperty property.
+     */
+    @Override
+    public void update() {
+        final Championship championship = readChampionship();
+
+        /* fire competition changed event in case of new data */
+        if (championship.equals(lastState) != true) {
+            lastState = championship;
+            championshipProperty.set(championship);
+        }
+    }
+
+    /**
+     * Returns the championship property.
+     *
+     * @return the championship property;
+     */
+    @Override
+    public ObjectProperty<Championship> championshipProperty() {
+        return championshipProperty;
+    }
+
+    /**
+     * Reads championship representation.
+     *
+     * @return the championship representation.
+     */
+    private Championship readChampionship() {
         try {
             final ExcelDataReader reader = new ExcelDataReader(worksheet);
             final Championship championship = reader.readChampionship();
-
-            /* update cached value */
-            lastState = championship;
 
             return championship;
         } catch (IOException | IncorrectFormatException e) {
@@ -87,15 +125,5 @@ public class ExcelDataProvider implements DefaultDataProvider {
 
         return new Championship(-1, "Untitled Championship",
                 "Unnamed Country", "Unnamed City", Format.OUTDOOR);
-    }
-
-    /**
-     * Updates the championship representation and may fire one of the events.
-     * @ChampionshipChangedEvent and @CompetitionChangedEvent in case of the
-     * championship properties and the competition values updates respectively.
-     */
-    @Override
-    public void update() {
-        final Championship championship = getChampionship();
     }
 }

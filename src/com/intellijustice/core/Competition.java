@@ -28,7 +28,10 @@ package com.intellijustice.core;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -44,6 +47,9 @@ public class Competition {
     private static final java.util.logging.Logger LOG
             = java.util.logging.Logger.getLogger(
             com.intellijustice.core.Manifest.NAME);
+
+    /* the list of result entries */
+    private final List<Entry> list;
 
     private final int        id;
     private final Discipline discipline;
@@ -69,6 +75,8 @@ public class Competition {
     public Competition(final int id, final Discipline discipline,
             final Round round, final boolean sex, final long startTime,
             final long endTime, final short temperature, final short humidity) {
+        this.list        = new ArrayList<>(16);
+
         this.id          = id;
         this.discipline  = discipline;
         this.round       = round;
@@ -152,6 +160,24 @@ public class Competition {
     }
 
     /**
+     * Adds entry representation to the list.
+     *
+     * @param entry the entry representation.
+     */
+    public void addEntry(final Entry entry) {
+        list.add(entry);
+    }
+
+    /**
+     * Return the list of competition results.
+     *
+     * @return the competition result entries.
+     */
+    public List<Entry> getCompetitionList() {
+        return Collections.unmodifiableList(list);
+    }
+
+    /**
      * Indicates whether some other object is "equal to" this one.
      *
      * @param obj the reference object with which to compare.
@@ -169,6 +195,10 @@ public class Competition {
         }
 
         final Competition other = (Competition) obj;
+        if (!Objects.equals(this.list, other.list)) {
+            return false;
+        }
+
         if (this.id != other.id) {
             return false;
         }
@@ -211,19 +241,21 @@ public class Competition {
      */
     @Override
     public int hashCode() {
-        int hash = 5;
+        int hash = 7;
 
-        hash = 37 * hash + this.id;
-        hash = 37 * hash + Objects.hashCode(this.discipline);
-        hash = 37 * hash + Objects.hashCode(this.round);
-        hash = 37 * hash + (this.sex ? 1 : 0);
-        hash = 37 * hash + (int) (this.startTime ^ (this.startTime >>> 32));
-        hash = 37 * hash + (int) (this.endTime ^ (this.endTime >>> 32));
-        hash = 37 * hash + this.temperature;
-        hash = 37 * hash + this.humidity;
-        
+        hash = 83 * hash + Objects.hashCode(this.list);
+        hash = 83 * hash + this.id;
+        hash = 83 * hash + Objects.hashCode(this.discipline);
+        hash = 83 * hash + Objects.hashCode(this.round);
+        hash = 83 * hash + (this.sex ? 1 : 0);
+        hash = 83 * hash + (int) (this.startTime ^ (this.startTime >>> 32));
+        hash = 83 * hash + (int) (this.endTime ^ (this.endTime >>> 32));
+        hash = 83 * hash + this.temperature;
+        hash = 83 * hash + this.humidity;
+
         return hash;
     }
+
 
     /**
      * Returns a string representation of the object.

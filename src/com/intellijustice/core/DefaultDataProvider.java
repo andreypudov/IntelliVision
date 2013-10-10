@@ -26,6 +26,8 @@
 
 package com.intellijustice.core;
 
+import javafx.beans.property.ObjectProperty;
+
 /**
  * Provides a database server managing layer.
  *
@@ -37,4 +39,5 @@ package com.intellijustice.core;
 public interface DefaultDataProvider {
     public Championship getChampionship();
     public void update();
+    public ObjectProperty<Championship> championshipProperty();
 }

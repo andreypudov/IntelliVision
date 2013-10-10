@@ -356,7 +356,9 @@ public class ExcelDataFormatV1 implements ExcelDataFormatDefault {
                         getLastName(cellName.getStringCellValue()),
                         formatter.parse(cellBirthday.getStringCellValue()).getTime(),
                         competition.getSex(), cellCountry.getStringCellValue());
-                final Result result = new Result(-1, (short) -1, (short) -1,
+                final Result result = new Result(
+                        (int) cellResult.getNumericCellValue(),
+                        (short) -1, (short) -1,
                         (short) cellResult.getNumericCellValue(),
                         (short) cellReaction.getNumericCellValue(), wind);
                 final Entry entry = new Entry(-1, athlete,
@@ -365,6 +367,12 @@ public class ExcelDataFormatV1 implements ExcelDataFormatDefault {
                         (short) cellLine.getNumericCellValue(),
                         (int)   cellPersonal.getNumericCellValue(),
                         (int)   cellSeason.getNumericCellValue());
+
+                /* add result to the entry - running allowns one result only */
+                entry.addResult(result);
+
+                /* add entry to the competition */
+                competition.addEntry(entry);
             } catch (Exception e) {
                 throw new IncorrectFormatException(
                         "The result entry for competition "

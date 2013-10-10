@@ -29,6 +29,7 @@ package com.intellijustice.core;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * The result entry representation.
@@ -158,35 +159,86 @@ public class Entry {
     }
 
     /**
-     * Updates exist result to the new value.
-     *
-     * @param old     the exist result of the athlete.
-     * @param updated the new value for to update.
-     *
-     * @throws IllegalOperationException
-     *                the old result value is not exists in the entry.
-     */
-    public void updateResult(final Result old, final Result updated)
-            throws IllegalOperationException {
-        int index = resultList.indexOf(old);
-
-        /* the old result not found exception */
-        if (index == -1) {
-            throw new IllegalOperationException("The result value [" + old
-                    + "] is not exists in the entry and can not be updated.");
-        }
-
-        resultList.remove(index);
-        resultList.set(index, updated);
-    }
-
-    /**
      * Returns the list of athlete results.
      *
      * @return the resultList of athlete results.
      */
     public List<Result> getResults() {
         return Collections.unmodifiableList(resultList);
+    }
+
+     /**
+     * Indicates whether some other object is "equal to" this one.
+     *
+     * @param obj the reference object with which to compare.
+     * @return    true if this object is the same as the obj argument;
+     *            false otherwise.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+
+        final Entry other = (Entry) obj;
+        if (!Objects.equals(this.athlete, other.athlete)) {
+            return false;
+        }
+
+        if (!Objects.equals(this.resultList, other.resultList)) {
+            return false;
+        }
+
+        if (this.id != other.id) {
+            return false;
+        }
+
+        if (this.rank != other.rank) {
+            return false;
+        }
+
+        if (this.bib != other.bib) {
+            return false;
+        }
+
+        if (this.line != other.line) {
+            return false;
+        }
+
+        if (this.personal != other.personal) {
+            return false;
+        }
+
+        if (this.season != other.season) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Returns a hash code value for the object.
+     *
+     * @return a hash code value for this object.
+     */
+    @Override
+    public int hashCode() {
+        int hash = 3;
+
+        hash = 67 * hash + Objects.hashCode(this.athlete);
+        hash = 67 * hash + Objects.hashCode(this.resultList);
+        hash = 67 * hash + this.id;
+        hash = 67 * hash + this.rank;
+        hash = 67 * hash + this.bib;
+        hash = 67 * hash + this.line;
+        hash = 67 * hash + this.personal;
+        hash = 67 * hash + this.season;
+
+        return hash;
     }
 
     /**

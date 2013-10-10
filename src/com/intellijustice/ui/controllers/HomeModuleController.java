@@ -33,6 +33,7 @@ import com.intellijustice.ui.controls.CompetitionBar;
 import com.intellijustice.util.pools.Core;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -77,7 +78,7 @@ public class HomeModuleController implements Initializable {
     @Override
     public void initialize(final URL url, final ResourceBundle rb) {
         /* aligns competition tils on the pane */
-        competitionList.widthProperty().addListener(new ChangeListener<Number>(){
+        competitionList.widthProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(final ObservableValue<? extends Number> ov,
                                 final Number t, final Number t1) {
@@ -92,6 +93,22 @@ public class HomeModuleController implements Initializable {
             }
         });
 
+        /* update competition data on change */
+        Core.getDataProvider().championshipProperty().addListener(
+                new ChangeListener<Championship>() {
+            @Override
+            public void changed(ObservableValue<? extends Championship> ov,
+                                Championship t, Championship t1) {
+                /* update the tiles in FX thread when possible */
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        update();
+                    }
+                });
+            }
+        });
+
         /* update competition data */
         update();
     }
@@ -101,21 +118,12 @@ public class HomeModuleController implements Initializable {
      */
     private void update() {
         final Championship championship = provider.getChampionship();
+        competitionList.getChildren().clear();
 
         for (Competition competition : championship.getCompetitionList()) {
             final CompetitionBar bar = new CompetitionBar(competition);
 
             competitionList.getChildren().add(bar);
         }
-
-        competitionList.getChildren().add(new CompetitionBar(championship.getCompetitionList().get(0)));
-        competitionList.getChildren().add(new CompetitionBar(championship.getCompetitionList().get(0)));
-        competitionList.getChildren().add(new CompetitionBar(championship.getCompetitionList().get(0)));
-        competitionList.getChildren().add(new CompetitionBar(championship.getCompetitionList().get(0)));
-        competitionList.getChildren().add(new CompetitionBar(championship.getCompetitionList().get(0)));
-        competitionList.getChildren().add(new CompetitionBar(championship.getCompetitionList().get(0)));
-        competitionList.getChildren().add(new CompetitionBar(championship.getCompetitionList().get(0)));
-        competitionList.getChildren().add(new CompetitionBar(championship.getCompetitionList().get(0)));
-        competitionList.getChildren().add(new CompetitionBar(championship.getCompetitionList().get(0)));
     }
 }

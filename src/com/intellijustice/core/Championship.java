@@ -45,7 +45,8 @@ public class Championship {
             = java.util.logging.Logger.getLogger(
             com.intellijustice.core.Manifest.NAME);
 
-    private final List<Competition>  list;
+    /* the list of competitions */
+    private final List<Competition> list;
 
     private final int    id;
     private final String name;
@@ -65,6 +66,7 @@ public class Championship {
     public Championship(final int id, final String name, final String city,
             final String country, final Format format) {
         this.list    = new ArrayList<>(16);
+        
         this.id      = id;
         this.name    = name;
         this.country = country;
@@ -151,7 +153,6 @@ public class Championship {
         if (getClass() != obj.getClass()) {
             return false;
         }
-
 
         final Championship other = (Championship) obj;
         if (!Objects.equals(this.list, other.list)) {

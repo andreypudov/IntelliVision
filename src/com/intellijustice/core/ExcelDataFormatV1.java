@@ -26,14 +26,14 @@
 
 package com.intellijustice.core;
 
-import com.intellijustice.util.Utilities;
+import java.io.File;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 
 /**
  * Provides support for the Excel data format version 1.0.
@@ -82,16 +82,21 @@ public class ExcelDataFormatV1 implements ExcelDataFormatDefault {
     private static final String SEX_MALE_VALUE       = "Men";
     private static final String SEX_FEMALE_VALUE     = "Women";
 
+    /* the Excel worksheets file */
+    private final File file;
+
     /* the Excel workbook instance */
-    private final HSSFWorkbook workbook;
+    private final Workbook workbook;
 
     /**
      * Constructs Excel data reader with an support for format version 1.0 for
      * specified Excel workbook.
      *
+     * @param file      the workbook file object.
      * @param workbook  the workbook to read.
      */
-    public ExcelDataFormatV1(final HSSFWorkbook workbook) {
+    public ExcelDataFormatV1(final File file, final Workbook workbook) {
+        this.file      = file;
         this.workbook  = workbook;
     }
 
@@ -105,23 +110,23 @@ public class ExcelDataFormatV1 implements ExcelDataFormatDefault {
     @Override
     public Championship readChampionship() throws IncorrectFormatException {
         /* start parsing the workbook content */
-        final HSSFCell cellName = workbook.getSheetAt(0
+        final Cell cellName = workbook.getSheetAt(0
                 ).getRow(NAME_ROW_INDEX
                 ).getCell(NAME_CELL_INDEX);
-        final HSSFCell cellCountry = workbook.getSheetAt(0
+        final Cell cellCountry = workbook.getSheetAt(0
                 ).getRow(COUNTRY_ROW_INDEX
                 ).getCell(COUNTRY_CELL_INDEX);
-        final HSSFCell cellCity = workbook.getSheetAt(0
+        final Cell cellCity = workbook.getSheetAt(0
                 ).getRow(CITY_ROW_INDEX
                 ).getCell(CITY_CELL_INDEX);
-        final HSSFCell cellFormat = workbook.getSheetAt(0
+        final Cell cellFormat = workbook.getSheetAt(0
                 ).getRow(FORMAT_ROW_INDEX
                 ).getCell(FORMAT_CELL_INDEX);
 
-        if ((cellName.getCellType() != HSSFCell.CELL_TYPE_STRING)
-                || (cellCountry.getCellType() != HSSFCell.CELL_TYPE_STRING)
-                || (cellCity.getCellType() != HSSFCell.CELL_TYPE_STRING)
-                || (cellFormat.getCellType() != HSSFCell.CELL_TYPE_STRING)
+        if ((cellName.getCellType() != Cell.CELL_TYPE_STRING)
+                || (cellCountry.getCellType() != Cell.CELL_TYPE_STRING)
+                || (cellCity.getCellType() != Cell.CELL_TYPE_STRING)
+                || (cellFormat.getCellType() != Cell.CELL_TYPE_STRING)
 
                 || ((cellFormat.getStringCellValue().equals(
                         FORMAT_INDOOR_VALUE) == false)
@@ -132,7 +137,8 @@ public class ExcelDataFormatV1 implements ExcelDataFormatDefault {
         }
 
         /* the championship representation */
-        final Championship championship = new Championship(-1,
+        final Championship championship = new Championship(
+                file.getAbsolutePath().hashCode(),
                 cellName.getStringCellValue(), cellCountry.getStringCellValue(),
                 cellCity.getStringCellValue(),
                 (cellFormat.getStringCellValue().equals(FORMAT_INDOOR_VALUE)
@@ -157,37 +163,37 @@ public class ExcelDataFormatV1 implements ExcelDataFormatDefault {
      * @throws IncorrectFormatException
      *              the source of an exception.
      */
-    private Competition readCompetition(final HSSFSheet sheet)
+    private Competition readCompetition(final Sheet sheet)
             throws IncorrectFormatException {
-        final HSSFCell cellDiscipline = workbook.getSheetAt(0
+        final Cell cellDiscipline = workbook.getSheetAt(0
                 ).getRow(DISCIPLINE_ROW_INDEX
                 ).getCell(DISCIPLINE_CELL_INDEX);
-        final HSSFCell cellRound = workbook.getSheetAt(0
+        final Cell cellRound = workbook.getSheetAt(0
                 ).getRow(ROUND_ROW_INDEX
                 ).getCell(ROUND_CELL_INDEX);
-        final HSSFCell cellSex = workbook.getSheetAt(0
+        final Cell cellSex = workbook.getSheetAt(0
                 ).getRow(SEX_ROW_INDEX
                 ).getCell(SEX_CELL_INDEX);
-        final HSSFCell cellStartTime = workbook.getSheetAt(0
+        final Cell cellStartTime = workbook.getSheetAt(0
                 ).getRow(START_TIME_ROW_INDEX
                 ).getCell(START_TIME_CELL_INDEX);
-        final HSSFCell cellEndTime = workbook.getSheetAt(0
+        final Cell cellEndTime = workbook.getSheetAt(0
                 ).getRow(END_TIME_ROW_INDEX
                 ).getCell(END_TIME_CELL_INDEX);
-        final HSSFCell cellTemperature = workbook.getSheetAt(0
+        final Cell cellTemperature = workbook.getSheetAt(0
                 ).getRow(TEMPERATURE_ROW_INDEX
                 ).getCell(TEMPERATURE_CELL_INDEX);
-        final HSSFCell cellHumidity = workbook.getSheetAt(0
+        final Cell cellHumidity = workbook.getSheetAt(0
                 ).getRow(HUMIDITY_ROW_INDEX
                 ).getCell(HUMIDITY_CELL_INDEX);
 
-        if ((cellDiscipline.getCellType() != HSSFCell.CELL_TYPE_STRING)
-                || (cellRound.getCellType() != HSSFCell.CELL_TYPE_STRING)
-                || (cellSex.getCellType() != HSSFCell.CELL_TYPE_STRING)
-                || (cellStartTime.getCellType() != HSSFCell.CELL_TYPE_STRING)
-                || (cellEndTime.getCellType() != HSSFCell.CELL_TYPE_STRING)
-                || (cellTemperature.getCellType() != HSSFCell.CELL_TYPE_STRING)
-                || (cellHumidity.getCellType() != HSSFCell.CELL_TYPE_STRING)
+        if ((cellDiscipline.getCellType() != Cell.CELL_TYPE_STRING)
+                || (cellRound.getCellType() != Cell.CELL_TYPE_STRING)
+                || (cellSex.getCellType() != Cell.CELL_TYPE_STRING)
+                || (cellStartTime.getCellType() != Cell.CELL_TYPE_STRING)
+                || (cellEndTime.getCellType() != Cell.CELL_TYPE_STRING)
+                || (cellTemperature.getCellType() != Cell.CELL_TYPE_STRING)
+                || (cellHumidity.getCellType() != Cell.CELL_TYPE_STRING)
 
                 || ((cellSex.getStringCellValue().equals(
                         SEX_MALE_VALUE) == false)
@@ -240,7 +246,8 @@ public class ExcelDataFormatV1 implements ExcelDataFormatDefault {
                     + " are in incorrect.");
         }
 
-        final Competition competition = new Competition(-1, discipline, round,
+        final Competition competition = new Competition(
+                sheet.getSheetName().hashCode(), discipline, round,
                 sex, startTime, endTime, temperature, humidity);
 
         switch (discipline) {
@@ -311,12 +318,12 @@ public class ExcelDataFormatV1 implements ExcelDataFormatDefault {
      * @throws IncorrectFormatException
      *                    the source of an exception.
      */
-    private void readRunning(final HSSFSheet sheet,
+    private void readRunning(final Sheet sheet,
             final Competition competition)
             throws IncorrectFormatException {
         final DateFormat formatter = new SimpleDateFormat("dd.MM.yy");
 
-        final HSSFCell cellWind = workbook.getSheetAt(0
+        final Cell cellWind = workbook.getSheetAt(0
                 ).getRow(WIND_ROW_INDEX
                 ).getCell(WIND_CELL_INDEX);
         final short wind = parseShort(cellWind.getStringCellValue());
@@ -324,18 +331,18 @@ public class ExcelDataFormatV1 implements ExcelDataFormatDefault {
         /* read entry data row by row */
         for (int rowIndex = COMPETITION_DATA_ROW;
                 rowIndex <= sheet.getLastRowNum(); ++rowIndex) {
-            final HSSFRow row = sheet.getRow(rowIndex);
+            final Row row = sheet.getRow(rowIndex);
 
-            final HSSFCell cellRank     = row.getCell(0);
-            final HSSFCell cellBib      = row.getCell(1);
-            final HSSFCell cellName     = row.getCell(2);
-            final HSSFCell cellBirthday = row.getCell(3);
-            final HSSFCell cellCountry  = row.getCell(4);
-            final HSSFCell cellPersonal = row.getCell(5);
-            final HSSFCell cellSeason   = row.getCell(6);
-            final HSSFCell cellLine     = row.getCell(7);
-            final HSSFCell cellResult   = row.getCell(8);
-            final HSSFCell cellReaction = row.getCell(9);
+            final Cell cellRank     = row.getCell(0);
+            final Cell cellBib      = row.getCell(1);
+            final Cell cellName     = row.getCell(2);
+            final Cell cellBirthday = row.getCell(3);
+            final Cell cellCountry  = row.getCell(4);
+            final Cell cellPersonal = row.getCell(5);
+            final Cell cellSeason   = row.getCell(6);
+            final Cell cellLine     = row.getCell(7);
+            final Cell cellResult   = row.getCell(8);
+            final Cell cellReaction = row.getCell(9);
 
             /* no more data in the sheet */
             if (cellRank == null) {
@@ -343,15 +350,16 @@ public class ExcelDataFormatV1 implements ExcelDataFormatDefault {
             }
 
             try {
-                final Athlete athlete = new Athlete(-1,
+                final Athlete athlete = new Athlete(
+                        cellName.getStringCellValue().hashCode(),
                         getFirstName(cellName.getStringCellValue()),
                         getLastName(cellName.getStringCellValue()),
                         formatter.parse(cellBirthday.getStringCellValue()).getTime(),
                         competition.getSex(), cellCountry.getStringCellValue());
-                final Result result = new Result((short) -1, (short) -1,
+                final Result result = new Result(-1, (short) -1, (short) -1,
                         (short) cellResult.getNumericCellValue(),
                         (short) cellReaction.getNumericCellValue(), wind);
-                final Entry entry = new Entry(athlete,
+                final Entry entry = new Entry(-1, athlete,
                         (short) cellRank.getNumericCellValue(),
                         (short) cellBib.getNumericCellValue(),
                         (short) cellLine.getNumericCellValue(),
@@ -359,7 +367,7 @@ public class ExcelDataFormatV1 implements ExcelDataFormatDefault {
                         (int)   cellSeason.getNumericCellValue());
             } catch (Exception e) {
                 throw new IncorrectFormatException(
-                        "The athlete entry for competition "
+                        "The result entry for competition "
                         + competition + " is incorrect.");
             }
         }

@@ -28,10 +28,8 @@ package com.intellijustice.core;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
-import java.util.List;
+import java.util.Objects;
 
 /**
  * The competition entity representation.
@@ -151,6 +149,80 @@ public class Competition {
      */
     public short getHumidity() {
         return humidity;
+    }
+
+    /**
+     * Indicates whether some other object is "equal to" this one.
+     *
+     * @param obj the reference object with which to compare.
+     * @return    true if this object is the same as the obj argument;
+     *            false otherwise.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+
+        final Competition other = (Competition) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+
+        if (this.discipline != other.discipline) {
+            return false;
+        }
+
+        if (this.round != other.round) {
+            return false;
+        }
+
+        if (this.sex != other.sex) {
+            return false;
+        }
+
+        if (this.startTime != other.startTime) {
+            return false;
+        }
+
+        if (this.endTime != other.endTime) {
+            return false;
+        }
+
+        if (this.temperature != other.temperature) {
+            return false;
+        }
+
+        if (this.humidity != other.humidity) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Returns a hash code value for the object.
+     *
+     * @return a hash code value for this object.
+     */
+    @Override
+    public int hashCode() {
+        int hash = 5;
+
+        hash = 37 * hash + this.id;
+        hash = 37 * hash + Objects.hashCode(this.discipline);
+        hash = 37 * hash + Objects.hashCode(this.round);
+        hash = 37 * hash + (this.sex ? 1 : 0);
+        hash = 37 * hash + (int) (this.startTime ^ (this.startTime >>> 32));
+        hash = 37 * hash + (int) (this.endTime ^ (this.endTime >>> 32));
+        hash = 37 * hash + this.temperature;
+        hash = 37 * hash + this.humidity;
+        
+        return hash;
     }
 
     /**

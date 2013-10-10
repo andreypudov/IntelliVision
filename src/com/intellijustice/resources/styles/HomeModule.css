@@ -31,3 +31,45 @@
     Description:
         General application module with the the list of log files.
 */
+
+#competitionScrollPane {
+    -fx-background-insets: 0;
+    -fx-background-color:  transparent;
+}
+
+#competitionScrollPane .scroll-bar:horizontal,
+#competitionScrollPane .scroll-bar:vertical {
+    -fx-background-color:  transparent;
+    -fx-border-color:      #282828;
+    -fx-border-width:      0 0 0 1;
+}
+
+#competitionScrollPane .increment-button,
+#competitionScrollPane .decrement-button {
+    -fx-background-color:  linear-gradient(from 0% 0% to 100% 0%,
+                                           #363636, #3C3C3C);
+    -fx-padding:           4px;
+}
+
+#competitionScrollPane .scroll-bar .increment-arrow,
+#competitionScrollPane .scroll-bar .decrement-arrow {
+    -fx-background-color:  #E8E8E8;
+}
+
+#competitionScrollPane .scroll-bar:horizontal .track,
+#competitionScrollPane .scroll-bar:vertical   .track {
+    -fx-background-color:  linear-gradient(from 0% 0% to 100% 0%,
+                                           #363636, #3C3C3C);
+    -fx-border-width:      0px;
+    -fx-background-radius: 0em;
+}
+
+#competitionScrollPane .scroll-bar:horizontal .thumb,
+#competitionScrollPane .scroll-bar:vertical   .thumb {
+    -fx-background-color:  linear-gradient(from 0% 0% to 100% 0%,
+                                           #9A9A9A, #6B6B6B);
+    -fx-background-insets: 0, 0, 0;
+    -fx-background-radius: 8px;
+    -fx-border-color:      #3A3A3A;
+    -fx-border-radius:     3px;
+}

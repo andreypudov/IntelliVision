@@ -41,19 +41,19 @@
         Competition bar with a brief competition summary.
 -->
 
-<fx:root fx:id="competitionBar" type="javafx.scene.layout.HBox"
-         xmlns:fx="http://javafx.com/fxml" alignment="top_center"
+<fx:root fx:id="competitionBar" type="javafx.scene.layout.VBox"
+         xmlns:fx="http://javafx.com/fxml" minWidth="124.0" maxHeight="158.0" prefWidth="124.0"
          fx:controller="com.intellijustice.ui.controllers.CompetitionBarController">
     <children>
-        <ImageView fx:id="serverImageView">
+        <ImageView fx:id="competitionImageView" pickOnBounds="true" preserveRatio="true" smooth="true"
+                   onMouseClicked="#competitionImageViewMouseClicked" >
             <image>
-                <Image url="@../images/machine-os-default.png" />
+                <Image url="@../images/100m-preliminary-round.png" />
             </image>
         </ImageView>
-        <VBox>
-            <Label fx:id="servereName" text="Server Machine" maxWidth="180.0" />
-            <Label fx:id="serverStat"  text="Not Connected" />
-        </VBox>
+
+        <Label fx:id="competitionName" text="Competition Name" />
+        <Label fx:id="competitionType" text="Competition Type" />
     </children>
     <stylesheets>
         <URL value="@../styles/CompetitionBar.css" />

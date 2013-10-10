@@ -32,6 +32,7 @@ import com.intellijustice.ui.controls.SearchBar;
 import com.intellijustice.ui.controls.WindowButtons;
 import com.intellijustice.ui.controls.WindowButtonsEvent;
 import com.intellijustice.ui.modules.AbstractModule;
+import com.intellijustice.ui.modules.BoardModule;
 import com.intellijustice.ui.modules.HelpModule;
 import com.intellijustice.ui.modules.HomeModule;
 import com.intellijustice.ui.modules.LibraryModule;
@@ -122,7 +123,7 @@ public class IntelliJusticeController implements Initializable {
                         Core.minimizeWindow();
                         break;
                     case MAXIMIZED:
-                        Core.maximizeWindow();;
+                        Core.maximizeWindow();
                         break;
                     default:
                         LOG.severe("Unpredictable value for enumeration.");
@@ -142,6 +143,9 @@ public class IntelliJusticeController implements Initializable {
                         break;
                     case LIBRARY:
                         currentModule = LibraryModule.getInstance();
+                        break;
+                    case SCOREBOARD:
+                        currentModule = BoardModule.getInstance();
                         break;
                     case SETTINGS:
                         currentModule = SettingsModule.getInstance();
@@ -169,6 +173,7 @@ public class IntelliJusticeController implements Initializable {
 
         /* set home module at start */
         moduleRegion.getChildren().add(HomeModule.getInstance());
+        currentModule = HomeModule.getInstance();
 
         /* transparent feature support property */
         boolean transparent = Platform.isSupported(
@@ -244,7 +249,7 @@ public class IntelliJusticeController implements Initializable {
     @FXML
     private void anchorPaneMouseMoved(final MouseEvent event) {
         /* threshold border size for resize cursor */
-        final double THRESHOLD = 8.0;
+        final double THRESHOLD = 6.0;
 
         final double abcissa   = event.getX();
         final double ordinate  = event.getY();

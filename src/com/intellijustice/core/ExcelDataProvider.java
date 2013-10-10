@@ -48,6 +48,9 @@ public class ExcelDataProvider implements DefaultDataProvider {
     /* the Excel worksheets */
     private final File worksheet;
 
+    /* the most newest championship data */
+    private Championship lastState;
+
     /**
      * Constructs the Excel data provider for specified worksheet file.
      *
@@ -67,6 +70,9 @@ public class ExcelDataProvider implements DefaultDataProvider {
         try {
             final ExcelDataReader reader = new ExcelDataReader(worksheet);
             final Championship championship = reader.readChampionship();
+
+            /* update cached value */
+            lastState = championship;
 
             return championship;
         } catch (IOException | IncorrectFormatException e) {
@@ -90,5 +96,6 @@ public class ExcelDataProvider implements DefaultDataProvider {
      */
     @Override
     public void update() {
+        final Championship championship = getChampionship();
     }
 }

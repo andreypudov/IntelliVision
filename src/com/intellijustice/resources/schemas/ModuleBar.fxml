@@ -53,6 +53,9 @@
         <ToggleButton fx:id="moduleBarLibrary" text="Library"
                 toggleGroup="$moduleBarToggleGroup" contentDisplay="TOP"
                 minWidth="80.0" onAction="#moduleBarLibraryOnAction" />
+        <ToggleButton fx:id="moduleBarBoard" text="Board"
+                toggleGroup="$moduleBarToggleGroup" contentDisplay="TOP"
+                minWidth="80.0" onAction="#moduleBarBoardOnAction" />
         <ToggleButton fx:id="moduleBarHelp" text="Help"
                 toggleGroup="$moduleBarToggleGroup" contentDisplay="TOP"
                 minWidth="80.0" onAction="#moduleBarHelpOnAction" />

@@ -35,7 +35,7 @@ package com.intellijustice.core;
  * %date      08:50:00 AM, Sep 04, 2013
  */
 public enum ExcelDataFormatList {
-    
+
     VERSION_1(1), UNSUPPORTED(-1);
 
     /* the number of the version */
@@ -52,7 +52,7 @@ public enum ExcelDataFormatList {
      * @return        the number of the supported version.
      */
     public static ExcelDataFormatList getFormat(final int version) {
-        for (ExcelDataFormatList entry :ExcelDataFormatList.values()) {
+        for (ExcelDataFormatList entry : ExcelDataFormatList.values()) {
             if (entry.value == version) {
                 return entry;
             }

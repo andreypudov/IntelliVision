@@ -24,25 +24,35 @@
  * THE SOFTWARE.
  */
 
-/*
-    Document   : HelpModule.css
-    Created on : Oct 19, 2012, 07:20:00 PM
-    Author     : Andrey Pudov        <mail@andreypudov.com>
-    Description:
-        Brief description about application functionality, development team,
-        and application license.
-*/
+package com.intellijustice.ui.controllers;
 
-.label {
-    -fx-font:      normal normal 13pt "Source Sans Pro";
-    -fx-text-fill: #E3E3DF;
-}
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.fxml.Initializable;
 
-#helpProductName {
-    -fx-font:      normal normal 14pt "Source Sans Pro Semibold";
-    -fx-effect:    dropshadow(one-pass-box, #464646, 1, 0, 0, -1);
-}
+/**
+ * FXML Controller class provides log library entries.
+ *
+ * @author    Andrey Pudov        <mail@andreypudov.com>
+ * @version   0.00.00
+ * %name      BoardModuleController.java
+ * %date      10:50:00 PM, Sep 30, 2013
+ */
+public class BoardModuleController implements Initializable {
 
-#helpWarning {
-    -fx-font:      normal italic 13pt "Source Sans Pro";
+    private static final java.util.logging.Logger LOG
+            = java.util.logging.Logger.getLogger(
+              com.intellijustice.core.Manifest.NAME);
+
+    /**
+     * Initializes the controller class.
+     *
+     * @param url the location used to resolve relative paths for the root
+     *            object, or null if the location is not known.
+     * @param rb  the resources used to localize the root object, or null if the
+     *            root object was not localized.
+     */
+    @Override
+    public void initialize(final URL url, final ResourceBundle rb) {
+    }
 }

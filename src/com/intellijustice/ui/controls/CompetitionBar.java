@@ -30,7 +30,7 @@ import com.intellijustice.core.Competition;
 import com.intellijustice.ui.controllers.CompetitionBarController;
 import com.intellijustice.util.StatusCodes;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 /**
  * Competition bar with a brief competition summary.
@@ -40,7 +40,7 @@ import javafx.scene.layout.HBox;
  * %name      CompetitionBar.java
  * %date      07:10:00 PM, Aug 06, 2013
  */
-public class CompetitionBar extends HBox {
+public class CompetitionBar extends VBox {
 
     private static final java.util.logging.Logger LOG
             = java.util.logging.Logger.getLogger(

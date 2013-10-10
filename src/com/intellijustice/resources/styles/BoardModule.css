@@ -25,24 +25,9 @@
  */
 
 /*
-    Document   : HelpModule.css
-    Created on : Oct 19, 2012, 07:20:00 PM
+    Document   : LibraryModule.css
+    Created on : Sep 30, 2013, 10:50:00 PM
     Author     : Andrey Pudov        <mail@andreypudov.com>
     Description:
-        Brief description about application functionality, development team,
-        and application license.
+        Scoreboard panel configuration.
 */
-
-.label {
-    -fx-font:      normal normal 13pt "Source Sans Pro";
-    -fx-text-fill: #E3E3DF;
-}
-
-#helpProductName {
-    -fx-font:      normal normal 14pt "Source Sans Pro Semibold";
-    -fx-effect:    dropshadow(one-pass-box, #464646, 1, 0, 0, -1);
-}
-
-#helpWarning {
-    -fx-font:      normal italic 13pt "Source Sans Pro";
-}

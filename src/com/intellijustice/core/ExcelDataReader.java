@@ -32,9 +32,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFFormulaEvaluator;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
+import org.apache.poi.ss.usermodel.Workbook;
 
 /**
  * Reads specified Excel workbook and returns the championship representation.
@@ -72,13 +74,13 @@ public class ExcelDataReader {
      */
     public Championship readChampionship()
             throws IOException, IncorrectFormatException {
-        final HSSFWorkbook workbook
+        final Workbook workbook
                 = new HSSFWorkbook(new FileInputStream(worksheet));
-        final HSSFFormulaEvaluator evaluator
-                = new HSSFFormulaEvaluator(workbook);
+        final FormulaEvaluator evaluator
+                = new HSSFFormulaEvaluator((HSSFWorkbook) workbook);
 
-        final List<String>               workbooks  = new ArrayList<>(16);
-        final List<HSSFFormulaEvaluator> evaluators = new ArrayList<>(16);
+        final List<String>           workbooks  = new ArrayList<>(16);
+        final List<FormulaEvaluator> evaluators = new ArrayList<>(16);
 
         workbooks.add(worksheet.getName());
         evaluators.add(evaluator);
@@ -120,7 +122,7 @@ public class ExcelDataReader {
      * @throws IncorrectFormatException
      *                 the source of an exception.
      */
-    private ExcelDataFormatDefault validate(final HSSFWorkbook workbook)
+    private ExcelDataFormatDefault validate(final Workbook workbook)
             throws IncorrectFormatException {
         /* workbook doesn't contains data */
         if (workbook.getNumberOfSheets() == 0) {
@@ -128,9 +130,9 @@ public class ExcelDataReader {
                     "Excel workbook doesn't contains the championship data.");
         }
 
-        final HSSFCell cell = workbook.getSheetAt(0
+        final Cell cell = workbook.getSheetAt(0
                 ).getRow(0).getCell(METADATA_COLUMN_NUMBER);
-        if (cell.getCellType() != HSSFCell.CELL_TYPE_NUMERIC) {
+        if (cell.getCellType() != Cell.CELL_TYPE_NUMERIC) {
             throw new IncorrectFormatException(
                 "Excel workbook doesn't contains version information.");
         }
@@ -139,7 +141,7 @@ public class ExcelDataReader {
                 (int) cell.getNumericCellValue());
         switch (version) {
             case VERSION_1:
-                return new ExcelDataFormatV1(workbook);
+                return new ExcelDataFormatV1(worksheet, workbook);
             case UNSUPPORTED:
                 /* fall through */
             default:

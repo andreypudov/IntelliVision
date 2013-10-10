@@ -198,8 +198,7 @@ public class Athlete {
         final DateFormat    formatter = new SimpleDateFormat("dd-MMM-yyyy");
 
         /* 01 S FistName LastName 01-01-1970 */
-        builder.append(id).append(" "
-                ).append((sex == true) ? "M" : "F").append(" "
+        builder.append((sex == true) ? "M" : "F").append(" "
                 ).append(firstName).append(" "
                 ).append(secondName).append(" "
                 ).append(formatter.format(birthday)).append(" "

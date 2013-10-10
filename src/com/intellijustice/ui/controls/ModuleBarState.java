@@ -35,5 +35,5 @@ package com.intellijustice.ui.controls;
  * %date      08:30:00 PM, Oct 26, 2012
  */
 public enum ModuleBarState {
-    HOME, LIBRARY, SETTINGS, HELP;
+    HOME, LIBRARY, SCOREBOARD, SETTINGS, HELP;
 }

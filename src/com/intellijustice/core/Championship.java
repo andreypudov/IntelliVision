@@ -29,6 +29,7 @@ package com.intellijustice.core;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * The championship entity representation.
@@ -133,6 +134,72 @@ public class Championship {
     public List<Competition> getCompetitionList() {
         return Collections.unmodifiableList(list);
     }
+
+    /**
+     * Indicates whether some other object is "equal to" this one.
+     *
+     * @param obj the reference object with which to compare.
+     * @return    true if this object is the same as the obj argument;
+     *            false otherwise.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+
+
+        final Championship other = (Championship) obj;
+        if (!Objects.equals(this.list, other.list)) {
+            return false;
+        }
+
+        if (this.id != other.id) {
+            return false;
+        }
+
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+
+        if (!Objects.equals(this.country, other.country)) {
+            return false;
+        }
+
+        if (!Objects.equals(this.city, other.city)) {
+            return false;
+        }
+
+        if (this.format != other.format) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Returns a hash code value for the object.
+     *
+     * @return a hash code value for this object.
+     */
+    @Override
+    public int hashCode() {
+        int hash = 7;
+
+        hash = 47 * hash + Objects.hashCode(this.list);
+        hash = 47 * hash + this.id;
+        hash = 47 * hash + Objects.hashCode(this.name);
+        hash = 47 * hash + Objects.hashCode(this.country);
+        hash = 47 * hash + Objects.hashCode(this.city);
+        hash = 47 * hash + Objects.hashCode(this.format);
+
+        return hash;
+    }
+
 
     /**
      * Returns a string representation of the object.

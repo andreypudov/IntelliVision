@@ -30,7 +30,7 @@ import com.intellijustice.core.DefaultDataProvider;
 import com.intellijustice.util.pools.Core;
 
 /**
- * The database synchronization task.
+ * The competition data synchronization task.
  *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00

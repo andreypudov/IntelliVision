@@ -50,6 +50,8 @@ public class Entry {
     /* the resultList of result of the athlete */
     private final List<Result> resultList;
 
+    private final int   id;
+
     private final short rank;
     private final short bib;
     private final short line;
@@ -60,6 +62,7 @@ public class Entry {
     /**
      * Constructs the athlete entry for the competition.
      *
+     * @param id       the identification number for the entry.
      * @param athlete  the athlete entry.
      * @param rank     the rank of the athlete (the number of the result).
      * @param bib      the bib number of the athlete for the championship.
@@ -67,18 +70,28 @@ public class Entry {
      * @param personal the personal result of the athlete in the discipline.
      * @param season   the season result of the athlete in the discipline.
      */
-    public Entry(final Athlete athlete, final short rank,
+    public Entry(final int id, final Athlete athlete, final short rank,
             final short bib, final short line,
             final int personal, final int season) {
-        this.athlete  = athlete;
+        this.athlete    = athlete;
+        this.resultList = new LinkedList<>();
 
-        this.resultList     = new LinkedList<>();
+        this.id       = id;
 
         this.rank     = rank;
         this.bib      = bib;
         this.line     = line;
         this.personal = personal;
         this.season   = season;
+    }
+
+    /**
+     * Returns the identification number for the entry.
+     *
+     * @return the identification number for the entry.
+     */
+    public int getId() {
+        return id;
     }
 
     /**

@@ -1,4 +1,6 @@
-/*
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
  * IntelliJustice Intelligent Referee Assistant System
  *
  * The MIT License
@@ -22,27 +24,27 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- */
+-->
 
-/*
-    Document   : HelpModule.css
-    Created on : Oct 19, 2012, 07:20:00 PM
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<!--
+    Document   : BoardModule.fxml
+    Created on : Sep 30, 2013, 06:50:00 PM
     Author     : Andrey Pudov        <mail@andreypudov.com>
     Description:
-        Brief description about application functionality, development team,
-        and application license.
-*/
+        Scoreboard panel configuration.
+-->
 
-.label {
-    -fx-font:      normal normal 13pt "Source Sans Pro";
-    -fx-text-fill: #E3E3DF;
-}
-
-#helpProductName {
-    -fx-font:      normal normal 14pt "Source Sans Pro Semibold";
-    -fx-effect:    dropshadow(one-pass-box, #464646, 1, 0, 0, -1);
-}
-
-#helpWarning {
-    -fx-font:      normal italic 13pt "Source Sans Pro";
-}
+<fx:root fx:id="libraryModule" type="javafx.scene.layout.FlowPane"
+         xmlns:fx="http://javafx.com/fxml" alignment="CENTER"
+         fx:controller="com.intellijustice.ui.controllers.BoardModuleController">
+    <children>
+    </children>
+    <stylesheets>
+        <URL value="@../styles/BoardModule.css" />
+    </stylesheets>
+</fx:root>

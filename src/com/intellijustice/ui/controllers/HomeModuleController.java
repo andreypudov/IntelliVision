@@ -33,8 +33,12 @@ import com.intellijustice.ui.controls.CompetitionBar;
 import com.intellijustice.util.pools.Core;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.FlowPane;
 
 /**
@@ -51,10 +55,16 @@ public class HomeModuleController implements Initializable {
             = java.util.logging.Logger.getLogger(
               com.intellijustice.core.Manifest.NAME);
 
+    final static int HORIZONTAL_GAP      = 40;
+    final static int HORIZONTAL_PADDING  = 30;
+    final static int TILE_MIN_WIDTH      = 124;
+    final static int TILE_MAX_WIDTH      = 158;
+
     /* championship data provider */
     private final DefaultDataProvider provider = Core.getDataProvider();
 
-    @FXML private FlowPane competitionList;
+    @FXML private FlowPane   competitionList;
+    @FXML private ScrollPane competitionScrollPane;
 
     /**
      * Initializes the controller class.
@@ -66,6 +76,23 @@ public class HomeModuleController implements Initializable {
      */
     @Override
     public void initialize(final URL url, final ResourceBundle rb) {
+        /* aligns competition tils on the pane */
+        competitionList.widthProperty().addListener(new ChangeListener<Number>(){
+            @Override
+            public void changed(final ObservableValue<? extends Number> ov,
+                                final Number t, final Number t1) {
+                final int workingWidth = (int) (t1.doubleValue() - (HORIZONTAL_PADDING + HORIZONTAL_PADDING));
+                final int tilesPerRow  = workingWidth / (TILE_MIN_WIDTH + HORIZONTAL_GAP);
+                final int tileWidth    = (workingWidth - ((tilesPerRow - 1) * HORIZONTAL_GAP)) / tilesPerRow;
+
+                for (Node node : competitionList.getChildren()) {
+                    CompetitionBar bar = (CompetitionBar) node;
+                    bar.setPrefWidth(tileWidth);
+                }
+            }
+        });
+
+        /* update competition data */
         update();
     }
 
@@ -80,5 +107,15 @@ public class HomeModuleController implements Initializable {
 
             competitionList.getChildren().add(bar);
         }
+
+        competitionList.getChildren().add(new CompetitionBar(championship.getCompetitionList().get(0)));
+        competitionList.getChildren().add(new CompetitionBar(championship.getCompetitionList().get(0)));
+        competitionList.getChildren().add(new CompetitionBar(championship.getCompetitionList().get(0)));
+        competitionList.getChildren().add(new CompetitionBar(championship.getCompetitionList().get(0)));
+        competitionList.getChildren().add(new CompetitionBar(championship.getCompetitionList().get(0)));
+        competitionList.getChildren().add(new CompetitionBar(championship.getCompetitionList().get(0)));
+        competitionList.getChildren().add(new CompetitionBar(championship.getCompetitionList().get(0)));
+        competitionList.getChildren().add(new CompetitionBar(championship.getCompetitionList().get(0)));
+        competitionList.getChildren().add(new CompetitionBar(championship.getCompetitionList().get(0)));
     }
 }

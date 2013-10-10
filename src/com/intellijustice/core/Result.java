@@ -47,6 +47,8 @@ public class Result implements Comparable<Result> {
     public static final short DID_NOT_FINISH = -4;  /* DNF */
     public static final short DISQUALIFIED   = -5;  /* DSQ */
 
+    private final int id;
+
     private final short attempt;
     private final short value;
     private final short result;
@@ -56,19 +58,31 @@ public class Result implements Comparable<Result> {
     /**
      * Constructs the result entry for the athlete.
      *
+     * @param id       the identification number for the result.
      * @param attempt  the number of the attempt during the competition.
      * @param value    the value of an attempt.
      * @param result   the result value.
      * @param reaction the reaction time of the athlete.
      * @param wind     the wind speed during an attempt.
      */
-    public Result(final short attempt, final short value, final short result,
-            final short reaction, final short wind) {
+    public Result(final int id, final short attempt, final short value,
+            final short result, final short reaction, final short wind) {
+        this.id       = id;
+
         this.attempt  = attempt;
         this.value    = value;
         this.result   = result;
         this.reaction = reaction;
         this.wind     = wind;
+    }
+
+    /**
+     * Returns the identification number for the result.
+     *
+     * @return the identification number for the result.
+     */
+    public int getId() {
+        return id;
     }
 
     /**
@@ -134,6 +148,10 @@ public class Result implements Comparable<Result> {
         }
 
         final Result other = (Result) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+
         if (this.attempt != other.attempt) {
             return false;
         }
@@ -162,6 +180,7 @@ public class Result implements Comparable<Result> {
     public int hashCode() {
         int hash = 7;
 
+        hash = 71 * hash + this.id;
         hash = 71 * hash + this.attempt;
         hash = 71 * hash + this.value;
         hash = 71 * hash + this.result;

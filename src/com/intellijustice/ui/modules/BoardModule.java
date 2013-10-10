@@ -26,37 +26,30 @@
 
 package com.intellijustice.ui.modules;
 
-import com.intellijustice.ui.controllers.HomeModuleController;
 import com.intellijustice.util.StatusCodes;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.FlowPane;
 
 /**
- * General application module with the the list of log files.
+ * General application module with the the list of log library entries.
  *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
- * %name      HomeModule.java
- * %date      12:00:00 AM, Oct 22, 2012
+ * %name      LibraryModule.java
+ * %date      10:40:00 PM, Jan 26, 2013
  */
-public class HomeModule extends GridPane implements AbstractModule {
+public class BoardModule extends FlowPane implements AbstractModule {
 
     private static final java.util.logging.Logger LOG
             = java.util.logging.Logger.getLogger(
               com.intellijustice.core.Manifest.NAME);
 
-    /* loads an object hierarchy from an XML document */
-    private final FXMLLoader fxmlLoader;
+    /* the instance of the library module */
+    private static volatile BoardModule INSTANCE;
 
-    /* controller initialization interface */
-    private final HomeModuleController controller;
-
-    /* the instance of the help module */
-    private static volatile HomeModule INSTANCE;
-
-    private HomeModule() {
-        fxmlLoader = new FXMLLoader(getClass().getResource(
-                    "/com/intellijustice/resources/schemas/HomeModule.fxml"));
+    private BoardModule() {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
+                    "/com/intellijustice/resources/schemas/BoardModule.fxml"));
 
         fxmlLoader.setRoot(this);
 
@@ -66,20 +59,18 @@ public class HomeModule extends GridPane implements AbstractModule {
             LOG.severe(e.getMessage());
             System.exit(StatusCodes.EXIT_FAILURE);
         }
-
-        controller = fxmlLoader.getController();
     }
 
     /**
-     * Returns an instance of home module.
+     * Returns an instance of library module.
      *
      * @return the instance of this module.
      */
-    public static HomeModule getInstance() {
+    public static BoardModule getInstance() {
         if (INSTANCE == null) {
-            synchronized (HelpModule.class) {
+            synchronized (LibraryModule.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = new HomeModule();
+                    INSTANCE = new BoardModule();
                 }
             }
         }

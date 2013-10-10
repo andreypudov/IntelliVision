@@ -150,7 +150,7 @@ public class Core {
         }
 
         LOG.info("IntelliJustice Intelligent Referee Assistant System\n"
-                + "Copyright (C) 2011-2013 Andrey Pudov."
+                + "Copyright (C) 2011-2013 Andrey Pudov. "
                 + "All rights reserved.\n");
 
         /* adds first-level module to the appliation window */

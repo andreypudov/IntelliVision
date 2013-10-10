@@ -29,7 +29,12 @@ package com.intellijustice.ui.controllers;
 import com.intellijustice.core.Competition;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 
 /**
  * FXML Controller class implements competition bar control UI logic.
@@ -48,6 +53,11 @@ public class CompetitionBarController implements Initializable {
     /* the competition representation */
     private Competition competition;
 
+    @FXML private VBox      competitionBar;
+    @FXML private ImageView competitionImageView;
+    @FXML private Label     competitionName;
+    @FXML private Label     competitionType;
+
     /**
      * Initializes the controller class.
      *
@@ -58,6 +68,7 @@ public class CompetitionBarController implements Initializable {
      */
     @Override
     public void initialize(final URL url, final ResourceBundle rb) {
+        competitionImageView.fitWidthProperty().bind(competitionBar.widthProperty());
     }
 
     /**
@@ -67,5 +78,18 @@ public class CompetitionBarController implements Initializable {
      */
     public void setCompetition(final Competition competition) {
         this.competition = competition;
+
+        competitionName.setText(competition.getDiscipline().toString());
+        competitionType.setText(competition.getRound().toString());
+    }
+
+    /**
+     * Opens competition information table.
+     *
+     * @param event the event source.
+     */
+    @FXML
+    public void competitionImageViewMouseClicked(final MouseEvent event) {
+        competitionType.setText(new java.util.Date().toString());
     }
 }

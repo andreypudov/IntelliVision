@@ -227,7 +227,7 @@ public class Entry {
      */
     @Override
     public int hashCode() {
-        int hash = 3;
+        /*int hash = 3;
 
         hash = 67 * hash + Objects.hashCode(this.athlete);
         hash = 67 * hash + Objects.hashCode(this.resultList);
@@ -236,9 +236,9 @@ public class Entry {
         hash = 67 * hash + this.bib;
         hash = 67 * hash + this.line;
         hash = 67 * hash + this.personal;
-        hash = 67 * hash + this.season;
+        hash = 67 * hash + this.season;*/
 
-        return hash;
+        return id;
     }
 
     /**

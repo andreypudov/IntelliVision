@@ -180,16 +180,16 @@ public class Athlete {
      */
     @Override
     public int hashCode() {
-        int hash = 7;
-        
+        /*int hash = 7;
+
         hash = 59 * hash + this.id;
         hash = 59 * hash + Objects.hashCode(this.firstName);
         hash = 59 * hash + Objects.hashCode(this.secondName);
         hash = 59 * hash + (int) (this.birthday ^ (this.birthday >>> 32));
         hash = 59 * hash + (this.sex ? 1 : 0);
-        hash = 59 * hash + Objects.hashCode(this.country);
+        hash = 59 * hash + Objects.hashCode(this.country);*/
 
-        return hash;
+        return id;
     }
 
     /**

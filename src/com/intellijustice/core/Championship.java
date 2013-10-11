@@ -66,7 +66,7 @@ public class Championship {
     public Championship(final int id, final String name, final String city,
             final String country, final Format format) {
         this.list    = new ArrayList<>(16);
-        
+
         this.id      = id;
         this.name    = name;
         this.country = country;
@@ -189,16 +189,16 @@ public class Championship {
      */
     @Override
     public int hashCode() {
-        int hash = 7;
+        /*int hash = 7;
 
         hash = 47 * hash + Objects.hashCode(this.list);
         hash = 47 * hash + this.id;
         hash = 47 * hash + Objects.hashCode(this.name);
         hash = 47 * hash + Objects.hashCode(this.country);
         hash = 47 * hash + Objects.hashCode(this.city);
-        hash = 47 * hash + Objects.hashCode(this.format);
+        hash = 47 * hash + Objects.hashCode(this.format);*/
 
-        return hash;
+        return this.id;
     }
 
 

@@ -241,7 +241,7 @@ public class Competition {
      */
     @Override
     public int hashCode() {
-        int hash = 7;
+        /*int hash = 7;
 
         hash = 83 * hash + Objects.hashCode(this.list);
         hash = 83 * hash + this.id;
@@ -251,9 +251,9 @@ public class Competition {
         hash = 83 * hash + (int) (this.startTime ^ (this.startTime >>> 32));
         hash = 83 * hash + (int) (this.endTime ^ (this.endTime >>> 32));
         hash = 83 * hash + this.temperature;
-        hash = 83 * hash + this.humidity;
+        hash = 83 * hash + this.humidity;*/
 
-        return hash;
+        return id;
     }
 
 

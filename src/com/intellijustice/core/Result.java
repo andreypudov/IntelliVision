@@ -182,16 +182,16 @@ public class Result implements Comparable<Result> {
      */
     @Override
     public int hashCode() {
-        int hash = 7;
+        /*int hash = 7;
 
         hash = 61 * hash + this.id;
         hash = 61 * hash + this.attempt;
         hash = 61 * hash + this.value;
         hash = 61 * hash + this.result;
         hash = 61 * hash + this.reaction;
-        hash = 61 * hash + this.wind;
-        
-        return hash;
+        hash = 61 * hash + this.wind;*/
+
+        return id;
     }
 
     /**

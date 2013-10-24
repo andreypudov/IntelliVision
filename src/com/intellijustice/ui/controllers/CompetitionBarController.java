@@ -33,7 +33,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
 /**
@@ -68,7 +67,17 @@ public class CompetitionBarController implements Initializable {
      */
     @Override
     public void initialize(final URL url, final ResourceBundle rb) {
-        competitionImageView.fitWidthProperty().bind(competitionBar.widthProperty());
+        competitionImageView.fitWidthProperty().bind(
+                competitionBar.widthProperty());
+    }
+
+    /**
+     * Returns competition representation.
+     *
+     * @return the competition representation.
+     */
+    public Competition getCompetition() {
+        return competition;
     }
 
     /**
@@ -81,15 +90,5 @@ public class CompetitionBarController implements Initializable {
 
         competitionName.setText(competition.getDiscipline().toString());
         competitionType.setText(competition.getRound().toString());
-    }
-
-    /**
-     * Opens competition information table.
-     *
-     * @param event the event source.
-     */
-    @FXML
-    public void competitionImageViewMouseClicked(final MouseEvent event) {
-        competitionType.setText(new java.util.Date().toString());
     }
 }

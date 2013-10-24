@@ -42,11 +42,10 @@
 -->
 
 <fx:root fx:id="competitionBar" type="javafx.scene.layout.VBox"
-         xmlns:fx="http://javafx.com/fxml" minWidth="124.0" maxHeight="158.0" prefWidth="124.0"
+         xmlns:fx="http://javafx.com/fxml" minWidth="90.0" maxHeight="158.0" prefWidth="120.0"
          fx:controller="com.intellijustice.ui.controllers.CompetitionBarController">
     <children>
-        <ImageView fx:id="competitionImageView" pickOnBounds="true" preserveRatio="true" smooth="true"
-                   onMouseClicked="#competitionImageViewMouseClicked" >
+        <ImageView fx:id="competitionImageView" pickOnBounds="true" preserveRatio="true" smooth="true">
             <image>
                 <Image url="@../images/100m-preliminary-round.png" />
             </image>

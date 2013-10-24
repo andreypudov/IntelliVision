@@ -46,7 +46,7 @@
     <children>
         <ScrollPane fx:id="competitionScrollPane" GridPane.columnIndex="0"
                     GridPane.rowIndex="0" fitToHeight="true" fitToWidth="true"
-                    mouseTransparent="true">
+                    mouseTransparent="false">
             <FlowPane fx:id="competitionList" hgap="40.0" vgap="20.0">
                 <padding>
                     <Insets bottom="10.0" left="30.0" right="30.0" top="20.0" />

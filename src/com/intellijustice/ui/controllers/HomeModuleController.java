@@ -30,16 +30,19 @@ import com.intellijustice.core.Championship;
 import com.intellijustice.core.Competition;
 import com.intellijustice.core.DefaultDataProvider;
 import com.intellijustice.ui.controls.CompetitionBar;
+import com.intellijustice.ui.controls.CompetitionPanel;
 import com.intellijustice.util.pools.Core;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 
 /**
@@ -58,14 +61,16 @@ public class HomeModuleController implements Initializable {
 
     final static int HORIZONTAL_GAP      = 40;
     final static int HORIZONTAL_PADDING  = 30;
-    final static int TILE_MIN_WIDTH      = 124;
-    final static int TILE_MAX_WIDTH      = 158;
+    final static int TILE_MIN_WIDTH      = 90;
 
     /* championship data provider */
     private final DefaultDataProvider provider = Core.getDataProvider();
 
     @FXML private FlowPane   competitionList;
     @FXML private ScrollPane competitionScrollPane;
+
+    private CompetitionPanel competitionPanel  = null;
+    private int              previousTileAfter = 0;
 
     /**
      * Initializes the controller class.
@@ -82,13 +87,21 @@ public class HomeModuleController implements Initializable {
             @Override
             public void changed(final ObservableValue<? extends Number> ov,
                                 final Number t, final Number t1) {
-                final int workingWidth = (int) (t1.doubleValue() - (HORIZONTAL_PADDING + HORIZONTAL_PADDING));
-                final int tilesPerRow  = workingWidth / (TILE_MIN_WIDTH + HORIZONTAL_GAP);
-                final int tileWidth    = (workingWidth - ((tilesPerRow - 1) * HORIZONTAL_GAP)) / tilesPerRow;
+                final int workingWidth = t1.intValue()
+                        - (HORIZONTAL_PADDING + HORIZONTAL_PADDING);
+                final int tilesPerRow  = workingWidth
+                        / (TILE_MIN_WIDTH + HORIZONTAL_GAP);
+                final int tileWidth    = (workingWidth
+                        - ((tilesPerRow - 1) * HORIZONTAL_GAP)) / tilesPerRow;
 
                 for (Node node : competitionList.getChildren()) {
-                    CompetitionBar bar = (CompetitionBar) node;
-                    bar.setPrefWidth(tileWidth);
+                    if (node instanceof CompetitionBar) {
+                        CompetitionBar bar = (CompetitionBar) node;
+                        bar.setPrefWidth(tileWidth);
+                    } else {
+                        CompetitionPanel panel = (CompetitionPanel) node;
+                        panel.setPrefWidth(workingWidth);
+                    }
                 }
             }
         });
@@ -123,7 +136,56 @@ public class HomeModuleController implements Initializable {
         for (Competition competition : championship.getCompetitionList()) {
             final CompetitionBar bar = new CompetitionBar(competition);
 
+            bar.addEventHandler(MouseEvent.MOUSE_CLICKED,
+                    new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent me) {
+                    displayPanel(bar);
+                }
+            });
+
             competitionList.getChildren().add(bar);
         }
+    }
+
+    /**
+     * Shows or hides information panel for specified competition.
+     *
+     * @param bar the competition bar that should be used.
+     */
+    private void displayPanel(final CompetitionBar bar) {
+        final int tileCount    = competitionList.getChildren().size();
+        final int tileIndex    = competitionList.getChildren().indexOf(bar);
+        final int workingWidth = (int) competitionList.getWidth()
+                - (HORIZONTAL_PADDING + HORIZONTAL_PADDING);
+        final int tilesPerRow  = workingWidth
+                / (TILE_MIN_WIDTH + HORIZONTAL_GAP);
+        final int tileAfter    = (((tileIndex / tilesPerRow) + 1) * tilesPerRow);
+
+        if (competitionPanel != null) {
+            competitionList.getChildren().remove(competitionPanel);
+        }
+
+        if (competitionPanel != null) {
+            if (competitionPanel.getCompetition().equals(
+                        bar.getCompetition())) {
+                // the same competition tile has been rised - hide panel
+                competitionList.getChildren().remove(competitionPanel);
+                competitionPanel = null;
+            } else if (previousTileAfter == tileAfter) {
+                // another tile has been arrised - change competition instance
+                competitionPanel.setCompetition(bar.getCompetition());
+            }
+
+            return;
+        }
+
+        competitionPanel = new CompetitionPanel(bar.getCompetition());
+        competitionPanel.setPrefWidth(workingWidth);
+
+        competitionList.getChildren().add(
+                ((tileAfter > tileCount) ? tileCount : tileAfter),
+                competitionPanel);
+        previousTileAfter = tileAfter;
     }
 }

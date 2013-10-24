@@ -29,7 +29,11 @@ package com.intellijustice.ui.controls;
 import com.intellijustice.core.Competition;
 import com.intellijustice.ui.controllers.CompetitionBarController;
 import com.intellijustice.util.StatusCodes;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
 /**
@@ -67,5 +71,14 @@ public class CompetitionBar extends VBox {
 
         controller = fxmlLoader.getController();
         controller.setCompetition(competition);
+    }
+
+    /**
+     * Returns competition representation.
+     *
+     * @return the competition representation.
+     */
+    public Competition getCompetition() {
+        return controller.getCompetition();
     }
 }

@@ -41,7 +41,7 @@ import javafx.beans.property.SimpleObjectProperty;
  * %name      ExcelDataProvider.java
  * %date      05:00:00 PM, Aug 14, 2013
  */
-public class ExcelDataProvider implements DefaultDataProvider {
+public final class ExcelDataProvider implements DefaultDataProvider {
 
     private static final java.util.logging.Logger LOG
             = java.util.logging.Logger.getLogger(
@@ -63,6 +63,8 @@ public class ExcelDataProvider implements DefaultDataProvider {
      */
     public ExcelDataProvider(final File worksheet) {
         this.worksheet = worksheet;
+
+        update();
     }
 
     /**
@@ -72,8 +74,6 @@ public class ExcelDataProvider implements DefaultDataProvider {
      */
     @Override
     public Championship getChampionship() {
-        update();
-
         return lastState;
     }
 
@@ -87,6 +87,35 @@ public class ExcelDataProvider implements DefaultDataProvider {
 
         /* fire competition changed event in case of new data */
         if (championship.equals(lastState) != true) {
+//            /* find a difference in competitions */
+//            List<Competition> added
+//                    = new ArrayList<>(championship.getCompetitionList());
+//            List<Competition> removed
+//                    = new ArrayList<>(lastState.getCompetitionList());
+//            added.removeAll(lastState.getCompetitionList());
+//            removed.removeAll(championship.getCompetitionList());
+//
+//            Iterator<Competition> addedIterator   = added.iterator();
+//            Iterator<Competition> removedIterator = removed.iterator();
+//            while (addedIterator.hasNext()) {
+//                final Competition addedEntry = addedIterator.next();
+//
+//                while (removedIterator.hasNext()) {
+//                    final Competition removedEntry = removedIterator.next();
+//
+//                    if (addedEntry.getId() == removedEntry.getId()) {
+//                        LOG.info("Changed: " + removedEntry + " " + addedEntry);
+//                        addedIterator.remove();
+//                        removedIterator.remove();
+//
+//                        break;
+//                    }
+//                }
+//            }
+//
+//            LOG.info("Added: " + added.toString());
+//            LOG.info("Removed: " + removed.toString());
+
             lastState = championship;
             championshipProperty.set(championship);
         }

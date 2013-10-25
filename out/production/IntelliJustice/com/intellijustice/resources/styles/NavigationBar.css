@@ -1,0 +1,73 @@
+/*
+ * IntelliJustice Intelligent Referee Assistant System 
+ *
+ * The MIT License
+ *
+ * Copyright 2011-2013 Andrey Pudov.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+/*
+    Document   : NavigationBar.css
+    Created on :  Oct 20, 2012, 01:00:00 PM
+    Author     : Andrey Pudov        <mail@andreypudov.com>
+    Description:
+        The general application style sheet.
+*/
+
+.button {
+    -fx-background-position: center center;
+    -fx-background-repeat:   no-repeat;
+}
+
+#navigationBarBack {
+    -fx-background-color: linear-gradient(to bottom, #757575, #626262);
+    -fx-background-image: url("../images/button-back-enabled.png");
+    -fx-border-color:     #303030;
+    -fx-border-radius:    4 0 0 4;
+}
+
+#navigationBarNext {
+    -fx-background-color: linear-gradient(to bottom, #757575, #626262);
+    -fx-background-image: url("../images/button-next-enabled.png");
+    -fx-border-color:     #303030;
+    -fx-border-radius:    0 4 4 0;
+    -fx-border-insets:    0 0 0 -1;
+}
+
+#navigationBarBack:pressed {
+    -fx-background-color: linear-gradient(to bottom, #3F3F3F, #373737);
+    -fx-border-color:     #292929;
+}
+
+#navigationBarNext:pressed {
+    -fx-background-color: linear-gradient(to bottom, #3F3F3F, #373737);
+    -fx-border-color:     #292929;
+}
+
+#navigationBarBack:disabled {
+    -fx-background-color: linear-gradient(to bottom, #757575, #626262);
+    -fx-border-color:     #303030;
+}
+
+#navigationBarNext:disabled {
+    -fx-background-color: linear-gradient(to bottom, #757575, #626262);
+    -fx-border-color:     #303030;
+}

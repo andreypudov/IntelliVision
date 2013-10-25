@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ * IntelliJustice Intelligent Referee Assistant System
+ *
+ * The MIT License
+ *
+ * Copyright 2011-2013 Andrey Pudov.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+-->
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<!--
+    Document   : ModuleBar.fxml
+    Created on : Oct 16, 2012, 12:10:00 PM
+    Author     : Andrey Pudov        <mail@andreypudov.com>
+    Description:
+        Module list with an icons and names for application modules.
+-->
+
+<fx:root fx:id="moduleBar" type="javafx.scene.layout.Pane"
+         prefWidth="150.0" prefHeight="70.0" minHeight="70.0" maxHeight="70.0"
+         xmlns:fx="http://javafx.com/fxml"
+         fx:controller="com.intellijustice.ui.controllers.ModuleBarController">
+    <fx:define>
+        <ToggleGroup fx:id="moduleBarToggleGroup" />
+    </fx:define>
+    <children>
+        <ToggleButton fx:id="moduleBarHome" text="Home" selected="true"
+                toggleGroup="$moduleBarToggleGroup" contentDisplay="TOP"
+                minWidth="80.0" onAction="#moduleBarHomeOnAction" />
+        <ToggleButton fx:id="moduleBarLibrary" text="Library"
+                toggleGroup="$moduleBarToggleGroup" contentDisplay="TOP"
+                minWidth="80.0" onAction="#moduleBarLibraryOnAction" />
+        <ToggleButton fx:id="moduleBarBoard" text="Board"
+                toggleGroup="$moduleBarToggleGroup" contentDisplay="TOP"
+                minWidth="80.0" onAction="#moduleBarBoardOnAction" />
+        <ToggleButton fx:id="moduleBarHelp" text="Help"
+                toggleGroup="$moduleBarToggleGroup" contentDisplay="TOP"
+                minWidth="80.0" onAction="#moduleBarHelpOnAction" />
+    </children>
+    <stylesheets>
+        <URL value="@../styles/ModuleBar.css" />
+    </stylesheets>
+</fx:root>

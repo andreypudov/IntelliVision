@@ -1,7 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
-
-<!--
+/*
  * IntelliJustice Intelligent Referee Assistant System
  *
  * The MIT License
@@ -25,21 +22,27 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
--->
+ */
 
-<!--
-    Document   : Manifest.xml
-    Created on : Aug 09, 2013, 04:50:00 PM
+/*
+    Document   : HelpModule.css
+    Created on : Oct 19, 2012, 07:20:00 PM
     Author     : Andrey Pudov        <mail@andreypudov.com>
     Description:
-        The application manifest file.
--->
+        Brief description about application functionality, development team,
+        and application license.
+*/
 
-<properties>
-    <comment>IntelliJustice Intelligent Referee Assistant System</comment>
+.label {
+    -fx-font:      normal normal 13pt "Source Sans Pro";
+    -fx-text-fill: #E3E3DF;
+}
 
-    <entry key="NAME">IntelliJustice</entry>
-    <entry key="DESCRIPTION">IntelliJustice Intelligent Referee Assistant System</entry>
-    <entry key="VERSION">00.04.99</entry>
-    <entry key="RELEASE">Alpha</entry>
-</properties>
+#helpProductName {
+    -fx-font:      normal normal 14pt "Source Sans Pro Semibold";
+    -fx-effect:    dropshadow(one-pass-box, #464646, 1, 0, 0, -1);
+}
+
+#helpWarning {
+    -fx-font:      normal italic 13pt "Source Sans Pro";
+}

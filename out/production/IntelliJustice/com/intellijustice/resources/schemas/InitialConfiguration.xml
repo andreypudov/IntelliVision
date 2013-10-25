@@ -28,18 +28,32 @@
 -->
 
 <!--
-    Document   : Manifest.xml
-    Created on : Aug 09, 2013, 04:50:00 PM
+    Document   : InitialConfiguration.xml
+    Created on : Aug 01, 2013, 09:40:00 PM
     Author     : Andrey Pudov        <mail@andreypudov.com>
     Description:
-        The application manifest file.
+        Default values for application configuration.
 -->
 
 <properties>
     <comment>IntelliJustice Intelligent Referee Assistant System</comment>
 
-    <entry key="NAME">IntelliJustice</entry>
-    <entry key="DESCRIPTION">IntelliJustice Intelligent Referee Assistant System</entry>
-    <entry key="VERSION">00.04.99</entry>
-    <entry key="RELEASE">Alpha</entry>
+    <entry key="intellijustice.application.version">0.00.00</entry>
+
+    <entry key="intellijustice.window.width">1020.0</entry>
+    <entry key="intellijustice.window.height">700.0</entry>
+
+    <entry key="intellijustice.database.driver">com.mysql.jdbc.Driver</entry>
+    <entry key="intellijustice.database.url">jdbc:mysql</entry>
+    <entry key="intellijustice.database.hostname">localhost</entry>
+    <entry key="intellijustice.database.port">3306</entry>
+    <entry key="intellijustice.database.database">intellijustice</entry>
+    <entry key="intellijustice.database.username"/>
+    <entry key="intellijustice.database.password"/>
+    <entry key="intellijustice.database.connectTimeout">100</entry>
+    <entry key="intellijustice.database.autoReconnect">true</entry>
+    <entry key="intellijustice.database.maxReconnects">3</entry>
+
+    <entry key="intellijustice.provider">Excel</entry>
+    <entry key="intellijustice.provider.excel.document">${HOME_DIRECTORY}${FILE_SEPARATOR}IntelliJustice.xlsx</entry>
 </properties>

@@ -1,8 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
-
-<!--
- * IntelliJustice Intelligent Referee Assistant System
+/*
+ * IntelliJustice Intelligent Referee Assistant System 
  *
  * The MIT License
  *
@@ -25,21 +22,46 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
--->
+ */
 
-<!--
-    Document   : Manifest.xml
-    Created on : Aug 09, 2013, 04:50:00 PM
+/*
+    Document   : WindowButtons.css
+    Created on : Sep 07, 2012, 07:50:00 AM
     Author     : Andrey Pudov        <mail@andreypudov.com>
     Description:
-        The application manifest file.
--->
+        The general application style sheet.
+*/
 
-<properties>
-    <comment>IntelliJustice Intelligent Referee Assistant System</comment>
+.button {
+    -fx-background-color:    null;
+    -fx-background-position: right center;
+    -fx-background-repeat:   no-repeat;
+}
 
-    <entry key="NAME">IntelliJustice</entry>
-    <entry key="DESCRIPTION">IntelliJustice Intelligent Referee Assistant System</entry>
-    <entry key="VERSION">00.04.99</entry>
-    <entry key="RELEASE">Alpha</entry>
-</properties>
+#windowButtonsClose {
+    -fx-background-image:    url("../images/button-close-unfocused.png");
+    -fx-padding:             10 0 0 26;
+}
+
+#windowButtonsMinimize {
+    -fx-background-image:    url("../images/button-minimize-unfocused.png");
+    -fx-padding:             10 0 0 20;
+}
+
+#windowButtonsMaximize {
+    -fx-background-image:    url("../images/button-maximize-unfocused.png");
+    -fx-padding:             10 0 0 20;
+}
+
+#windowButtonsClose:hover {
+    -fx-background-image:    url("../images/button-close-focused.png");
+}
+
+#windowButtonsMinimize:hover {
+    -fx-background-image:    url("../images/button-minimize-focused.png");
+}
+
+#windowButtonsMaximize:hover {
+    -fx-background-image:    url("../images/button-maximize-focused.png");
+}
+

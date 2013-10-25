@@ -1,8 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
-
-<!--
- * IntelliJustice Intelligent Referee Assistant System
+/*
+ * IntelliJustice Intelligent Referee Assistant System 
  *
  * The MIT License
  *
@@ -25,21 +22,30 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
--->
+ */
 
-<!--
-    Document   : Manifest.xml
-    Created on : Aug 09, 2013, 04:50:00 PM
+/*
+    Document   : ServerPanel.css
+    Created on : Jul 30, 2013, 05:00:00 PM
     Author     : Andrey Pudov        <mail@andreypudov.com>
     Description:
-        The application manifest file.
--->
+        Server machine configuration panel.
+*/
 
-<properties>
-    <comment>IntelliJustice Intelligent Referee Assistant System</comment>
+.label {
+    -fx-text-fill:         #FFFFFF;
+}
 
-    <entry key="NAME">IntelliJustice</entry>
-    <entry key="DESCRIPTION">IntelliJustice Intelligent Referee Assistant System</entry>
-    <entry key="VERSION">00.04.99</entry>
-    <entry key="RELEASE">Alpha</entry>
-</properties>
+#machineStausField {
+    -fx-font-weight:       bold;
+}
+
+.text-field {
+    -fx-background-color:  #333333, #3A3A3A,
+                           linear-gradient(to bottom, #333333 2%, #3A3A3A 98%);
+    -fx-background-insets: 0, 1 1 1 0, 2 1 1 1 1;
+    -fx-border-color:      #232323;
+    -fx-effect:            innershadow(one-pass-box, #101010, 10, 0, 0, 1),
+                           dropshadow(one-pass-box, #333333, 1, 0, 0, 1);
+    -fx-text-fill:         #FFFFFF;
+}

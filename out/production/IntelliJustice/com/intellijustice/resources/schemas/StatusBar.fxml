@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
 
 <!--
  * IntelliJustice Intelligent Referee Assistant System
@@ -27,19 +26,26 @@
  * THE SOFTWARE.
 -->
 
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
 <!--
-    Document   : Manifest.xml
-    Created on : Aug 09, 2013, 04:50:00 PM
+    Document   : StatusBar.fxml
+    Created on : Oct 05, 2012, 02:00:00 PM
     Author     : Andrey Pudov        <mail@andreypudov.com>
     Description:
-        The application manifest file.
+        Status bar displays current application status.
 -->
 
-<properties>
-    <comment>IntelliJustice Intelligent Referee Assistant System</comment>
+<fx:root fx:id="statusBar" type="javafx.scene.layout.Region"
+         minWidth="250.0" minHeight="40.0"
+         xmlns:fx="http://javafx.com/fxml"
+         fx:controller="com.intellijustice.ui.controllers.StatusBarController">
+    <stylesheets>
+        <URL value="@../styles/StatusBar.css" />
+    </stylesheets>
+</fx:root>
 
-    <entry key="NAME">IntelliJustice</entry>
-    <entry key="DESCRIPTION">IntelliJustice Intelligent Referee Assistant System</entry>
-    <entry key="VERSION">00.04.99</entry>
-    <entry key="RELEASE">Alpha</entry>
-</properties>
+

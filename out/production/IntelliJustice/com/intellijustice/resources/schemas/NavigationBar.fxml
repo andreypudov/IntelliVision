@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
 
 <!--
  * IntelliJustice Intelligent Referee Assistant System
@@ -27,19 +26,31 @@
  * THE SOFTWARE.
 -->
 
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
 <!--
-    Document   : Manifest.xml
-    Created on : Aug 09, 2013, 04:50:00 PM
+    Document   : NavigationBar.fxml
+    Created on : Oct 20, 2012, 01:00:00 PM
     Author     : Andrey Pudov        <mail@andreypudov.com>
     Description:
-        The application manifest file.
+        Navigation bar with back and next buttons to going between modules.
 -->
 
-<properties>
-    <comment>IntelliJustice Intelligent Referee Assistant System</comment>
-
-    <entry key="NAME">IntelliJustice</entry>
-    <entry key="DESCRIPTION">IntelliJustice Intelligent Referee Assistant System</entry>
-    <entry key="VERSION">00.04.99</entry>
-    <entry key="RELEASE">Alpha</entry>
-</properties>
+<fx:root fx:id="moduleBar" type="javafx.scene.layout.Pane"
+         prefWidth="57.0"  minWidth="57.0"  maxWidth="57.0"
+         prefHeight="22.0" minHeight="22.0" maxHeight="22.0"
+         xmlns:fx="http://javafx.com/fxml"
+         fx:controller="com.intellijustice.ui.controllers.NavigationBarController">
+    <children>
+        <Button fx:id="navigationBarBack" disable="true"
+                minWidth="28.0" onAction="#navigationBarNextOnAction" />
+        <Button fx:id="navigationBarNext" disable="true"
+                minWidth="28.0" onAction="#navigationBarNextOnAction" />
+    </children>
+    <stylesheets>
+        <URL value="@../styles/NavigationBar.css" />
+    </stylesheets>
+</fx:root>

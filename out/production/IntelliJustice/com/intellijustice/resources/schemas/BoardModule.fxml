@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
 
 <!--
  * IntelliJustice Intelligent Referee Assistant System
@@ -27,19 +26,25 @@
  * THE SOFTWARE.
 -->
 
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
 <!--
-    Document   : Manifest.xml
-    Created on : Aug 09, 2013, 04:50:00 PM
+    Document   : BoardModule.fxml
+    Created on : Sep 30, 2013, 06:50:00 PM
     Author     : Andrey Pudov        <mail@andreypudov.com>
     Description:
-        The application manifest file.
+        Scoreboard panel configuration.
 -->
 
-<properties>
-    <comment>IntelliJustice Intelligent Referee Assistant System</comment>
-
-    <entry key="NAME">IntelliJustice</entry>
-    <entry key="DESCRIPTION">IntelliJustice Intelligent Referee Assistant System</entry>
-    <entry key="VERSION">00.04.99</entry>
-    <entry key="RELEASE">Alpha</entry>
-</properties>
+<fx:root fx:id="libraryModule" type="javafx.scene.layout.FlowPane"
+         xmlns:fx="http://javafx.com/fxml" alignment="CENTER"
+         fx:controller="com.intellijustice.ui.controllers.BoardModuleController">
+    <children>
+    </children>
+    <stylesheets>
+        <URL value="@../styles/BoardModule.css" />
+    </stylesheets>
+</fx:root>

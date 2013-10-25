@@ -1,7 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
-
-<!--
+/*
  * IntelliJustice Intelligent Referee Assistant System
  *
  * The MIT License
@@ -25,21 +22,41 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
--->
+ */
 
-<!--
-    Document   : Manifest.xml
-    Created on : Aug 09, 2013, 04:50:00 PM
+/*
+    Document   : IntelliJustice.css
+    Created on : Aug 15, 2012, 09:50:00 PM
     Author     : Andrey Pudov        <mail@andreypudov.com>
     Description:
-        The application manifest file.
--->
+        The general application style sheet.
+*/
 
-<properties>
-    <comment>IntelliJustice Intelligent Referee Assistant System</comment>
+#mainPanelRoot {
+    -fx-background-insets: 32;
+    -fx-border-radius:     5 5 0 0;
+    -fx-effect:            dropshadow(two-pass-box, #000000, 32.0, 0.0, 0.0, 8.0);
+}
 
-    <entry key="NAME">IntelliJustice</entry>
-    <entry key="DESCRIPTION">IntelliJustice Intelligent Referee Assistant System</entry>
-    <entry key="VERSION">00.04.99</entry>
-    <entry key="RELEASE">Alpha</entry>
-</properties>
+#mainPanel {
+    -fx-background-color:  #262626;
+    -fx-background-radius: 5 5 0 0;
+ /* -fx-border-color:      #0F0F0F; border is disabled*/
+    -fx-border-radius:     4 4 0 0;
+}
+
+#toolBar {
+    -fx-background-color:  #535353;
+    -fx-background-radius: 4 4 0 0;
+    -fx-pref-height:       80;
+    -fx-background-color:  linear-gradient(from 0px 0px to 0px 80px,
+                                           #6A6A6A, #4F4F4F 100%,
+                                           dimgray 99%, #4F4F4F);
+    -fx-padding:           0 0 2 0;
+}
+
+#title {
+    -fx-font:              bold normal 15pt "Source Sans Pro Semibold";
+    -fx-text-fill:         #E3E3DF;
+    -fx-effect:            dropshadow(one-pass-box, #464646, 1, 0, 0, -1);
+}

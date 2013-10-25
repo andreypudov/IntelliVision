@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
 
 <!--
  * IntelliJustice Intelligent Referee Assistant System
@@ -27,19 +26,31 @@
  * THE SOFTWARE.
 -->
 
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
 <!--
-    Document   : Manifest.xml
-    Created on : Aug 09, 2013, 04:50:00 PM
+    Document   : SearchBar.fxml
+    Created on : Sep 25, 2012, 09:50:00 AM
     Author     : Andrey Pudov        <mail@andreypudov.com>
     Description:
-        The application manifest file.
+        Search panel with drop down with results.
 -->
 
-<properties>
-    <comment>IntelliJustice Intelligent Referee Assistant System</comment>
-
-    <entry key="NAME">IntelliJustice</entry>
-    <entry key="DESCRIPTION">IntelliJustice Intelligent Referee Assistant System</entry>
-    <entry key="VERSION">00.04.99</entry>
-    <entry key="RELEASE">Alpha</entry>
-</properties>
+<fx:root fx:id="searchBar" type="javafx.scene.layout.Pane"
+         prefWidth="150.0" prefHeight="24.0" minHeight="24.0" maxHeight="24.0"
+         xmlns:fx="http://javafx.com/fxml"
+         fx:controller="com.intellijustice.ui.controllers.SearchBarController">
+    <children>
+        <TextField fx:id="searchTextField" promptText="Search"
+            onAction="#searchTextFieldAction"
+            onKeyReleased="#searchTextFieldKeyReleased" />
+        <Button fx:id="searchClearButton" visible="false"
+            onAction="#searchClearButtonAction" />
+    </children>
+    <stylesheets>
+        <URL value="@../styles/SearchBar.css" />
+    </stylesheets>
+</fx:root>

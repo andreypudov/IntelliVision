@@ -1,7 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
-
-<!--
+/*
  * IntelliJustice Intelligent Referee Assistant System
  *
  * The MIT License
@@ -25,21 +22,27 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
--->
+ */
 
-<!--
-    Document   : Manifest.xml
-    Created on : Aug 09, 2013, 04:50:00 PM
+/*
+    Document   : CompetitionBar.css
+    Created on : Aug 06, 2013, 07:00:00 PM
     Author     : Andrey Pudov        <mail@andreypudov.com>
     Description:
-        The application manifest file.
--->
+        Competition bar with a brief competition summary.
+*/
 
-<properties>
-    <comment>IntelliJustice Intelligent Referee Assistant System</comment>
+#competitionImageView {
+    -fx-effect: dropshadow(one-pass-box, #121212, 24.0, 0.0, 0.0, 0.0);
+}
 
-    <entry key="NAME">IntelliJustice</entry>
-    <entry key="DESCRIPTION">IntelliJustice Intelligent Referee Assistant System</entry>
-    <entry key="VERSION">00.04.99</entry>
-    <entry key="RELEASE">Alpha</entry>
-</properties>
+#competitionName {
+    -fx-padding:           6 0 0 0;
+    -fx-font:              bold normal 14pt "Source Sans Pro Semibold";
+    -fx-text-fill:         #E8E8EF;
+}
+
+#competitionType {
+    -fx-font:              normal 12pt "Source Sans Pro Light";
+    -fx-text-fill:         #C0C0C0;
+}

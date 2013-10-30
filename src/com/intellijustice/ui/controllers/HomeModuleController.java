@@ -70,7 +70,7 @@ public class HomeModuleController implements Initializable {
     @FXML private ScrollPane competitionScrollPane;
 
     private CompetitionPanel competitionPanel  = null;
-    private int              previousTileAfter = 0;
+    private int              panelIndex        = 0;
 
     /**
      * Initializes the controller class.
@@ -82,7 +82,7 @@ public class HomeModuleController implements Initializable {
      */
     @Override
     public void initialize(final URL url, final ResourceBundle rb) {
-        /* aligns competition tils on the pane */
+        /* aligns competition tiles on the pane */
         competitionList.widthProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(final ObservableValue<? extends Number> ov,
@@ -94,17 +94,38 @@ public class HomeModuleController implements Initializable {
                 final int tileWidth    = (workingWidth
                         - ((tilesPerRow - 1) * HORIZONTAL_GAP)) / tilesPerRow;
 
+                System.err.println("1: " + competitionList.getWidth());
+
                 for (Node node : competitionList.getChildren()) {
                     if (node instanceof CompetitionBar) {
                         CompetitionBar bar = (CompetitionBar) node;
                         bar.setPrefWidth(tileWidth);
                     } else {
+                        // TODO
                         CompetitionPanel panel = (CompetitionPanel) node;
                         panel.setPrefWidth(workingWidth);
                     }
                 }
             }
         });
+
+        competitionList.addEventHandler(MouseEvent.MOUSE_CLICKED,
+                    new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent me) {
+                if (competitionPanel != null) {
+                    competitionList.getChildren().remove(competitionPanel);
+                    competitionPanel = null;
+                }
+            }});
+
+        competitionScrollPane.widthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(final ObservableValue<? extends Number> ov,
+                                final Number t, final Number t1) {
+                System.err.println("3: " + competitionList.getWidth());
+                System.err.println("2: " + competitionScrollPane.getWidth());
+            }});
 
         /* update competition data on change */
         Core.getDataProvider().championshipProperty().addListener(
@@ -119,8 +140,7 @@ public class HomeModuleController implements Initializable {
                         update();
                     }
                 });
-            }
-        });
+            }});
 
         /* update competition data */
         update();
@@ -139,8 +159,10 @@ public class HomeModuleController implements Initializable {
             bar.addEventHandler(MouseEvent.MOUSE_CLICKED,
                     new EventHandler<MouseEvent>() {
                 @Override
-                public void handle(MouseEvent me) {
+                public void handle(MouseEvent e) {
                     displayPanel(bar);
+
+                    e.consume();
                 }
             });
 
@@ -150,6 +172,16 @@ public class HomeModuleController implements Initializable {
 
     /**
      * Shows or hides information panel for specified competition.
+     *
+     * Scenarios:
+     *  1) Panel is hidden. A tile is clicked.
+     *     Show panel.
+     *  2) Panel is shown. The same tile is clicked.
+     *     Hide panel.
+     *  3) Panel is shown. An another tile is clicked.
+     *     Show panel with a content of clicked tile.
+     *  4) Panel is shown. User clicks at the free space between the tiles.
+     *     Hide panel.
      *
      * @param bar the competition bar that should be used.
      */
@@ -162,30 +194,43 @@ public class HomeModuleController implements Initializable {
                 / (TILE_MIN_WIDTH + HORIZONTAL_GAP);
         final int tileAfter    = (((tileIndex / tilesPerRow) + 1) * tilesPerRow);
 
-        if (competitionPanel != null) {
-            competitionList.getChildren().remove(competitionPanel);
-        }
+        /* Scenario №1. Show panel for a clicked tile. */
+        if (competitionPanel == null) {
+            competitionPanel = new CompetitionPanel(bar.getCompetition());
+            competitionPanel.setPrefWidth(workingWidth);
 
-        if (competitionPanel != null) {
-            if (competitionPanel.getCompetition().equals(
-                        bar.getCompetition())) {
-                // the same competition tile has been rised - hide panel
-                competitionList.getChildren().remove(competitionPanel);
-                competitionPanel = null;
-            } else if (previousTileAfter == tileAfter) {
-                // another tile has been arrised - change competition instance
-                competitionPanel.setCompetition(bar.getCompetition());
-            }
+            competitionList.getChildren().add(
+                    ((tileAfter > tileCount) ? tileCount : tileAfter),
+                    competitionPanel);
 
             return;
         }
 
-        competitionPanel = new CompetitionPanel(bar.getCompetition());
-        competitionPanel.setPrefWidth(workingWidth);
+        /* Scenario №2. Hide panel. */
+        if (competitionPanel.getCompetition().equals(
+                bar.getCompetition())) {
+            competitionList.getChildren().remove(competitionPanel);
+            competitionPanel = null;
 
-        competitionList.getChildren().add(
-                ((tileAfter > tileCount) ? tileCount : tileAfter),
-                competitionPanel);
-        previousTileAfter = tileAfter;
+            return;
+        }
+
+        /* Scenario №3. Show panel with a content of clicked tile. */
+        if (panelIndex == tileAfter) {
+            /* Clicked tile locates on the same row. */
+            competitionPanel.setCompetition(bar.getCompetition());
+        } else {
+            /* Clicked tile locates on another row. Hide exists panel and show new one. */
+            competitionList.getChildren().remove(competitionPanel);
+
+            competitionPanel = new CompetitionPanel(bar.getCompetition());
+            competitionPanel.setPrefWidth(workingWidth);
+
+            /* tileCount = tileCount - 1 because of removed panel */
+            competitionList.getChildren().add(
+                    ((tileAfter > tileCount) ? (tileCount - 1) : tileAfter),
+                    competitionPanel);
+            panelIndex = tileAfter;
+        }
     }
 }

@@ -32,6 +32,12 @@
         Competition panel with competition details information.
 */
 
-#competitionPanel {
-    -fx-background-color: red;
+#layerPanel {
+    -fx-background-color: #333333, #3A3A3A,
+                          linear-gradient(to bottom, #333333 2%, #3A3A3A 98%);
+}
+
+#disciplineLabel {
+    -fx-font:             bold normal 16pt "Source Sans Pro Semibold";
+    -fx-text-fill:        #E8E8EF;
 }

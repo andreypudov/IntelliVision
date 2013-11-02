@@ -45,12 +45,18 @@
          xmlns:fx="http://javafx.com/fxml"
          fx:controller="com.intellijustice.ui.controllers.CompetitionPanelController">
     <children>
-        <ImageView fx:id="competitionImageView" pickOnBounds="true" preserveRatio="true" smooth="true">
-            <image>
-                <Image url="@../images/100m-preliminary-round.png" />
-            </image>
-        </ImageView>
+        <VBox fx:id="layerPanel" VBox.vgrow="ALWAYS">
+            <HBox>
+                <Label fx:id="disciplineLabel" />
+            </HBox>
+            <padding>
+                <Insets top="10.0" left="30.0" right="30.0" />
+            </padding>
+        </VBox>
     </children>
+    <padding>
+        <Insets left="-30.0" right="-30.0" />
+    </padding>
     <stylesheets>
         <URL value="@../styles/CompetitionPanel.css" />
     </stylesheets>

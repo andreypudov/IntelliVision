@@ -29,7 +29,11 @@ package com.intellijustice.ui.controllers;
 import com.intellijustice.core.Competition;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 
 /**
  * FXML Controller class implements competition panel control UI logic.
@@ -45,6 +49,9 @@ public class CompetitionPanelController implements Initializable {
             = java.util.logging.Logger.getLogger(
               com.intellijustice.core.Manifest.NAME);
 
+    @FXML private VBox  competitionPanel;
+    @FXML private Label disciplineLabel;
+
     /* the competition representation */
     private Competition competition;
 
@@ -58,6 +65,7 @@ public class CompetitionPanelController implements Initializable {
      */
     @Override
     public void initialize(final URL url, final ResourceBundle rb) {
+        competitionPanel.setPrefHeight(100.0);
     }
 
     /**
@@ -76,5 +84,7 @@ public class CompetitionPanelController implements Initializable {
      */
     public void setCompetition(final Competition competition) {
         this.competition = competition;
+
+        disciplineLabel.setText(competition.getDiscipline().toString());
     }
 }

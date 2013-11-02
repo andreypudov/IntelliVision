@@ -44,6 +44,8 @@ import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 
 /**
  * FXML Controller class provides general view functionality.
@@ -66,6 +68,7 @@ public class HomeModuleController implements Initializable {
     /* championship data provider */
     private final DefaultDataProvider provider = Core.getDataProvider();
 
+    @FXML private GridPane   homeModule;
     @FXML private FlowPane   competitionList;
     @FXML private ScrollPane competitionScrollPane;
 
@@ -83,7 +86,7 @@ public class HomeModuleController implements Initializable {
     @Override
     public void initialize(final URL url, final ResourceBundle rb) {
         /* aligns competition tiles on the pane */
-        competitionList.widthProperty().addListener(new ChangeListener<Number>() {
+        homeModule.widthProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(final ObservableValue<? extends Number> ov,
                                 final Number t, final Number t1) {
@@ -94,21 +97,18 @@ public class HomeModuleController implements Initializable {
                 final int tileWidth    = (workingWidth
                         - ((tilesPerRow - 1) * HORIZONTAL_GAP)) / tilesPerRow;
 
-                System.err.println("1: " + competitionList.getWidth());
-
                 for (Node node : competitionList.getChildren()) {
                     if (node instanceof CompetitionBar) {
                         CompetitionBar bar = (CompetitionBar) node;
                         bar.setPrefWidth(tileWidth);
                     } else {
-                        // TODO
                         CompetitionPanel panel = (CompetitionPanel) node;
-                        //panel.setPrefWidth(tileWidth);
+                        panel.setPrefWidth(workingWidth  - 2);
                     }
                 }
-            }
-        });
+            }});
 
+        /* remove panel in case of click on free place */
         competitionList.addEventHandler(MouseEvent.MOUSE_CLICKED,
                     new EventHandler<MouseEvent>() {
             @Override
@@ -117,14 +117,6 @@ public class HomeModuleController implements Initializable {
                     competitionList.getChildren().remove(competitionPanel);
                     competitionPanel = null;
                 }
-            }});
-
-        competitionScrollPane.widthProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(final ObservableValue<? extends Number> ov,
-                                final Number t, final Number t1) {
-                System.err.println("3: " + competitionList.getWidth());
-                System.err.println("2: " + competitionScrollPane.getWidth());
             }});
 
         /* update competition data on change */

@@ -103,7 +103,7 @@ public class HomeModuleController implements Initializable {
                     } else {
                         // TODO
                         CompetitionPanel panel = (CompetitionPanel) node;
-                        panel.setPrefWidth(workingWidth);
+                        //panel.setPrefWidth(tileWidth);
                     }
                 }
             }
@@ -202,6 +202,7 @@ public class HomeModuleController implements Initializable {
             competitionList.getChildren().add(
                     ((tileAfter > tileCount) ? tileCount : tileAfter),
                     competitionPanel);
+            panelIndex = tileAfter;
 
             return;
         }

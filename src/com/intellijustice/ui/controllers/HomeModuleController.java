@@ -41,11 +41,9 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 
 /**
  * FXML Controller class provides general view functionality.
@@ -70,7 +68,6 @@ public class HomeModuleController implements Initializable {
 
     @FXML private GridPane   homeModule;
     @FXML private FlowPane   competitionList;
-    @FXML private ScrollPane competitionScrollPane;
 
     private CompetitionPanel competitionPanel  = null;
     private int              panelIndex        = 0;

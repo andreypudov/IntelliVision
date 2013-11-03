@@ -2,12 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change type="DELETED" beforePath="C:\Users\apudov\Documents\Projects\IntelliJustice\subprojects\onlineathletics.github.com\packages\IntelliJustice.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\apudov\Documents\Projects\IntelliJustice\subprojects\onlineathletics.github.com\packages\IntelliJustice.zip" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/subprojects/onlineathletics.github.com" afterPath="$PROJECT_DIR$/subprojects/onlineathletics.github.com" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/intellijustice/ui/controllers/HomeModuleController.java" afterPath="$PROJECT_DIR$/src/com/intellijustice/ui/controllers/HomeModuleController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/intellijustice/resources/schemas/Manifest.xml" afterPath="$PROJECT_DIR$/src/com/intellijustice/resources/schemas/Manifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/subprojects/onlineathletics.github.com/index.html" afterPath="$PROJECT_DIR$/subprojects/onlineathletics.github.com/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <list id="f6fe84d1-7574-4f12-a00c-f14f59d0440f" name="Rejected commit: Default" comment="Competition panel displaying algorithm has been implemented to provide ability to show/hide competition information by clicking competition tile." />
@@ -19,7 +13,7 @@
     <file path="/a.java" changelist="cdb932d9-7e58-4d94-93a9-e7b232ef17da" time="1382698089548" ignored="false" />
     <file path="/fragment.java" changelist="cdb932d9-7e58-4d94-93a9-e7b232ef17da" time="1383451770126" ignored="false" />
     <file path="/sample.java" changelist="cdb932d9-7e58-4d94-93a9-e7b232ef17da" time="1382697471804" ignored="false" />
-    <file path="/Dummy.txt" changelist="cdb932d9-7e58-4d94-93a9-e7b232ef17da" time="1383473894202" ignored="false" />
+    <file path="/Dummy.txt" changelist="cdb932d9-7e58-4d94-93a9-e7b232ef17da" time="1383473958091" ignored="false" />
     <file path="/HomeModuleController.java" changelist="cdb932d9-7e58-4d94-93a9-e7b232ef17da" time="1383403493371" ignored="false" />
     <file path="/HomeModule.css" changelist="cdb932d9-7e58-4d94-93a9-e7b232ef17da" time="1383328830336" ignored="false" />
     <file path="/HomeModule.fxml" changelist="cdb932d9-7e58-4d94-93a9-e7b232ef17da" time="1382941322095" ignored="false" />
@@ -506,6 +500,11 @@
       <updated>1359379246138</updated>
       <workItem from="1359379250712" duration="1302000" />
     </task>
+    <task id="LOCAL-00001" summary="Incrementer has been added to IntelliJ IDEA project.">
+      <created>1383473975666</created>
+      <updated>1383473975666</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -567,8 +566,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
-    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="true" />
-    <option name="CHECK_NEW_TODO" value="true" />
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
     <option name="myTodoPanelSettings">
       <value>
         <are-packages-shown value="false" />

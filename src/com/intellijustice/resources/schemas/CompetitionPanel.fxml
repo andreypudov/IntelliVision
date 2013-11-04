@@ -46,9 +46,10 @@
          fx:controller="com.intellijustice.ui.controllers.CompetitionPanelController">
     <children>
         <VBox fx:id="layerPanel" VBox.vgrow="ALWAYS">
-            <HBox>
+            <HBox fx:id="layerTitle">
                 <Label fx:id="disciplineLabel" />
             </HBox>
+            <TableView fx:id="disciplineTable" VBox.vgrow="ALWAYS" />
             <padding>
                 <Insets top="10.0" left="30.0" right="30.0" />
             </padding>

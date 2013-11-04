@@ -243,61 +243,14 @@ public class ExcelDataFormatV1 implements ExcelDataFormatDefault {
                 sheet.getSheetName().hashCode(), discipline, round,
                 sex, startTime, endTime, temperature, humidity);
 
-        switch (discipline) {
-            case R_100_METRES:
-            case R_200_METRES:
-            case R_300_METRES:
-            case R_400_METRES:
-            case R_600_METRES:
-            case R_800_METRES:
-            case R_1000_METRES:
-            case R_1500_METRES:
-            case R_MILE:
-            case R_2000_METRES:
-            case R_3000_METRES:
-            case R_2_MILES:
-            case R_5000_METRES:
-            case R_10_000_METRES:
-            case R_100_METRES_HURDLES:
-            case R_110_METRES_HURDLES:
-            case R_400_METRES_HURDLES:
-            case R_2000_METRES_STEEPLECHASE:
-            case R_3000_METRES_STEEPLECHASE:
-                readRunning(sheet, competition);
-                break;
-            case HIGH_JUMP:
-            case POLE_VAULT:
-            case LONG_JUMP:
-            case TRIPPLE_JUMP:
-            case SHOT_PUT:
-            case DISCUS_THROW:
-            case HAMMER_THROW:
-            case JAVELIAN_THROW:
-            case R_10_KILOMETRES:
-            case R_15_KILOMETRES:
-            case R_10_MILES:
-            case R_20_KILOMETRES:
-            case HALF_MARATHON:
-            case MARATHON:
-            case W_3000_METRES_RACE_WALK:
-            case W_5000_METRES_RACE_WALK:
-            case W_5_KILOMETRES_RCAE_WALK:
-            case W_10_000_METRES_RCAE_WALK:
-            case W_10_KILOMETRES_RCAE_WALK:
-            case W_20_000_METRES_RCAE_WALK:
-            case W_20_KILOMETRES_RCAE_WALK:
-            case W_35_KILOMETRES_RCAE_WALK:
-            case W_50_KILOMETRES_RCAE_WALK:
-            case HEPTATHLON:
-            case DECATHLON:
-            case R_4_100_METRES_RELAY:
-            case R_4_400_METRES_RELAY:
+        switch (DisciplineType.getDisciplineType(discipline)) {
+            case RUNNING:
                 readRunning(sheet, competition);
                 break;
             case UNDEFINED:
             default:
                 throw new IncorrectFormatException("The discipline "
-                    + cellDiscipline.getStringCellValue() + " is incorrect.");
+                        + cellDiscipline.getStringCellValue() + " is incorrect.");
         }
 
         return competition;

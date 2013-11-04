@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="IntelliJustice" />
+    </artifacts-to-build>
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
+    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="Incrementer has been added to IntelliJ IDEA project.">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/intellijustice/core/DisciplineType.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/artifacts/IntelliJustice_OLD.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/intellijustice/ui/controls/RunningDataModel.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/intellijustice/core/Competition.java" afterPath="$PROJECT_DIR$/src/com/intellijustice/core/Competition.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/intellijustice/resources/schemas/CompetitionPanel.fxml" afterPath="$PROJECT_DIR$/src/com/intellijustice/resources/schemas/CompetitionPanel.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/intellijustice/ui/controllers/CompetitionPanelController.java" afterPath="$PROJECT_DIR$/src/com/intellijustice/ui/controllers/CompetitionPanelController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/intellijustice/core/ExcelDataFormatV1.java" afterPath="$PROJECT_DIR$/src/com/intellijustice/core/ExcelDataFormatV1.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/intellijustice/ui/controllers/HomeModuleController.java" afterPath="$PROJECT_DIR$/src/com/intellijustice/ui/controllers/HomeModuleController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/artifacts/IntelliJustice.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/IntelliJustice.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/intellijustice/resources/schemas/Manifest.xml" afterPath="$PROJECT_DIR$/src/com/intellijustice/resources/schemas/Manifest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <list id="f6fe84d1-7574-4f12-a00c-f14f59d0440f" name="Rejected commit: Default" comment="Competition panel displaying algorithm has been implemented to provide ability to show/hide competition information by clicking competition tile." />
@@ -13,13 +29,18 @@
     <file path="/a.java" changelist="cdb932d9-7e58-4d94-93a9-e7b232ef17da" time="1382698089548" ignored="false" />
     <file path="/fragment.java" changelist="cdb932d9-7e58-4d94-93a9-e7b232ef17da" time="1383451770126" ignored="false" />
     <file path="/sample.java" changelist="cdb932d9-7e58-4d94-93a9-e7b232ef17da" time="1382697471804" ignored="false" />
-    <file path="/Dummy.txt" changelist="cdb932d9-7e58-4d94-93a9-e7b232ef17da" time="1383473958091" ignored="false" />
-    <file path="/HomeModuleController.java" changelist="cdb932d9-7e58-4d94-93a9-e7b232ef17da" time="1383403493371" ignored="false" />
+    <file path="/Dummy.txt" changelist="cdb932d9-7e58-4d94-93a9-e7b232ef17da" time="1383536225530" ignored="false" />
+    <file path="/HomeModuleController.java" changelist="cdb932d9-7e58-4d94-93a9-e7b232ef17da" time="1383499901160" ignored="false" />
     <file path="/HomeModule.css" changelist="cdb932d9-7e58-4d94-93a9-e7b232ef17da" time="1383328830336" ignored="false" />
     <file path="/HomeModule.fxml" changelist="cdb932d9-7e58-4d94-93a9-e7b232ef17da" time="1382941322095" ignored="false" />
     <file path="/CompetitionPanel.css" changelist="cdb932d9-7e58-4d94-93a9-e7b232ef17da" time="1383401797050" ignored="false" />
-    <file path="/CompetitionPanelController.java" changelist="cdb932d9-7e58-4d94-93a9-e7b232ef17da" time="1383386642031" ignored="false" />
-    <file path="/CompetitionPanel.fxml" changelist="cdb932d9-7e58-4d94-93a9-e7b232ef17da" time="1383386810021" ignored="false" />
+    <file path="/CompetitionPanelController.java" changelist="cdb932d9-7e58-4d94-93a9-e7b232ef17da" time="1383502004949" ignored="false" />
+    <file path="/CompetitionPanel.fxml" changelist="cdb932d9-7e58-4d94-93a9-e7b232ef17da" time="1383500020128" ignored="false" />
+    <file path="/DisciplineType.java" changelist="cdb932d9-7e58-4d94-93a9-e7b232ef17da" time="1383476718010" ignored="false" />
+    <file path="/ExcelDataFormatV1.java" changelist="cdb932d9-7e58-4d94-93a9-e7b232ef17da" time="1383476794139" ignored="false" />
+    <file path="/RunningDataModel.java" changelist="cdb932d9-7e58-4d94-93a9-e7b232ef17da" time="1383501802531" ignored="false" />
+    <file path="/Competition.java" changelist="cdb932d9-7e58-4d94-93a9-e7b232ef17da" time="1383491751346" ignored="false" />
+    <file path="/a.dummy" changelist="cdb932d9-7e58-4d94-93a9-e7b232ef17da" time="1383500333282" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,7 +61,6 @@
   </component>
   <component name="DebuggerManager">
     <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true" />
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -77,6 +97,7 @@
         <option name="LOG_MESSAGE" value="&#13;&#13;JAVA" />
       </breakpoint>
     </breakpoint_any>
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -86,19 +107,37 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Manifest.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/intellijustice/resources/schemas/Manifest.xml">
+      <file leaf-file-name="CompetitionPanel.fxml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/intellijustice/resources/schemas/CompetitionPanel.fxml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="36" selection-start="448" selection-end="448" vertical-scroll-proportion="0.0">
+            <state line="39" column="16" selection-start="1579" selection-end="1579" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HomeModuleController.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="HomeModuleController.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/intellijustice/ui/controllers/HomeModuleController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="57" column="50" selection-start="2289" selection-end="2289" vertical-scroll-proportion="0.33248082">
+            <state line="101" column="46" selection-start="4251" selection-end="4251" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CompetitionPanelController.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/intellijustice/ui/controllers/CompetitionPanelController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="179" column="0" selection-start="7384" selection-end="7384" vertical-scroll-proportion="0.8386555">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RunningDataModel.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/intellijustice/ui/controls/RunningDataModel.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="181" column="8" selection-start="5758" selection-end="5758" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -122,7 +161,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/sample/Main.java" />
         <option value="$PROJECT_DIR$/src/sample/sample.fxml" />
         <option value="$PROJECT_DIR$/src/sample/Controller.java" />
         <option value="$PROJECT_DIR$/src/com/intellijustice/uytiuyti.java" />
@@ -130,11 +168,15 @@
         <option value="$PROJECT_DIR$/src/com/intellijustice/iii.java" />
         <option value="$PROJECT_DIR$/src/com/intellijustice/resources/schemas/HomeModule.fxml" />
         <option value="$PROJECT_DIR$/src/com/intellijustice/resources/styles/HomeModule.css" />
-        <option value="$PROJECT_DIR$/src/com/intellijustice/ui/controllers/CompetitionPanelController.java" />
-        <option value="$PROJECT_DIR$/src/com/intellijustice/resources/schemas/CompetitionPanel.fxml" />
         <option value="$PROJECT_DIR$/src/com/intellijustice/resources/styles/CompetitionPanel.css" />
-        <option value="$PROJECT_DIR$/src/com/intellijustice/ui/controllers/HomeModuleController.java" />
         <option value="$PROJECT_DIR$/src/com/intellijustice/resources/schemas/Manifest.xml" />
+        <option value="$PROJECT_DIR$/src/com/intellijustice/core/DisciplineType.java" />
+        <option value="$PROJECT_DIR$/src/com/intellijustice/core/ExcelDataFormatV1.java" />
+        <option value="$PROJECT_DIR$/src/com/intellijustice/core/Competition.java" />
+        <option value="$PROJECT_DIR$/src/com/intellijustice/ui/controllers/HomeModuleController.java" />
+        <option value="$PROJECT_DIR$/src/com/intellijustice/resources/schemas/CompetitionPanel.fxml" />
+        <option value="$PROJECT_DIR$/src/com/intellijustice/ui/controls/RunningDataModel.java" />
+        <option value="$PROJECT_DIR$/src/com/intellijustice/ui/controllers/CompetitionPanelController.java" />
       </list>
     </option>
   </component>
@@ -143,8 +185,8 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="108" />
-    <option name="y" value="48" />
+    <option name="x" value="61" />
+    <option name="y" value="42" />
     <option name="width" value="1453" />
     <option name="height" value="778" />
   </component>
@@ -175,7 +217,7 @@
     <option name="STATE" value="0" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
+    <navigator currentView="PackagesPane" proportions="" version="1" splitterProportion="0.5">
       <flattenPackages ProjectPane="false" />
       <showMembers />
       <showModules />
@@ -263,30 +305,112 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+        </subPane>
+      </pane>
+      <pane id="PackagesPane">
+        <subPane>
           <PATH>
             <PATH_ELEMENT>
               <option name="myItemId" value="IntelliJustice" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="IntelliJustice" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="IntelliJustice" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemId" value="IntelliJustice" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="intellijustice" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemId" value="com.intellijustice" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="IntelliJustice" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="IntelliJustice" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com.intellijustice" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="IntelliJustice" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="IntelliJustice" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com.intellijustice" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="controls" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="IntelliJustice" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="IntelliJustice" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com.intellijustice" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="controllers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="IntelliJustice" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="IntelliJustice" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com.intellijustice" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="schemas" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -319,34 +443,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="IntelliJustice" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="IntelliJustice" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="IntelliJustice" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="IntelliJustice" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com.intellijustice" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -369,7 +465,7 @@
     <property name="GoToClass.includeLibraries" value="false" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="GoToFile.includeJavaFiles" value="false" />
-    <property name="options.lastSelected" value="preferences.externalTools" />
+    <property name="options.lastSelected" value="preferences.JavaFX" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
     <property name="MemberChooser.copyJavadoc" value="false" />
@@ -531,28 +627,28 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="108" y="48" width="1453" height="778" extended-state="0" />
-    <editor active="false" />
+    <frame x="61" y="42" width="1453" height="778" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3268921" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32850242" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3252818" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32850242" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3268921" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24946082" sideWeight="0.6714976" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17325665" sideWeight="0.6714976" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18044572" sideWeight="0.6714976" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39613527" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32997844" sideWeight="0.6714976" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32850242" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3252818" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3236715" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32850242" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32850242" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="FindBugs-IDEA" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.48314607" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32997844" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -644,94 +740,100 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/intellijustice/core/Discipline.java">
+    <entry file="file://$PROJECT_DIR$/src/com/intellijustice/core/ExcelDataFormatV1.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="12" selection-start="1459" selection-end="1459" vertical-scroll-proportion="0.33163264" />
+        <state line="251" column="16" selection-start="10804" selection-end="10939" vertical-scroll-proportion="0.7042017" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/intellijustice/resources/styles/CompetitionBar.css">
+    <entry file="file://$PROJECT_DIR$/src/com/intellijustice/core/DisciplineType.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="4" selection-start="1579" selection-end="1682" vertical-scroll-proportion="0.0" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-1.9310924" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/intellijustice/IntelliJustice.java">
+    <entry file="file://$PROJECT_DIR$/src/com/intellijustice/core/Record.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="53" column="53" selection-start="2118" selection-end="2118" vertical-scroll-proportion="0.0">
+        <state line="128" column="7" selection-start="3792" selection-end="3824" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/intellijustice/core/Athlete.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="121" column="4" selection-start="3772" selection-end="3892" vertical-scroll-proportion="2.361323">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.7.latest/jre/lib/jfxrt.jar!/javafx/event/EventHandler.class">
+    <entry file="file://$PROJECT_DIR$/src/com/intellijustice/core/Result.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="9" selection-start="247" selection-end="247" vertical-scroll-proportion="0.24489796" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/intellijustice/resources/schemas/CompetitionPanel.fxml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="32" selection-start="1665" selection-end="1681" vertical-scroll-proportion="0.0">
+        <state line="114" column="4" selection-start="3578" selection-end="3694" vertical-scroll-proportion="0.48854962">
           <folding />
         </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/intellijustice/core/ExcelDataFormatList.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="36" column="12" selection-start="1460" selection-end="1460" vertical-scroll-proportion="0.48854962" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/intellijustice/core/Competition.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="171" column="46" selection-start="5130" selection-end="5130" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/intellijustice/resources/schemas/HelpModule.fxml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-1.9317585" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/intellijustice/resources/schemas/HomeModule.fxml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="62" selection-start="1668" selection-end="1676" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-1.8274112" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/intellijustice/resources/styles/CompetitionPanel.css">
+    <entry file="file://$PROJECT_DIR$/src/com/intellijustice/ui/modules/HomeModule.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="49" selection-start="1410" selection-end="1410" vertical-scroll-proportion="0.0" />
+        <state line="41" column="13" selection-start="1651" selection-end="1651" vertical-scroll-proportion="-1.4949238" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/intellijustice/resources/schemas/CompetitionPanel.fxml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="39" column="16" selection-start="1579" selection-end="1579" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/intellijustice/ui/controls/CompetitionPanel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="72" column="24" selection-start="2647" selection-end="2647" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/intellijustice/ui/controllers/CompetitionPanelController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="21" selection-start="1628" selection-end="1628" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/subprojects/Incrementer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/copyright/profiles_settings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/IntelliJustice.iml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/ant.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/compiler.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="38" selection-start="631" selection-end="631" vertical-scroll-proportion="0.69211197" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/intellijustice/resources/schemas/Manifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="36" selection-start="448" selection-end="448" vertical-scroll-proportion="0.0">
+        <state line="57" column="0" selection-start="2286" selection-end="2286" vertical-scroll-proportion="0.107563026">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/intellijustice/ui/controllers/HomeModuleController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="57" column="50" selection-start="2289" selection-end="2289" vertical-scroll-proportion="0.33248082">
+        <state line="101" column="46" selection-start="4251" selection-end="4251" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/intellijustice/core/Entry.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="42" column="0" selection-start="1555" selection-end="1555" vertical-scroll-proportion="-1.4521009">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/intellijustice/ui/controls/RunningDataModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="181" column="8" selection-start="5758" selection-end="5758" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/intellijustice/ui/controllers/CompetitionPanelController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="179" column="0" selection-start="7384" selection-end="7384" vertical-scroll-proportion="0.8386555">
           <folding />
         </state>
       </provider>

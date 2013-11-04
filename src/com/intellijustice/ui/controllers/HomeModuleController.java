@@ -101,6 +101,7 @@ public class HomeModuleController implements Initializable {
                     } else {
                         CompetitionPanel panel = (CompetitionPanel) node;
                         panel.setPrefWidth(workingWidth  - 2);
+                        // TODO -2 is wrong border value
                     }
                 }
             }});

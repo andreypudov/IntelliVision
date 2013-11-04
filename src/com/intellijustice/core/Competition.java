@@ -173,7 +173,7 @@ public class Competition {
      *
      * @return the competition result entries.
      */
-    public List<Entry> getCompetitionList() {
+    public List<Entry> getEntryList() {
         return Collections.unmodifiableList(list);
     }
 

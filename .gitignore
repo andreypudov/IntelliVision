@@ -4,6 +4,7 @@
 build/
 dist/
 nbproject/
+out/
 
 subprojects/AthletsParser/dist/
 subprojects/Preloader/build/

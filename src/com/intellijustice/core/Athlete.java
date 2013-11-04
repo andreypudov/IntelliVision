@@ -47,6 +47,8 @@ public class Athlete {
     private final int     id;
     private final String  firstName;
     private final String  secondName;
+    private final String  firstNameLocale;
+    private final String  secondNameLocale;
     private final long    birthday;
     private final boolean sex;       /* thue is male, false is female */
     private final String  country;
@@ -62,14 +64,17 @@ public class Athlete {
      * @param country    the country where the athlete from.
      */
     public Athlete(final int id, final String firstName,
-            final String secondName, final long birthday, final boolean sex,
-            final String country) {
-        this.id          = id;
-        this.firstName   = firstName;
-        this.secondName  = secondName;
-        this.birthday    = birthday;
-        this.sex         = sex;
-        this.country     = country;
+            final String secondName, final String firstNameLocale,
+            final String secondNameLocale, final long birthday,
+            final boolean sex, final String country) {
+        this.id               = id;
+        this.firstName        = firstName;
+        this.secondName       = secondName;
+        this.firstNameLocale  = firstName;
+        this.secondNameLocale = secondName;
+        this.birthday         = birthday;
+        this.sex              = sex;
+        this.country          = country;
     }
 
     /**
@@ -98,6 +103,24 @@ public class Athlete {
      */
     public String getSecondName() {
         return secondName;
+    }
+
+    /**
+     * Returns the localized first name of the athlete.
+     *
+     * @return the localized first name of the athlete
+     */
+    public String getFirstNameLocalized() {
+        return firstNameLocale;
+    }
+
+    /**
+     * Returns the localized second name of the athlete.
+     *
+     * @return the localized second name of the athlete.
+     */
+    public String getSecondNameLocalized() {
+        return secondNameLocale;
     }
 
     /**
@@ -155,6 +178,14 @@ public class Athlete {
         }
 
         if (!Objects.equals(this.secondName, other.secondName)) {
+            return false;
+        }
+
+        if (!Objects.equals(this.firstNameLocale, other.firstNameLocale)) {
+            return false;
+        }
+
+        if (!Objects.equals(this.secondNameLocale, other.secondNameLocale)) {
             return false;
         }
 

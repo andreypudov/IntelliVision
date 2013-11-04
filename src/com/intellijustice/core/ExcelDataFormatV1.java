@@ -30,6 +30,9 @@ import java.io.File;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+
+import com.ibm.icu.text.Transliterator;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -298,6 +301,8 @@ public class ExcelDataFormatV1 implements ExcelDataFormatDefault {
             try {
                 final Athlete athlete = new Athlete(
                         cellName.getStringCellValue().hashCode(),
+                        transliterate(getFirstName(cellName.getStringCellValue())),
+                        transliterate(getLastName(cellName.getStringCellValue())),
                         getFirstName(cellName.getStringCellValue()),
                         getLastName(cellName.getStringCellValue()),
                         formatter.parse(cellBirthday.getStringCellValue()).getTime(),
@@ -389,6 +394,27 @@ public class ExcelDataFormatV1 implements ExcelDataFormatDefault {
             return Short.parseShort(value);
         } catch (NumberFormatException e) {
             return 0;
+        }
+    }
+
+    /**
+     * Transliterates Russian name to English.
+     *
+     * @param russian the athlete name in Russian.
+     * @return        the athlete name in English.
+     */
+    public static String transliterate(final String russian) {
+        try {
+            final Transliterator transliterator = Transliterator.getInstance(
+                    "Russian-Latin/BGN");
+
+            return transliterator.transliterate(russian);
+        } catch (Exception e) {
+            LOG.log(Level.WARNING,
+                    "Could not translate Russian name to English. {0}",
+                    e.getMessage());
+
+            return russian;
         }
     }
 }

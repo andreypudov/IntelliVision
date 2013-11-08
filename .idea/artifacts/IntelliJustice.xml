@@ -18,6 +18,7 @@
       <element id="directory" name="libs">
         <element id="library" level="application" name="Apache POI" />
         <element id="library" level="application" name="MySQL JDBC" />
+        <element id="library" level="application" name="ICU4j" />
       </element>
     </root>
   </artifact>

@@ -38,6 +38,43 @@
 }
 
 #disciplineLabel {
-    -fx-font:             bold normal 16pt "Source Sans Pro Semibold";
-    -fx-text-fill:        #E8E8EF;
+    -fx-font:      bold normal 16pt "Source Sans Pro Semibold";
+    -fx-text-fill: #E8E8EF;
+}
+
+#disciplineTable {
+    -fx-background-color: transparent;
+    -fx-border-width:     0;
+}
+
+#disciplineTable .column-header {
+    -fx-font: bold normal 14pt "Source Sans Pro";
+    -fx-size: 25px;
+}
+
+#disciplineTable .column-header .label {
+    -fx-text-fill:   white;
+    -fx-font-weight: bold;
+}
+
+#disciplineTable .table-row-cell {
+    -fx-font:             normal normal 13pt "Source Sans Pro";
+    -fx-cell-size:        25px;
+    /*-fx-background-color: transparent;*/
+    -fx-border-width:     0;
+    -fx-text-fill:        red;
+    -fx-smooth:           true;
+}
+
+#disciplineTable .table-row-cell:empty {
+    -fx-background-color: khaki;
+    -fx-border-color: grey;
+}
+
+#disciplineTable .table-row-cell:hover {
+    -fx-background-color: blanchedalmond;
+}
+
+#disciplineTable .table-row-cell:selected {
+    -fx-background-color: chocolate;
 }

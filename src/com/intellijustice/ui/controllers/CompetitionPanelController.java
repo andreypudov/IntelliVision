@@ -92,6 +92,10 @@ public class CompetitionPanelController implements Initializable {
      * @param competition the competition representation.
      */
     public void setCompetition(final Competition competition) {
+        final double TABLE_HEADER_HEIGHT = 25.0;
+        final double TABLE_ROW_HEIGHT    = 25.0;
+        final double TABLE_BORDER_HEIGHT = 2.0; //TODO remove border
+
         this.competition = competition;
 
         disciplineLabel.setText(competition.getDiscipline().toString());
@@ -104,6 +108,10 @@ public class CompetitionPanelController implements Initializable {
             default:
                 return;
         }
+
+        /* set preferred table height to hide an empty rows */
+        disciplineTable.setPrefHeight(TABLE_HEADER_HEIGHT + TABLE_BORDER_HEIGHT
+                + (disciplineTable.getItems().size() * TABLE_ROW_HEIGHT));
     }
 
     /**
@@ -150,7 +158,7 @@ public class CompetitionPanelController implements Initializable {
 
         rankColumn.setMinWidth(40.0);
         bibColumn.setMinWidth(40.0);
-        athleteColumn.setMinWidth(200.0);
+        athleteColumn.setMinWidth(160.0);
         birthdayColumn.setMinWidth(60.0);
         countryColumn.setMinWidth(60.0);
         personalColumn.setMinWidth(60.0);

@@ -162,42 +162,92 @@ public class RunningDataModel {
         return reaction.getValue().shortValue();
     }
 
+    /**
+     * Sets the rank of the athlete (the number of the result).
+     *
+     * @param rank the rank of the athlete (the number of the result).
+     */
     public void setRank(final short rank) {
         this.rank.setValue(rank);
     }
 
+    /**
+     * Sets the bib number of the athlete for the championship.
+     *
+     * @param bib the bib number of the athlete for the championship.
+     */
     public void setBib(final short bib) {
         this.bib.setValue(bib);
     }
 
+    /**
+     * Sets the first and last name of the athlete.
+     *
+     * @param athlete the first and last name of the athlete
+     */
     public void setAthlete(final String athlete) {
         this.athlete.setValue(athlete);
     }
 
+    /**
+     * Sets the birthday of the athlete.
+     *
+     * @param birthday the birthday of the athlete.
+     */
     public void setBirthday(final long birthday) {
         this.birthday.setValue(birthday);
     }
 
+    /**
+     * Sets the country where the athlete from.
+     *
+     * @param country the country where the athlete from.
+     */
     public void setCountry(final String country) {
         this.country.setValue(country);
     }
 
+    /**
+     * Sets the personal result of the athlete in the discipline.
+     *
+     * @param personal the personal result of the athlete in the discipline.
+     */
     public void setPersonal(final short personal) {
         this.personal.setValue(personal);
     }
 
+    /**
+     * Sets the season result of the athlete in the discipline.
+     *
+     * @param season the season result of the athlete in the discipline.
+     */
     public void setSeason(final short season) {
         this.season.setValue(season);
     }
 
+    /**
+     * Sets the line of the athlete for the competition.
+     *
+     * @param line the line of the athlete for the competition.
+     */
     public void setLine(final short line) {
         this.line.setValue(line);
     }
 
+    /**
+     * Sets the result value.
+     *
+     * @param result the result value.
+     */
     public void setResult(final short result) {
         this.result.setValue(result);
     }
 
+    /**
+     * Sets the reaction time of the athlete.
+     *
+     * @param reaction the reaction time of the athlete.
+     */
     public void setReaction(final short reaction) {
         this.reaction.setValue(reaction);
     }

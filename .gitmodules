@@ -1,0 +1,3 @@
+[submodule "subprojects/onlineathletics.github.com"]
+	path = subprojects/onlineathletics.github.com
+	url = https://github.com/onlineathletics/onlineathletics.github.com.git

@@ -96,10 +96,10 @@ public class HomeModuleController implements Initializable {
 
                 for (Node node : competitionList.getChildren()) {
                     if (node instanceof CompetitionBar) {
-                        CompetitionBar bar = (CompetitionBar) node;
+                        final CompetitionBar bar = (CompetitionBar) node;
                         bar.setPrefWidth(tileWidth);
                     } else {
-                        CompetitionPanel panel = (CompetitionPanel) node;
+                        final CompetitionPanel panel = (CompetitionPanel) node;
                         panel.setPrefWidth(workingWidth  - 2);
                         // TODO -2 is wrong border value
                     }
@@ -114,6 +114,13 @@ public class HomeModuleController implements Initializable {
                 if (competitionPanel != null) {
                     competitionList.getChildren().remove(competitionPanel);
                     competitionPanel = null;
+
+                    for (Node node : competitionList.getChildren()) {
+                        if (node instanceof CompetitionBar) {
+                            final CompetitionBar bar = (CompetitionBar) node;
+                            bar.setSelected(false);
+                        }
+                    }
                 }
             }});
 
@@ -149,10 +156,14 @@ public class HomeModuleController implements Initializable {
             bar.addEventHandler(MouseEvent.MOUSE_CLICKED,
                     new EventHandler<MouseEvent>() {
                 @Override
-                public void handle(MouseEvent e) {
-                    displayPanel(bar);
+                public void handle(final MouseEvent event) {
 
-                    e.consume();
+                    /* resize competition bar */
+                    bar.setSelected(true);
+
+                    /* show competition panel */
+                    displayPanel(bar);
+                    event.consume();
                 }
             });
 

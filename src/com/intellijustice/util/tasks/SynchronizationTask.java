@@ -43,7 +43,7 @@ public class SynchronizationTask implements Runnable {
             = java.util.logging.Logger.getLogger(
             com.intellijustice.core.Manifest.NAME);
 
-    /* the chamiponship data provider */
+    /* the championship data provider */
     private final DefaultDataProvider dataProvider;
 
     public SynchronizationTask() {

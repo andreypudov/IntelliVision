@@ -51,7 +51,7 @@ public enum Server {
     private static final Settings SETTINGS = Settings.getSettings();
 
     /* connection timeout in seconds */
-    private static final int CONENCTION_TIMEOUT = 1;
+    private static final int CONNECTION_TIMEOUT = 1;
 
     private static Connection connection = null;
 
@@ -79,7 +79,7 @@ public enum Server {
                 return false;
             }
 
-            return connection.isValid(CONENCTION_TIMEOUT);
+            return connection.isValid(CONNECTION_TIMEOUT);
         } catch (SQLException e) {
             LOG.warning(e.getMessage());
         }

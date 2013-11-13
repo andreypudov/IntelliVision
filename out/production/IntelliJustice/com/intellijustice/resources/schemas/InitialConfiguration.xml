@@ -56,4 +56,17 @@
 
     <entry key="intellijustice.provider">Excel</entry>
     <entry key="intellijustice.provider.excel.document">${HOME_DIRECTORY}${FILE_SEPARATOR}IntelliJustice.xlsx</entry>
+
+
+    <entry key="intellijustice.website.url"/>
+    <entry key="intellijustice.website.username"/>
+    <entry key="intellijustice.website.password"/>
+
+    <entry key="intellijustice.scoreboard.width">560</entry>
+    <entry key="intellijustice.scoreboard.height">270</entry>
+    <entry key="intellijustice.scoreboard.font.size">12</entry>
+    <!-- normal | italic | oblique -->
+    <entry key="intellijustice.scoreboard.font.style">normal</entry>
+    <!-- normal | bold | bolder | lighter | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 -->
+    <entry key="intellijustice.scoreboard.font.weight">normal</entry>
 </properties>

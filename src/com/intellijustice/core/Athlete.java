@@ -70,8 +70,8 @@ public class Athlete {
         this.id               = id;
         this.firstName        = firstName;
         this.secondName       = secondName;
-        this.firstNameLocale  = firstName;
-        this.secondNameLocale = secondName;
+        this.firstNameLocale  = firstNameLocale;
+        this.secondNameLocale = secondNameLocale;
         this.birthday         = birthday;
         this.sex              = sex;
         this.country          = country;

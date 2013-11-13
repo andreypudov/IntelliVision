@@ -30,6 +30,7 @@ import java.io.File;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.TimeZone;
 import java.util.logging.Level;
 
 import com.ibm.icu.text.Transliterator;
@@ -126,17 +127,17 @@ public class ExcelDataFormatV1 implements ExcelDataFormatDefault {
                 ).getRow(FORMAT_ROW_INDEX
                 ).getCell(FORMAT_CELL_INDEX);
 
-        if ((cellName.getCellType() != Cell.CELL_TYPE_STRING)
+        if ((cellName.getCellType()           != Cell.CELL_TYPE_STRING)
                 || (cellCountry.getCellType() != Cell.CELL_TYPE_STRING)
-                || (cellCity.getCellType() != Cell.CELL_TYPE_STRING)
-                || (cellFormat.getCellType() != Cell.CELL_TYPE_STRING)
+                || (cellCity.getCellType()    != Cell.CELL_TYPE_STRING)
+                || (cellFormat.getCellType()  != Cell.CELL_TYPE_STRING)
 
                 || ((cellFormat.getStringCellValue().equals(
                         FORMAT_INDOOR_VALUE) == false)
                     && (cellFormat.getStringCellValue().equals(
                         FORMAT_OUTDOOR_VALUE) == false))) {
             throw new IncorrectFormatException(
-                    "The championship information is in incorect format.");
+                    "The championship information is in incorrect format.");
         }
 
         /* the championship representation */
@@ -183,13 +184,13 @@ public class ExcelDataFormatV1 implements ExcelDataFormatDefault {
         final Cell cellHumidity = sheet.getRow(HUMIDITY_ROW_INDEX
                 ).getCell(HUMIDITY_CELL_INDEX);
 
-        if ((cellDiscipline.getCellType() != Cell.CELL_TYPE_STRING)
-                || (cellRound.getCellType() != Cell.CELL_TYPE_STRING)
-                || (cellSex.getCellType() != Cell.CELL_TYPE_STRING)
-                || (cellStartTime.getCellType() != Cell.CELL_TYPE_STRING)
-                || (cellEndTime.getCellType() != Cell.CELL_TYPE_STRING)
+        if ((cellDiscipline.getCellType()         != Cell.CELL_TYPE_STRING)
+                || (cellRound.getCellType()       != Cell.CELL_TYPE_STRING)
+                || (cellSex.getCellType()         != Cell.CELL_TYPE_STRING)
+                || (cellStartTime.getCellType()   != Cell.CELL_TYPE_STRING)
+                || (cellEndTime.getCellType()     != Cell.CELL_TYPE_STRING)
                 || (cellTemperature.getCellType() != Cell.CELL_TYPE_STRING)
-                || (cellHumidity.getCellType() != Cell.CELL_TYPE_STRING)
+                || (cellHumidity.getCellType()    != Cell.CELL_TYPE_STRING)
 
                 || ((cellSex.getStringCellValue().equals(
                         SEX_MALE_VALUE) == false)
@@ -197,14 +198,15 @@ public class ExcelDataFormatV1 implements ExcelDataFormatDefault {
                         SEX_FEMALE_VALUE) == false))) {
             throw new IncorrectFormatException(
                     "The championship " + sheet.getSheetName()
-                    + " information is in incorect format.");
+                    + " information is in incorrect format.");
         }
 
         final Discipline discipline = Discipline.getDiscipline(
                 cellDiscipline.getStringCellValue());
         final Round      round      = Round.getRound(
                 cellRound.getStringCellValue());
-        final boolean    sex        = cellSex.getStringCellValue().equals("Men");
+
+        final boolean    sex = cellSex.getStringCellValue().equals("Men");
         final long       startTime;
         final long       endTime;
         final short      temperature;
@@ -253,7 +255,8 @@ public class ExcelDataFormatV1 implements ExcelDataFormatDefault {
             case UNDEFINED:
             default:
                 throw new IncorrectFormatException("The discipline "
-                        + cellDiscipline.getStringCellValue() + " is incorrect.");
+                        + cellDiscipline.getStringCellValue()
+                        + " is incorrect.");
         }
 
         return competition;
@@ -298,6 +301,40 @@ public class ExcelDataFormatV1 implements ExcelDataFormatDefault {
                 break;
             }
 
+            if ((cellRank.getCachedFormulaResultType()            != Cell.CELL_TYPE_NUMERIC)
+                    || (cellBib.getCachedFormulaResultType()      != Cell.CELL_TYPE_NUMERIC)
+                    || (cellName.getCachedFormulaResultType()     != Cell.CELL_TYPE_STRING)
+                    || (cellBirthday.getCachedFormulaResultType() != Cell.CELL_TYPE_STRING)
+                    || (cellCountry.getCachedFormulaResultType()  != Cell.CELL_TYPE_STRING)
+                    || (cellPersonal.getCachedFormulaResultType() != Cell.CELL_TYPE_STRING)
+                    || (cellSeason.getCachedFormulaResultType()   != Cell.CELL_TYPE_STRING)
+                    || (cellLine.getCachedFormulaResultType()     != Cell.CELL_TYPE_NUMERIC)
+                    || (cellResult.getCachedFormulaResultType()   != Cell.CELL_TYPE_STRING)
+                    || (cellReaction.getCachedFormulaResultType() != Cell.CELL_TYPE_NUMERIC)) {
+                final String info = String.format(
+                        "[Rank (num) %b, Bib (num) %b, Name(str) %b, "
+                        + "Birthday (str) %b, Country (str) %b, "
+                        + "Personal (str) %b, Season (str) %b, "
+                        + "Line (num) %b, Result (str) %b, Reaction (num) %b]",
+
+                        (cellRank.getCachedFormulaResultType()     != Cell.CELL_TYPE_NUMERIC),
+                        (cellBib.getCachedFormulaResultType()      != Cell.CELL_TYPE_NUMERIC),
+                        (cellName.getCachedFormulaResultType()     != Cell.CELL_TYPE_STRING),
+                        (cellBirthday.getCachedFormulaResultType() != Cell.CELL_TYPE_STRING),
+                        (cellCountry.getCachedFormulaResultType()  != Cell.CELL_TYPE_STRING),
+                        (cellPersonal.getCachedFormulaResultType() != Cell.CELL_TYPE_STRING),
+                        (cellSeason.getCachedFormulaResultType()   != Cell.CELL_TYPE_STRING),
+                        (cellLine.getCachedFormulaResultType()     != Cell.CELL_TYPE_NUMERIC),
+                        (cellResult.getCachedFormulaResultType()   != Cell.CELL_TYPE_STRING),
+                        (cellReaction.getCachedFormulaResultType() != Cell.CELL_TYPE_NUMERIC));
+
+                throw new IncorrectFormatException(
+                        "The competition entry information at row "
+                                + (rowIndex + 1) + " in competition "
+                                + sheet.getSheetName()
+                                + " is in incorrect format. " + info);
+            }
+
             try {
                 final Athlete athlete = new Athlete(
                         cellName.getStringCellValue().hashCode(),
@@ -308,18 +345,18 @@ public class ExcelDataFormatV1 implements ExcelDataFormatDefault {
                         formatter.parse(cellBirthday.getStringCellValue()).getTime(),
                         competition.getSex(), cellCountry.getStringCellValue());
                 final Result result = new Result(
-                        (int) cellResult.getNumericCellValue(),
+                        parseDate(cellResult.getStringCellValue()),
                         (short) -1, (short) -1,
-                        (short) cellResult.getNumericCellValue(),
+                        parseDate(cellResult.getStringCellValue()),
                         (short) cellReaction.getNumericCellValue(), wind);
                 final Entry entry = new Entry(-1, athlete,
                         (short) cellRank.getNumericCellValue(),
                         (short) cellBib.getNumericCellValue(),
                         (short) cellLine.getNumericCellValue(),
-                        (int)   cellPersonal.getNumericCellValue(),
-                        (int)   cellSeason.getNumericCellValue());
+                        parseDate(cellPersonal.getStringCellValue()),
+                        parseDate(cellSeason.getStringCellValue()));
 
-                /* add result to the entry - running allowns one result only */
+                /* add result to the entry - running allows one result only */
                 entry.addResult(result);
 
                 /* add entry to the competition */
@@ -395,6 +432,45 @@ public class ExcelDataFormatV1 implements ExcelDataFormatDefault {
         } catch (NumberFormatException e) {
             return 0;
         }
+    }
+
+    /**
+     * Parses date value given as a string to int specifies Unix time.
+     * Supported date formats: ss.SS, mm:ss.SS, hh:mm:ss and hh:mm:ss.SS,
+     * where each pair can be presented by one or two numbers.
+     *
+     * @param date the date value to parse.
+     * @return     the int value of date as a Unix time number.
+     */
+    public static int parseDate(final String date) {
+        /* the map of supported date formats and regular expressions */
+        final String[][] map = {
+                {"([01]?[0-9]|[0-5][0-9])\\.([01]?[0-9]|[0-9][0-9])", "ss.SS"},
+                {"([01]?[0-9]|[0-5][0-9]):([01]?[0-9]|[0-5][0-9])\\."
+                        + "([01]?[0-9]|[0-9][0-9])", "mm:ss.SS"},
+                {"([01]?[0-9]|[0-5][0-9]):([01]?[0-9]|[0-5][0-9]):"
+                        + "([01]?[0-9]|[0-5][0-9])", "hh:mm:ss"},
+                {"([01]?[0-9]|[0-5][0-9]):([01]?[0-9]|[0-5][0-9]):"
+                        + "([01]?[0-9]|[0-5][0-9])\\."
+                        + "([01]?[0-9]|[0-9][0-9])", "hh:mm:ss.SS"}};
+
+        try {
+            for (final String[] entry : map) {
+                final String key   = entry[0];
+                final String value = entry[1];
+
+                if (date.matches(key)) {
+                    final DateFormat formatter = new SimpleDateFormat(value);
+                    formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+                    return (int) (formatter.parse(date)).getTime();
+                }
+            }
+        } catch (Exception e) {
+            return 0;
+        }
+
+        return 0;
     }
 
     /**

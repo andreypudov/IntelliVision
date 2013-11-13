@@ -71,12 +71,12 @@ public enum Executor {
      * Schedule a job execution.
      *
      * @param task   the task to execute.
-     * @param delaey the time from now to delay execution unit.
+     * @param delay  the time from now to delay execution unit.
      * @param units  the time unit of the delay parameter.
      */
     public synchronized void scheduleTask(Runnable task,
-            long delaey, TimeUnit units) {
-        service.schedule(task, delaey, units);
+            long delay, TimeUnit units) {
+        service.schedule(task, delay, units);
     }
 
     /**

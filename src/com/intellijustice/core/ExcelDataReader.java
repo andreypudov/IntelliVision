@@ -108,7 +108,7 @@ public class ExcelDataReader {
         /* evaluates all values in workbook */
         evaluator.evaluateAll();
 
-        /* validate workbook and constrcut data reader */
+        /* validate workbook and construct data reader */
         final ExcelDataFormatDefault reader = validate(workbook);
 
         return reader.readChampionship();

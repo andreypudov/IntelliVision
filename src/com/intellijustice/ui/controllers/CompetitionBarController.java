@@ -91,4 +91,14 @@ public class CompetitionBarController implements Initializable {
         competitionName.setText(competition.getDiscipline().toString());
         competitionType.setText(competition.getRound().toString());
     }
+
+    /**
+     * Sets selected control property to change competition image size.
+     *
+     * @param selected the control selected property.
+     */
+    public void setSelected(final boolean selected) {
+        double size = selected ? 160.0 : 150.0;
+        //competitionBar.setPrefSize(size, size);
+    }
 }

@@ -1,24 +1,12 @@
 ################################################################################
 ### Project build directory                                                    #
 ################################################################################
-build/
-dist/
-nbproject/
 out/
 
 subprojects/AthletsParser/dist/
-subprojects/Preloader/build/
-subprojects/Preloader/dist/
-
-subprojects/WinLauncher/Debug/
-subprojects/WinLauncher/ipch/
-subprojects/WinLauncher/Release/
-subprojects/WinLauncher/WinLauncher/Debug/
-subprojects/WinLauncher/WinLauncher/Release/
-
 subprojects/onlineathletics.github.com/packages/
 
-libs/poi-3.9/docs
+/libs/Cling/docs
 
 ################################################################################
 ### Compiled source                                                            #

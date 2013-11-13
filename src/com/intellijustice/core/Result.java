@@ -49,9 +49,10 @@ public class Result implements Comparable<Result> {
 
     private final int id;
 
+    private final int result;
+
     private final short attempt;
     private final short value;
-    private final short result;
     private final short reaction;
     private final short wind;
 
@@ -66,7 +67,7 @@ public class Result implements Comparable<Result> {
      * @param wind     the wind speed during an attempt.
      */
     public Result(final int id, final short attempt, final short value,
-            final short result, final short reaction, final short wind) {
+            final int result, final short reaction, final short wind) {
         this.id       = id;
 
         this.attempt  = attempt;
@@ -108,7 +109,7 @@ public class Result implements Comparable<Result> {
      *
      * @return the result value.
      */
-    public short getResult() {
+    public int getResult() {
         return result;
     }
 

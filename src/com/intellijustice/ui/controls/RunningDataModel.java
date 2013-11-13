@@ -57,9 +57,9 @@ public class RunningDataModel {
 
     public RunningDataModel(final short rank, final short bib,
             final String athlete, final long birthday,
-            final String country, final short personal,
-            final short  season,  final short line,
-            final short  result,  final short reaction) {
+            final String country, final int  personal,
+            final int    season,  final short line,
+            final int    result,  final short reaction) {
         this.rank     = new SimpleIntegerProperty(rank);
         this.bib      = new SimpleIntegerProperty(bib);
         this.athlete  = new SimpleStringProperty(athlete);
@@ -122,8 +122,8 @@ public class RunningDataModel {
      *
      * @return the personal result of the athlete in the discipline.
      */
-    public short getPersonal() {
-        return personal.getValue().shortValue();
+    public int getPersonal() {
+        return personal.getValue().intValue();
     }
 
     /**
@@ -131,8 +131,8 @@ public class RunningDataModel {
      *
      * @return the season result of the athlete in the discipline.
      */
-    public short getSeason() {
-        return season.getValue().shortValue();
+    public int getSeason() {
+        return season.getValue().intValue();
     }
 
     /**
@@ -149,8 +149,8 @@ public class RunningDataModel {
      *
      * @return the result value.
      */
-    public short getResult() {
-        return result.getValue().shortValue();
+    public int getResult() {
+        return result.getValue().intValue();
     }
 
     /**
@@ -212,7 +212,7 @@ public class RunningDataModel {
      *
      * @param personal the personal result of the athlete in the discipline.
      */
-    public void setPersonal(final short personal) {
+    public void setPersonal(final int personal) {
         this.personal.setValue(personal);
     }
 
@@ -221,7 +221,7 @@ public class RunningDataModel {
      *
      * @param season the season result of the athlete in the discipline.
      */
-    public void setSeason(final short season) {
+    public void setSeason(final int season) {
         this.season.setValue(season);
     }
 
@@ -239,7 +239,7 @@ public class RunningDataModel {
      *
      * @param result the result value.
      */
-    public void setResult(final short result) {
+    public void setResult(final int result) {
         this.result.setValue(result);
     }
 

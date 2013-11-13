@@ -43,12 +43,17 @@
 
 <fx:root fx:id="competitionPanel" type="javafx.scene.layout.VBox"
          xmlns:fx="http://javafx.com/fxml"
-         fx:controller="com.intellijustice.ui.controllers.CompetitionPanelController">
+         fx:controller="com.intellijustice.ui.controllers.CompetitionPanelController"
+         onMouseClicked="#competitionPanelOnMouseClicked">
     <children>
         <VBox fx:id="layerPanel" VBox.vgrow="ALWAYS">
             <HBox fx:id="layerTitle">
                 <Label fx:id="disciplineLabel" />
             </HBox>
+            <HBox fx:id="layerSubTitle">
+                <Label fx:id="roundLabel" />
+            </HBox>
+            <Region prefHeight="10.0" />
             <TableView fx:id="disciplineTable" VBox.vgrow="ALWAYS" />
             <padding>
                 <Insets top="10.0" left="30.0" right="30.0" />

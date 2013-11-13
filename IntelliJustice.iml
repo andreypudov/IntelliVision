@@ -11,6 +11,10 @@
     <orderEntry type="library" name="MySQL JDBC" level="application" />
     <orderEntry type="library" name="ICU4j" level="application" />
     <orderEntry type="library" name="iText" level="application" />
+    <orderEntry type="library" name="Cling" level="application" />
+    <orderEntry type="library" name="OpenCSV" level="application" />
+    <orderEntry type="library" name="JSoup" level="application" />
+    <orderEntry type="library" name="JGit" level="application" />
   </component>
   <component name="org.twodividedbyzero.idea.findbugs">
     <option name="_basePreferences">

@@ -19,6 +19,11 @@
         <element id="library" level="application" name="Apache POI" />
         <element id="library" level="application" name="MySQL JDBC" />
         <element id="library" level="application" name="ICU4j" />
+        <element id="library" level="application" name="Cling" />
+        <element id="library" level="application" name="iText" />
+        <element id="library" level="application" name="JSoup" />
+        <element id="library" level="application" name="OpenCSV" />
+        <element id="library" level="application" name="JGit" />
       </element>
     </root>
   </artifact>

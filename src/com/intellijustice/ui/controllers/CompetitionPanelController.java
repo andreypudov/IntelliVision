@@ -34,15 +34,16 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import com.intellijustice.ui.controls.RunningDataModel;
+import com.intellijustice.ui.controls.RunningCellFactory;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.VBox;
+import javafx.scene.input.MouseEvent;
 
 /**
  * FXML Controller class implements competition panel control UI logic.
@@ -58,8 +59,9 @@ public class CompetitionPanelController implements Initializable {
             = java.util.logging.Logger.getLogger(
               com.intellijustice.core.Manifest.NAME);
 
-    @FXML private VBox      competitionPanel;
-    @FXML private Label     disciplineLabel;
+    @FXML private Label disciplineLabel;
+    @FXML private Label roundLabel;
+
     @FXML private TableView disciplineTable;
 
     /* the competition representation */
@@ -93,12 +95,13 @@ public class CompetitionPanelController implements Initializable {
      */
     public void setCompetition(final Competition competition) {
         final double TABLE_HEADER_HEIGHT = 25.0;
-        final double TABLE_ROW_HEIGHT    = 25.0;
+        final double TABLE_ROW_HEIGHT    = 40.0;
         final double TABLE_BORDER_HEIGHT = 2.0; //TODO remove border
 
         this.competition = competition;
 
         disciplineLabel.setText(competition.getDiscipline().toString());
+        roundLabel.setText(competition.getRound().toString());
 
         switch (DisciplineType.getDisciplineType(competition.getDiscipline())) {
             case RUNNING:
@@ -120,6 +123,7 @@ public class CompetitionPanelController implements Initializable {
      * @param competition the competition entity represents running
      *                    type of discipline.
      */
+    @SuppressWarnings("unchecked")
     private void fillRunning(final Competition competition) {
         final TableColumn rankColumn     = new TableColumn();
         final TableColumn bibColumn      = new TableColumn();
@@ -139,13 +143,16 @@ public class CompetitionPanelController implements Initializable {
             final Result  result  = entry.getResults().get(0);
 
             competitionData.add(new RunningDataModel(entry.getRank(), entry.getBib(),
-                    athlete.getFirstName() + " " + athlete.getSecondName(),
+                    String.format("%s %s\n%s %s",
+                            athlete.getFirstName(), athlete.getSecondName(),
+                            athlete.getFirstNameLocalized(),
+                            athlete.getSecondNameLocalized()),
                     athlete.getBirthday(), athlete.getCountry(),
-                    (short) entry.getPersonal(), (short) entry.getSeason(),
+                    entry.getPersonal(), entry.getSeason(),
                     entry.getLine(), result.getResult(), result.getReaction()));
         }
 
-        rankColumn.setText("Rank");
+        rankColumn.setText("R");
         bibColumn.setText("Bib");
         athleteColumn.setText("Athlete");
         birthdayColumn.setText("Birthday");
@@ -156,32 +163,69 @@ public class CompetitionPanelController implements Initializable {
         resultColumn.setText("Result");
         reactionColumn.setText("Reaction");
 
-        rankColumn.setMinWidth(40.0);
-        bibColumn.setMinWidth(40.0);
+        /* disable elements sorting for table columns */
+        rankColumn.setSortable(false);
+        bibColumn.setSortable(false);
+        athleteColumn.setSortable(false);
+        birthdayColumn.setSortable(false);
+        countryColumn.setSortable(false);
+        personalColumn.setSortable(false);
+        seasonColumn.setSortable(false);
+        lineColumn.setSortable(false);
+        resultColumn.setSortable(false);
+        reactionColumn.setSortable(false);
+
+        rankColumn.setMinWidth(30.0);
+        bibColumn.setMinWidth(30.0);
         athleteColumn.setMinWidth(160.0);
         birthdayColumn.setMinWidth(60.0);
         countryColumn.setMinWidth(60.0);
         personalColumn.setMinWidth(60.0);
         seasonColumn.setMinWidth(60.0);
-        lineColumn.setMinWidth(20.0);
+        lineColumn.setMinWidth(30.0);
         resultColumn.setMinWidth(60.0);
         reactionColumn.setMinWidth(60.0);
 
-        rankColumn.setCellValueFactory(new PropertyValueFactory<RunningDataModel, Integer>("rank"));
-        bibColumn.setCellValueFactory(new PropertyValueFactory<RunningDataModel, Integer>("bib"));
+        rankColumn.setCellValueFactory(new PropertyValueFactory<RunningDataModel, Short>("rank"));
+        bibColumn.setCellValueFactory(new PropertyValueFactory<RunningDataModel, Short>("bib"));
         athleteColumn.setCellValueFactory(new PropertyValueFactory<RunningDataModel, String>("athlete"));
         birthdayColumn.setCellValueFactory(new PropertyValueFactory<RunningDataModel, Long>("birthday"));
         countryColumn.setCellValueFactory(new PropertyValueFactory<RunningDataModel, String>("country"));
-        personalColumn.setCellValueFactory(new PropertyValueFactory<RunningDataModel, String>("personal"));
-        seasonColumn.setCellValueFactory(new PropertyValueFactory<RunningDataModel, String>("season"));
-        lineColumn.setCellValueFactory(new PropertyValueFactory<RunningDataModel, String>("line"));
-        resultColumn.setCellValueFactory(new PropertyValueFactory<RunningDataModel, String>("result"));
-        reactionColumn.setCellValueFactory(new PropertyValueFactory<RunningDataModel, String>("reaction"));
+        personalColumn.setCellValueFactory(new PropertyValueFactory<RunningDataModel, Integer>("personal"));
+        seasonColumn.setCellValueFactory(new PropertyValueFactory<RunningDataModel, Integer>("season"));
+        lineColumn.setCellValueFactory(new PropertyValueFactory<RunningDataModel, Short>("line"));
+        resultColumn.setCellValueFactory(new PropertyValueFactory<RunningDataModel, Integer>("result"));
+        reactionColumn.setCellValueFactory(new PropertyValueFactory<RunningDataModel, Short>("reaction"));
+
+        birthdayColumn.setCellFactory(RunningCellFactory.rightAlignedDate());
+        countryColumn.setCellFactory(RunningCellFactory.centerAlignedImage());
+
+        personalColumn.setCellFactory(RunningCellFactory.rightAlignedIntegerDate());
+        seasonColumn.setCellFactory(RunningCellFactory.rightAlignedIntegerDate());
+
+        rankColumn.setCellFactory(RunningCellFactory.centralAlignedShort());
+        bibColumn.setCellFactory(RunningCellFactory.centralAlignedShort());
+        lineColumn.setCellFactory(RunningCellFactory.centralAlignedShort());
+
+        resultColumn.setCellFactory(RunningCellFactory.rightAlignedInteger());
+        reactionColumn.setCellFactory(RunningCellFactory.rightAlignedShort());
 
         disciplineTable.getColumns().clear();
         disciplineTable.setItems(FXCollections.observableList(competitionData));
         disciplineTable.getColumns().addAll(rankColumn, bibColumn,
                 athleteColumn, birthdayColumn, countryColumn, personalColumn,
                 seasonColumn, lineColumn, resultColumn, reactionColumn);
+    }
+
+    /**
+     * Removes focus from selected table row when free area clicked.
+     *
+     * @param event the source of the event.
+     */
+    @FXML
+    private void competitionPanelOnMouseClicked(final MouseEvent event) {
+        disciplineTable.getSelectionModel().clearSelection();
+
+        event.consume();
     }
 }

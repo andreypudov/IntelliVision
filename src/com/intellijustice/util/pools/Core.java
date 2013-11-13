@@ -38,10 +38,10 @@ import java.net.InetAddress;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.XMLFormatter;
+
 import javafx.application.ConditionalFeature;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -80,6 +80,12 @@ public class Core {
     /* the task execution pool */
     private static final Executor EXECUTOR = Executor.getExecutor();
 
+    /* application synchronization pool */
+    private static  final Reviser REVISER = Reviser.getReviser();
+
+    /* the common application talk interface */
+    //private static final Network NETWORK = Network.getNetwork();
+
     /* the data provider instance */
     private static final DefaultDataProvider dataProvider;
 
@@ -107,7 +113,7 @@ public class Core {
             /* Initialize general application logging */
 
             /*
-             * "/" the local pathname separator
+             * "/"  the local path name separator
              * "%t" the system temporary directory
              * "%h" the value of the "user.home" system property
              * "%g" the generation number to distinguish rotated logs
@@ -153,7 +159,7 @@ public class Core {
                 + "Copyright (C) 2011-2013 Andrey Pudov. "
                 + "All rights reserved.\n");
 
-        /* adds first-level module to the appliation window */
+        /* adds first-level module to the application window */
         Modules.addModule(HelpModule.getInstance());
 
         /* running data provider */
@@ -346,5 +352,14 @@ public class Core {
      */
     public static synchronized DefaultDataProvider getDataProvider() {
         return dataProvider;
+    }
+
+    /**
+     * Return application synchronization pool.
+     *
+     * @return the application synchronization pool.
+     */
+    public static synchronized Reviser getReviser() {
+        return REVISER;
     }
 }

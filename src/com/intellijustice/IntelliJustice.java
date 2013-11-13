@@ -32,13 +32,15 @@ import com.intellijustice.util.pools.Core;
 import com.intellijustice.util.pools.Executor;
 import com.intellijustice.util.tasks.SynchronizationTask;
 import com.intellijustice.util.tasks.UpdateTask;
-import java.util.concurrent.TimeUnit;
+import com.intellijustice.util.tasks.WebSynchronizationTask;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * The IntelliJustice class initializes general program structures and builds
@@ -84,8 +86,6 @@ public class IntelliJustice extends Application {
                         "/com/intellijustice/resources/styles/IntelliJustice.css"
                     ).toExternalForm());
 
-            Executor executor = Executor.getExecutor();
-
             /* specify primary application scene  */
             Core.setPrimaryStage(primaryStage, scene);
 
@@ -96,10 +96,14 @@ public class IntelliJustice extends Application {
             UpdateTask.launch(this.getParameters());
 
             /* schedule application level tasks */
+            final Executor executor = Executor.getExecutor();
+
             executor.schedulePeriodicTask(new SynchronizationTask(),
                     3_000L, 3_000L, TimeUnit.MILLISECONDS);
             executor.schedulePeriodicTask(new UpdateTask(),
                     1_000L, 3_600_000L, TimeUnit.MILLISECONDS);
+            executor.schedulePeriodicTask(new WebSynchronizationTask(),
+                    6_000L, 60_000L, TimeUnit.MILLISECONDS);
 
             Core.getPrimaryStage().show();
         } catch (java.io.IOException | IllegalArgumentException e) {

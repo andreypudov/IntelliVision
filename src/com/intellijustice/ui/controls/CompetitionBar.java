@@ -81,4 +81,13 @@ public class CompetitionBar extends VBox {
     public Competition getCompetition() {
         return controller.getCompetition();
     }
+
+    /**
+     * Sets selected control property to change competition image size.
+     *
+     * @param selected the control selected property.
+     */
+    public void setSelected(final boolean selected) {
+        controller.setSelected(selected);
+    }
 }

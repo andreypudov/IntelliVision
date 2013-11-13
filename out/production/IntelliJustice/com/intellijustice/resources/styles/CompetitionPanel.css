@@ -109,7 +109,3 @@
 #disciplineTable .table-row-cell:selected .table-cell {
     -fx-text-fill: #262626;
 }
-
-#dd {
-    -fx-text-fill:   #red;
-}

@@ -34,6 +34,7 @@ import com.intellijustice.ui.controls.CompetitionPanel;
 import com.intellijustice.util.pools.Core;
 import java.net.URL;
 import java.util.ResourceBundle;
+
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -41,6 +42,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
@@ -62,12 +64,14 @@ public class HomeModuleController implements Initializable {
     final static int HORIZONTAL_GAP      = 40;
     final static int HORIZONTAL_PADDING  = 30;
     final static int TILE_MIN_WIDTH      = 90;
+    final static int SCROLL_BAR_WIDTH    = 15;
 
     /* championship data provider */
     private final DefaultDataProvider provider = Core.getDataProvider();
 
     @FXML private GridPane   homeModule;
     @FXML private FlowPane   competitionList;
+    @FXML private ScrollPane competitionScrollPane;
 
     private CompetitionPanel competitionPanel  = null;
     private int              panelIndex        = 0;
@@ -87,8 +91,12 @@ public class HomeModuleController implements Initializable {
             @Override
             public void changed(final ObservableValue<? extends Number> ov,
                                 final Number t, final Number t1) {
+                // TODO find scrollbar visible property
+                final boolean scrollBarShown = true;
+
                 final int workingWidth = t1.intValue()
-                        - (HORIZONTAL_PADDING + HORIZONTAL_PADDING);
+                        - (HORIZONTAL_PADDING + HORIZONTAL_PADDING)
+                        - ((scrollBarShown ? SCROLL_BAR_WIDTH : 0));
                 final int tilesPerRow  = workingWidth
                         / (TILE_MIN_WIDTH + HORIZONTAL_GAP);
                 final int tileWidth    = (workingWidth
@@ -100,10 +108,12 @@ public class HomeModuleController implements Initializable {
                         bar.setPrefWidth(tileWidth);
                     } else {
                         final CompetitionPanel panel = (CompetitionPanel) node;
-                        panel.setPrefWidth(workingWidth  - 2);
-                        // TODO -2 is wrong border value
+                        panel.setPrefWidth(workingWidth);
                     }
                 }
+
+                /* update tiles layout */
+                competitionList.layout();
             }});
 
         /* remove panel in case of click on free place */

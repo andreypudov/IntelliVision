@@ -35,6 +35,9 @@
 #competitionScrollPane {
     -fx-background-insets: 0;
     -fx-background-color:  transparent;
+
+    -fx-border-width:      0px;
+    -fx-padding:           0px;
 }
 
 #competitionScrollPane .scroll-bar:horizontal,

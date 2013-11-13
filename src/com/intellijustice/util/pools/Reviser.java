@@ -112,5 +112,37 @@ public enum Reviser {
                 directoryCreated = true;
             }
         }
+
+        /* checkout repository from given URL */
+        if ((directoryCreated == true)
+                || (isRepositoryExists(WEBSITE_DIRECTORY) == false)) {
+            LOG.info("Checkout...");
+        }
+    }
+
+    /**
+     * Checks for .git standard repository directory, inside given folder.
+     *
+     * @param directory the directory to search in.
+     * @return          true if .it directory is present inside given folder,
+     *                  and false otherwise.
+     */
+    private boolean isRepositoryExists(final String directory) {
+        final File gitDirectory = new File(directory
+                + File.separator + ".git");
+
+        return gitDirectory.exists();
+    }
+
+    /**
+     * Check out repository content to website working directory.
+     *
+     * @param website  the website address to use.
+     * @param username the user name to Git repository.
+     * @param password the user password to Git repository.
+     */
+    private void checkout(final String website, final String username,
+                          final String password) {
+
     }
 }

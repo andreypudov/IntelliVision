@@ -116,7 +116,7 @@ public enum Reviser {
         /* checkout repository from given URL */
         if ((directoryCreated == true)
                 || (isRepositoryExists(WEBSITE_DIRECTORY) == false)) {
-            LOG.info("Checkout...");
+            checkout(website, username, password);
         }
     }
 
@@ -143,6 +143,5 @@ public enum Reviser {
      */
     private void checkout(final String website, final String username,
                           final String password) {
-
     }
 }

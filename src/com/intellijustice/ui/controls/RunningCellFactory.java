@@ -35,6 +35,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.util.Callback;
 
 import java.text.DateFormat;
@@ -270,10 +272,60 @@ public class RunningCellFactory {
                             final ImageView view  = new ImageView(image);
                             final Region    space = new Region();
 
+                            label.setId("imageLabel");
+
                             space.setPrefWidth(4.0);
                             box.setPadding(new Insets(4.0, 0.0, 0.0, 0.0));
                             box.setAlignment(Pos.TOP_CENTER);
                             box.getChildren().addAll(view, space, label);
+
+                            setGraphic(box);
+                        }
+                    }
+
+                    private String getString() {
+                        return (getItem() == null)
+                                ? ""
+                                : getItem().toString();
+                    }
+                };
+
+                cell.setAlignment(Pos.TOP_CENTER);
+
+                return cell;
+            }
+        };
+    }
+
+    /**
+     * Returns cell factory for left aligned name.
+     *
+     * @return the cell factory for left aligned name.
+     */
+    public static Callback<TableColumn, TableCell> leftAlignedName() {
+        return new Callback<TableColumn, TableCell>() {
+            public TableCell call(final TableColumn column) {
+                final TableCell cell = new TableCell<RunningDataModel, String>() {
+                    @Override
+                    public void updateItem(final String item, final boolean empty) {
+                        super.updateItem(item, empty);
+
+                        if (item != null) {
+                            final VBox  box       = new VBox();
+                            final Label regular   = new Label(getString());
+                            final Label localized = new Label(getString());
+
+                            final int index = getString().indexOf('\n');
+
+                            regular.setText(getString().substring(0, index));
+                            localized.setText(getString().substring(index + 1));
+
+                            regular.setId("athleteNameRegular");
+                            localized.setId("athleteNameLocalized");
+
+                            box.setPadding(new Insets(0.0, 0.0, 0.0, 0.0));
+                            box.setAlignment(Pos.TOP_LEFT);
+                            box.getChildren().addAll(regular, localized);
 
                             setGraphic(box);
                         }

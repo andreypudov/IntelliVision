@@ -59,28 +59,27 @@
     -fx-text-fill: #E8E8EF;
 }
 
-#disciplineTable .column-header {
-    -fx-font: bold normal 14pt "Source Sans Pro";
-    -fx-size: 25px;
-}
-
 #disciplineTable .column-header-background {
-    -fx-background-color: transparent;
+    /*-fx-background-color: transparent;*/
+    -fx-background-image:    url("../images/table-column-background.png");
+    -fx-border-image-repeat: stretch;
 }
 
 /* table header design */
 #disciplineTable .column-header, .table-view .filler {
-    -fx-size:          25;
-    -fx-border-width:  0 0 1 0;
+    -fx-size:          23;
+    /*-fx-border-width:  0 0 1 0;*/
+    -fx-border-width:  0 0 0 0;
     -fx-border-color:  transparent transparent derive(-fx-base, 80%) transparent;
     -fx-border-insets: 0 3 2 0;
 }
 
-
 #disciplineTable .column-header .label {
-    -fx-text-fill:   #E8E8EF;
+    -fx-font:        bold normal 12pt "Source Sans Pro";
+    -fx-text-fill:   #262626;
     -fx-font-weight: bold;
     -fx-opacity:     1;
+    -fx-effect:      dropshadow(one-pass-box, #C0C0C0, 1, 0, 1, 1);
 }
 
 #disciplineTable .table-row-cell {
@@ -92,8 +91,8 @@
 }
 
 #disciplineTable .table-row-cell:empty {
-    -fx-background-color: red;
-    -fx-border-color:     red;
+    -fx-background-color: transparent;
+    -fx-border-color:     transparent;
 }
 
 #disciplineTable .table-row-cell:hover {
@@ -108,4 +107,31 @@
 
 #disciplineTable .table-row-cell:selected .table-cell {
     -fx-text-fill: #262626;
+}
+
+#athleteNameRegular {
+    -fx-font: bold normal 13pt "Source Sans Pro";
+    -fx-text-fill: #E8E8EF;
+}
+
+#athleteNameLocalized {
+    -fx-font: normal normal 13pt "Source Sans Pro";
+    -fx-text-fill: #E8E8EF;
+}
+
+#imageLabel {
+    -fx-font: normal normal 13pt "Source Sans Pro";
+    -fx-text-fill: #E8E8EF;
+}
+
+#athleteNameRegular .table-row-cell:selected {
+    -fx-text-fill: #262626;
+}
+
+#athleteNameLocalized .table-row-cell:selected {
+    -fx-text-fill: #262626;
+}
+
+#imageLabel :selected {
+    -fx-text-fill: red;
 }

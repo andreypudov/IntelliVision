@@ -91,7 +91,7 @@ public class HomeModuleController implements Initializable {
             @Override
             public void changed(final ObservableValue<? extends Number> ov,
                                 final Number t, final Number t1) {
-                // TODO find scrollbar visible property
+                // TODO find scroll bar visible property
                 final boolean scrollBarShown = true;
 
                 final int workingWidth = t1.intValue()
@@ -118,21 +118,22 @@ public class HomeModuleController implements Initializable {
 
         /* remove panel in case of click on free place */
         competitionList.addEventHandler(MouseEvent.MOUSE_CLICKED,
-                    new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if (competitionPanel != null) {
-                    competitionList.getChildren().remove(competitionPanel);
-                    competitionPanel = null;
+                new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent me) {
+                        if (competitionPanel != null) {
+                            competitionList.getChildren().remove(competitionPanel);
+                            competitionPanel = null;
 
-                    for (Node node : competitionList.getChildren()) {
-                        if (node instanceof CompetitionBar) {
-                            final CompetitionBar bar = (CompetitionBar) node;
-                            bar.setSelected(false);
+                            for (Node node : competitionList.getChildren()) {
+                                if (node instanceof CompetitionBar) {
+                                    final CompetitionBar bar = (CompetitionBar) node;
+                                    bar.setSelected(false);
+                                }
+                            }
                         }
                     }
-                }
-            }});
+                });
 
         /* update competition data on change */
         Core.getDataProvider().championshipProperty().addListener(
@@ -199,8 +200,13 @@ public class HomeModuleController implements Initializable {
     private void displayPanel(final CompetitionBar bar) {
         final int tileCount    = competitionList.getChildren().size();
         final int tileIndex    = competitionList.getChildren().indexOf(bar);
+
+        // TODO find scroll bar visible property
+        final boolean scrollBarShown = false;
+
         final int workingWidth = (int) competitionList.getWidth()
-                - (HORIZONTAL_PADDING + HORIZONTAL_PADDING);
+                - (HORIZONTAL_PADDING + HORIZONTAL_PADDING)
+                - ((scrollBarShown ? SCROLL_BAR_WIDTH : 0));
         final int tilesPerRow  = workingWidth
                 / (TILE_MIN_WIDTH + HORIZONTAL_GAP);
         final int tileAfter    = (((tileIndex / tilesPerRow) + 1) * tilesPerRow);

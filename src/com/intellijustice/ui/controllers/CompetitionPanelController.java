@@ -96,7 +96,7 @@ public class CompetitionPanelController implements Initializable {
     public void setCompetition(final Competition competition) {
         final double TABLE_HEADER_HEIGHT = 25.0;
         final double TABLE_ROW_HEIGHT    = 40.0;
-        final double TABLE_BORDER_HEIGHT = 2.0; //TODO remove border
+        final double TABLE_BORDER_HEIGHT = 2.0;
 
         this.competition = competition;
 
@@ -197,17 +197,18 @@ public class CompetitionPanelController implements Initializable {
         resultColumn.setCellValueFactory(new PropertyValueFactory<RunningDataModel, Integer>("result"));
         reactionColumn.setCellValueFactory(new PropertyValueFactory<RunningDataModel, Short>("reaction"));
 
+        athleteColumn.setCellFactory(RunningCellFactory.leftAlignedName());
         birthdayColumn.setCellFactory(RunningCellFactory.rightAlignedDate());
         countryColumn.setCellFactory(RunningCellFactory.centerAlignedImage());
 
         personalColumn.setCellFactory(RunningCellFactory.rightAlignedIntegerDate());
         seasonColumn.setCellFactory(RunningCellFactory.rightAlignedIntegerDate());
+        resultColumn.setCellFactory(RunningCellFactory.rightAlignedIntegerDate());
 
         rankColumn.setCellFactory(RunningCellFactory.centralAlignedShort());
         bibColumn.setCellFactory(RunningCellFactory.centralAlignedShort());
         lineColumn.setCellFactory(RunningCellFactory.centralAlignedShort());
 
-        resultColumn.setCellFactory(RunningCellFactory.rightAlignedInteger());
         reactionColumn.setCellFactory(RunningCellFactory.rightAlignedShort());
 
         disciplineTable.getColumns().clear();

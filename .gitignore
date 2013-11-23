@@ -31,3 +31,5 @@ subprojects/onlineathletics.github.com/packages/
 Icon?
 ehthumbs.db
 Thumbs.db
+/subprojects/OnlineAthletics/OnlineAthletics/nbproject/private/
+/subprojects/OnlineAthletics/OnlineAthletics/build/

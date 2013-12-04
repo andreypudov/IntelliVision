@@ -21,4 +21,52 @@
     <welcome-file-list>
         <welcome-file>faces/index.xhtml</welcome-file>
     </welcome-file-list>
+    
+    <!-- Error page declaration -->
+    <error-page>
+        <error-code>403</error-code>
+        <location>/error403.xhtml</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error404.xhtml</location>
+    </error-page>
+    
+    <!-- Secure pages declaration-->
+    <security-constraint>
+        <display-name>administrator</display-name>
+        <web-resource-collection>
+            <web-resource-name>administrator</web-resource-name>
+            <url-pattern>/adminpage.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>administrators</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    
+    <!-- login mechanism declaration -->
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <realm-name>OnlineAthleticsRealm</realm-name>
+        <form-login-config>
+            <form-login-page>/faces/login.xhtml</form-login-page>
+            <form-error-page>/faces/error403.xhtml</form-error-page>
+        </form-login-config>
+    </login-config>
+    
+    <!-- Security roles declaration -->
+    <security-role>
+        <role-name>administrators</role-name>
+    </security-role>
+    
+    <!-- Application resources declaration -->
+    <resource-ref>
+        <res-ref-name>jdbc/OnlineAthletics</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+        <res-sharing-scope>Shareable</res-sharing-scope>
+    </resource-ref>
 </web-app>

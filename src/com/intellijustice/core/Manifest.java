@@ -47,7 +47,7 @@ public class Manifest {
 
     private static final java.util.logging.Logger LOG;
 
-        /* initialize application level variables */
+    /* initialize application level variables */
     static {
         String name        = "IntelliJustice";
         String description = "IntelliJustice Intelligent Referee Assistant System";

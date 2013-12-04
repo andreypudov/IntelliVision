@@ -36,9 +36,8 @@
 -- start database    -- mysqld
 -- shutdown database -- mysqladmin -u root shutdown
 
--- commented to prevent unexpected database destruction
--- DROP DATABASE IF EXISTS intellijustice;
--- CREATE DATABASE intellijustice CHARACTER SET 'utf8';
+DROP DATABASE IF EXISTS intellijustice;
+CREATE DATABASE intellijustice CHARACTER SET 'utf8';
 
 USE intellijustice;
 

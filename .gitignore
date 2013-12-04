@@ -1,12 +1,15 @@
 ################################################################################
 ### Project build directory                                                    #
 ################################################################################
+build/
+nbproject/
+dist/
 out/
-
 subprojects/AthletsParser/dist/
+subprojects/OnlineAthletics/test/
+subprojects/OnlineAthletics/nbproject/
+subprojects/OnlineAthletics/dist/
 subprojects/onlineathletics.github.com/packages/
-
-/libs/Cling/docs
 
 ################################################################################
 ### Compiled source                                                            #
@@ -34,3 +37,6 @@ Thumbs.db
 /subprojects/OnlineAthletics/OnlineAthletics/nbproject/private/
 /subprojects/OnlineAthletics/OnlineAthletics/build/
 /subprojects/OnlineAthletics/dist/
+/nbproject/private/
+/build/
+/dist/

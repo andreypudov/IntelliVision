@@ -1,0 +1,72 @@
+1) Operating System Configuration
+
+2) MySQL Server Configuration
+   a) Restrict MySQL from opening a network socket
+      [mysqld] section of my.cnf/my.ini file
+      skip-networking
+
+   b) Force MySQL to listen only the localhost
+      [mysqld] section of my.cnf/my.ini file
+      bind-address=127.0.0.1
+
+   c) Disable of the "Load Data Local Infile" command
+      [mysqld] section of my.cnf/my.ini file
+      set-variable=local-infile=0
+
+   d) Rename default administrator username
+      RENAME USER root TO <user>;
+      SET PASSWORD FOR '<user>'@'%localhost' = PASSWORD('<password>');
+
+      for the first time
+      mysqladmin -u root password NEWPASSWORD
+
+      next time
+      mysqladmin -u root -p'OLDPASSWORD' password NEWPASSWORD
+
+   e) Remove the test database
+      DROP DATABASE test;
+
+   f) remove anonymous and obsolete accounts
+      SELECT * FROM mysql.user WHERE user="";
+
+      SHOW GRANTS FOR ''@'localhost';
+      SHOW GRANTS FOR ''@'<hostname>';
+
+      DROP USER '';
+
+   g) Remove MySQL history
+      cat /dev/null > ~/.mysql_history
+
+3) Glassfish Configuration
+   a) Add MySQL JDBC driver to Glassfish classpath
+      <Glassfish Installation Directory>\glassfish\lib
+
+   b) Resources - JDBC Connection Pools
+      OnlineAthleticsPool
+          Pool Name:        OnlineAthleticsPool
+          Resource Type:    java.sql.Driver
+          Driver Classname: com.mysql.jdbc.Driver
+
+          URL:      jdbc:mysql://localhost:3306/onlineathletics
+          user:     <user>
+          password: <password>
+
+    c) Resources - JDBC Resources
+      jdbc/OnlineAthletics
+          JNDI Name: jdbc/OnlineAthletics
+          Pool Name: OnlineAthleticsPool
+
+    d) Configuration - server-config - Security - Realms
+      OnlineAthleticsRealm
+          Realm Name:                    OnlineAthleticsRealm
+          Class Name:                    com.sun.enterprise.security.ee.auth.realm.jdbc.JDBCRealm
+          JAAS Context:                  jdbcRealm
+          JNDI:                          jdbc/OnlineAthletics
+          User Table:                    oa_accnt_user_tbl
+          User Name Column:              name
+          Password Column:               password
+          Group Table:                   oa_accnt_groups_tbl
+          Group Table User Name Column:  user
+          Group Name Column:             name
+          Password Encryption Algorithm: SHA-512
+          Digest Algorithm:              SHA-512

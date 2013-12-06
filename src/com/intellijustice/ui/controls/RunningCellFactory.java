@@ -68,10 +68,15 @@ public class RunningCellFactory {
      *
      * @return the cell factory for central aligned short number.
      */
-    public static Callback<TableColumn, TableCell> centralAlignedShort() {
-        return new Callback<TableColumn, TableCell>() {
-            public TableCell call(final TableColumn column) {
-                final TableCell cell = new TableCell<RunningDataModel, Short>() {
+    public static Callback<TableColumn<RunningDataModel, Short>, 
+        TableCell<RunningDataModel, Short>> centralAlignedShort() {
+        return new Callback<TableColumn<RunningDataModel, Short>, 
+                TableCell<RunningDataModel, Short>>() {
+            @Override
+            public TableCell<RunningDataModel, Short> call(
+                    final TableColumn<RunningDataModel, Short> column) {
+                final TableCell<RunningDataModel, Short> cell 
+                        = new TableCell<RunningDataModel, Short>() {
                     @Override
                     public void updateItem(final Short item, final boolean empty) {
                         super.updateItem(item, empty);
@@ -101,45 +106,17 @@ public class RunningCellFactory {
      *
      * @return the cell factory for right aligned short number.
      */
-    public static Callback<TableColumn, TableCell> rightAlignedShort() {
-        return new Callback<TableColumn, TableCell>() {
-            public TableCell call(final TableColumn column) {
-                final TableCell cell = new TableCell<RunningDataModel, Short>() {
+    public static Callback<TableColumn<RunningDataModel, Short>, 
+        TableCell<RunningDataModel, Short>> rightAlignedShort() {
+        return new Callback<TableColumn<RunningDataModel, Short>, 
+                TableCell<RunningDataModel, Short>>() {
+            @Override
+            public TableCell<RunningDataModel, Short> call(
+                    final TableColumn<RunningDataModel, Short> column) {
+                final TableCell<RunningDataModel, Short> cell 
+                        = new TableCell<RunningDataModel, Short>() {
                     @Override
                     public void updateItem(final Short item, final boolean empty) {
-                        super.updateItem(item, empty);
-
-                        setText(empty
-                                ? null
-                                : getString());
-                        setGraphic(null);
-                    }
-
-                    private String getString() {
-                        return (getItem() == null)
-                                ? ""
-                                : getItem().toString();
-                    }
-                };
-
-                cell.setAlignment(Pos.TOP_RIGHT);
-
-                return cell;
-            }
-        };
-    }
-
-    /**
-     * Returns cell factory for right aligned integer number.
-     *
-     * @return the cell factory for right aligned integer number.
-     */
-    public static Callback<TableColumn, TableCell> rightAlignedInteger() {
-        return new Callback<TableColumn, TableCell>() {
-            public TableCell call(final TableColumn column) {
-                final TableCell cell = new TableCell<RunningDataModel, Integer>() {
-                    @Override
-                    public void updateItem(final Integer item, final boolean empty) {
                         super.updateItem(item, empty);
 
                         setText(empty
@@ -167,10 +144,15 @@ public class RunningCellFactory {
      *
      * @return the cell factory for right aligned date.
      */
-    public static Callback<TableColumn, TableCell> rightAlignedDate() {
-        return new Callback<TableColumn, TableCell>() {
-            public TableCell call(final TableColumn column) {
-                final TableCell cell = new TableCell<RunningDataModel, Long>() {
+    public static Callback<TableColumn<RunningDataModel, Long>,
+            TableCell<RunningDataModel, Long>> rightAlignedDate() {
+        return new Callback<TableColumn<RunningDataModel, Long>,
+            TableCell<RunningDataModel, Long>>() {
+            @Override
+            public TableCell<RunningDataModel, Long> call(
+                    final TableColumn<RunningDataModel, Long> column) {
+                final TableCell<RunningDataModel, Long> cell 
+                        = new TableCell<RunningDataModel, Long>() {
                     @Override
                     public void updateItem(final Long item, final boolean empty) {
                         super.updateItem(item, empty);
@@ -202,10 +184,14 @@ public class RunningCellFactory {
      *
      * @return the cell factory for right integer aligned date.
      */
-    public static Callback<TableColumn, TableCell> rightAlignedIntegerDate() {
-        return new Callback<TableColumn, TableCell>() {
-            public TableCell call(final TableColumn column) {
-                final TableCell cell = new TableCell<RunningDataModel, Integer>() {
+    public static Callback<TableColumn<RunningDataModel, Integer>, 
+        TableCell<RunningDataModel, Integer>> rightAlignedIntegerDate() {
+        return new Callback<TableColumn<RunningDataModel, Integer>, 
+                TableCell<RunningDataModel, Integer>>() {
+            @Override
+            public TableCell<RunningDataModel, Integer> call(
+                    final TableColumn<RunningDataModel, Integer> column) {
+                final TableCell<RunningDataModel, Integer> cell = new TableCell<RunningDataModel, Integer>() {
                     @Override
                     public void updateItem(final Integer item, final boolean empty) {
                         super.updateItem(item, empty);
@@ -253,10 +239,15 @@ public class RunningCellFactory {
      *
      * @return the cell factory for right integer aligned date.
      */
-    public static Callback<TableColumn, TableCell> centerAlignedImage() {
-        return new Callback<TableColumn, TableCell>() {
-            public TableCell call(final TableColumn column) {
-                final TableCell cell = new TableCell<RunningDataModel, String>() {
+    public static Callback<TableColumn<RunningDataModel, String>, 
+        TableCell<RunningDataModel, String>> centerAlignedImage() {
+        return new Callback<TableColumn<RunningDataModel, String>, 
+                TableCell<RunningDataModel, String>>() {
+            @Override
+            public TableCell<RunningDataModel, String> call(
+                    final TableColumn<RunningDataModel, String> column) {
+                final TableCell<RunningDataModel, String> cell 
+                        = new TableCell<RunningDataModel, String>() {
                     @Override
                     public void updateItem(final String item, final boolean empty) {
                         super.updateItem(item, empty);
@@ -302,10 +293,16 @@ public class RunningCellFactory {
      *
      * @return the cell factory for left aligned name.
      */
-    public static Callback<TableColumn, TableCell> leftAlignedName() {
-        return new Callback<TableColumn, TableCell>() {
-            public TableCell call(final TableColumn column) {
-                final TableCell cell = new TableCell<RunningDataModel, String>() {
+    public static Callback<TableColumn<RunningDataModel, String>, 
+        TableCell<RunningDataModel, String>> leftAlignedName() {
+        return new Callback<TableColumn<RunningDataModel, String>, 
+                TableCell<RunningDataModel, String>>() {
+            @Override
+            public TableCell<RunningDataModel, String> call(
+                    final TableColumn<RunningDataModel, String> column) {
+                final TableCell<RunningDataModel, String> cell 
+                        = new TableCell<RunningDataModel, String>() {
+                            
                     @Override
                     public void updateItem(final String item, final boolean empty) {
                         super.updateItem(item, empty);

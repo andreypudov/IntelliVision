@@ -93,17 +93,17 @@ public class IntelliJustice extends Application {
             ParametersParser.parse(this);
 
             /* detect updated version */
-            UpdateTask.launch(this.getParameters());
+            // TODO UpdateTask.launch(this.getParameters());
 
             /* schedule application level tasks */
             final Executor executor = Executor.getExecutor();
 
             executor.schedulePeriodicTask(new SynchronizationTask(),
                     3_000L, 3_000L, TimeUnit.MILLISECONDS);
-            executor.schedulePeriodicTask(new UpdateTask(),
+            /* TODO executor.schedulePeriodicTask(new UpdateTask(),
                     1_000L, 3_600_000L, TimeUnit.MILLISECONDS);
             executor.schedulePeriodicTask(new WebSynchronizationTask(),
-                    6_000L, 60_000L, TimeUnit.MILLISECONDS);
+                    6_000L, 60_000L, TimeUnit.MILLISECONDS);*/
 
             Core.getPrimaryStage().show();
         } catch (java.io.IOException | IllegalArgumentException e) {

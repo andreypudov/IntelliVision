@@ -55,8 +55,8 @@ CREATE TABLE oa_accnt_groups_tbl (
 
 -- SHA256 is a Password Encryption Algorithm in Application Container
 INSERT INTO oa_accnt_user_tbl(name, password)
-	VALUES ('administrator', SHA2('dfgiwr@lk5f$oiu%5e4r', 256)),
-	       ('user', SHA2('ljdf5i@4o#p#3q3er', 256));
+	VALUES ('administrator', SHA2('dfgiwr@lk5f$oiu%5e4r', 512)),
+	       ('user', SHA2('ljdf5i@4o#p#3q3er', 512));
 
 INSERT INTO oa_accnt_groups_tbl(name, user)
 	VALUES ('administrators', 'administrator'),

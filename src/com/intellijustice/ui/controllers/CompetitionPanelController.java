@@ -26,7 +26,11 @@
 
 package com.intellijustice.ui.controllers;
 
-import com.intellijustice.core.*;
+import com.intellijustice.core.DisciplineType;
+import com.intellijustice.core.Entry;
+import com.intellijustice.core.Result;
+import com.intellijustice.core.Competition;
+import com.intellijustice.core.Athlete;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -123,20 +127,19 @@ public class CompetitionPanelController implements Initializable {
      * @param competition the competition entity represents running
      *                    type of discipline.
      */
-    @SuppressWarnings("unchecked")
     private void fillRunning(final Competition competition) {
-        final TableColumn rankColumn     = new TableColumn();
-        final TableColumn bibColumn      = new TableColumn();
-        final TableColumn athleteColumn  = new TableColumn();
-        final TableColumn birthdayColumn = new TableColumn();
-        final TableColumn countryColumn  = new TableColumn();
-        final TableColumn personalColumn = new TableColumn();
-        final TableColumn seasonColumn   = new TableColumn();
-        final TableColumn lineColumn     = new TableColumn();
-        final TableColumn resultColumn   = new TableColumn();
-        final TableColumn reactionColumn = new TableColumn();
+        final TableColumn<RunningDataModel, Short>   rankColumn     = new TableColumn<>();
+        final TableColumn<RunningDataModel, Short>   bibColumn      = new TableColumn<>();
+        final TableColumn<RunningDataModel, String>  athleteColumn  = new TableColumn<>();
+        final TableColumn<RunningDataModel, Long>    birthdayColumn = new TableColumn<>();
+        final TableColumn<RunningDataModel, String>  countryColumn  = new TableColumn<>();
+        final TableColumn<RunningDataModel, Integer> personalColumn = new TableColumn<>();
+        final TableColumn<RunningDataModel, Integer> seasonColumn   = new TableColumn<>();
+        final TableColumn<RunningDataModel, Short>   lineColumn     = new TableColumn<>();
+        final TableColumn<RunningDataModel, Integer> resultColumn   = new TableColumn<>();
+        final TableColumn<RunningDataModel, Short>   reactionColumn = new TableColumn<>();
 
-        final List<RunningDataModel> competitionData = new ArrayList<>();
+        final List<RunningDataModel> competitionData = new ArrayList<>(16);
 
         for (final Entry entry : competition.getEntryList()) {
             final Athlete athlete = entry.getAthlete();

@@ -59,6 +59,8 @@ public class Athlete {
      * @param id         the database id for the athlete (zero for new entry).
      * @param firstName  the firth name of the athlete.
      * @param secondName the second name of the athlete.
+     * @param firstNameLocale  the first name of the athlete in local language.
+     * @param secondNameLocale the second name of the athlete in local language.
      * @param birthday   the birthday of the athlete.
      * @param sex        the sex of the athlete (true for male).
      * @param country    the country where the athlete from.

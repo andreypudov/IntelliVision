@@ -49,6 +49,7 @@
         <VBox fx:id="layerPanel" VBox.vgrow="ALWAYS">
             <HBox fx:id="layerTitle">
                 <Label fx:id="disciplineLabel" />
+                <Button fx:id="scoreboardButton" />
             </HBox>
             <HBox fx:id="layerSubTitle">
                 <Label fx:id="roundLabel" />

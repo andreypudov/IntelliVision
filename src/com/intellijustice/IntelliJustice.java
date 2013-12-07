@@ -99,7 +99,7 @@ public class IntelliJustice extends Application {
             final Executor executor = Executor.getExecutor();
 
             executor.schedulePeriodicTask(new SynchronizationTask(),
-                    3_000L, 2_000L, TimeUnit.MILLISECONDS);
+                    3_000L, 5_000L, TimeUnit.MILLISECONDS);
             executor.schedulePeriodicTask(new UpdateTask(),
                     1_000L, 3_600_000L, TimeUnit.MILLISECONDS);
             executor.schedulePeriodicTask(new WebSynchronizationTask(),

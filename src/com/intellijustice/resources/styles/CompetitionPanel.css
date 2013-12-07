@@ -47,6 +47,17 @@
     -fx-text-fill: #C0C0C0;
 }
 
+#scoreboardButton {
+    -fx-background-color:    null;
+    -fx-background-image:    url("../images/button-send-to-scoreboard.png");
+    -fx-background-position: center;
+    -fx-background-repeat:   no-repeat;
+}
+
+#scoreboardButton:pressed {
+    -fx-background-image:    url("../images/button-send-to-scoreboard-pressed.png");
+}
+
 #disciplineTable {
     -fx-background-color:          transparent;
     -fx-border-width:              0;

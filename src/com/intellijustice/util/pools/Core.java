@@ -75,7 +75,7 @@ public class Core {
     private static final Settings SETTINGS = Settings.getSettings();
 
     /* the database server connection layer */
-    private static final Server SERVER = Server.getDatabaseServer();
+    //private static final Server SERVER = Server.getDatabaseServer();
 
     /* the task execution pool */
     private static final Executor EXECUTOR = Executor.getExecutor();
@@ -273,7 +273,7 @@ public class Core {
         primaryStage.close();
 
         EXECUTOR.shutdown();
-        SERVER.disconnect();
+        // TODO SERVER.disconnect();
         SETTINGS.save();
     }
 

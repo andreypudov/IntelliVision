@@ -85,7 +85,7 @@ public class ExcelDataReader {
         workbooks.add(worksheet.getName());
         evaluators.add(evaluator);
 
-        for (File book : worksheet.getParentFile().listFiles(
+        for (final File book : worksheet.getParentFile().listFiles(
                 new FileFilter() {
                     @Override
                     public boolean accept(final File file) {

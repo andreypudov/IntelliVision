@@ -27,7 +27,10 @@
 package com.intellijustice.core;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -55,6 +58,9 @@ public final class ExcelDataProvider implements DefaultDataProvider {
 
     /* the most newest championship data */
     private Championship lastState;
+    
+    /* the list of file modification dates */
+    private Map<String, Long> lastModificationDates = new HashMap<>(16);
 
     /**
      * Constructs the Excel data provider for specified worksheet file.
@@ -83,6 +89,11 @@ public final class ExcelDataProvider implements DefaultDataProvider {
      */
     @Override
     public void update() {
+        /* skip data update if source data doesn't changed*/
+        if (isDataChanged() == false) {
+            return;
+        }
+        
         final Championship championship = readChampionship();
 
         /* fire competition changed event in case of new data */
@@ -154,5 +165,37 @@ public final class ExcelDataProvider implements DefaultDataProvider {
 
         return new Championship(-1, "Untitled Championship",
                 "Unnamed Country", "Unnamed City", Format.OUTDOOR);
+    }
+    
+    /**
+     * Reads the list of worksheet files in directory and compare modification 
+     * dates. If files doesn't changed, return false, and true otherwise.
+     * 
+     * @return true if data files changed, and false otherwise.
+     */
+    private boolean isDataChanged() {
+        final Map<String, Long> modificationDates = new HashMap<>(16);
+        
+        for (final File book : worksheet.getParentFile().listFiles(
+                new FileFilter() {
+                    @Override
+                    public boolean accept(final File file) {
+                        return file.getName().toLowerCase(
+                                ).endsWith(".xls")
+                                /* skip worksheet itself */
+                                && (file.equals(worksheet) == false);
+                }})) {
+
+            /* add book's file to the list */
+            modificationDates.put(book.getName(), book.lastModified());
+        }
+        
+        /* source data has been changed */
+        if (modificationDates.equals(lastModificationDates) == false) {
+            lastModificationDates = modificationDates;
+            return true;
+        }
+
+        return false;
     }
 }

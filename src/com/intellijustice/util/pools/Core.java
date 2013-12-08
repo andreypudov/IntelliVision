@@ -81,10 +81,13 @@ public class Core {
     private static final Executor EXECUTOR = Executor.getExecutor();
 
     /* application synchronization pool */
-    private static  final Reviser REVISER = Reviser.getReviser();
+    private static final Reviser REVISER = Reviser.getReviser();
 
     /* the common application talk interface */
     //private static final Network NETWORK = Network.getNetwork();
+    
+    /* the scoreboard window to show competition results */
+    private static final Scoreboard SCOREBOARD = Scoreboard.getScoreboard();
 
     /* the data provider instance */
     private static final DefaultDataProvider dataProvider;
@@ -272,6 +275,7 @@ public class Core {
         /* close window while processing application tasks */
         primaryStage.close();
 
+        SCOREBOARD.close();
         EXECUTOR.shutdown();
         // TODO SERVER.disconnect();
         SETTINGS.save();
@@ -361,5 +365,14 @@ public class Core {
      */
     public static synchronized Reviser getReviser() {
         return REVISER;
+    }
+    
+    /**
+     * Return scoreboard window instance..
+     *
+     * @return the scoreboard window instance.
+     */
+    public static synchronized Scoreboard getScoreboard() {
+        return SCOREBOARD;
     }
 }

@@ -39,8 +39,9 @@ import java.util.ResourceBundle;
 
 import com.intellijustice.ui.controls.RunningDataModel;
 import com.intellijustice.ui.controls.RunningCellFactory;
+import com.intellijustice.util.pools.Core;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -231,5 +232,15 @@ public class CompetitionPanelController implements Initializable {
         disciplineTable.getSelectionModel().clearSelection();
 
         event.consume();
+    }
+    
+    /**
+     * Sends competition to the scoreboard.
+     * 
+     * @param event the source of the event.
+     */
+    @FXML
+    private void scoreboardButtonOnAction(final ActionEvent event) {
+        Core.getScoreboard().showCompetition(competition);
     }
 }

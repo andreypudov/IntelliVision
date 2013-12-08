@@ -26,6 +26,8 @@
 
 package com.intellijustice.util.pools;
 
+import com.intellijustice.core.Competition;
+
 /**
  * Scoreboard pool implements separated window with ability to show competition
  * information and messages from judges.
@@ -38,12 +40,16 @@ package com.intellijustice.util.pools;
 public enum Scoreboard {
 
     INSTANCE;
-
+    
+    private static final java.util.logging.Logger LOG
+            = java.util.logging.Logger.getLogger(
+            com.intellijustice.core.Manifest.NAME);
+    
     /* the list of application properties */
     private static final Settings SETTINGS = Settings.getSettings();
-
-    /* the scoreboard visible property */
-    private boolean visible = false;
+    
+    /* the scoreboard window represenation */
+    private final ScoreboardWindow window = new ScoreboardWindow();
 
     static {
     }
@@ -67,6 +73,22 @@ public enum Scoreboard {
      * @param state the scoreboard visible property.
      */
     public void setVisible(final boolean state) {
-        visible = state;
+        window.setVisible(state);
+    }
+    
+    /**
+     *  Closes the scoreboard window.
+     */
+    public void close() {
+        window.close();
+    }
+    
+    /**
+     * Display given competition on the window.
+     * 
+     * @param competition the competition to show.
+     */
+    public void showCompetition(final Competition competition) {
+        setVisible(true);
     }
 }

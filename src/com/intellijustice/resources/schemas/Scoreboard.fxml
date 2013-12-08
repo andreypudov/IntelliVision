@@ -26,47 +26,28 @@
  * THE SOFTWARE.
 -->
 
+<?import com.intellijustice.ui.controls.*?>
 <?import java.lang.*?>
 <?import java.net.*?>
-<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <!--
-    Document   : CompetitionPanel.fxml
-    Created on : Orc 18, 2013, 03:15:00 PM
+    Document   : Scoreboard.fxml
+    Created on : Dec 08, 2013, 02:00:00 PM
     Author     : Andrey Pudov        <mail@andreypudov.com>
     Description:
-        Competition panel with competition details information.
+        The application scoreboard window instance.
 -->
 
-<fx:root fx:id="competitionPanel" type="javafx.scene.layout.VBox"
-         xmlns:fx="http://javafx.com/fxml"
-         fx:controller="com.intellijustice.ui.controllers.CompetitionPanelController"
-         onMouseClicked="#competitionPanelOnMouseClicked">
-    <children>
-        <VBox fx:id="layerPanel" VBox.vgrow="ALWAYS">
-            <HBox fx:id="layerTitle">
-                <Label fx:id="disciplineLabel" />
-                <Button fx:id="scoreboardButton" 
-                        onAction="#scoreboardButtonOnAction" />
-            </HBox>
-            <HBox fx:id="layerSubTitle">
-                <Label fx:id="roundLabel" />
-            </HBox>
-            <Region prefHeight="10.0" />
-            <TableView fx:id="disciplineTable" VBox.vgrow="ALWAYS" />
-            <Region prefHeight="30.0" />
-            <padding>
-                <Insets top="10.0" left="30.0" right="30.0" />
-            </padding>
-        </VBox>
-    </children>
-    <padding>
-        <Insets left="-30.0" right="-30.0" />
-    </padding>
-    <stylesheets>
-        <URL value="@../styles/CompetitionPanel.css" />
-    </stylesheets>
-</fx:root>
+<AnchorPane fx:id="mainPanel" prefHeight="700.0" prefWidth="1020.0"
+            xmlns:fx="http://javafx.com/fxml"
+            onMousePressed="#mainPanelMousePressed"
+            onMouseDragged="#mainPanelMouseDragged"
+            fx:controller="com.intellijustice.ui.controllers.ScoreboardController">
+  <stylesheets>
+    <URL value="@../styles/ScoreboardWindow.css" />
+  </stylesheets>
+</AnchorPane>

@@ -130,7 +130,7 @@ BEGIN
 
 	-- specified user name doesn't exists
 	SET count = (SELECT COUNT(user_name)  
-		FROM  onlineathletics.oa_accnt_user_tbl
+		FROM  oa_accnt_user_tbl
 		WHERE user_name = user_nm_arg);
 	IF (count = 0) THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Authentication failed.';
@@ -138,7 +138,7 @@ BEGIN
 
 	-- the number of already listed attempts
 	SET attempt_val = (SELECT attempt 
-		FROM  onlineathletics.oa_accnt_time_tbl
+		FROM  oa_accnt_time_tbl
 		WHERE user_name = user_nm_arg);
 	IF (attempt_val >= 3) THEN
 		-- authentication failed when three and more failed attempts occured
@@ -146,24 +146,24 @@ BEGIN
 	ELSEIF (attempt_val IS NULL) THEN
 		-- add new user name to validation table
 		SET attempt_val = 0;
-		INSERT INTO onlineathletics.oa_accnt_time_tbl(user_name, attempt) 
+		INSERT INTO oa_accnt_time_tbl(user_name, attempt) 
 			VALUES (user_nm_arg, attempt);
 	END IF;
 
 	-- specified cedentials are incorrect
 	SET count = (SELECT COUNT(user_name)
-		FROM onlineathletics.oa_accnt_user_tbl
+		FROM oa_accnt_user_tbl
 		WHERE   user_name   = user_nm_arg
 			AND pass_phrase = SHA2(pass_ph_arg, 512));
 	IF (count = 0) THEN
-		UPDATE onlineathletics.oa_accnt_time_tbl
+		UPDATE oa_accnt_time_tbl
 			SET   attempt   = attempt_val + 1 
 			WHERE user_name = user_nm_arg;
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Authentication failed.';
 	END IF;
 
 	-- clear attempts index on success
-	UPDATE onlineathletics.oa_accnt_time_tbl
+	UPDATE oa_accnt_time_tbl
 		SET   attempt   = 0 
 		WHERE user_name = user_nm_arg;
 END //
@@ -189,10 +189,10 @@ CREATE PROCEDURE add_athlete (first_nm_arg  VARCHAR(255),
              @throws 45000 Permissions denied.
 			 @throws 45000 Athlete entry already exists.'
 BEGIN
+	DECLARE athlete_indx   INT UNSIGNED;
 	DECLARE first_nm_indx  INT UNSIGNED;
 	DECLARE second_nm_indx INT UNSIGNED;
 	DECLARE birthday_indx  INT UNSIGNED;
-	DECLARE athlete_indx   INT UNSIGNED;
 
 	-- validate routine arguments
 	IF ((first_nm_arg IS NULL) 
@@ -206,9 +206,9 @@ BEGIN
 	END IF;
 
 	-- validate authentication and permissions
-	CALL onlineathletics.authenticate (user_nm_arg, pass_ph_arg);
+	CALL authenticate (user_nm_arg, pass_ph_arg);
 	IF ((SELECT COUNT(*) 
-			FROM onlineathletics.oa_accnt_groups_tbl
+			FROM oa_accnt_groups_tbl
 			WHERE   user_name  = user_nm_arg 
 				AND group_name = 'administrators') = 0) THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Permissions denied.';
@@ -216,37 +216,37 @@ BEGIN
 
 	-- set first name id
 	SET first_nm_indx = (SELECT first_nm_id
-		FROM  onlineathletics.oa_first_nm_tbl
+		FROM  oa_first_nm_tbl
 		WHERE first_name = first_nm_arg);
 	IF (first_nm_indx IS NULL) THEN
-		INSERT INTO onlineathletics.oa_first_nm_tbl(first_name) 
+		INSERT INTO oa_first_nm_tbl(first_name) 
 			VALUES(first_nm_arg);
 		SET first_nm_indx = (SELECT last_insert_id());
 	END IF;
 
 	-- set second name id
 	SET second_nm_indx = (SELECT second_nm_id
-		FROM  onlineathletics.oa_second_nm_tbl
+		FROM  oa_second_nm_tbl
 		WHERE second_name = second_nm_arg);
 	IF (second_nm_indx IS NULL) THEN
-		INSERT INTO onlineathletics.oa_second_nm_tbl(second_name) 
+		INSERT INTO oa_second_nm_tbl(second_name) 
 			VALUES(second_nm_arg);
 		SET second_nm_indx = (SELECT last_insert_id());
 	END IF;
 
 	-- set birthday id
 	SET birthday_indx = (SELECT birthday_id
-		FROM  onlineathletics.oa_birthday_tbl
+		FROM  oa_birthday_tbl
 		WHERE birthday = birthday_arg);
 	IF (birthday_indx IS NULL) THEN
-		INSERT INTO onlineathletics.oa_birthday_tbl(birthday) 
+		INSERT INTO oa_birthday_tbl(birthday) 
 			VALUES(birthday_arg);
 		SET birthday_indx = (SELECT last_insert_id());
 	END IF;
 
 	-- search for present entry
 	SET athlete_indx = (SELECT athl_id
-		FROM onlineathletics.oa_athl_tbl
+		FROM oa_athl_tbl
 		WHERE   first_nm_key  = first_nm_indx
 			AND second_nm_key = second_nm_indx
 			AND birthday_key  = birthday_indx
@@ -254,7 +254,7 @@ BEGIN
 	IF (athlete_indx IS NOT NULL) THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Athlete entry already exists.';
 	ELSE
-		INSERT INTO onlineathletics.oa_athl_tbl(first_nm_key, second_nm_key, birthday_key, sex)
+		INSERT INTO oa_athl_tbl(first_nm_key, second_nm_key, birthday_key, sex)
 			VALUES(first_nm_indx, second_nm_indx, birthday_indx, sex_arg);
 		SET athlete_indx = (SELECT last_insert_id());
 	END IF;
@@ -284,10 +284,10 @@ CREATE PROCEDURE edit_athlete (athlete_id_arg INT UNSIGNED,
              @throws 45000 Athlete entry the same as requested to change.
              @throws 45000 Athlete entry already exists.'
 BEGIN
+	DECLARE athlete_indx   INT UNSIGNED;
 	DECLARE first_nm_indx  INT UNSIGNED;
 	DECLARE second_nm_indx INT UNSIGNED;
 	DECLARE birthday_indx  INT UNSIGNED;
-	DECLARE athlete_indx   INT UNSIGNED;
 
 	-- validate routine arguments
 	IF ((athlete_id_arg IS NULL)
@@ -302,53 +302,53 @@ BEGIN
 	END IF;
 
 	-- validate authentication and permissions
-	CALL onlineathletics.authenticate (user_nm_arg, pass_ph_arg);
+	CALL authenticate (user_nm_arg, pass_ph_arg);
 	IF ((SELECT COUNT(*) 
-			FROM onlineathletics.oa_accnt_groups_tbl
+			FROM oa_accnt_groups_tbl
 			WHERE   user_name  = user_nm_arg 
 				AND group_name = 'administrators') = 0) THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Permissions denied.';
 	END IF;
 
 	IF ((SELECT COUNT(*)
-			FROM onlineathletics.oa_athl_tbl
+			FROM oa_athl_tbl
 			WHERE athl_id = athlete_id_arg) != 1) THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Athlete entry doesn\'t exists.';
 	END IF;
 
 	-- set first name id
 	SET first_nm_indx = (SELECT first_nm_id
-		FROM  onlineathletics.oa_first_nm_tbl
+		FROM  oa_first_nm_tbl
 		WHERE first_name = first_nm_arg);
 	IF (first_nm_indx IS NULL) THEN
-		INSERT INTO onlineathletics.oa_first_nm_tbl(first_name) 
+		INSERT INTO oa_first_nm_tbl(first_name) 
 			VALUES(first_nm_arg);
 		SET first_nm_indx = (SELECT last_insert_id());
 	END IF;
 
 	-- set second name id
 	SET second_nm_indx = (SELECT second_nm_id
-		FROM  onlineathletics.oa_second_nm_tbl
+		FROM  oa_second_nm_tbl
 		WHERE second_name = second_nm_arg);
 	IF (second_nm_indx IS NULL) THEN
-		INSERT INTO onlineathletics.oa_second_nm_tbl(second_name) 
+		INSERT INTO oa_second_nm_tbl(second_name) 
 			VALUES(second_nm_arg);
 		SET second_nm_indx = (SELECT last_insert_id());
 	END IF;
 
 	-- set birthday id
 	SET birthday_indx = (SELECT birthday_id
-		FROM  onlineathletics.oa_birthday_tbl
+		FROM  oa_birthday_tbl
 		WHERE birthday = birthday_arg);
 	IF (birthday_indx IS NULL) THEN
-		INSERT INTO onlineathletics.oa_birthday_tbl(birthday) 
+		INSERT INTO oa_birthday_tbl(birthday) 
 			VALUES(birthday_arg);
 		SET birthday_indx = (SELECT last_insert_id());
 	END IF;
 
 	-- search for present entry
 	SET athlete_indx = (SELECT athl_id
-		FROM onlineathletics.oa_athl_tbl
+		FROM oa_athl_tbl
 		WHERE   first_nm_key  = first_nm_indx
 			AND second_nm_key = second_nm_indx
 			AND birthday_key  = birthday_indx
@@ -360,7 +360,7 @@ BEGIN
 	END IF;
 
 	-- update athlete information
-	UPDATE onlineathletics.oa_athl_tbl
+	UPDATE oa_athl_tbl
 		SET first_nm_key  = first_nm_indx,
 			second_nm_key = second_nm_indx,
 			birthday_key  = birthday_indx,
@@ -382,35 +382,41 @@ CREATE PROCEDURE get_athlete (athlete_id_arg INT UNSIGNED,
              @throws 45000 Permissions denied.
              @throws 45000 Athlete entry doesn\'t exists.'
 BEGIN
+	DECLARE athlete_id_var INT UNSIGNED;
+	DECLARE first_nm_var   VARCHAR(255);
+	DECLARE second_nm_var  VARCHAR(255);
+	DECLARE birthday_var   TIMESTAMP;
+	DECLARE sex_var        TINYINT(1); 
+
 	-- validate routine arguments
 	IF (athlete_id_arg IS NULL) THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid argument exception.';
 	END IF;
 
 	-- validate authentication and permissions
-	CALL onlineathletics.authenticate (user_nm_arg, pass_ph_arg);
+	CALL authenticate (user_nm_arg, pass_ph_arg);
 	IF ((SELECT COUNT(*) 
-			FROM onlineathletics.oa_accnt_groups_tbl
+			FROM oa_accnt_groups_tbl
 			WHERE   user_name  = user_nm_arg 
 				AND group_name = 'administrators') = 0) THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Permissions denied.';
 	END IF;
 
-	IF ((SELECT COUNT(*)
-			FROM onlineathletics.oa_athl_tbl
-			WHERE athl_id = athlete_id_arg) != 1) THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Athlete entry doesn\'t exists.';
+	SELECT a.athl_id, f.first_name, s.second_name, b.birthday, a.sex
+		INTO athlete_id_var, first_nm_var, second_nm_var, birthday_var, sex_var
+		FROM oa_athl_tbl a
+			INNER JOIN oa_first_nm_tbl  f ON f.first_nm_id  = a.first_nm_key
+			INNER JOIN oa_second_nm_tbl s ON s.second_nm_id = a.second_nm_key
+			INNER JOIN oa_birthday_tbl  b ON b.birthday_id  = a.birthday_key
+		WHERE a.athl_id = athlete_id_arg
+		LIMIT 1;
+
+	-- select doesn't returns any data
+	IF (athlete_id_var IS NULL) THEN
+		 SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Athlete entry doesn\'t exists.';
 	END IF;
 
-	SELECT a.athl_id, f.first_name, s.second_name, b.birthday, a.sex
-		FROM onlineathletics.oa_athl_tbl      a,
-             onlineathletics.oa_first_nm_tbl  f,
-			 onlineathletics.oa_second_nm_tbl s,
-			 onlineathletics.oa_birthday_tbl  b
-		WHERE   a.athl_id      = athlete_id_arg
-			AND f.first_nm_id  = a.first_nm_key
-			AND s.second_nm_id = a.second_nm_key
-            AND b.birthday_id  = a.birthday_key;
+	SELECT athlete_id_var, first_nm_var, second_nm_var, birthday_var, sex_var;
 END //
 
 CREATE PROCEDURE get_athlete_by_name (
@@ -429,6 +435,12 @@ CREATE PROCEDURE get_athlete_by_name (
              @throws 45000 Permissions denied.
              @throws 45000 Athlete entry doesn\'t exists.'
 BEGIN
+	DECLARE athlete_id_var INT UNSIGNED;
+	DECLARE first_nm_var   VARCHAR(255);
+	DECLARE second_nm_var  VARCHAR(255);
+	DECLARE birthday_var   TIMESTAMP;
+	DECLARE sex_var        TINYINT(1); 
+
 	-- validate routine arguments
 	IF ((first_nm_arg IS NULL) 
 			OR (second_nm_arg IS NULL)
@@ -438,24 +450,30 @@ BEGIN
 	END IF;
 
 	-- validate authentication and permissions
-	CALL onlineathletics.authenticate (user_nm_arg, pass_ph_arg);
+	CALL authenticate (user_nm_arg, pass_ph_arg);
 	IF ((SELECT COUNT(*) 
-			FROM onlineathletics.oa_accnt_groups_tbl
+			FROM oa_accnt_groups_tbl
 			WHERE   user_name  = user_nm_arg 
 				AND group_name = 'administrators') = 0) THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Permissions denied.';
 	END IF;
 
 	SELECT a.athl_id, f.first_name, s.second_name, b.birthday, a.sex
-		FROM onlineathletics.oa_athl_tbl      a,
-             onlineathletics.oa_first_nm_tbl  f,
-			 onlineathletics.oa_second_nm_tbl s,
-			 onlineathletics.oa_birthday_tbl  b
-		WHERE   f.first_nm_id  = a.first_nm_key
-			AND s.second_nm_id = a.second_nm_key
-            AND b.birthday_id  = a.birthday_key
-			AND f.first_name   = first_nm_arg
-	        AND s.second_name  = second_nm_arg;
+		INTO athlete_id_var, first_nm_var, second_nm_var, birthday_var, sex_var
+		FROM oa_athl_tbl a
+			INNER JOIN oa_first_nm_tbl  f ON f.first_nm_id  = a.first_nm_key
+			INNER JOIN oa_second_nm_tbl s ON s.second_nm_id = a.second_nm_key
+			INNER JOIN oa_birthday_tbl  b ON b.birthday_id  = a.birthday_key
+		WHERE   f.first_name   = first_nm_arg
+	        AND s.second_name  = second_nm_arg
+		LIMIT 1;
+
+	-- select doesn't returns any data
+	IF (athlete_id_var IS NULL) THEN
+		 SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Athlete entry doesn\'t exists.';
+	END IF;
+
+	SELECT athlete_id_var, first_nm_var, second_nm_var, birthday_var, sex_var;
 END //
 
 -- --------------------------------------------------------------------------------

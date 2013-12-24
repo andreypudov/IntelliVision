@@ -124,15 +124,17 @@ CREATE TABLE ij_second_nm_tbl (
 
 CREATE TABLE ij_birthday_en_tbl (
 	birthday_en_id	INT UNSIGNED NOT NULL AUTO_INCREMENT,
-	birthday		VARCHAR(255) NOT NULL,
+	birthday		TIMESTAMP    DEFAULT 0,
 	PRIMARY KEY	(birthday_en_id)
 ) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
 
 CREATE TABLE ij_birthday_tbl (
 	athl_key		INT UNSIGNED NOT NULL UNIQUE, 
-	birthday        TIMESTAMP    DEFAULT 0,
+	birthday_key    INT UNSIGNED NOT NULL,
 	FOREIGN KEY (athl_key)
-		REFERENCES ij_athl_tbl(athl_id)
+		REFERENCES ij_athl_tbl(athl_id),
+	FOREIGN KEY (birthday_key)
+		REFERENCES ij_birthday_en_tbl(birthday_en_id)
 ) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
 
 CREATE TABLE ij_sex_tbl (

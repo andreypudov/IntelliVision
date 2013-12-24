@@ -25,35 +25,14 @@
  */
 
 /*
-    Document   : layout.css
+    Document   : general.css
     Created on : Nov 24, 2013, 02:50:00 PM
     Author     : Andrey Pudov        <mail@andreypudov.com>
     Description:
         The common appliacation style sheet.
 */
 
-/*#page {
-	width:  800px;
-	margin: 0 auto;
+/* navigation panel */
+.navbar-inverse {
+  border-color: white;
 }
-
-#header {
-	width: 100%;
-	height:100px;
-	border: 1px solid #000;
-	margin-bottom:16px;
-}
-
-#content {
-	width: 100%;
-	height:200px;
-	margin-right:16px;
-	margin-bottom:16px;
-	border: 1px solid #000;
-}
-
-#footer {
-	width:  100%;
-	height: 100px;
-	border: 1px solid #000;
-}*/

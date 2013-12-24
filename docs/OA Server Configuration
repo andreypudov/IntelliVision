@@ -63,10 +63,10 @@
           JAAS Context:                  jdbcRealm
           JNDI:                          jdbc/OnlineAthletics
           User Table:                    oa_accnt_user_tbl
-          User Name Column:              name
-          Password Column:               password
+          User Name Column:              user_name
+          Password Column:               pass_phrase
           Group Table:                   oa_accnt_groups_tbl
-          Group Table User Name Column:  user
-          Group Name Column:             name
+          Group Table User Name Column:  user_name
+          Group Name Column:             group_name
           Password Encryption Algorithm: SHA-512
           Digest Algorithm:              SHA-512

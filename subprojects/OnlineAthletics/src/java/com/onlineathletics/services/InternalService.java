@@ -27,6 +27,7 @@
 package com.onlineathletics.services;
 
 import com.onlineathletics.util.Database;
+import java.sql.SQLException;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
@@ -55,10 +56,12 @@ public class InternalService {
      */
     @WebMethod(operationName = "hello")
     public String hello(@WebParam(name = "name") final String txt) {
-        try {
-            return Database.executeStatement();
-        } catch (Exception e) {
+        /*try {
+            return Database.executeProcedure("");
+        } catch (SQLException e) {
             return e.getMessage();
-        }
+        }*/
+        
+        return "";
     }
 }

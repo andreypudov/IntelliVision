@@ -183,7 +183,7 @@ CREATE PROCEDURE add_athlete (first_nm_arg  VARCHAR(255),
 			 @param user_nm_arg   the name value to authenticate query.
 			 @param pass_ph_arg   the password value to authenticate query.
 
-             @return the database id for the athlete.
+             @return the database id for the athlete as athlete_indx column.
 
 			 @throws 45000 Invalid argument exception.
              @throws 45000 Permissions denied.

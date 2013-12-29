@@ -24,57 +24,33 @@
  * THE SOFTWARE.
  */
 
-package com.onlineathletics.util;
+package com.onlineathletics.services;
 
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
+import javax.xml.ws.WebFault;
 
 /**
- * The internal web service provides public methods to obtain technical
- * information about Online Athletics and IntelliJustice status.
+ * Represents the exception that is thrown when an alert method is called with 
+ * an invalid argument.
  *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
- * %name      InternalService.java
- * %date      07:15:00 PM, Dec 03, 2013
+ * %name      InvalidArgumentException.java
+ * %date      11:30:00 PM, Dec 25, 2013
  */
-public class Database {
+@WebFault(faultBean="InvalidArgumentException")
+public class InvalidArgumentException extends Exception {
     
+    private static final long serialVersionUID = 0xa5c3_e9ca_0d63_9a6dL;
     private static final java.util.logging.Logger LOG
             = java.util.logging.Logger.getLogger(
-            com.onlineathletics.core.Manifest.NAME);
-    
-    /* the name of the database pool in application container */
-    private static final String POOL_NAME = "java:comp/env/jdbc/OnlineAthletics";
-    
-    private static DataSource source;
-    
-    static {
-        try {
-            source = (DataSource) new InitialContext().lookup(POOL_NAME);
-        } catch (NamingException e) {
-            LOG.log(Level.SEVERE, 
-                    "Could not get data source from application container.{0}", 
-                    e.getMessage());
-        }
-    }
-    
-    /* do not let anyone instantiate this class */
-    private Database() {
-    }
+            com.intellijustice.core.Manifest.NAME);
     
     /**
-     * Returns database connection from the pool.
-     * 
-     * @return the database connection.
-     * 
-     * @throws SQLException 
+     * Constructs an {@code InvalidArgumentException} with {@code null}
+     * as its error detail message.
      */
-    public static Connection getConnection() throws SQLException {
-        return source.getConnection();
+    public InvalidArgumentException(String message) {
+        super(message);
     }
 }

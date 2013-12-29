@@ -4,6 +4,9 @@
     <service name="InternalService">
       <implementation-class>com.onlineathletics.services.InternalService</implementation-class>
     </service>
+    <service name="ExternalService">
+      <implementation-class>com.onlineathletics.services.ExternalService</implementation-class>
+    </service>
   </services>
   <clients/>
 </jax-ws>

@@ -77,12 +77,13 @@
                             </div>
                         </div>
                     </div>
+                    <!-- carousel controls
                     <a class="left carousel-control" href="#myCarousel" data-slide="prev">
                         <span class="glyphicon glyphicon-chevron-left"></span>
                     </a>
                     <a class="right carousel-control" href="#myCarousel" data-slide="next">
                         <span class="glyphicon glyphicon-chevron-right"></span>
-                    </a>
+                    </a>-->
                 </div> <!-- /.carousel -->
                 
                 <!-- Marketing messaging and featurettes -->
@@ -109,8 +110,29 @@
                             <p><a class="btn btn-default" href="#" role="button">View details</a></p>
                         </div> <!-- /.col-lg-4 -->
                     </div> <!-- /.row -->
-                    <hr class="featurette-divider" />
                 </div> <!-- /.container -->
+            </ui:define>
+            
+            <ui:define name="footer">
+                <div class="container marketing">
+                    <footer>
+                        <ul class="piped-links pull-right">
+                            <li class="first"><a href="#">About Online Athletics</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                        </ul>
+
+                        <ul class="piped-links">
+                            <p>Copyright &#169; 2013 Online Athletics. All rights reserved.</p>
+                            <li class="first"><a href="#">Terms of Use</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                        </ul>
+                    </footer>
+
+                    <!-- Bootstrap core JavaScript -->
+                    <!-- Placed at the end of the document so the pages load faster -->
+                    <script src="resources/libraries/jquery/jquery-1.10.2.min.js"></script>
+                    <script src="resources/libraries/bootstrap/js/bootstrap.min.js"></script>
+                </div>
             </ui:define>
         </ui:composition>
     </h:body>

@@ -1,9 +1,28 @@
 <pretty-config xmlns="http://ocpsoft.org/schema/rewrite-config-prettyfaces" 
                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
                xsi:schemaLocation="http://ocpsoft.org/schema/rewrite-config-prettyfaces
-                      http://ocpsoft.org/xml/ns/prettyfaces/rewrite-config-prettyfaces.xsd">    
+                      http://ocpsoft.org/xml/ns/prettyfaces/rewrite-config-prettyfaces.xsd">
+    <!-- traililng slash is  -->
+    <!-- <rewrite toCase="lowercase" redirect="chain" /> -->
+    <rewrite match="^(?!.*\.(xhtml|js|css).*).*" trailingSlash="append" redirect="301" />
+    
+    <url-mapping id="about">
+        <pattern value="/about/" />
+	<view-id value="/faces/about.xhtml" />
+    </url-mapping>
+    
+    <url-mapping id="contact">
+        <pattern value="/contact/" />
+	<view-id value="/faces/contact.xhtml" />
+    </url-mapping>
+        
     <url-mapping id="legal">
-        <pattern value="/legal" />
+        <pattern value="/legal/" />
 	<view-id value="/faces/legal.xhtml" />
+    </url-mapping>
+    
+    <url-mapping id="privacy">
+        <pattern value="/privacy/" />
+	<view-id value="/faces/privacy.xhtml" />
     </url-mapping>
 </pretty-config>

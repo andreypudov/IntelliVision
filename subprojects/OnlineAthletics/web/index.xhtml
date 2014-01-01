@@ -39,6 +39,9 @@
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:body>
         <ui:composition template="resources/schemas/layout.xhtml">
+            <!-- no header divider on home page -->
+            <ui:define name="navbar-region-divider" />
+            
             <ui:define name="content">
                 <!-- Carousel -->
                 <div id="homeCarousel" class="carousel slide" data-ride="carousel">
@@ -113,28 +116,8 @@
                 </div> <!-- /.container -->
             </ui:define>
             
-            <ui:define name="footer">
-                <div class="container marketing">
-                    <footer>
-                        <ul class="piped-links pull-right">
-                            <li class="first"><a href="#">About Online Athletics</a></li>
-                            <li><a href="#">Contact Us</a></li>
-                        </ul>
-
-                        <ul class="piped-links">
-                            <p>Copyright &#169; 2014 Online Athletics. All rights reserved.</p>
-                            <li class="first"><h:link value="Terms of Use" outcome="legal" />
-                            </li>
-                            <li><a href="#">Privacy Policy</a></li>
-                        </ul>
-                    </footer>
-
-                    <!-- Bootstrap core JavaScript -->
-                    <!-- Placed at the end of the document so the pages load faster -->
-                    <script src="resources/libraries/jquery/jquery-1.10.2.min.js"></script>
-                    <script src="resources/libraries/bootstrap/js/bootstrap.min.js"></script>
-                </div>
-            </ui:define>
+            <!-- no footer divider on home page -->
+            <ui:define name="footer-divider" />
         </ui:composition>
     </h:body>
 </html>

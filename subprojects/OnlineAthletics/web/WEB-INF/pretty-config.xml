@@ -4,7 +4,8 @@
                       http://ocpsoft.org/xml/ns/prettyfaces/rewrite-config-prettyfaces.xsd">
     <!-- traililng slash is  -->
     <!-- <rewrite toCase="lowercase" redirect="chain" /> -->
-    <rewrite match="^(?!.*\.(xhtml|js|css).*).*" trailingSlash="append" redirect="301" />
+    <!--<rewrite match="^(?!.*\.(xhtml|js|css).*).*" trailingSlash="append" redirect="301" />-->
+    <rewrite match="^(?!.*\.\w{3}.*).*" trailingSlash="append" redirect="301" />
     
     <url-mapping id="about">
         <pattern value="/about/" />

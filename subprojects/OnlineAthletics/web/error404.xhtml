@@ -39,14 +39,13 @@
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:body>
         <ui:composition template="resources/schemas/layout.xhtml">
-            <ui:define name="content">
-                <!-- free space between page top and content -->
-                <div class="navbar-region" />
-                
+            <ui:define name="content">                
                 <!-- Marketing messaging and featurettes -->
                 <!-- Wrap the rest of the page in another container to center all the content. -->
                 <div class="container marketing">
-                    <h1>Hmm, the page you’re looking for can’t be found.</h1>
+                    <div class="page-header">
+                        <h1>Hmm, the page you’re looking for can’t be found.</h1>
+                    </div>
                     
                     <p>Did you try searching? Enter a keyword(s) in the search field above. Or, try one of the links below.</p>
                     

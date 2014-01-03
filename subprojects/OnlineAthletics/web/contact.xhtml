@@ -35,12 +35,39 @@
 -->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <body>
         <ui:composition template="resources/schemas/layout.xhtml">
             <ui:define name="content">
                 <div class="container marketing">
-                    <h1>Contact Online Athletics</h1>
+                    <div class="page-header">
+                        <h1>Contact Online Athletics<small>If you have questions about our service or other topics, we’d like to hear from you. </small></h1>
+                    </div>
+                    
+                    <div class="row">
+                        <h:form>
+                            <div class="col-sm-6 col-sm-offset-6">                           
+                                <div class="form-group">
+                                    <input type="name" class="form-control" id="contactInputName" placeholder="Your name" value="#{contactForm.name}" />
+                                </div>
+                                
+                                <div class="form-group">
+                                    <input type="email" class="form-control" id="contactInputEmail" placeholder="Email address" value="#{contactForm.email}" />
+                                </div>
+                                
+                                <div class="form-group">
+                                    <textarea class="form-control" id="contactTextArea" rows="6" value="#{contactForm.message}" />
+                                </div>
+                                
+                                <div class="pull-right">
+                                    <h:commandButton class="btn btn-default" value="Submit" action="#{contactForm.submit}" />
+                                </div>
+                                
+                                <h:outputText value="#{contactForm.email}" />
+                            </div>
+                        </h:form>
+                    </div>
                 </div>
             </ui:define>
         </ui:composition>

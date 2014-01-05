@@ -7,9 +7,24 @@
     <!--<rewrite match="^(?!.*\.(xhtml|js|css).*).*" trailingSlash="append" redirect="301" />-->
     <rewrite match="^(?!.*\.\w{3}.*).*" trailingSlash="append" redirect="301" />
     
+    <url-mapping id="index">
+        <pattern value="/" />
+	<view-id value="/faces/index.xhtml" />
+    </url-mapping>
+    
     <url-mapping id="about">
         <pattern value="/about/" />
 	<view-id value="/faces/about.xhtml" />
+    </url-mapping>
+    
+    <url-mapping id="athletes">
+        <pattern value="/athletes/" />
+	<view-id value="/faces/athletes.xhtml" />
+    </url-mapping>
+    
+    <url-mapping id="competitions">
+        <pattern value="/competitions/" />
+	<view-id value="/faces/competitions.xhtml" />
     </url-mapping>
     
     <url-mapping id="contact">
@@ -25,5 +40,10 @@
     <url-mapping id="privacy">
         <pattern value="/privacy/" />
 	<view-id value="/faces/privacy.xhtml" />
+    </url-mapping>
+    
+    <url-mapping id="results">
+        <pattern value="/results/" />
+	<view-id value="/faces/results.xhtml" />
     </url-mapping>
 </pretty-config>

@@ -60,18 +60,34 @@
         border-width: 0px 0px 0px 1px;
     }
     
+    > li :before {
+        position:     absolute;
+        z-index:      1;
+        top:          0px;
+        left:         0px;
+        right:        0px;
+        content:      " ";
+        bottom:       0px;
+        border-width: 0px 0px 0px 1px;
+        border-style: solid;
+        border-color: #858685;
+    }
+    
+    > li :hover:before, :focus:before {
+        border-width: 0px;
+    }
+    
     > li > a {
         color:           white;
         text-decoration: none;
         text-align:      center;
-        text-shadow:     -1px -1px #242424;
+        text-shadow:     0px -1px #242424;
         padding-top:     7px;
         padding-bottom:  7px;
         font-size:       @font-size-small;
         width:           120px;
 
-        &:hover,
-        &:focus {
+        &:hover, &:focus {
             text-decoration: none;
 
             background: #5d5d5d; /* Old browsers */

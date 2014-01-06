@@ -40,6 +40,9 @@
       xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
     <body>
         <ui:composition template="resources/schemas/layout.xhtml">
+            <ui:define name="title" >
+                <title>Online Athletics - Contact Online Athletics</title>
+            </ui:define>
             <ui:define name="content">
                 <div class="container marketing">
                     <div class="page-header">
@@ -50,7 +53,9 @@
                         <h:form id="contactForm" onsubmit="return validateContactForm();">
                             <div class="col-sm-6 col-sm-offset-6">                           
                                 <div class="form-group">
-                                    <h:inputText p:type="name" class="form-control" id="contactInputName" p:placeholder="Your name" value="#{contactForm.name}" />
+                                    <h:inputText p:type="name" class="form-control" id="contactInputName" 
+                                                 p:placeholder="Your name" value="#{contactForm.name}" 
+                                                 onblur="validateName(this, 'Please enter your last name')" />
                                 </div>
                                 
                                 <div class="form-group">

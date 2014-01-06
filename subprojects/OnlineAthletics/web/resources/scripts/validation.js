@@ -44,3 +44,9 @@ function validateContactForm() {
     
     return valid;
 }
+
+function validateName() {
+    var valid = false;
+    
+    return valid; 
+}

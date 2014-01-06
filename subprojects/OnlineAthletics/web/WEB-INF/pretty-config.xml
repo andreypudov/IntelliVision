@@ -5,7 +5,7 @@
     <!-- traililng slash is  -->
     <!-- <rewrite toCase="lowercase" redirect="chain" /> -->
     <!--<rewrite match="^(?!.*\.(xhtml|js|css).*).*" trailingSlash="append" redirect="301" />-->
-    <rewrite match="^(?!.*\.\w{3}.*).*" trailingSlash="append" redirect="301" />
+    <rewrite match="^(?!.*\.\w{2}.*).*" trailingSlash="append" redirect="301" />
     
     <url-mapping id="index">
         <pattern value="/" />

@@ -47,7 +47,7 @@
                     </div>
                     
                     <div class="row">
-                        <h:form>
+                        <h:form id="contactForm" onsubmit="return validateContactForm();">
                             <div class="col-sm-6 col-sm-offset-6">                           
                                 <div class="form-group">
                                     <h:inputText p:type="name" class="form-control" id="contactInputName" p:placeholder="Your name" value="#{contactForm.name}" />

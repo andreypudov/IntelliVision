@@ -26,6 +26,7 @@
 
 package com.onlineathletics.web;
 
+import com.onlineathletics.util.Validator;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -54,12 +55,16 @@ public class ContactForm {
     private String email;
     private String message;
     
-    private boolean nameValid = true;
+    private boolean nameValid  = true;
+    private boolean emailValid = true;
     
     /**
      * The form submit handler
      */
     public void submit() {
+        try {
+        Thread.sleep(4000);
+        } catch (Exception e) {}
     }
 
     /**
@@ -91,6 +96,10 @@ public class ContactForm {
     
     public boolean isNameValid() {
         return nameValid;
+    }
+    
+    public boolean isEmailValid() {
+        return emailValid;
     }
 
     /**
@@ -124,21 +133,22 @@ public class ContactForm {
         nameValid = status;
     }
     
+    public void setEmailValid(final boolean status) {
+        emailValid = status;
+    }
+    
     public void validate(final ComponentSystemEvent event) {
         final FacesContext context   = FacesContext.getCurrentInstance();
         final UIComponent  component = event.getComponent();
         
         /* contact name field */
-        final UIInput contactInputName = (UIInput) component.findComponent("contactInputName");
-        final String  contactName      = contactInputName.getLocalValue() == null ? "" : contactInputName.getLocalValue().toString();
+        final UIInput contactInputName  = (UIInput) component.findComponent("contactInputName");
+        final UIInput contactInputEmail = (UIInput) component.findComponent("contactInputEmail");
         
-        if (contactName.isEmpty()) {
-            final FacesMessage error = new FacesMessage("WARNING!");
-            error.setSeverity(FacesMessage.SEVERITY_ERROR);
-            
-            nameValid = false;
-            
-            //context.addMessage(contactInputName.getClientId(), error);
+        nameValid = Validator.validateText(contactInputName, context);
+        emailValid = Validator.validateEmail(contactInputEmail, context);
+        
+        if ((nameValid == false) || (emailValid == false)) {
             context.renderResponse();
         }
     }

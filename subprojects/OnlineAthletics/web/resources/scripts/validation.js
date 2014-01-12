@@ -40,9 +40,9 @@
  * @returns {Boolean} the validation status.
  */
 function validateContactForm() {
-    var nameField = $('#contactForm\\:contactInputName');
+    var $nameField = $('#contactForm\\:contactInputName');
     
-    return (validateName(nameField));
+    return (validateText($nameField));
 }
 
 /**
@@ -52,12 +52,12 @@ function validateContactForm() {
  * @param {type} inputField the input text field.
  * @returns {Boolean}       true if text field falue is valid, false otherwise.
  */
-function validateName(inputField) {
-    var field = $(inputField);
-    var group = field.parent();
-    var value = (field.val() === '');
+function validateText(inputField) {
+    var $field = $(inputField);
+    var $group = $field.parent();
+    var value = ($field.val() === '');
             
-    group.toggleClass('input-group has-error', value);
+    $group.toggleClass('input-group has-error', value);
     
     return !value;
 }

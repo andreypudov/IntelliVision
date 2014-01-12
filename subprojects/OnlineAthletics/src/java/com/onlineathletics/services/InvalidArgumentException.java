@@ -26,7 +26,6 @@
 
 package com.onlineathletics.services;
 
-import java.sql.SQLException;
 import javax.xml.ws.WebFault;
 
 /**
@@ -44,13 +43,13 @@ public class InvalidArgumentException extends Exception {
     private static final long serialVersionUID = 0xa5c3_e9ca_0d63_9a6dL;
     private static final java.util.logging.Logger LOG
             = java.util.logging.Logger.getLogger(
-            com.intellijustice.core.Manifest.NAME);
+            com.onlineathletics.core.Manifest.NAME);
     
     /**
      * Constructs an {@code InvalidArgumentException} with {@code null}
      * as its error detail message.
      */
-    public InvalidArgumentException(String message) {
+    public InvalidArgumentException(final String message) {
         super(message);
     }
 }

@@ -37,7 +37,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://java.sun.com/jsf/core">
     <body>
         <ui:composition template="resources/schemas/layout.xhtml">
             <ui:define name="title" >
@@ -48,31 +49,43 @@
                     <div class="page-header">
                         <h1>Contact Online Athletics<small>If you have questions about our service or other topics, we’d like to hear from you. </small></h1>
                     </div>
-                    
                     <div class="row">
-                        <h:form id="contactForm" onsubmit="return validateContactForm();">
+                        <form id="contactForm" onsubmit="return validateContactForm();" jsfc="h:form">
+                            <!-- the form validation handler -->
+                            <f:event listener="#{contactForm.validate}" type="postValidate" />
+                            
                             <div class="col-sm-6 col-sm-offset-6">                           
+                                <div class="form-group #{contactForm.nameValid ? '' : 'input-group has-error'}">
+                                    <h:inputText id="contactInputName" class="form-control"
+                                                 value="#{contactForm.name}"
+                                                 p:type="text" p:placeholder="Your name"
+                                                 onchange="validateName(this)" />
+                                    <span class="input-group-addon validation-group-addon">
+                                        &#10033; <!-- asterisk -->
+                                    </span>
+                                </div>
+                                <h:message for="contactInputName" />
+                                
                                 <div class="form-group">
-                                    <h:inputText p:type="name" class="form-control" id="contactInputName" 
-                                                 p:placeholder="Your name" value="#{contactForm.name}" 
-                                                 onblur="validateName(this, 'Please enter your last name')" />
+                                    <h:inputText id="contactInputEmail" class="form-control"
+                                                 value="#{contactForm.email}"
+                                                 p:type="email" p:placeholder="someone@example.com" />
+                                    <span class="input-group-addon validation-group-addon">
+                                        &#10033; <!-- asterisk -->
+                                    </span>
                                 </div>
                                 
                                 <div class="form-group">
-                                    <h:inputText p:type="email" class="form-control" id="contactInputEmail" p:placeholder="someone@example.com" value="#{contactForm.email}" />
+                                    <h:inputTextarea id="contactTextArea" class="form-control"  
+                                                     rows="8" value="#{contactForm.message}" />
                                 </div>
                                 
                                 <div class="form-group">
-                                    <h:inputTextarea class="form-control" id="contactTextArea" rows="6" value="#{contactForm.message}" />
+                                    <h:commandButton class="btn btn-primary" 
+                                                     value="Submit" action="#{contactForm.submit}" />
                                 </div>
-                                
-                                <div class="form-group">
-                                    <h:commandButton class="btn btn-default" value="Submit" action="#{contactForm.submit}" />
-                                </div>
-                                
-                                <h:outputText value="#{contactForm.email}" />
                             </div>
-                        </h:form>
+                        </form>
                     </div>
                 </div>
             </ui:define>

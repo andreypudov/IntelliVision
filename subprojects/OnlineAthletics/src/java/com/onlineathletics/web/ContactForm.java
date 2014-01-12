@@ -27,6 +27,11 @@
 package com.onlineathletics.web;
 
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Named;
 
 /**
@@ -49,11 +54,12 @@ public class ContactForm {
     private String email;
     private String message;
     
+    private boolean nameValid = true;
+    
     /**
      * The form submit handler
      */
     public void submit() {
-        email = email;
     }
 
     /**
@@ -64,6 +70,28 @@ public class ContactForm {
     public String getName() {
         return name;
     }
+    
+    /**
+     * Returns the contact e-mail address.
+     * 
+     * @return the contact e-mail address.
+     */
+    public String getEmail() {
+        return email;
+    }
+    
+    /**
+     * Returns the contact message text.
+     * 
+     * @return the contact message text.
+     */
+    public String getMessage() {
+        return message;
+    }
+    
+    public boolean isNameValid() {
+        return nameValid;
+    }
 
     /**
      * Sets the contact name value.
@@ -73,16 +101,7 @@ public class ContactForm {
     public void setName(final String name) {
         this.name = name;
     }
-
-    /**
-     * Returns the contact e-mail address.
-     * 
-     * @return the contact e-mail address.
-     */
-    public String getEmail() {
-        return email;
-    }
-
+    
     /**
      * Sets the contact e-mail address.
      * 
@@ -93,20 +112,34 @@ public class ContactForm {
     }
 
     /**
-     * Returns the contact message text.
-     * 
-     * @return the contact message text.
-     */
-    public String getMessage() {
-        return message;
-    }
-
-    /**
      * Sets the contact message text.
      * 
      * @param message the contact message text.
      */
     public void setMessage(final String message) {
         this.message = message;
+    }
+    
+    public void setNameValid(final boolean status) {
+        nameValid = status;
+    }
+    
+    public void validate(final ComponentSystemEvent event) {
+        final FacesContext context   = FacesContext.getCurrentInstance();
+        final UIComponent  component = event.getComponent();
+        
+        /* contact name field */
+        final UIInput contactInputName = (UIInput) component.findComponent("contactInputName");
+        final String  contactName      = contactInputName.getLocalValue() == null ? "" : contactInputName.getLocalValue().toString();
+        
+        if (contactName.isEmpty()) {
+            final FacesMessage error = new FacesMessage("WARNING!");
+            error.setSeverity(FacesMessage.SEVERITY_ERROR);
+            
+            nameValid = false;
+            
+            //context.addMessage(contactInputName.getClientId(), error);
+            context.renderResponse();
+        }
     }
 }

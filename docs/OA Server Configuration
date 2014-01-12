@@ -1,19 +1,147 @@
 1) Operating System Configuration
+   a) Installation
+      Language: English
+      Keyboard: English
+      Time Zone: Etc/UTC (System clock uses UTC)
+      Password: <Root Password>
+
+   b) Configure Yum to use proxy
+      proxy variable in /etc/yum.conf
+      proxy=http://proxy.jf.intel.com:911
+
+   c) Install VM Guest Additions (On VM only)
+      /etc/sysconfig/network-scripts/ifcfg-eth0
+      NM_CONTROLLED=no
+      ONBOOT=yes
+      # service network restart
+
+      # yum update
+      # yum install gcc kernel-devel kernel-headers
+
+      # reboot
+
+      # mount -t iso9660 -o ro /dev/cdrom /media
+      # /media/VBoxLinuxAdditions.run
+
+      mount shared folder
+      # mount -t vboxsf <shared folder name> /media
+   
+   d) Install application server software
+      # yum install java-1.7.0-openjdk-devel
+
+   e) Create limited user account and extract server software inside a user home directory
+      # adduser -c 'OnlineAthletics Application Account' onlineathletics
+      # passwd onlineathletics <OA account password>
+
+      # mkdir /home/onlineathletics/Applications
+      # cp /media/glassfish-4.0.zip /home/onlineathletics/Applications/
+      # cp /media/mysql-5.6.15-linux-glibc2.5-i686.tar.gz /home/onlineathletics/Applications/
+
+      # yum install unzip
+      # unzip /home/onlineathletics/Applications/glassfish-4.0.zip -d /home/onlineathletics/Applications/
+      # tar -xzvf /home/onlineathletics/Applications/mysql-5.6.15-linux-glibc2.5-i686.tar.gz -C /home/onlineathletics/Applications/ 
+
+      # c /media/mysql-connector-java-5.1.25-bin.jar /home/onlineathletics/Applications/glassfish4/glassfish/lib
+
+      # rm -f /home/onlineathletics/Applications/glassfish-4.0.zip
+      # rm -f /home/onlineathletics/Applications/mysql-5.6.15-linux-glibc2.5-i686.tar.gz
+      # mv /home/onlineathletics/Applications/mysql-5.6.15-linux-glibc2.5-i686 /home/onlineathletics/Applications/mysql
+
+      # chown -R onlineathletics /home/onlineathletics/
+      # chgrp -R onlineathletics /home/onlineathletics/
+      
+
+[ALL OF THE STEPS BELOW PROCESSED UNDER OA ACCOUNT]
 
 2) MySQL Server Configuration
-   a) Restrict MySQL from opening a network socket
+   a) Create MySQL configuration file
+      /home/onlineathletics/Applications/mysql/my.cnf
+      [client]
+      port   = 3306
+      socket = /tmp/mysql.sock 
+
+      [mysqld]
+      port    = 3306
+      socket  = /tmp/mysql.sock
+      skip-locking
+
+      set-variable = key_buffer=256M
+      set-variable = max_allowed_packet=1M
+      set-variable = table_cache=256
+      set-variable = sort_buffer=1M
+      set-variable = record_buffer=1M
+      set-variable = myisam_sort_buffer_size=64M
+      set-variable = thread_cache=8
+      # the number of CPU's*2 for thread_concurrency
+      # set-variable = thread_concurrency=8
+      log-bin
+      server-id = 1
+
+      # the following for using BDB tables
+      #set-variable = bdb_cache_size=64M
+      #set-variable = bdb_max_lock=100000
+
+      # the following for using InnoDB tables
+      innodb_data_home_dir = /usr/local/mysql/var/
+      innodb_data_file_path = ibdata1:10M:autoextend
+      innodb_log_group_home_dir = /usr/local/mysql/var/
+      innodb_log_arch_dir = /usr/local/mysql/var/
+      # You can set .._buffer_pool_size up to 50 - 80 %
+      # of RAM but beware of setting memory usage too high
+      set-variable = innodb_buffer_pool_size=256M
+      set-variable = innodb_additional_mem_pool_size=20M
+      # Set .._log_file_size to 25 % of buffer pool size
+      set-variable = innodb_log_file_size=64M
+      set-variable = innodb_log_buffer_size=8M
+      innodb_flush_log_at_trx_commit=1
+      set-variable = innodb_lock_wait_timeout=50
+
+      #basedir = /home/onlineathletics/Applications/mysql
+      #datadir = /home/onlineathletics/Applications/mysql/data
+
+      # point the following paths to different dedicated disks
+      #tmpdir   = /tmp/   
+      #log-update   = /path-to-dedicated-directory/hostname
+
+      [mysqldump]
+      quick
+      set-variable  = max_allowed_packet=16M
+
+      [mysql]
+      no-auto-rehash
+      # Remove the next comment character if you are not familiar with SQL
+      #safe-updates
+
+      [isamchk]
+      set-variable  = key_buffer=128M
+      set-variable  = sort_buffer=128M
+      set-variable  = read_buffer=2M
+      set-variable  = write_buffer=2M
+
+      [myisamchk]
+      set-variable  = key_buffer=128M
+      set-variable  = sort_buffer=128M
+      set-variable  = read_buffer=2M
+      set-variable  = write_buffer=2M
+
+      [mysqlhotcopy]
+      interactive-timeout
+
+   b) Restrict MySQL from opening a network socket
       [mysqld] section of my.cnf/my.ini file
       skip-networking
 
-   b) Force MySQL to listen only the localhost
+   c) Force MySQL to listen only the localhost
       [mysqld] section of my.cnf/my.ini file
       bind-address=127.0.0.1
 
-   c) Disable of the "Load Data Local Infile" command
+   d) Disable of the "Load Data Local Infile" command
       [mysqld] section of my.cnf/my.ini file
       set-variable=local-infile=0
 
-   d) Rename default administrator username
+
+
+   e) Rename default administrator username
       RENAME USER root TO <user>;
       SET PASSWORD FOR '<user>'@'%localhost' = PASSWORD('<password>');
 
@@ -23,10 +151,10 @@
       next time
       mysqladmin -u root -p'OLDPASSWORD' password NEWPASSWORD
 
-   e) Remove the test database
+   f) Remove the test database
       DROP DATABASE test;
 
-   f) remove anonymous and obsolete accounts
+   g) Remove anonymous and obsolete accounts
       SELECT * FROM mysql.user WHERE user="";
 
       SHOW GRANTS FOR ''@'localhost';
@@ -34,7 +162,7 @@
 
       DROP USER '';
 
-   g) Remove MySQL history
+   h) Remove MySQL history
       cat /dev/null > ~/.mysql_history
 
 3) Glassfish Configuration
@@ -70,3 +198,6 @@
           Group Name Column:             group_name
           Password Encryption Algorithm: SHA-512
           Digest Algorithm:              SHA-512
+
+    e) Change GlassFish http/https ports from 8080/8181 to 80/443
+      glassfish/domains/domain1/config/domain.xml

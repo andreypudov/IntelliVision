@@ -40,13 +40,24 @@
  * @returns {Boolean} the validation status.
  */
 function validateContactForm() {
-    var valid = false;
+    var nameField = $('#contactForm\\:contactInputName');
     
-    return valid;
+    return (validateName(nameField));
 }
 
-function validateName() {
-    var valid = false;
+/**
+ * Validates a value of input text field and if the value is emptry sets error
+ * style class and returns false, otherwise return true.
+ * 
+ * @param {type} inputField the input text field.
+ * @returns {Boolean}       true if text field falue is valid, false otherwise.
+ */
+function validateName(inputField) {
+    var field = $(inputField);
+    var group = field.parent();
+    var value = (field.val() === '');
+            
+    group.toggleClass('input-group has-error', value);
     
-    return valid; 
+    return !value;
 }

@@ -35,9 +35,15 @@
 
 /* the main website entry point */
 $(function() {
-    var $navbar = $('.navbar-wrapper');
+    var MIN_SIZE = 768; /* @grid-float-breakpoint */
     
-    $navbar.css({'margin-top': '-38px'});
-    $navbar.animate({'margin-top': '20px'},
-        {complete: function() {$navbar.removeAttr('style')}});
+    var $navbar  = $('.navbar-wrapper');
+    var $width   = $(window).width();
+    
+    if ($width >= MIN_SIZE) {
+        $navbar.css({'margin-top': '-38px'});
+        $navbar.animate({'margin-top': '20px'},
+            {complete: function() {
+                    $navbar.removeAttr('style');}});
+    }
 });

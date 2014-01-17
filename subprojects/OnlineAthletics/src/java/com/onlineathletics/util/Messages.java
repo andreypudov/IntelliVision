@@ -1,4 +1,4 @@
-/* 
+/*
  * IntelliJustice Intelligent Referee Assistant System
  *
  * The MIT License
@@ -24,20 +24,30 @@
  * THE SOFTWARE.
  */
 
+package com.onlineathletics.util;
+
+import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
+import javax.inject.Named;
+
 /**
- * The collection of initialization functions including animation effects.
+ * The collection of validation methods.
  *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
- * %name      init.js
- * %date      09:00:00 PM, Jan 16, 2014
+ * %name      Messages.java
+ * %date      09:50:00 PM, Jan 16, 2014
  */
-
-/* the main website entry point */
-$(function() {
-    var $navbar = $('.navbar-wrapper');
+@Named("messages")
+@RequestScoped
+public class Messages {
     
-    $navbar.css({'margin-top': '-38px'});
-    $navbar.animate({'margin-top': '20px'},
-        {complete: function() {$navbar.removeAttr('style')}});
-});
+    private static final java.util.logging.Logger LOG
+            = java.util.logging.Logger.getLogger(
+            com.onlineathletics.core.Manifest.NAME);
+    
+    public String getLocale() {
+        return FacesContext.getCurrentInstance().getViewRoot().getLocale().toString();
+    }
+    
+}

@@ -33,6 +33,9 @@
  * %date      11:40:00 AM, Jan 06, 2014
  */
 
+/* the element top offest used in scroll animation */
+var FOCUS_OFFSET = 24;
+
 /**
  * Validates contacts form and returns true if form data is correct, and false
  * otherwise.
@@ -41,6 +44,10 @@
  */
 function validateContactForm() {
     var $nameField = $('#contactForm\\:contactInputName');
+    
+    /* $('html, body').animate({
+        scrollTop: $($group).offset().top - FOCUS_OFFSET
+    }); */
     
     return (validateText($nameField));
 }
@@ -55,7 +62,7 @@ function validateContactForm() {
 function validateText(inputField) {
     var $field = $(inputField);
     var $group = $field.parent();
-    var value = ($field.val() === '');
+    var value  = ($field.val() === '');
             
     $group.toggleClass('input-group has-error', value);
     

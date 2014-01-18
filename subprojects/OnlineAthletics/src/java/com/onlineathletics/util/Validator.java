@@ -70,7 +70,7 @@ public class Validator {
             return false;
         } 
         
-        final FacesMessage error = new FacesMessage("WARNING!");
+        final FacesMessage error = Messages.getMessage("key");
         final String       value = (String) field.getLocalValue();
         
         if ((value == null) || (value.isEmpty())) {
@@ -100,7 +100,7 @@ public class Validator {
             return false;
         }
         
-        final FacesMessage error = new FacesMessage("WARNING!");
+        final FacesMessage error = Messages.getMessage("key");
         final String       value = (String) field.getLocalValue();
         
         final Pattern pattern = Pattern.compile(EMAIL_PATTERN);

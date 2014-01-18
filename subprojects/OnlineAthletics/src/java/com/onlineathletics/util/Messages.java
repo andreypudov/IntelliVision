@@ -26,9 +26,12 @@
 
 package com.onlineathletics.util;
 
-import javax.enterprise.context.RequestScoped;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import javax.faces.application.Application;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
-import javax.inject.Named;
 
 /**
  * The collection of validation methods.
@@ -38,16 +41,50 @@ import javax.inject.Named;
  * %name      Messages.java
  * %date      09:50:00 PM, Jan 16, 2014
  */
-@Named("messages")
-@RequestScoped
 public class Messages {
     
     private static final java.util.logging.Logger LOG
             = java.util.logging.Logger.getLogger(
             com.onlineathletics.core.Manifest.NAME);
     
-    public String getLocale() {
-        return FacesContext.getCurrentInstance().getViewRoot().getLocale().toString();
+    private static final String DEFAULT_MESSAGE_BUNDLE 
+            = "com.onlineathletics.resources.properties.messages";
+    
+    /* do not let anyone instantiate this class */
+    private Messages() {
     }
     
+    /**
+     * Returns the message value for specified message name.
+     * 
+     * @param key the name of the message to return.
+     * @return    the message text.
+     */
+    public static FacesMessage getMessage(final String key) {
+        final FacesContext   context = FacesContext.getCurrentInstance();
+        final Locale         locale  = getLocale(context);
+        final ResourceBundle bundle  = ResourceBundle.getBundle(
+                DEFAULT_MESSAGE_BUNDLE, locale);
+
+        return new FacesMessage(bundle.getString(key));
+    }
+    
+    /**
+     * Returns locale for rendering the message. If context doesn't provides
+     * locale, default locale is returned.
+     * 
+     * @param context the current session context.
+     * @return        the locale for rendering the message.
+     */
+    public static Locale getLocale(final FacesContext context) {
+        final UIViewRoot root   = context.getViewRoot();
+        final Locale     locale;
+        
+        if (root != null) {
+            locale = root.getLocale();
+            return (locale == null) ? Locale.getDefault() : locale;
+        }
+        
+        return Locale.getDefault();
+    }
 }

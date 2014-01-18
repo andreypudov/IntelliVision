@@ -33,8 +33,11 @@
  * %date      11:40:00 AM, Jan 06, 2014
  */
 
+/* the list of commonly used constants */
+var CONTACT_NAME_MAX_LENGTH = 255;
+
 /* the element top offest used in scroll animation */
-var FOCUS_OFFSET = 24;
+//var FOCUS_OFFSET = 24;
 
 /**
  * Validates contacts form and returns true if form data is correct, and false
@@ -56,15 +59,18 @@ function validateContactForm() {
  * Validates a value of input text field and if the value is emptry sets error
  * style class and returns false, otherwise return true.
  * 
- * @param {type} inputField the input text field.
- * @returns {Boolean}       true if text field falue is valid, false otherwise.
+ * @param {input}  field  the input text field.
+ * @param {Number} length the maximumlength of the text vfield alue.
+ * @returns {Boolean}     true if text field falue is valid, false otherwise.
  */
-function validateText(inputField) {
-    var $field = $(inputField);
+function validateText(field, length) {
+    var $field = $(field);
     var $group = $field.parent();
-    var value  = ($field.val() === '');
-            
-    $group.toggleClass('input-group has-error', value);
     
-    return !value;
+    var value  = $field.val();
+    var status = ((value === '') || (value.length > length));
+            
+    $group.toggleClass('input-group has-error', status);
+    
+    return !status;
 }

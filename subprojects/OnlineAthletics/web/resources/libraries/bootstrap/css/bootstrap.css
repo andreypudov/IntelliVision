@@ -466,6 +466,7 @@ footer{color:#6e6e6e;font-size:11px;-webkit-font-smoothing:antialiased}footer>.f
 footer .piped-links{padding-left:0px}footer .piped-links>p{float:left;padding-right:10px}
 footer .piped-links>li{float:none;display:inline-block;margin-left:.3em;padding-left:.6em;border-left:1px solid #ccc}
 footer .piped-links>li.first{margin-left:0;padding-left:0;border-left:none}
+a input[type="submit"],a input[type="reset"],a input[type="button"]{padding:0px;background:transparent;border:0px;color:inherit}
 body{padding-bottom:20px;color:#333;-webkit-font-smoothing:antialiased}
 .navbar-wrapper{position:absolute;top:0;left:0;right:0;z-index:20}
 .navbar-wrapper .container{padding-left:0;padding-right:0}

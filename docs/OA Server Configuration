@@ -139,22 +139,24 @@
       [mysqld] section of my.cnf/my.ini file
       set-variable=local-infile=0
 
+   e) Open MySQL command line tool
+      # ./mysql --user=<MySQL Root / name> -p onlineathletics
+      exit command caused exit from terminal
 
+   f) Remove <MySQL Root> for all domains except <localhost>
+      DROP USER '<MySQL Root /  name>'@'<domain>';
 
-   e) Rename default administrator username
-      RENAME USER root TO <user>;
-      SET PASSWORD FOR '<user>'@'%localhost' = PASSWORD('<password>');
+      CREATE USER '<MySQL Root / name>'@'localhost' IDENTIFIED BY '<MySQL Root / password>';
+      GRANT ALL ON *.* TO '<MySQL Root / name>'@'localhost';
 
-      for the first time
-      mysqladmin -u root password NEWPASSWORD
+   g) Create <MySQL OA> user account and grant permissions
+      CREATE USER '<MySQL OA / name>'@'localhost' IDENTIFIED BY '<MySQL OA / password>';
+      GRANT EXECUTE ON onlineathletics.* TO '<MySQL OA / name>'@'localhost';
 
-      next time
-      mysqladmin -u root -p'OLDPASSWORD' password NEWPASSWORD
-
-   f) Remove the test database
+   h) Remove the test database
       DROP DATABASE test;
 
-   g) Remove anonymous and obsolete accounts
+   i) Remove anonymous and obsolete accounts
       SELECT * FROM mysql.user WHERE user="";
 
       SHOW GRANTS FOR ''@'localhost';
@@ -162,8 +164,18 @@
 
       DROP USER '';
 
-   h) Remove MySQL history
-      cat /dev/null > ~/.mysql_history
+   j) MySQL user table shall looks like following:
+      SELECT user, host FROM mysql.user;
+      +-----------------+-----------+
+      | user            | host      |
+      +-----------------+-----------+
+      | <MySQL Root>    | localhost |
+      | <MySQL OA>      | localhost |
+      +-----------------+-----------+
+      2 rows in set (0.00 sec)
+
+   k) Remove MySQL history
+      # cat /dev/null > ~/.mysql_history
 
 3) Glassfish Configuration
    a) Add MySQL JDBC driver to Glassfish classpath
@@ -176,16 +188,16 @@
           Driver Classname: com.mysql.jdbc.Driver
 
           URL:      jdbc:mysql://localhost:3306/onlineathletics
-          user:     <user>
-          password: <password>
+          user:     <MySQL OA / name>
+          password: <MySQL OA / password>
 
     c) Resources - JDBC Resources
-      jdbc/OnlineAthletics
+       jdbc/OnlineAthletics
           JNDI Name: jdbc/OnlineAthletics
           Pool Name: OnlineAthleticsPool
 
     d) Configuration - server-config - Security - Realms
-      OnlineAthleticsRealm
+       OnlineAthleticsRealm
           Realm Name:                    OnlineAthleticsRealm
           Class Name:                    com.sun.enterprise.security.ee.auth.realm.jdbc.JDBCRealm
           JAAS Context:                  jdbcRealm
@@ -200,4 +212,4 @@
           Digest Algorithm:              SHA-512
 
     e) Change GlassFish http/https ports from 8080/8181 to 80/443
-      glassfish/domains/domain1/config/domain.xml
+       glassfish/domains/domain1/config/domain.xml

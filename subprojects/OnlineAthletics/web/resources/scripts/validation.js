@@ -39,6 +39,10 @@ var CONTACT_NAME_MAX_LENGTH = 255;
 /* the element top offest used in scroll animation */
 //var FOCUS_OFFSET = 24;
 
+function displayContactFormMessage() {
+    
+}
+
 /**
  * Validates contacts form and returns true if form data is correct, and false
  * otherwise.
@@ -53,15 +57,14 @@ function validateContactForm() {
     
     var status = validateText($nameField);
     
-    /*$('#contactForm').submit(function() {
-        $submitButton.prop('disabled', true);
-    });*/
-    
     /* $('html, body').animate({
         scrollTop: $($group).offset().top - FOCUS_OFFSET
     }); */
+    
+    $submitButton.parent().toggleClass('disabled', status);
+    var spinner = Ladda.create(document.querySelector('#submitButtonContainer'));
     if (status) {
-        //$submitButton.prop('disabled', true);
+        spinner.start();
     }
 
     return status;

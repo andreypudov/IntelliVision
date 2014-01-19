@@ -50,7 +50,7 @@
                         <h1>${MESSAGES.page_contact_title}<small>If you have questions about our service or other topics, we’d like to hear from you. </small></h1>
                     </div>
                     <div class="row">
-                        <h:form id="contactForm">
+                        <h:form id="contactForm" onsubmit="return validateContactForm();">
                             <!-- the form validation handler -->
                             <f:event listener="#{contactForm.validate}" type="postValidate" />
                             
@@ -95,8 +95,12 @@
                                 </div>
                                 
                                 <div class="form-group">
-                                    <h:commandButton id="submitButton" class="btn btn-primary" 
+                                    <a id='submitButtonContainer' class='btn btn-primary ladda-button' data-style="zoom-in">
+                                        <span class="ladda-label">
+                                        <h:commandButton id="submitButton" 
                                                      value="Submit" action="#{contactForm.submit()}" />
+                                        </span>
+                                    </a>
                                 </div>
                             </div>
                         </h:form>
@@ -107,13 +111,13 @@
                 <!-- common client side validation functions -->
                 <script src="${request.contextPath}/resources/scripts/validation.js"></script>
                 
+                <!-- the ladda button animation script -->
+                <link rel="stylesheet" href="${request.contextPath}/resources/libraries/ladda/css/ladda-themeless.min.css" />
+                <script src="${request.contextPath}/resources/libraries/ladda/js/spin.min.js"></script>
+                <script src="${request.contextPath}/resources/libraries/ladda/js/ladda.min.js"></script>
+                
                 <script>
-                    var $submitButton = $('#contactForm\\:submitButton');
-                    $('#contactForm').submit(function() {
-                        //$submitButton.prop('disabled', true);
-                        $('#contactForm\\:submitButton').attr('disabled', true);
-                        return true;
-                    });
+                    Ladda.bind( 'a' );
                 </script>
             </ui:define>
         </ui:composition>

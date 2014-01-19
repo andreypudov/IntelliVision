@@ -58,12 +58,17 @@ public class ContactForm {
     private boolean emailValid = true;
     
     /**
-     * The form submit handler
+     * The form submit handler.
+     * 
+     * @return the thank you page address.
      */
-    public void submit() {
+    public String submit() {
         try {
-        Thread.sleep(4000);
+            Thread.sleep(4000);
+            //response.sendRedirect("thankyou");
         } catch (Exception e) {}
+        
+        return "thankyou";
     }
 
     /**

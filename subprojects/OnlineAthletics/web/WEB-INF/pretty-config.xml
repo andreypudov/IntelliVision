@@ -46,4 +46,9 @@
         <pattern value="/results/" />
 	<view-id value="/faces/results.xhtml" />
     </url-mapping>
+    
+    <url-mapping id="thankyou">
+        <pattern value="/contact/thankyou/" />
+	<view-id value="/faces/thankyou.xhtml" />
+    </url-mapping>
 </pretty-config>

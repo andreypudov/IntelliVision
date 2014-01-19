@@ -46,13 +46,25 @@ var CONTACT_NAME_MAX_LENGTH = 255;
  * @returns {Boolean} the validation status.
  */
 function validateContactForm() {
-    var $nameField = $('#contactForm\\:contactInputName');
+    var $nameField    = $('#contactForm\\:contactInputName');
+    var $emailField   = $('#contactForm\\:contactInputEmail');
+    var $textArea     = $('#contactForm\\:contactTextArea');
+    var $submitButton = $('#contactForm\\:submitButton');
+    
+    var status = validateText($nameField);
+    
+    /*$('#contactForm').submit(function() {
+        $submitButton.prop('disabled', true);
+    });*/
     
     /* $('html, body').animate({
         scrollTop: $($group).offset().top - FOCUS_OFFSET
     }); */
-    
-    return (validateText($nameField));
+    if (status) {
+        //$submitButton.prop('disabled', true);
+    }
+
+    return status;
 }
 
 /**

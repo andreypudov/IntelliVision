@@ -50,16 +50,19 @@
                         <h1>${MESSAGES.page_contact_title}<small>If you have questions about our service or other topics, we’d like to hear from you. </small></h1>
                     </div>
                     <div class="row">
-                        <form id="contactForm" onsubmit="return validateContactForm();" jsfc="h:form">
+                        <h:form id="contactForm">
                             <!-- the form validation handler -->
                             <f:event listener="#{contactForm.validate}" type="postValidate" />
                             
                             <!-- the error message block -->
-                            <div class="col-sm-6 col-sm-offset-6">
+                            <div class="col-sm-6 col-sm-offset-6" style='display: none;'>
                                 <div class="alert alert-danger">
                                     <p>
                                         <strong>Oops...</strong>
                                         The long message text with detailed description.
+                                        <ul>
+                                            <li style='display: none;'>Please enter your name.</li>
+                                        </ul>
                                     </p>
                                 </div>
                             </div>
@@ -92,17 +95,26 @@
                                 </div>
                                 
                                 <div class="form-group">
-                                    <h:commandButton class="btn btn-primary" 
-                                                     value="Submit" action="#{contactForm.submit}" />
+                                    <h:commandButton id="submitButton" class="btn btn-primary" 
+                                                     value="Submit" action="#{contactForm.submit()}" />
                                 </div>
                             </div>
-                        </form>
+                        </h:form>
                     </div>
                 </div>
             </ui:define>
             <ui:define name="page-scripts">
                 <!-- common client side validation functions -->
                 <script src="${request.contextPath}/resources/scripts/validation.js"></script>
+                
+                <script>
+                    var $submitButton = $('#contactForm\\:submitButton');
+                    $('#contactForm').submit(function() {
+                        //$submitButton.prop('disabled', true);
+                        $('#contactForm\\:submitButton').attr('disabled', true);
+                        return true;
+                    });
+                </script>
             </ui:define>
         </ui:composition>
     </body>

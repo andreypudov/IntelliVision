@@ -62,10 +62,6 @@ function validateContactForm() {
     }); */
     
     $submitButton.parent().toggleClass('disabled', status);
-    var spinner = Ladda.create(document.querySelector('#submitButtonContainer'));
-    if (status) {
-        spinner.start();
-    }
 
     return status;
 }

@@ -82,8 +82,8 @@ CREATE TABLE oa_accnt_user_tbl (
 ) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
 
 CREATE TABLE oa_accnt_groups_tbl (
-	group_name VARCHAR(20)  NOT NULL,
-	user_name VARCHAR(255) NOT NULL
+	user_name VARCHAR(255) NOT NULL,
+	group_name VARCHAR(20)  NOT NULL
 ) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
 
 CREATE TABLE oa_accnt_time_tbl (
@@ -92,14 +92,19 @@ CREATE TABLE oa_accnt_time_tbl (
 	PRIMARY KEY	(user_name)
 ) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
 
+-- general permission rights table
+-- db_read  - the database read access
+-- db_write - the database write access
+
 -- SHA256 is a Password Encryption Algorithm in Application Container
 INSERT INTO oa_accnt_user_tbl(user_name, pass_phrase)
-	VALUES ('administrator', SHA2('dfgiwr@lk5f$oiu%5e4r', 512)),
-	       ('user', SHA2('ljdf5i@4o#p#3q3er', 512));
+	VALUES ('apudov',    SHA2('dfgiwr@lk5f$oiu%5e4r', 512)),
+	       ('sijbaraev', SHA2('sod2j3@n375t$la%3fqd', 512));
 
-INSERT INTO oa_accnt_groups_tbl(group_name, user_name)
-	VALUES ('administrators', 'administrator'),
-	       ('users', 'user');
+INSERT INTO oa_accnt_groups_tbl(user_name, group_name)
+	VALUES ('apudov',    'db_read'),
+	       ('apudov',    'db_write'),
+	       ('sijbaraev', 'db_read');
 
 -- create public stored procedures
 DELIMITER //
@@ -210,7 +215,7 @@ BEGIN
 	IF ((SELECT COUNT(*) 
 			FROM oa_accnt_groups_tbl
 			WHERE   user_name  = user_nm_arg 
-				AND group_name = 'administrators') = 0) THEN
+				AND group_name = 'db_write') = 0) THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Permissions denied.';
 	END IF;
 
@@ -306,7 +311,7 @@ BEGIN
 	IF ((SELECT COUNT(*) 
 			FROM oa_accnt_groups_tbl
 			WHERE   user_name  = user_nm_arg 
-				AND group_name = 'administrators') = 0) THEN
+				AND group_name = 'db_write') = 0) THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Permissions denied.';
 	END IF;
 
@@ -398,7 +403,7 @@ BEGIN
 	IF ((SELECT COUNT(*) 
 			FROM oa_accnt_groups_tbl
 			WHERE   user_name  = user_nm_arg 
-				AND group_name = 'administrators') = 0) THEN
+				AND group_name = 'db_read') = 0) THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Permissions denied.';
 	END IF;
 
@@ -454,7 +459,7 @@ BEGIN
 	IF ((SELECT COUNT(*) 
 			FROM oa_accnt_groups_tbl
 			WHERE   user_name  = user_nm_arg 
-				AND group_name = 'administrators') = 0) THEN
+				AND group_name = 'db_read') = 0) THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Permissions denied.';
 	END IF;
 

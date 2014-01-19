@@ -63,11 +63,6 @@ public class ContactForm {
      * @return the thank you page address.
      */
     public String submit() {
-        try {
-            Thread.sleep(4000);
-            //response.sendRedirect("thankyou");
-        } catch (Exception e) {}
-        
         return "thankyou";
     }
 

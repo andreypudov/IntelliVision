@@ -39,10 +39,6 @@ var CONTACT_NAME_MAX_LENGTH = 255;
 /* the element top offest used in scroll animation */
 //var FOCUS_OFFSET = 24;
 
-function displayContactFormMessage() {
-    
-}
-
 /**
  * Validates contacts form and returns true if form data is correct, and false
  * otherwise.
@@ -55,7 +51,7 @@ function validateContactForm() {
     var $textArea     = $('#contactForm\\:contactTextArea');
     var $submitButton = $('#contactForm\\:submitButton');
     
-    var status = validateText($nameField);
+    var status = validateText($nameField, CONTACT_NAME_MAX_LENGTH, null);
     
     /* $('html, body').animate({
         scrollTop: $($group).offset().top - FOCUS_OFFSET
@@ -70,18 +66,26 @@ function validateContactForm() {
  * Validates a value of input text field and if the value is emptry sets error
  * style class and returns false, otherwise return true.
  * 
- * @param {input}  field  the input text field.
- * @param {Number} length the maximumlength of the text vfield alue.
- * @returns {Boolean}     true if text field falue is valid, false otherwise.
+ * @param {input}   field   the input text field.
+ * @param {Number}  length  the maximumlength of the text vfield alue.
+ * @param {Element} popover the popover element to show error message.
+ * 
+ * @returns {Boolean}       true if text field falue is valid, false otherwise.
  */
-function validateText(field, length) {
-    var $field = $(field);
-    var $group = $field.parent();
+function validateText(field, length, popover) {
+    var $field   = $(field);
+    var $group   = $field.parents('div.form-group');
+    var $popover = $(popover);
     
     var value  = $field.val();
     var status = ((value === '') || (value.length > length));
             
     $group.toggleClass('input-group has-error', status);
+    
+    if ($popover.length) {
+        $popover.popover({trigger: 'manual', placement: 'top'});
+        $popover.popover(status ? 'show' : 'hide');
+    }
     
     return !status;
 }

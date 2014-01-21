@@ -54,8 +54,9 @@ public class ContactForm {
     private String email;
     private String message;
     
-    private boolean nameValid  = true;
-    private boolean emailValid = true;
+    private boolean nameValid    = true;
+    private boolean emailValid   = true;
+    private boolean messageValid = true;
     
     /**
      * The form submit handler.
@@ -100,6 +101,10 @@ public class ContactForm {
     public boolean isEmailValid() {
         return emailValid;
     }
+    
+    public boolean isMessageValid() {
+        return messageValid;
+    }
 
     /**
      * Sets the contact name value.
@@ -134,6 +139,10 @@ public class ContactForm {
     
     public void setEmailValid(final boolean status) {
         emailValid = status;
+    }
+    
+    public void setMessagealid(final boolean status) {
+        messageValid = status;
     }
     
     public void validate(final ComponentSystemEvent event) {

@@ -34,7 +34,9 @@
  */
 
 /* the list of commonly used constants */
-var CONTACT_NAME_MAX_LENGTH = 255;
+var CONTACT_NAME_MAX_LENGTH    = 255;
+var CONTACT_EMAIL_MAX_LENGTH   = 255;
+var CONTACT_MESSAGE_MAX_LENGTH = 4096; 
 
 /* the element top offest used in scroll animation */
 //var FOCUS_OFFSET = 24;
@@ -51,7 +53,10 @@ function validateContactForm() {
     var $textArea     = $('#contactForm\\:contactTextArea');
     var $submitButton = $('#contactForm\\:submitButton');
     
-    var status = validateText($nameField, CONTACT_NAME_MAX_LENGTH);
+    var status =  validateText($nameField, CONTACT_NAME_MAX_LENGTH);
+    status     &= validateEmail($emailField);
+    status     &= validateText($textArea, CONTACT_MESSAGE_MAX_LENGTH);
+    status     =  Boolean(status);
     
     /* $('html, body').animate({
         scrollTop: $($group).offset().top - FOCUS_OFFSET
@@ -66,10 +71,10 @@ function validateContactForm() {
  * Validates a value of input text field and if the value is emptry sets error
  * style class and returns false, otherwise return true.
  * 
- * @param {input}   field   the input text field.
+ * @param {Element} field   the input text field.
  * @param {Number}  length  the maximumlength of the text vfield alue.
  * 
- * @returns {Boolean}       true if text field falue is valid, false otherwise.
+ * @returns {Boolean}       true if text field value is valid, false otherwise.
  */
 function validateText(field, length) {
     var $field = $(field);
@@ -78,10 +83,40 @@ function validateText(field, length) {
     
     var value  = $field.val();
     var status = ((value === '') || (value.length > length));
+    var style  = ($field.prop('tagName').toUpperCase() === 'INPUT' 
+        ? ' input-group' : '');
             
+    $group.toggleClass(style + ' has-error', status);
+    
+    var $popover = $msgs.children('.validation-message-missing');
+    
+    if ($popover.length) {
+        $popover.popover({trigger: 'click', placement: 'top'});
+        $popover.popover(status ? 'show' : 'hide');
+    }
+    
+    return !status;
+}
+
+/**
+ * Validates given text field, and returns true if a text field value is 
+ * a correct email address. Otherwise returns false.
+ * 
+ * @param {Element} field the input text field.
+ * 
+ * @returns {Boolean}     true if text field value is valid, false otherwise.
+ */
+function validateEmail(field) {
+    var $field = $(field);
+    var $group = $field.parent();
+    var $msgs  = $group.prev();
+    
+    var value  = $field.val();
+    var status = (value === '');
+    
     $group.toggleClass('input-group has-error', status);
     
-    var $popover = $msgs.children('.validation-message-empty');
+    var $popover = $msgs.children('.validation-message-missing');
     
     if ($popover.length) {
         $popover.popover({trigger: 'manual', placement: 'top'});

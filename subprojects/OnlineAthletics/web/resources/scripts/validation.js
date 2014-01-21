@@ -36,10 +36,24 @@
 /* the list of commonly used constants */
 var CONTACT_NAME_MAX_LENGTH    = 255;
 var CONTACT_EMAIL_MAX_LENGTH   = 255;
-var CONTACT_MESSAGE_MAX_LENGTH = 4096; 
+var CONTACT_MESSAGE_MAX_LENGTH = 4096;
+
+var MESSAGE_MIN_OFFSET = 200;
 
 /* the element top offest used in scroll animation */
 //var FOCUS_OFFSET = 24;
+
+var VALIDATION_POPOVER_OPTIONS = {
+    placement: function(context, source) {
+        var position = $(source).offset();
+
+        return (position.left > MESSAGE_MIN_OFFSET) 
+            ? 'left'
+            : 'top';
+    },
+
+    trigger: 'manual'
+};
 
 /**
  * Validates contacts form and returns true if form data is correct, and false
@@ -86,12 +100,13 @@ function validateText(field, length) {
     var style  = ($field.prop('tagName').toUpperCase() === 'INPUT' 
         ? ' input-group' : '');
             
+    /* toggle style only for input element */
     $group.toggleClass(style + ' has-error', status);
     
     var $popover = $msgs.children('.validation-message-missing');
     
     if ($popover.length) {
-        $popover.popover({trigger: 'click', placement: 'top'});
+        $popover.popover(VALIDATION_POPOVER_OPTIONS);
         $popover.popover(status ? 'show' : 'hide');
     }
     
@@ -119,7 +134,7 @@ function validateEmail(field) {
     var $popover = $msgs.children('.validation-message-missing');
     
     if ($popover.length) {
-        $popover.popover({trigger: 'manual', placement: 'top'});
+        $popover.popover(VALIDATION_POPOVER_OPTIONS);
         $popover.popover(status ? 'show' : 'hide');
     }
     

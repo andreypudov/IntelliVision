@@ -68,50 +68,35 @@
                             </div>
                             
                             <div class="col-sm-6 col-sm-offset-6">
-                                <div class='validation-group'>
-                                    <div class='validation-messages'>
-                                        <div class='validation-message validation-message-missing'  data-content='#{MESSAGES.name_is_missing}' />
-                                        <div class='validation-message validation-message-overlong' data-content='#{MESSAGES.name_is_overlong}' />
-                                    </div>
-                                    <div class="form-group #{contactForm.nameValid ? '' : 'input-group has-error'}">
-                                        <h:inputText id="contactInputName" class="form-control"
-                                                     value="#{contactForm.name}"
-                                                     p:type="text" p:placeholder="Your name"
-                                                     onchange="validateText(this, CONTACT_NAME_MAX_LENGTH)" />
-                                        <span class="input-group-addon validation-group-addon">
-                                            &#10033; <!-- asterisk -->
-                                        </span>
-                                    </div>
+                                <div class="form-group #{contactForm.nameValid ? '' : 'input-group has-error'}">
+                                    <h:inputText id="contactInputName" class="form-control"
+                                                 value="#{contactForm.name}"
+                                                 p:type="text" p:placeholder="Your name"
+                                                 p:data-content='TEST MESSAGE'
+                                                 onchange="validateText(this, CONTACT_NAME_MAX_LENGTH)" />
+                                    <span class="input-group-addon validation-group-addon">
+                                        &#10033; <!-- asterisk -->
+                                    </span>
                                     <h:message for="contactInputName" />
                                 </div>
                                 
-                                <div class='validation-group'>
-                                    <div class='validation-messages'>
-                                        <div class='validation-message validation-message-missing'  data-content='#{MESSAGES.email_is_missing}' />
-                                        <div class='validation-message validation-message-overlong' data-content='#{MESSAGES.email_is_ivalid}' />
-                                    </div>
-                                    <div class="form-group #{contactForm.emailValid ? '' : 'input-group has-error'}">
-                                        <h:inputText id='contactInputEmail' class='form-control'
-                                                     value='#{contactForm.email}'
-                                                     p:type='email' p:placeholder='someone@example.com'
-                                                     onchange='validateEmail(this)' />
-                                        <span class="input-group-addon validation-group-addon">
-                                            &#10033; <!-- asterisk -->
-                                        </span>
-                                    </div>
+                                <div class="form-group #{contactForm.emailValid ? '' : 'input-group has-error'}">
+                                    <h:inputText id='contactInputEmail' class='form-control'
+                                                 value='#{contactForm.email}'
+                                                 p:type='email' p:placeholder='someone@example.com'
+                                                 p:data-content='TEST MESSAGE'
+                                                 onchange='validateEmail(this)' />
+                                    <span class="input-group-addon validation-group-addon">
+                                        &#10033; <!-- asterisk -->
+                                    </span>
                                     <h:message for="contactInputEmail" />
                                 </div>
                                 
-                                <div class='validation-group'>
-                                    <div class='validation-messages'>
-                                        <div class='validation-message validation-message-missing'  data-content='#{MESSAGES.message_is_missing}' />
-                                        <div class='validation-message validation-message-overlong' data-content='#{MESSAGES.message_is_overlong}' />
-                                    </div>
-                                    <div class="form-group #{contactForm.messageValid ? '' : 'has-error'}">
-                                        <h:inputTextarea id="contactTextArea" class="form-control"  
-                                                         rows="8" value="#{contactForm.message}"
-                                                         onchange="validateText(this, CONTACT_MESSAGE_MAX_LENGTH)" />
-                                    </div>
+                                <div class="form-group #{contactForm.messageValid ? '' : 'has-error'}">
+                                    <h:inputTextarea id="contactTextArea" class="form-control"  
+                                                     rows="8" value="#{contactForm.message}"
+                                                     p:data-content='TEST MESSAGE'
+                                                     onchange="validateText(this, CONTACT_MESSAGE_MAX_LENGTH)" />
                                 </div>
                                 
                                 <div class="form-group">

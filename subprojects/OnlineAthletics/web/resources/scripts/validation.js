@@ -91,9 +91,9 @@ function validateContactForm() {
  * @returns {Boolean}       true if text field value is valid, false otherwise.
  */
 function validateText(field, length) {
-    var $field = $(field);
-    var $group = $field.parent();
-    var $msgs  = $group.prev();
+    var $field   = $(field);
+    var $group   = $field.parent();
+    var $popover = $field.popover(VALIDATION_POPOVER_OPTIONS);
     
     var value  = $field.val();
     var status = ((value === '') || (value.length > length));
@@ -101,14 +101,8 @@ function validateText(field, length) {
         ? ' input-group' : '');
             
     /* toggle style only for input element */
-    $group.toggleClass(style + ' has-error', status);
-    
-    var $popover = $msgs.children('.validation-message-missing');
-    
-    if ($popover.length) {
-        $popover.popover(VALIDATION_POPOVER_OPTIONS);
-        $popover.popover(status ? 'show' : 'hide');
-    }
+    $group.toggleClass(style + ' has-error', status);    
+    $popover.popover(status ? 'show' : 'hide');
     
     return !status;
 }
@@ -124,19 +118,13 @@ function validateText(field, length) {
 function validateEmail(field) {
     var $field = $(field);
     var $group = $field.parent();
-    var $msgs  = $group.prev();
+    var $popover = $field.popover(VALIDATION_POPOVER_OPTIONS);
     
     var value  = $field.val();
     var status = (value === '');
     
     $group.toggleClass('input-group has-error', status);
-    
-    var $popover = $msgs.children('.validation-message-missing');
-    
-    if ($popover.length) {
-        $popover.popover(VALIDATION_POPOVER_OPTIONS);
-        $popover.popover(status ? 'show' : 'hide');
-    }
+    $popover.popover(status ? 'show' : 'hide');
     
     return !status;
 }

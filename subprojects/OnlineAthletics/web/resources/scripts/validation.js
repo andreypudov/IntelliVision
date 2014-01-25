@@ -31,16 +31,9 @@
  * @version   0.00.00
  * %name      validation.js
  * %date      11:40:00 AM, Jan 06, 2014
- *//*
+ */
 
-<%@page contentType="text/javascript" pageEncoding="UTF-8"%>
-
-<%@taglib prefix="f"   uri="http://java.sun.com/jsf/core"%>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
-<f:view>
-
-*//* the list of commonly used constants */
+/* the list of commonly used constants */
 var CONTACT_NAME_MAX_LENGTH    = 255;
 var CONTACT_EMAIL_MAX_LENGTH   = 255;
 var CONTACT_MESSAGE_MAX_LENGTH = 4096;
@@ -59,9 +52,7 @@ var VALIDATION_POPOVER_OPTIONS = {
             : 'top';
     },
 
-    trigger: 'manual',
-    title:   '${MESSAGES.key}',
-    content: '${MESSAGES.key}'
+    trigger: 'manual'
 };
 
 /**
@@ -100,20 +91,13 @@ function validateContactForm() {
  * @returns {Boolean}       true if text field value is valid, false otherwise.
  */
 function validateText(field, length) {
-    var $field   = $(field);
-    var $group   = $field.parent();
-    var $popover = $field.popover(VALIDATION_POPOVER_OPTIONS);
-    
-    var value  = $field.val();
-    var status = ((value === '') || (value.length > length));
+    var $field = $(field);
+    var $group = $field.parent();     
     var style  = ($field.prop('tagName').toUpperCase() === 'INPUT' 
-        ? ' input-group' : '');
-            
-    /* toggle style only for input element */
-    $group.toggleClass(style + ' has-error', status);    
-    $popover.popover(status ? 'show' : 'hide');
-    
-    return !status;
+        ? 'input-group has-error' : 'has-error');
+
+    return !(stringIsEmpty($field, $group, style, getMessage($group, '.validation-missing'))
+          || stringIsOverlong($field, $group, length, style, getMessage($group, '.validation-overlong')));
 }
 
 /**
@@ -127,15 +111,70 @@ function validateText(field, length) {
 function validateEmail(field) {
     var $field = $(field);
     var $group = $field.parent();
-    var $popover = $field.popover(VALIDATION_POPOVER_OPTIONS);
+    var  style = 'input-group has-error';
     
-    var value  = $field.val();
-    var status = (value === '');
-    
-    $group.toggleClass('input-group has-error', status);
-    $popover.popover(status ? 'show' : 'hide');
-    
-    return !status;
+    return !(stringIsEmpty($field, $group, style, getMessage($group, '.validation-missing'))
+          || stringIsOverlong($field, $group, CONTACT_EMAIL_MAX_LENGTH, style, 
+                             getMessage($group, '.validation-overlong')));
 }
 
-/* </f:view> */
+/**
+ * Returns the message for a specific selector inside a form validation  group.
+ * 
+ * @param {Element} $groupd  the form group.
+ * @param {String}  selector the CSS selector of the message.
+ * 
+ * @returns {String} the message text.
+ */
+function getMessage($groupd, selector) {
+    return $groupd.children(selector).text();
+}
+
+/**
+ * Validates specified input field and returns true if input value is empty.
+ * 
+ * @param {Element} $field  the input field to validate.
+ * @param {Element} $group  the form group where input field from.
+ * @param {String}  style   the error style for the form group.
+ * @param {String}  message the error message.
+ * 
+ * @returns {Boolean}       true if value is empty and false otherwise.
+ */
+function stringIsEmpty($field, $group, style, message) {
+    var status  = ($field.val() === '');
+    var options = VALIDATION_POPOVER_OPTIONS;
+        options.content = message;
+    var $popover    = $field.popover().popover('destroy');
+        $popover    = $field.popover(options);
+    
+    $group.toggleClass(style, status);    
+    $popover.popover(status ? 'show' : 'hide');
+    
+    return status;
+}
+
+/**
+ * Validates specified input field and returns true if input value string is
+ * longer than specified length.
+ * 
+ * @param {Element} $field  the input field to validate.
+ * @param {Element} $group  the form group where input field from.
+ * @param {Number}  length  the maximum allowed length.
+ * @param {String}  style   the error style for the form group.
+ * @param {String}  message the error message.
+ * 
+ * @returns {Boolean}       true if value is longer than specified length, 
+ *                          and false otherwise.
+ */
+function stringIsOverlong($field, $group, length, style, message) {
+    var status   = ($field.val().length > length);
+    var options  = VALIDATION_POPOVER_OPTIONS;
+        options.content = message;
+    var $popover    = $field.popover().popover('destroy');
+        $popover    = $field.popover(options);
+    
+    $group.toggleClass(style, status);    
+    $popover.popover(status ? 'show' : 'hide');
+    
+    return status;
+}

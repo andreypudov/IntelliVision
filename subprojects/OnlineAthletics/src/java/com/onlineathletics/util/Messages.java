@@ -28,7 +28,6 @@ package com.onlineathletics.util;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
-import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
@@ -51,7 +50,7 @@ public class Messages {
             = "com.onlineathletics.resources.properties.messages";
     
     /* do not let anyone instantiate this class */
-    private Messages() {
+    private  Messages() {
     }
     
     /**

@@ -9,11 +9,6 @@
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
-    <servlet>
-        <servlet-name>Pages Servlet</servlet-name>
-        <servlet-class>org.apache.jasper.servlet.JspServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>/faces/*</url-pattern>
@@ -26,7 +21,6 @@
     <welcome-file-list>
         <welcome-file>faces/index.xhtml</welcome-file>
     </welcome-file-list>
-    
     <!-- Error page declaration -->
     <error-page>
         <error-code>403</error-code>
@@ -36,7 +30,6 @@
         <error-code>404</error-code>
         <location>/faces/error404.xhtml</location>
     </error-page>
-    
     <!-- Secure pages declaration-->
     <security-constraint>
         <display-name>administrator</display-name>
@@ -51,7 +44,6 @@
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
         </user-data-constraint>
     </security-constraint>
-    
     <!-- login mechanism declaration -->
     <login-config>
         <auth-method>FORM</auth-method>
@@ -61,12 +53,10 @@
             <form-error-page>/faces/error403.xhtml</form-error-page>
         </form-login-config>
     </login-config>
-    
     <!-- Security roles declaration -->
     <security-role>
         <role-name>administrators</role-name>
     </security-role>
-    
     <!-- Application resources declaration -->
     <resource-ref>
         <res-ref-name>jdbc/OnlineAthletics</res-ref-name>
@@ -74,4 +64,24 @@
         <res-auth>Container</res-auth>
         <res-sharing-scope>Shareable</res-sharing-scope>
     </resource-ref>
+    <!-- JSP level internationalization -->
+    <!--<context-param>
+        <param-name>javax.servlet.jsp.jstl.fmt.locale</param-name>
+        <param-value>en</param-value>
+    </context-param>
+    <context-param>
+        <param-name>javax.servlet.jsp.jstl.fmt.fallbackLocale</param-name>
+        <param-value>en</param-value>
+    </context-param>
+    <context-param>
+        <param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
+        <param-value>com.onlineathletics.resources.properties.messages</param-value>
+    </context-param>-->
+    <jsp-config>
+        <jsp-property-group>
+            <url-pattern>*.jsp</url-pattern>
+            <url-pattern>*.js</url-pattern>
+            <scripting-invalid>false</scripting-invalid>
+        </jsp-property-group>
+    </jsp-config>
 </web-app>

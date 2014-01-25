@@ -31,9 +31,16 @@
  * @version   0.00.00
  * %name      validation.js
  * %date      11:40:00 AM, Jan 06, 2014
- */
+ *//*
 
-/* the list of commonly used constants */
+<%@page contentType="text/javascript" pageEncoding="UTF-8"%>
+
+<%@taglib prefix="f"   uri="http://java.sun.com/jsf/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<f:view>
+
+*//* the list of commonly used constants */
 var CONTACT_NAME_MAX_LENGTH    = 255;
 var CONTACT_EMAIL_MAX_LENGTH   = 255;
 var CONTACT_MESSAGE_MAX_LENGTH = 4096;
@@ -52,7 +59,9 @@ var VALIDATION_POPOVER_OPTIONS = {
             : 'top';
     },
 
-    trigger: 'manual'
+    trigger: 'manual',
+    title:   '${MESSAGES.key}',
+    content: '${MESSAGES.key}'
 };
 
 /**
@@ -128,3 +137,5 @@ function validateEmail(field) {
     
     return !status;
 }
+
+/* </f:view> */

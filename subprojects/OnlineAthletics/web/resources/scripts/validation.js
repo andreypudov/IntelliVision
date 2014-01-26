@@ -144,8 +144,8 @@ function stringIsEmpty($field, $group, style, message) {
     var status  = ($field.val() === '');
     var options = VALIDATION_POPOVER_OPTIONS;
         options.content = message;
-    var $popover    = $field.popover().popover('destroy');
-        $popover    = $field.popover(options);
+    var $popover    = $group.popover().popover('destroy');
+        $popover    = $group.popover(options);
     
     $group.toggleClass(style, status);    
     $popover.popover(status ? 'show' : 'hide');
@@ -170,8 +170,8 @@ function stringIsOverlong($field, $group, length, style, message) {
     var status   = ($field.val().length > length);
     var options  = VALIDATION_POPOVER_OPTIONS;
         options.content = message;
-    var $popover    = $field.popover().popover('destroy');
-        $popover    = $field.popover(options);
+    var $popover    = $group.popover().popover('destroy');
+        $popover    = $group.popover(options);
     
     $group.toggleClass(style, status);    
     $popover.popover(status ? 'show' : 'hide');

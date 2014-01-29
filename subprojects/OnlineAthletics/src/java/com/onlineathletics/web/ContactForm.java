@@ -26,8 +26,10 @@
 
 package com.onlineathletics.web;
 
+import com.onlineathletics.util.Messages;
 import com.onlineathletics.util.Validator;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
@@ -153,8 +155,19 @@ public class ContactForm {
         final UIInput contactInputName  = (UIInput) component.findComponent("contactInputName");
         final UIInput contactInputEmail = (UIInput) component.findComponent("contactInputEmail");
         
-        nameValid = Validator.validateText(contactInputName, context);
-        emailValid = Validator.validateEmail(contactInputEmail, context);
+        final FacesMessage nameMissing   = Messages.getMessage("name_is_missing");
+        final FacesMessage nameOverlong  = Messages.getMessage("name_is_overlong");
+        
+        final FacesMessage emailMissing  = Messages.getMessage("email_is_missing");
+        final FacesMessage emailOverlong = Messages.getMessage("email_is_overlong");
+        final FacesMessage emailInvalid  = Messages.getMessage("email_is_invalid"); 
+        
+        nameValid  = Validator.validateText(contactInputName, 
+                Validator.CONTACT_NAME_MAX_LENGTH, nameMissing, nameOverlong, 
+                context);
+        emailValid = Validator.validateEmail(contactInputEmail,
+                Validator.CONTACT_EMAIL_MAX_LENGTH, emailMissing, emailOverlong, 
+                emailInvalid, context);
         
         if ((nameValid == false) || (emailValid == false)) {
             context.renderResponse();

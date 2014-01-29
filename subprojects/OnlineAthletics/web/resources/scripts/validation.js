@@ -61,7 +61,7 @@ var VALIDATION_POPOVER_OPTIONS = {
  * Validates contacts form and returns true if form data is correct, and false
  * otherwise.
  * 
- * @returns {Boolean} the validation status.
+ * @return {Boolean} the validation status.
  */
 function validateContactForm() {
     var $nameField    = $('#contactForm\\:contactInputName');
@@ -86,7 +86,7 @@ function validateContactForm() {
  * @param {Element} field   the input text field.
  * @param {Number}  length  the maximumlength of the text vfield alue.
  * 
- * @returns {Boolean}       true if text field value is valid, false otherwise.
+ * @return {Boolean}        true if text field value is valid, false otherwise.
  */
 function validateText(field, length) {
     var $field = $(field);
@@ -104,7 +104,7 @@ function validateText(field, length) {
  * 
  * @param {Element} field the input text field.
  * 
- * @returns {Boolean}     true if text field value is valid, false otherwise.
+ * @return {Boolean}      true if text field value is valid, false otherwise.
  */
 function validateEmail(field) {
     var $field = $(field);
@@ -125,7 +125,7 @@ function validateEmail(field) {
  * @param {String}  style   the error style for the form group.
  * @param {String}  message the error message.
  * 
- * @returns {Boolean}       true if value is empty and false otherwise.
+ * @return {Boolean}        true if value is empty and false otherwise.
  */
 function stringIsEmpty($field, $group, style, message) {
     var status = ($field.val() === '');
@@ -145,7 +145,7 @@ function stringIsEmpty($field, $group, style, message) {
  * @param {String}  style   the error style for the form group.
  * @param {String}  message the error message.
  * 
- * @returns {Boolean}       true if value is longer than specified length, 
+ * @return {Boolean}        true if value is longer than specified length, 
  *                          and false otherwise.
  */
 function stringIsOverlong($field, $group, length, style, message) {
@@ -165,7 +165,7 @@ function stringIsOverlong($field, $group, length, style, message) {
  * @param {String}  style   the error style for the form group.
  * @param {String}  message the error message.
  * 
- * @returns {Boolean}       true if value is valid email address, 
+ * @return {Boolean}        true if value is valid email address, 
  *                          and false otherwise.
  */
 function isValidEmail($field, $group, style, message) {
@@ -182,7 +182,7 @@ function isValidEmail($field, $group, style, message) {
  * @param {Element} $groupd  the form group.
  * @param {String}  selector the CSS selector of the message.
  * 
- * @returns {String} the message text.
+ * @return {String}          the message text.
  */
 function getMessage($groupd, selector) {
     return $groupd.children(selector).text();

@@ -152,8 +152,9 @@ public class ContactForm {
         final UIComponent  component = event.getComponent();
         
         /* contact name field */
-        final UIInput contactInputName  = (UIInput) component.findComponent("contactInputName");
-        final UIInput contactInputEmail = (UIInput) component.findComponent("contactInputEmail");
+        final UIInput contactInputName    = (UIInput) component.findComponent("contactInputName");
+        final UIInput contactInputEmail   = (UIInput) component.findComponent("contactInputEmail");
+        final UIInput contactInputMessage = (UIInput) component.findComponent("contactTextArea");
         
         final FacesMessage nameMissing   = Messages.getMessage("name_is_missing");
         final FacesMessage nameOverlong  = Messages.getMessage("name_is_overlong");
@@ -162,14 +163,22 @@ public class ContactForm {
         final FacesMessage emailOverlong = Messages.getMessage("email_is_overlong");
         final FacesMessage emailInvalid  = Messages.getMessage("email_is_invalid"); 
         
+        final FacesMessage messageMissing  = Messages.getMessage("message_is_missing");
+        final FacesMessage messageOverlong = Messages.getMessage("message_is_overlong");
+        
         nameValid  = Validator.validateText(contactInputName, 
                 Validator.CONTACT_NAME_MAX_LENGTH, nameMissing, nameOverlong, 
                 context);
         emailValid = Validator.validateEmail(contactInputEmail,
                 Validator.CONTACT_EMAIL_MAX_LENGTH, emailMissing, emailOverlong, 
                 emailInvalid, context);
+        messageValid = Validator.validateText(contactInputMessage, 
+                Validator.CONTACT_MESSAGE_MAX_LENGTH, messageMissing, 
+                messageOverlong, context);
         
-        if ((nameValid == false) || (emailValid == false)) {
+        /* return submit request with an error description */
+        if ((nameValid == false) || (emailValid == false) 
+                || (messageValid == false)) {
             context.renderResponse();
         }
     }

@@ -96,14 +96,29 @@ public class ContactForm {
         return message;
     }
     
+    /**
+     * Returns the contact name validation status.
+     * 
+     * @return the contact name validation status.
+     */
     public boolean isNameValid() {
         return nameValid;
     }
     
+    /**
+     * Returns the contact e-mail validation status.
+     * 
+     * @return the contact e-mail validation status.
+     */
     public boolean isEmailValid() {
         return emailValid;
     }
     
+    /**
+     * Returns the contact message text. validation status.
+     * 
+     * @return the contact message text. validation status.
+     */
     public boolean isMessageValid() {
         return messageValid;
     }
@@ -135,18 +150,39 @@ public class ContactForm {
         this.message = message;
     }
     
+    /**
+     * Sets the contact name validation status.
+     * 
+     * @param status the contact name validation status.
+     */
     public void setNameValid(final boolean status) {
         nameValid = status;
     }
     
+    /**
+     * Sets the contact e-mail validation status.
+     * 
+     * @param status the contact e-mail validation status.
+     */
     public void setEmailValid(final boolean status) {
         emailValid = status;
     }
-    
+
+    /**
+     * Sets the contact message text validation status.
+     * 
+     * @param status the contact message text validation status.
+     */
     public void setMessagealid(final boolean status) {
         messageValid = status;
     }
     
+    /**
+     * Validates the contact form elements and returns the form to the browser
+     * if any elements contains invalid values.
+     * 
+     * @param event the source of a system event.
+     */
     public void validate(final ComponentSystemEvent event) {
         final FacesContext context   = FacesContext.getCurrentInstance();
         final UIComponent  component = event.getComponent();

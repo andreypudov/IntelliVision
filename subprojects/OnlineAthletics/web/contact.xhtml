@@ -39,9 +39,9 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:f="http://java.sun.com/jsf/core">
-    <body>
+    <body style="contact-form-background">
         <ui:composition template="resources/schemas/layout.xhtml">
-            <ui:define name="title" >
+            <ui:define name="title">
                 <title>Online Athletics - Contact Online Athletics</title>
             </ui:define>
             <ui:define name="content">
@@ -123,6 +123,10 @@
                 
                 <script src="${request.contextPath}/resources/libraries/bootstrap/js/tooltip.js" />
                 <script src="${request.contextPath}/resources/libraries/bootstrap/js/popover.js" />
+                
+                <script>
+                    $('body').addClass('contact-form-background');
+                </script>
             </ui:define>
         </ui:composition>
     </body>

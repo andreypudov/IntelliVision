@@ -45,11 +45,14 @@
             </ui:define>
             <ui:define name='content'>
                 <div class='container marketing'>
-                    <div class="page-header" />
+                    <div class="page-header col-sm-6 col-sm-offset-6">
+                        <h1>Sign in</h1>
+                    </div>
                     
                     <div class='row'>
                         <h:form p:method='post' p:action='j_security_check'>
                             <div class='col-sm-6 col-sm-offset-6'>
+                                <small>Online Athletics account <a href='#'>What's this?</a></small>
                                 <div class='form-group'>
                                     <h:inputText id='j_username' class='form-control'
                                                  p:name='j_username' p:type='text' 
@@ -67,6 +70,8 @@
                                         <h:commandButton id="submitButton" value="Sign in" />
                                     </a>
                                 </div>
+                                
+                                <a href='#'>Can't access your account?</a>
                             </div>
                         </h:form>
                     </div>

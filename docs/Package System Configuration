@@ -1,0 +1,60 @@
+# Install Less compiler
+sudo gem install less
+
+Fetching: less-2.4.0.gem (100%)
+Successfully installed less-2.4.0
+Parsing documentation for less-2.4.0
+unable to convert "\x89" from ASCII-8BIT to UTF-8 for lib/less/js/test/data/data-uri-fail.png, skipping
+Installing ri documentation for less-2.4.0
+1 gem installed
+
+# Install V8 engine
+sudo gem install 
+
+Fetching: libv8-3.16.14.3-x86_64-darwin-13.gem (100%)
+Successfully installed libv8-3.16.14.3-x86_64-darwin-13
+Parsing documentation for libv8-3.16.14.3-x86_64-darwin-13
+Installing ri documentation for libv8-3.16.14.3-x86_64-darwin-13
+1 gem installed
+
+# Install therubyracer utility
+
+Fetching: therubyracer-0.12.0.gem (100%)
+Building native extensions.  This could take a while...
+Successfully installed therubyracer-0.12.0
+Parsing documentation for therubyracer-0.12.0
+unable to convert "\xCF" from ASCII-8BIT to UTF-8 for ext/v8/accessor.o, skipping
+unable to convert "\xCF" from ASCII-8BIT to UTF-8 for ext/v8/array.o, skipping
+unable to convert "\xCF" from ASCII-8BIT to UTF-8 for ext/v8/backref.o, skipping
+unable to convert "\xCF" from ASCII-8BIT to UTF-8 for ext/v8/constants.o, skipping
+unable to convert "\xCF" from ASCII-8BIT to UTF-8 for ext/v8/constraints.o, skipping
+unable to convert "\xCF" from ASCII-8BIT to UTF-8 for ext/v8/context.o, skipping
+unable to convert "\xCF" from ASCII-8BIT to UTF-8 for ext/v8/date.o, skipping
+unable to convert "\xCF" from ASCII-8BIT to UTF-8 for ext/v8/exception.o, skipping
+unable to convert "\xCF" from ASCII-8BIT to UTF-8 for ext/v8/external.o, skipping
+unable to convert "\xCF" from ASCII-8BIT to UTF-8 for ext/v8/function.o, skipping
+unable to convert "\xCF" from ASCII-8BIT to UTF-8 for ext/v8/gc.o, skipping
+unable to convert "\xCF" from ASCII-8BIT to UTF-8 for ext/v8/handles.o, skipping
+unable to convert "\xCF" from ASCII-8BIT to UTF-8 for ext/v8/heap.o, skipping
+unable to convert "\xCF" from ASCII-8BIT to UTF-8 for ext/v8/init.bundle, skipping
+unable to convert "\xCF" from ASCII-8BIT to UTF-8 for ext/v8/init.o, skipping
+unable to convert "\xCF" from ASCII-8BIT to UTF-8 for ext/v8/invocation.o, skipping
+unable to convert "\xCF" from ASCII-8BIT to UTF-8 for ext/v8/locker.o, skipping
+unable to convert "\xCF" from ASCII-8BIT to UTF-8 for ext/v8/message.o, skipping
+unable to convert "\xCF" from ASCII-8BIT to UTF-8 for ext/v8/object.o, skipping
+unable to convert "\xCF" from ASCII-8BIT to UTF-8 for ext/v8/primitive.o, skipping
+unable to convert "\xCF" from ASCII-8BIT to UTF-8 for ext/v8/rr.o, skipping
+unable to convert "\xCF" from ASCII-8BIT to UTF-8 for ext/v8/script.o, skipping
+unable to convert "\xCF" from ASCII-8BIT to UTF-8 for ext/v8/signature.o, skipping
+unable to convert "\xCF" from ASCII-8BIT to UTF-8 for ext/v8/stack.o, skipping
+unable to convert "\xCF" from ASCII-8BIT to UTF-8 for ext/v8/string.o, skipping
+unable to convert "\xCF" from ASCII-8BIT to UTF-8 for ext/v8/template.o, skipping
+unable to convert "\xCF" from ASCII-8BIT to UTF-8 for ext/v8/trycatch.o, skipping
+unable to convert "\xCF" from ASCII-8BIT to UTF-8 for ext/v8/v8.o, skipping
+unable to convert "\xCF" from ASCII-8BIT to UTF-8 for ext/v8/value.o, skipping
+unable to convert "\xCF" from ASCII-8BIT to UTF-8 for lib/v8/init.bundle, skipping
+Installing ri documentation for therubyracer-0.12.0
+1 gem installed
+
+# Compile Less files to CSS style sheet
+lessc --compress less/bootstrap.less > css/bootstrap.css

@@ -82,7 +82,7 @@ CREATE TABLE oa_accnt_user_tbl (
 ) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
 
 CREATE TABLE oa_accnt_groups_tbl (
-	user_name VARCHAR(255) NOT NULL,
+	user_name  VARCHAR(255) NOT NULL,
 	group_name VARCHAR(20)  NOT NULL
 ) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
 

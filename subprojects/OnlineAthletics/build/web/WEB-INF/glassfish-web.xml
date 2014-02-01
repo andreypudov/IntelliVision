@@ -10,8 +10,12 @@
   
   <!-- Role mapping -->
   <security-role-mapping>
-      <role-name>administrators</role-name>
-      <group-name>administrators</group-name>
+      <role-name>db_read</role-name>
+      <group-name>db_read</group-name>
+  </security-role-mapping>
+  <security-role-mapping>
+      <role-name>db_write</role-name>
+      <group-name>db_write</group-name>
   </security-role-mapping>
   
   <!-- Application resources declaration -->

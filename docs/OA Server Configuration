@@ -147,10 +147,12 @@
       DROP USER '<MySQL Root /  name>'@'<domain>';
 
       CREATE USER '<MySQL Root / name>'@'localhost' IDENTIFIED BY '<MySQL Root / password>';
+      UPDATE mysql.user SET Grant_priv='Y', Super_priv='Y' WHERE User='privilegeddb';
       GRANT ALL ON *.* TO '<MySQL Root / name>'@'localhost';
 
    g) Create <MySQL OA> user account and grant permissions
       CREATE USER '<MySQL OA / name>'@'localhost' IDENTIFIED BY '<MySQL OA / password>';
+      GRANT SELECT ON onlineathletics.* TO '<MySQL OA / name>'@'localhost';
       GRANT EXECUTE ON onlineathletics.* TO '<MySQL OA / name>'@'localhost';
 
    h) Remove the test database

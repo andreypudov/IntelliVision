@@ -74,7 +74,6 @@
                                     <h:inputText id="contactInputName" class="form-control"
                                                  value="#{contactForm.name}"
                                                  p:type="text" p:placeholder="Your name"
-                                                 onblur='validateText(this, CONTACT_NAME_MAX_LENGTH)'
                                                  onchange='validateText(this, CONTACT_NAME_MAX_LENGTH)' />
                                     <span class='validation-missing'>${MESSAGES.name_is_missing}</span>
                                     <span class='validation-overlong'>${MESSAGES.name_is_overlong}</span>
@@ -87,7 +86,6 @@
                                     <h:inputText id='contactInputEmail' class='form-control'
                                                  value='#{contactForm.email}'
                                                  p:type='email' p:placeholder='someone@example.com'
-                                                 onblur='validateEmail(this)'
                                                  onchange='validateEmail(this)' />
                                     <span class='validation-missing'>${MESSAGES.email_is_missing}</span>
                                     <span class='validation-invalid'>${MESSAGES.email_is_invalid}</span>
@@ -100,7 +98,6 @@
                                 <div class="form-group #{contactForm.messageValid ? '' : 'has-error'}">
                                     <h:inputTextarea id="contactTextArea" class="form-control"  
                                                      rows="8" value="#{contactForm.message}"
-                                                     onblur='validateText(this, CONTACT_MESSAGE_MAX_LENGTH)'
                                                      onchange='validateText(this, CONTACT_MESSAGE_MAX_LENGTH)' />
                                     <span class='validation-missing'>${MESSAGES.message_is_missing}</span>
                                     <span class='validation-overlong'>${MESSAGES.message_is_overlong}</span>

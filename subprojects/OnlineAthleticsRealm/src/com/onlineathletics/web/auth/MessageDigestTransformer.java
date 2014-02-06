@@ -24,7 +24,7 @@
  * THE SOFTWARE.
  */
 
-package onlineathleticsrealm;
+package com.onlineathletics.web.auth;
 
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
@@ -46,7 +46,7 @@ public class MessageDigestTransformer implements PasswordTransformer {
     private final Charset charset;
     private final Encoder encoder;
     
-    private Map<String, Encoder> encoders = new HashMap<>(16);
+    private final Map<String, Encoder> encoders = new HashMap<>(16);
     
     {
         encoders.put("base64", new Base64Encoder());

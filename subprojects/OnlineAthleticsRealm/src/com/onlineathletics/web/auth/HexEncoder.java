@@ -24,7 +24,7 @@
  * THE SOFTWARE.
  */
 
-package onlineathleticsrealm;
+package com.onlineathletics.web.auth;
 
 /**
  * Hex encoder.
@@ -39,7 +39,7 @@ public class HexEncoder implements Encoder {
     /* reference table */
     private static final char[] DIGITS_NUMBERS =
           {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 
-              'A', 'B', 'C', 'D', 'E', 'F'};
+              'a', 'b', 'c', 'd', 'e', 'f'};
     
     /**
      * Encodes given password by HEX function and returns encoded value.

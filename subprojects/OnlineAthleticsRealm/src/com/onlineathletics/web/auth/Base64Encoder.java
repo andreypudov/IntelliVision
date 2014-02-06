@@ -24,7 +24,7 @@
  * THE SOFTWARE.
  */
 
-package onlineathleticsrealm;
+package com.onlineathletics.web.auth;
 
 import sun.misc.BASE64Encoder;
 

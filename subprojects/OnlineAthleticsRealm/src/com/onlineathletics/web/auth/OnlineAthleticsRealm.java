@@ -24,7 +24,7 @@
  * THE SOFTWARE.
  */
 
-package onlineathleticsrealm;
+package com.onlineathletics.web.auth;
 
 import com.sun.appserv.security.AppservRealm;
 import com.sun.enterprise.security.auth.realm.BadRealmException;
@@ -73,11 +73,11 @@ public class OnlineAthleticsRealm extends AppservRealm {
     protected static final String PARAM_JNDI_DATASOURCE  = "datasource-jndi";
     
     private static final String DEFAULT_DIGEST_ALGORITHM = "SHA-512";
-    private static final String DEFAULT_DIGEST_ENCODING  = "base64";
+    private static final String DEFAULT_DIGEST_ENCODING  = "hex";
     
-    private static final String DEFAULT_JNDI_DATASOURCE  = "jdbc/__default";
-    private static final String DEFAULT_PRINCIPAL_QUERY  = "SELECT password FROM users WHERE username = ?";
-    private static final String DEFAULT_SECURITY_ROLES_QUERY = "SELECT group_name FROM v_user_role WHERE username = ?";
+    private static final String DEFAULT_JNDI_DATASOURCE  = "jdbc/OnlineAthletics";
+    private static final String DEFAULT_PRINCIPAL_QUERY  = "SELECT pass_phrase FROM oa_accnt_user_tbl WHERE user_name = ?";
+    private static final String DEFAULT_SECURITY_ROLES_QUERY = "SELECT group_name FROM oa_accnt_groups_tbl WHERE user_name = ?";
     
     private static final Map<String, String> OPTIONAL_PROPERTIES = new HashMap<>(16);
     
@@ -95,6 +95,14 @@ public class OnlineAthleticsRealm extends AppservRealm {
     /* the password transformer instance */
     private PasswordTransformer transformer;
     
+    /**
+     * Initializing OnlineAthleticsRealm variables.
+     * 
+     * @param parameters the list of properties.
+     * 
+     * @throws BadRealmException    the source of an exception.
+     * @throws NoSuchRealmException the source of an exception.
+     */
     @Override 
     protected void init(final Properties parameters) 
             throws BadRealmException, NoSuchRealmException {
@@ -103,13 +111,13 @@ public class OnlineAthleticsRealm extends AppservRealm {
 
         /*
          * Among the other custom properties, there is a property jaas-context 
-         * (which is explained later in this post). This property should be set 
-         * using the call setProperty method implemented in the parent class.
+         * This property should be set using the call setProperty method 
+         * implemented in the parent class.
          */
         validateProperty(JAAS_CONTEXT_PARAM, parameters);
 
         for (Map.Entry<String, String> entry : OPTIONAL_PROPERTIES.entrySet()) {
-            setProperty(entry.getKey(), parameters, entry.getValue());
+            setOptionalProperty(entry.getKey(), parameters, entry.getValue());
         }
 
         final String digestAlgorithm = getProperty(PARAM_DIGEST_ALGORITHM);
@@ -227,6 +235,7 @@ public class OnlineAthleticsRealm extends AppservRealm {
             statement.setString(1, username);
             
             try (final ResultSet resultSet = statement.executeQuery()) {
+                /* the method next() is in the validation method */
                 return validatePassword(username, password, resultSet);
             }
         } catch (SQLException e) {
@@ -255,11 +264,15 @@ public class OnlineAthleticsRealm extends AppservRealm {
         String databasePassword = resultSet.getString(1);
         if (databasePassword == null) {
             /* Password should be required so log with warning */
-            LOG.log(Level.WARNING, "Username {0} has NO Password!", username);
+            LOG.log(Level.WARNING, "Username {0} has NO password!", username);
             return false;
         }
+        
         char[] transformedPassword     = transformer.transform(password);
         char[] trimmedDatabasePassword = databasePassword.trim().toCharArray();
+        
+        LOG.log(Level.WARNING, "PASSWORDS: 1) ''{0}'' 2) ''{1}''", 
+                new String[] {new String(trimmedDatabasePassword), new String(transformedPassword)});
 
         boolean passwordsEqual = Arrays.equals(trimmedDatabasePassword, transformedPassword);
         if (passwordsEqual == false) {
@@ -267,7 +280,7 @@ public class OnlineAthleticsRealm extends AppservRealm {
             return false;
         }
 
-        LOG.log(Level.FINEST, "Username {0} has valid Password.", username);
+        LOG.log(Level.FINEST, "Username {0} has valid password.", username);
 
         return true;
     }
@@ -299,7 +312,7 @@ public class OnlineAthleticsRealm extends AppservRealm {
      * 
      * @throws BadRealmException the source of an exception.
      */
-    private void setProperty(final String name, final Properties parameters, 
+    private void setOptionalProperty(final String name, final Properties parameters, 
             final String defaultValue) throws BadRealmException {
         validateProperty(name, parameters.getProperty(name, defaultValue));
     }

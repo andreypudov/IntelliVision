@@ -24,23 +24,23 @@
  * THE SOFTWARE.
  */
 
-package onlineathleticsrealm;
+package com.onlineathletics.web.auth;
 
 /**
- * Password encoder interface.
+ * A password transformer interface.
  * 
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
- * %name      Encoder.java
- * %date      08:20:00 PM, Feb 03, 2014
+ * %name      PasswordTransformer.java
+ * %date      08:10:00 PM, Feb 03, 2014
  */
-public interface Encoder {
+public interface PasswordTransformer {
     
     /**
-     * Encodes given password and returns encoded value.
-     * 
-     * @param password the password to encode.
-     * @return         the value of encoded password.
+     * Transforms the password string.
+     *
+     * @param password the value of original password.
+     * @return         the value of transformed password.
      */
-    String encode(byte[] password);
+    char[] transform(final char[] password);
 }

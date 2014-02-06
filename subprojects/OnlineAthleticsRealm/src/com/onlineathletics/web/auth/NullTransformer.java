@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package onlineathleticsrealm;
+package com.onlineathletics.web.auth;
 
 /**
  * A password transformer implements Null-Object pattern with no transformation.

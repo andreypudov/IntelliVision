@@ -24,7 +24,7 @@
  * THE SOFTWARE.
  */
 
-package onlineathleticsrealm;
+package com.onlineathletics.web.auth;
 
 import com.sun.appserv.security.AppservPasswordLoginModule;
 import java.util.Arrays;

@@ -180,8 +180,9 @@
       # cat /dev/null > ~/.mysql_history
 
 3) Glassfish Configuration
+   a) create-domain OnlineAthleticsDomain
    a) Add MySQL JDBC driver to Glassfish classpath
-      <Glassfish Installation Directory>\glassfish\lib
+      <Glassfish Installation Directory>\glassfish\domains\<domain>\lib
 
    b) Resources - JDBC Connection Pools
       OnlineAthleticsPool
@@ -215,3 +216,18 @@
 
     e) Change GlassFish http/https ports from 8080/8181 to 80/443
        glassfish/domains/domain1/config/domain.xml
+
+    f) glassfish/domains/domain1/config/domain.xml
+       Copy OnlineAthleticsRealm.jar to glassfish/domains/<domain>/lib/
+       Add the library to domain class path:
+           java-config classpath-suffix="${com.sun.aas.instanceRoot}/lib/OnlineAthleticsRealm.jar"
+
+    j) 
+       OnlineAthleticsRealm {
+           com.onlineathletics.web.auth.OnlineAthleticsLoginModule required;
+       };
+
+    j) Add OnlineAthletics Realm
+       <auth-realm name="OnlineAthleticsRealm2" classname="com.onlineathletics.web.auth.OnlineAthleticsRealm">
+          <property name="jaas-context" value="OnlineAthleticsRealm"></property>
+        </auth-realm>

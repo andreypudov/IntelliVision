@@ -51,6 +51,16 @@
                     
                     <div class='row'>
                         <h:form p:method='post' p:action='j_security_check'>
+                            <!-- the error message block -->
+                            <div class="col-sm-6 col-sm-offset-6" style="display: #{param['auth'].equals('failed') ? 'initial' : 'none'}">
+                                <div class="alert alert-danger">
+                                    <p>
+                                        <strong>${MESSAGES.contact_form_title}</strong>
+                                        ${MESSAGES.contact_form_subtitile}
+                                    </p>
+                                </div>
+                            </div>
+                            
                             <div class='col-sm-6 col-sm-offset-6'>
                                 <small>Online Athletics account <a href='#'>What's this?</a></small>
                                 <div class='form-group'>

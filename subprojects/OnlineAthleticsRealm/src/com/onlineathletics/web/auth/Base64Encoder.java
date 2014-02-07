@@ -26,7 +26,7 @@
 
 package com.onlineathletics.web.auth;
 
-import sun.misc.BASE64Encoder;
+import util.Base64;
 
 /**
  * A Base64 password encoder.
@@ -37,8 +37,6 @@ import sun.misc.BASE64Encoder;
  * %date      08:25:00 PM, Feb 03, 2014
  */
 public class Base64Encoder implements Encoder {
-    
-    private final BASE64Encoder encoder = new BASE64Encoder();
 
     /**
      * Encodes given password by Base64 function and returns encoded value.
@@ -48,6 +46,6 @@ public class Base64Encoder implements Encoder {
      */
     @Override
     public String encode(byte[] password) {
-        return encoder.encode(password);
+        return Base64.encodeToString(password, false);
     }
 }

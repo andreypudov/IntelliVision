@@ -73,7 +73,7 @@ public class OnlineAthleticsRealm extends AppservRealm {
     protected static final String PARAM_JNDI_DATASOURCE  = "datasource-jndi";
     
     private static final String DEFAULT_DIGEST_ALGORITHM = "SHA-512";
-    private static final String DEFAULT_DIGEST_ENCODING  = "hex";
+    private static final String DEFAULT_DIGEST_ENCODING  = "base64";
     
     private static final String DEFAULT_JNDI_DATASOURCE  = "jdbc/OnlineAthletics";
     private static final String DEFAULT_PRINCIPAL_QUERY  = "SELECT pass_phrase FROM oa_accnt_user_tbl WHERE user_name = ?";

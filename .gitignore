@@ -5,6 +5,8 @@ build/
 nbproject/
 dist/
 out/
+libs/Base64/nbproject/
+libs/jBCrypt/nbproject/
 subprojects/AthletsParser/dist/
 subprojects/Core/build/
 subprojects/Core/nbproject/

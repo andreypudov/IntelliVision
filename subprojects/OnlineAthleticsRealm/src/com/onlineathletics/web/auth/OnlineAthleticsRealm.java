@@ -31,7 +31,7 @@ import com.sun.enterprise.security.auth.realm.BadRealmException;
 import com.sun.enterprise.security.auth.realm.InvalidOperationException;
 import com.sun.enterprise.security.auth.realm.NoSuchRealmException;
 import com.sun.enterprise.security.auth.realm.NoSuchUserException;
-import java.nio.charset.Charset;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -67,33 +67,22 @@ public class OnlineAthleticsRealm extends AppservRealm {
     
     protected static final String PARAM_DIGEST_ALGORITHM = "digest-algorithm";
     protected static final String PARAM_DIGEST_ENCODING  = "digest-encoding";
-    protected static final String PARAM_PASSWORD_CHARSET = "password-charset";
     protected static final String PARAM_PRINCIPAL_QUERY  = "password-query";
     protected static final String PARAM_SECURITY_ROLES_QUERY = "security-roles-query";
     protected static final String PARAM_JNDI_DATASOURCE  = "datasource-jndi";
     
-    private static final String DEFAULT_DIGEST_ALGORITHM = "SHA-512";
-    private static final String DEFAULT_DIGEST_ENCODING  = "base64";
-    
     private static final String DEFAULT_JNDI_DATASOURCE  = "jdbc/OnlineAthletics";
-    private static final String DEFAULT_PRINCIPAL_QUERY  = "SELECT pass_phrase FROM oa_accnt_user_tbl WHERE user_name = ?";
+    private static final String DEFAULT_PRINCIPAL_QUERY  = "{CALL authenticate(?, ?)}";
     private static final String DEFAULT_SECURITY_ROLES_QUERY = "SELECT group_name FROM oa_accnt_groups_tbl WHERE user_name = ?";
     
     private static final Map<String, String> OPTIONAL_PROPERTIES = new HashMap<>(16);
     
     static {
-        OPTIONAL_PROPERTIES.put(PARAM_DIGEST_ALGORITHM, DEFAULT_DIGEST_ALGORITHM);
-        OPTIONAL_PROPERTIES.put(PARAM_DIGEST_ENCODING, DEFAULT_DIGEST_ENCODING);
-        OPTIONAL_PROPERTIES.put(PARAM_PASSWORD_CHARSET, Charset.defaultCharset().name());
-
         OPTIONAL_PROPERTIES.put(PARAM_JNDI_DATASOURCE, DEFAULT_JNDI_DATASOURCE);
 
         OPTIONAL_PROPERTIES.put(PARAM_PRINCIPAL_QUERY, DEFAULT_PRINCIPAL_QUERY);
         OPTIONAL_PROPERTIES.put(PARAM_SECURITY_ROLES_QUERY, DEFAULT_SECURITY_ROLES_QUERY);
     }
-    
-    /* the password transformer instance */
-    private PasswordTransformer transformer;
     
     /**
      * Initializing OnlineAthleticsRealm variables.
@@ -118,18 +107,6 @@ public class OnlineAthleticsRealm extends AppservRealm {
 
         for (Map.Entry<String, String> entry : OPTIONAL_PROPERTIES.entrySet()) {
             setOptionalProperty(entry.getKey(), parameters, entry.getValue());
-        }
-
-        final String digestAlgorithm = getProperty(PARAM_DIGEST_ALGORITHM);
-        switch (digestAlgorithm) {
-            case "none":
-                transformer = new NullTransformer();
-                break;
-            default:
-                transformer = new MessageDigestTransformer(
-                        digestAlgorithm, getProperty(PARAM_DIGEST_ENCODING), 
-                        Charset.forName(getProperty(PARAM_PASSWORD_CHARSET)));
-                break;
         }
     }
     
@@ -226,63 +203,25 @@ public class OnlineAthleticsRealm extends AppservRealm {
             final char[] password) {
         final String principalQuery = getProperty(PARAM_PRINCIPAL_QUERY);
         
-        LOG.log(Level.FINEST, "Executing query ''{0}'' with username {1}", 
+        try (final Connection        connection = getConnection();
+             final CallableStatement statement = connection.prepareCall(principalQuery)) {
+            
+            LOG.log(Level.FINEST, "Executing query ''{0}'' with username {1}", 
                 new String[] {principalQuery, username});
 
-        try (final Connection        connection = getConnection();
-             final PreparedStatement statement = connection.prepareStatement(principalQuery)) {
-
             statement.setString(1, username);
+            statement.setString(2, new String(password));
             
-            try (final ResultSet resultSet = statement.executeQuery()) {
-                /* the method next() is in the validation method */
-                return validatePassword(username, password, resultSet);
-            }
+            statement.executeQuery();
+            LOG.log(Level.FINEST, "Username {0} has valid password.", username);
+            
+            return true;
         } catch (SQLException e) {
-            throw new IllegalStateException(e);
-        }
-    }
-    
-    /**
-     * Validates password for specific user account.
-     * 
-     * @param username  the user name value.
-     * @param password  the password value.
-     * @param resultSet the result set.
-     * 
-     * @return true if password is valid for given user, and false otherwise.
-     * 
-     * @throws SQLException the source of an exception.
-     */
-    private boolean validatePassword(final String username, 
-            final char[] password, final ResultSet resultSet) throws SQLException {
-        if (!resultSet.next()) {
-            LOG.log(Level.INFO, "No user found for username {0}!", username);
+            LOG.log(Level.INFO, "Authentication failed for user {0}: {1}.", 
+                    new String[] {username, e.getMessage()});
+            
             return false;
         }
-
-        String databasePassword = resultSet.getString(1);
-        if (databasePassword == null) {
-            /* Password should be required so log with warning */
-            LOG.log(Level.WARNING, "Username {0} has NO password!", username);
-            return false;
-        }
-        
-        char[] transformedPassword     = transformer.transform(password);
-        char[] trimmedDatabasePassword = databasePassword.trim().toCharArray();
-        
-        LOG.log(Level.WARNING, "PASSWORDS: 1) ''{0}'' 2) ''{1}''", 
-                new String[] {new String(trimmedDatabasePassword), new String(transformedPassword)});
-
-        boolean passwordsEqual = Arrays.equals(trimmedDatabasePassword, transformedPassword);
-        if (passwordsEqual == false) {
-            LOG.log(Level.INFO, "Invalid Password entered for username {0}!", username);
-            return false;
-        }
-
-        LOG.log(Level.FINEST, "Username {0} has valid password.", username);
-
-        return true;
     }
    
     /**

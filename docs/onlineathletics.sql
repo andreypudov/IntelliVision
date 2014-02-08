@@ -77,7 +77,9 @@ CREATE TABLE oa_athl_tbl (
 -- create online account table to store user credentials
 CREATE TABLE oa_accnt_user_tbl (
 	user_name   VARCHAR(255) NOT NULL,
-	pass_phrase VARCHAR(255) NOT NULL,
+	pass_phrase VARCHAR(128) NOT NULL,
+	pass_salt   VARCHAR(32) NOT NULL,
+	attempt     INT UNSIGNED NOT NULL,
 	PRIMARY KEY	(user_name)
 ) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
 
@@ -86,20 +88,37 @@ CREATE TABLE oa_accnt_groups_tbl (
 	group_name VARCHAR(20)  NOT NULL
 ) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
 
-CREATE TABLE oa_accnt_time_tbl (
-	user_name VARCHAR(255) NOT NULL UNIQUE,
-	attempt   INT UNSIGNED NOT NULL,
-	PRIMARY KEY	(user_name)
-) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
+-- password rules:
+-- 16 characters minimum length
+-- 20 characters maximum length
+-- alphanumeric characters and follwing special characters: ~!@#$%^&*_-+=\`|\(){}[]:;"\'<>,.?/
+-- white space characters are not allowed
 
 -- general permission rights table
 -- db_read  - the database read access
 -- db_write - the database write access
 
+-- password encryption algorithm
+-- SHA2-512 hashing function (128 characters length)
+-- 128 bit hashing salt (32 characters length)
+--
+-- a) generate a random password: SELECT SUBSTRING(MD5(RAND() * 0xFFFFFFFF) FROM 1 FOR 20)
+-- b) generate a random salt: SELECT MD5(RAND() * 0xFFFFFFFF)
+-- c) contantenate password and has as follwing: <password><salt>
+-- d) calculate SHA2-512 hash for concantenated string: SELECT SHA2('<password><hash>', 512)
+
+-- Name: 'apudov' Password: 'dfgiwr@lk5f$oiu%5e4r'
+-- Salt: 'c57e35dde6dfe0b7a2949d268f61f092'
+-- Hash: '13055c1eaf80ad7b8b41a96df4000d654eec80d93efe7f6b2aba8c6aac5f5bd6e280871d0d4b901f769c544ecce0dec1970226bbadd2a3831d8a3eac4c34f09d'
+
+-- Name: 'sijbaraev' Password: 'f23ca5f9e48b06c0e270'
+-- Salt: 'f551f86b48c8d34df325b32a7558871a'
+-- Hash: 'bfb25ea237f429d13d6ef6ebb0b5c6e1a1a0fff2db754b34c6ee7e32bc6b284696dd420f961e6402bd3d3c759bf89c601adfe668f9f65756a9acaea8b1ba60f5'
+
 -- SHA256 is a Password Encryption Algorithm in Application Container
-INSERT INTO oa_accnt_user_tbl(user_name, pass_phrase)
-	VALUES ('apudov',    SHA2('dfgiwr@lk5f$oiu%5e4r', 512)),
-	       ('sijbaraev', SHA2('sod2j3@n375t$la%3fqd', 512));
+INSERT INTO oa_accnt_user_tbl(user_name, pass_phrase, pass_salt, attempt)
+	VALUES ('apudov',    '13055c1eaf80ad7b8b41a96df4000d654eec80d93efe7f6b2aba8c6aac5f5bd6e280871d0d4b901f769c544ecce0dec1970226bbadd2a3831d8a3eac4c34f09d', 'c57e35dde6dfe0b7a2949d268f61f092', 0),
+	       ('sijbaraev', 'bfb25ea237f429d13d6ef6ebb0b5c6e1a1a0fff2db754b34c6ee7e32bc6b284696dd420f961e6402bd3d3c759bf89c601adfe668f9f65756a9acaea8b1ba60f5', 'f551f86b48c8d34df325b32a7558871a', 0);
 
 INSERT INTO oa_accnt_groups_tbl(user_name, group_name)
 	VALUES ('apudov',    'db_read'),
@@ -124,6 +143,8 @@ CREATE PROCEDURE authenticate (user_nm_arg VARCHAR(255),
 BEGIN
 	DECLARE attempt_val INT UNSIGNED;
     DECLARE count       INT UNSIGNED;
+    DECLARE salt        VARCHAR(32);
+    DECLARE hash        VARCHAR(128);
 
 	-- validate routine arguments
 	IF ((user_nm_arg IS NULL) 
@@ -143,32 +164,33 @@ BEGIN
 
 	-- the number of already listed attempts
 	SET attempt_val = (SELECT attempt 
-		FROM  oa_accnt_time_tbl
+		FROM  oa_accnt_user_tbl
 		WHERE user_name = user_nm_arg);
 	IF (attempt_val >= 3) THEN
 		-- authentication failed when three and more failed attempts occured
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Authentication failed.';
-	ELSEIF (attempt_val IS NULL) THEN
-		-- add new user name to validation table
-		SET attempt_val = 0;
-		INSERT INTO oa_accnt_time_tbl(user_name, attempt) 
-			VALUES (user_nm_arg, attempt);
 	END IF;
 
-	-- specified cedentials are incorrect
+	-- calculate a hash for given password using user salt
+	SET salt = (SELECT pass_salt
+	    FROM oa_accnt_user_tbl
+	    WHERE user_name = user_nm_arg);
+	SET hash = (SELECT SHA2(CONCAT(pass_ph_arg, salt), 512));
+
+	-- validate credentials
 	SET count = (SELECT COUNT(user_name)
 		FROM oa_accnt_user_tbl
 		WHERE   user_name   = user_nm_arg
-			AND pass_phrase = SHA2(pass_ph_arg, 512));
+			AND pass_phrase = hash);
 	IF (count = 0) THEN
-		UPDATE oa_accnt_time_tbl
+		UPDATE oa_accnt_user_tbl
 			SET   attempt   = attempt_val + 1 
 			WHERE user_name = user_nm_arg;
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Authentication failed.';
 	END IF;
 
 	-- clear attempts index on success
-	UPDATE oa_accnt_time_tbl
+	UPDATE oa_accnt_user_tbl
 		SET   attempt   = 0 
 		WHERE user_name = user_nm_arg;
 END //

@@ -65,15 +65,13 @@ public class OnlineAthleticsRealm extends AppservRealm {
     
     protected static final String SERVICE_NAME = "OnlineAthleticsRealm";
     
-    protected static final String PARAM_DIGEST_ALGORITHM = "digest-algorithm";
-    protected static final String PARAM_DIGEST_ENCODING  = "digest-encoding";
-    protected static final String PARAM_PRINCIPAL_QUERY  = "password-query";
-    protected static final String PARAM_SECURITY_ROLES_QUERY = "security-roles-query";
-    protected static final String PARAM_JNDI_DATASOURCE  = "datasource-jndi";
+    private static final String PARAM_JNDI_DATASOURCE  = "datasource-jndi";
+    private static final String PARAM_PRINCIPAL_QUERY  = "password-query";
+    private static final String PARAM_ROLES_QUERY      = "security-roles-query";
     
     private static final String DEFAULT_JNDI_DATASOURCE  = "jdbc/OnlineAthletics";
     private static final String DEFAULT_PRINCIPAL_QUERY  = "{CALL authenticate(?, ?)}";
-    private static final String DEFAULT_SECURITY_ROLES_QUERY = "SELECT group_name FROM oa_accnt_groups_tbl WHERE user_name = ?";
+    private static final String DEFAULT_ROLES_QUERY = "SELECT group_name FROM oa_accnt_groups_tbl WHERE user_name = ?";
     
     private static final Map<String, String> OPTIONAL_PROPERTIES = new HashMap<>(16);
     
@@ -81,7 +79,7 @@ public class OnlineAthleticsRealm extends AppservRealm {
         OPTIONAL_PROPERTIES.put(PARAM_JNDI_DATASOURCE, DEFAULT_JNDI_DATASOURCE);
 
         OPTIONAL_PROPERTIES.put(PARAM_PRINCIPAL_QUERY, DEFAULT_PRINCIPAL_QUERY);
-        OPTIONAL_PROPERTIES.put(PARAM_SECURITY_ROLES_QUERY, DEFAULT_SECURITY_ROLES_QUERY);
+        OPTIONAL_PROPERTIES.put(PARAM_ROLES_QUERY, DEFAULT_ROLES_QUERY);
     }
     
     /**
@@ -167,7 +165,7 @@ public class OnlineAthleticsRealm extends AppservRealm {
      */
     private List<String> getGroups(final String username) {
         final List<String> groupNames         = new ArrayList<>(16);
-        final String       securityRolesQuery = getProperty(PARAM_SECURITY_ROLES_QUERY);
+        final String       securityRolesQuery = getProperty(PARAM_ROLES_QUERY);
         LOG.log(Level.FINEST, "Executing query ''{0}'' with username {1}", 
                 new String[] {securityRolesQuery, username});
 

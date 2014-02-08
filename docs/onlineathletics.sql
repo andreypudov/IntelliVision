@@ -55,7 +55,7 @@ CREATE TABLE oa_second_nm_tbl (
 
 CREATE TABLE oa_birthday_tbl (
 	birthday_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-	birthday	  TIMESTAMP NOT NULL DEFAULT 0 UNIQUE,
+	birthday	TIMESTAMP NOT NULL DEFAULT 0 UNIQUE,
 	PRIMARY KEY	(birthday_id)
 ) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
 
@@ -76,16 +76,28 @@ CREATE TABLE oa_athl_tbl (
 
 -- create online account table to store user credentials
 CREATE TABLE oa_accnt_user_tbl (
-	user_name   VARCHAR(255) NOT NULL,
+	user_id     INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	user_name   VARCHAR(255) NOT NULL UNIQUE,
 	pass_phrase VARCHAR(128) NOT NULL,
 	pass_salt   VARCHAR(32) NOT NULL,
 	attempt     INT UNSIGNED NOT NULL,
-	PRIMARY KEY	(user_name)
+	PRIMARY KEY	(user_id)
 ) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
 
 CREATE TABLE oa_accnt_groups_tbl (
-	user_name  VARCHAR(255) NOT NULL,
-	group_name VARCHAR(20)  NOT NULL
+	group_id   INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	group_name VARCHAR(20)  NOT NULL,
+	PRIMARY KEY	(group_id)
+) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
+
+CREATE TABLE oa_accnt_roles_tbl (
+	user_key  INT UNSIGNED NOT NULL,
+	group_key INT UNSIGNED NOT NULL,
+	PRIMARY KEY (user_key, group_key),
+	FOREIGN KEY (user_key)
+		REFERENCES oa_accnt_user_tbl(user_id),
+	FOREIGN KEY (group_key)
+		REFERENCES oa_accnt_groups_tbl(group_id)
 ) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
 
 -- password rules:
@@ -116,20 +128,37 @@ CREATE TABLE oa_accnt_groups_tbl (
 -- Hash: 'bfb25ea237f429d13d6ef6ebb0b5c6e1a1a0fff2db754b34c6ee7e32bc6b284696dd420f961e6402bd3d3c759bf89c601adfe668f9f65756a9acaea8b1ba60f5'
 
 -- SHA256 is a Password Encryption Algorithm in Application Container
-INSERT INTO oa_accnt_user_tbl(user_name, pass_phrase, pass_salt, attempt)
-	VALUES ('apudov',    '13055c1eaf80ad7b8b41a96df4000d654eec80d93efe7f6b2aba8c6aac5f5bd6e280871d0d4b901f769c544ecce0dec1970226bbadd2a3831d8a3eac4c34f09d', 'c57e35dde6dfe0b7a2949d268f61f092', 0),
-	       ('sijbaraev', 'bfb25ea237f429d13d6ef6ebb0b5c6e1a1a0fff2db754b34c6ee7e32bc6b284696dd420f961e6402bd3d3c759bf89c601adfe668f9f65756a9acaea8b1ba60f5', 'f551f86b48c8d34df325b32a7558871a', 0);
+SET @apudov_pass_phrase = 'dfgiwr@lk5f$oiu%5e4r';
+SET @apudov_pass_salt   = 'c57e35dde6dfe0b7a2949d268f61f092';
+SET @apudov_pass_hash   = SHA2(CONCAT(@apudov_pass_phrase, @apudov_pass_salt), 512);
 
-INSERT INTO oa_accnt_groups_tbl(user_name, group_name)
-	VALUES ('apudov',    'db_read'),
-	       ('apudov',    'db_write'),
-	       ('sijbaraev', 'db_read');
+SET @sijbaraev_pass_phrase = 'f23ca5f9e48b06c0e270';
+SET @sijbaraev_pass_salt   = 'f551f86b48c8d34df325b32a7558871a';
+SET @sijbaraev_pass_hash   = SHA2(CONCAT(@sijbaraev_pass_phrase, @sijbaraev_pass_salt), 512);
+
+INSERT INTO oa_accnt_user_tbl(user_name, pass_phrase, pass_salt, attempt)
+	VALUES ('apudov',    @apudov_pass_hash, @apudov_pass_salt, 0),
+	       ('sijbaraev', @sijbaraev_pass_hash, @sijbaraev_pass_salt, 0);
+
+INSERT INTO oa_accnt_groups_tbl(group_name)
+	VALUES ('db_read'), ('db_write');
+
+SET @apudov_key    = (SELECT user_id FROM oa_accnt_user_tbl WHERE user_name = 'apudov');
+SET @sijbaraev_key = (SELECT user_id FROM oa_accnt_user_tbl WHERE user_name = 'sijbaraev');
+
+SET @db_read_key   = (SELECT group_id FROM oa_accnt_groups_tbl WHERE group_name = 'db_read');
+SET @db_write_key  = (SELECT group_id FROM oa_accnt_groups_tbl WHERE group_name = 'db_write');
+
+INSERT INTO oa_accnt_roles_tbl(user_key, group_key)
+	VALUES (@apudov_key,    @db_read_key),
+	       (@apudov_key,    @db_write_key),
+	       (@sijbaraev_key, @db_read_key);
 
 -- create public stored procedures
 DELIMITER //
 
 CREATE PROCEDURE authenticate (user_nm_arg VARCHAR(255),
-							   pass_ph_arg VARCHAR(255))
+							   pass_ph_arg VARCHAR(128))
 	NOT DETERMINISTIC
     COMMENT 'Authenticates query with specified credentials. Function validates
              the number of authentication attempt and if third attempt is 
@@ -195,10 +224,45 @@ BEGIN
 		WHERE user_name = user_nm_arg;
 END //
 
+CREATE PROCEDURE get_user_group_list (user_accnt_arg VARCHAR(255),
+	user_nm_arg VARCHAR(255), pass_ph_arg VARCHAR(128))
+	NOT DETERMINISTIC
+	COMMENT 'Returns a list of groups assigned to specified user account.
+
+	         @param user_accnt_arg the user account to look.
+
+	         @param user_nm_arg    the name value to authenticate query.
+			 @param pass_ph_arg    the password value to authenticate query.
+
+			 @throws 45000 Invalid argument exception.
+             @throws 45000 Permissions denied.'
+BEGIN
+	-- validate routine arguments
+	IF ((user_accnt_arg IS NULL) 
+			OR (CHAR_LENGTH(user_accnt_arg) = 0)) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid argument exception.';
+	END IF;
+
+	-- validate authentication and permissions
+	CALL authenticate (user_nm_arg, pass_ph_arg);
+	IF ((SELECT COUNT(*) 
+			FROM oa_accnt_groups_tbl
+			WHERE   user_name  = user_nm_arg 
+				AND group_name = 'db_read') = 0) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Permissions denied.';
+	END IF;
+
+	SELECT g.group_name
+		FROM oa_accnt_roles_tbl r
+			INNER JOIN oa_accnt_groups_tbl g ON g.group_id = r.group_key
+			INNER JOIN oa_accnt_user_tbl   a ON a.user_id  = r.user_key
+		WHERE a.user_name = user_accnt_arg; 
+END //
+
 CREATE PROCEDURE add_athlete (first_nm_arg  VARCHAR(255), 
 	second_nm_arg VARCHAR(255), birthday_arg TIMESTAMP,
     sex_arg       TINYINT(1),   user_nm_arg  VARCHAR(255),
-	pass_ph_arg   VARCHAR(255))
+	pass_ph_arg   VARCHAR(128))
 	NOT DETERMINISTIC
 	COMMENT 'Adds athlete entry and returns identification number.
 
@@ -292,7 +356,7 @@ END //
 CREATE PROCEDURE edit_athlete (athlete_id_arg INT UNSIGNED, 
 	first_nm_arg  VARCHAR(255), second_nm_arg VARCHAR(255), 
 	birthday_arg  TIMESTAMP,    sex_arg       TINYINT(1),
-	user_nm_arg   VARCHAR(255), pass_ph_arg   VARCHAR(255))
+	user_nm_arg   VARCHAR(255), pass_ph_arg   VARCHAR(128))
 	NOT DETERMINISTIC
 	COMMENT 'Adds athlete entry and returns identification number.
 
@@ -396,7 +460,7 @@ BEGIN
 END //
 
 CREATE PROCEDURE get_athlete (athlete_id_arg INT UNSIGNED, 
-	user_nm_arg VARCHAR(255), pass_ph_arg VARCHAR(255))
+	user_nm_arg VARCHAR(255), pass_ph_arg VARCHAR(128))
 	NOT DETERMINISTIC
 	COMMENT 'Returns athlete entry for given database id.
 
@@ -448,7 +512,7 @@ END //
 
 CREATE PROCEDURE get_athlete_by_name (
     first_nm_arg VARCHAR(255), second_nm_arg VARCHAR(255), 
-	user_nm_arg  VARCHAR(255), pass_ph_arg   VARCHAR(255))
+	user_nm_arg  VARCHAR(255), pass_ph_arg   VARCHAR(128))
 	NOT DETERMINISTIC
 	COMMENT 'Returns athlete entry for given name.
 
@@ -501,14 +565,6 @@ BEGIN
 	END IF;
 
 	SELECT athlete_id_var, first_nm_var, second_nm_var, birthday_var, sex_var;
-END //
-
--- --------------------------------------------------------------------------------
--- Returns Online Athletics database version number.
--- --------------------------------------------------------------------------------
-CREATE PROCEDURE `getDatabaseVersion` () DETERMINISTIC
-BEGIN
-	SELECT '0.00.00';
 END //
 
 DELIMITER ;

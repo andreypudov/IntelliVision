@@ -77,16 +77,16 @@ CREATE TABLE oa_athl_tbl (
 -- create online account table to store user credentials
 CREATE TABLE oa_accnt_user_tbl (
 	user_id     INT UNSIGNED NOT NULL AUTO_INCREMENT,
-	user_name   VARCHAR(255) NOT NULL UNIQUE,
+	user_name   VARCHAR(32)  NOT NULL UNIQUE,
 	pass_phrase VARCHAR(128) NOT NULL,
-	pass_salt   VARCHAR(32) NOT NULL,
+	pass_salt   VARCHAR(32)  NOT NULL,
 	attempt     INT UNSIGNED NOT NULL,
 	PRIMARY KEY	(user_id)
 ) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
 
 CREATE TABLE oa_accnt_groups_tbl (
 	group_id   INT UNSIGNED NOT NULL AUTO_INCREMENT,
-	group_name VARCHAR(20)  NOT NULL,
+	group_name VARCHAR(16)  NOT NULL,
 	PRIMARY KEY	(group_id)
 ) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
 
@@ -157,8 +157,8 @@ INSERT INTO oa_accnt_roles_tbl(user_key, group_key)
 -- create public stored procedures
 DELIMITER //
 
-CREATE PROCEDURE authenticate (user_nm_arg VARCHAR(255),
-							   pass_ph_arg VARCHAR(128))
+CREATE PROCEDURE auth_authenticate (user_nm_arg VARCHAR(32),
+							        pass_ph_arg VARCHAR(128))
 	NOT DETERMINISTIC
     COMMENT 'Authenticates query with specified credentials. Function validates
              the number of authentication attempt and if third attempt is 
@@ -171,7 +171,6 @@ CREATE PROCEDURE authenticate (user_nm_arg VARCHAR(255),
              @throws 45000 Authentication failed.'
 BEGIN
 	DECLARE attempt_val INT UNSIGNED;
-    DECLARE count       INT UNSIGNED;
     DECLARE salt        VARCHAR(32);
     DECLARE hash        VARCHAR(128);
 
@@ -184,10 +183,9 @@ BEGIN
 	END IF;
 
 	-- specified user name doesn't exists
-	SET count = (SELECT COUNT(user_name)  
-		FROM  oa_accnt_user_tbl
-		WHERE user_name = user_nm_arg);
-	IF (count = 0) THEN
+	IF ((SELECT COUNT(user_name)  
+			FROM  oa_accnt_user_tbl
+			WHERE user_name = user_nm_arg) = 0) THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Authentication failed.';
 	END IF;
 
@@ -207,11 +205,10 @@ BEGIN
 	SET hash = (SELECT SHA2(CONCAT(pass_ph_arg, salt), 512));
 
 	-- validate credentials
-	SET count = (SELECT COUNT(user_name)
-		FROM oa_accnt_user_tbl
-		WHERE   user_name   = user_nm_arg
-			AND pass_phrase = hash);
-	IF (count = 0) THEN
+	IF ((SELECT COUNT(user_name)
+			FROM oa_accnt_user_tbl
+			WHERE   user_name   = user_nm_arg
+				AND pass_phrase = hash) = 0) THEN
 		UPDATE oa_accnt_user_tbl
 			SET   attempt   = attempt_val + 1 
 			WHERE user_name = user_nm_arg;
@@ -224,8 +221,44 @@ BEGIN
 		WHERE user_name = user_nm_arg;
 END //
 
-CREATE PROCEDURE get_user_group_list (user_accnt_arg VARCHAR(255),
-	user_nm_arg VARCHAR(255), pass_ph_arg VARCHAR(128))
+CREATE PROCEDURE auth_has_group (user_accnt_arg VARCHAR(32),
+	user_group_arg VARCHAR(16),  user_nm_arg    VARCHAR(32),
+	pass_ph_arg    VARCHAR(128))
+	NOT DETERMINISTIC
+	COMMENT 'Validates that specified user account is in the given group.
+
+	         @param user_accnt_arg the user account name.
+	         @param user_group_arg the user group to validate.
+
+	         @param user_nm_arg    the name value to authenticate query.
+			 @param pass_ph_arg    the password value to authenticate query.
+
+			 @throws 45000 Invalid argument exception.
+			 @throws 45000 Authentication failed.
+             @throws 45000 Permissions denied.'
+BEGIN
+	-- validate routine arguments
+	IF ((user_accnt_arg IS NULL)
+		 	OR (user_group_arg IS NULL)
+			OR (CHAR_LENGTH(user_accnt_arg) = 0)
+			OR (CHAR_LENGTH(user_group_arg) = 0)) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid argument exception.';
+	END IF;
+
+	-- validate authentication and permissions
+	CALL auth_authenticate (user_nm_arg, pass_ph_arg);
+	IF ((SELECT COUNT(*) 
+			FROM oa_accnt_roles_tbl r
+				INNER JOIN oa_accnt_groups_tbl g ON g.group_id = r.group_key
+				INNER JOIN oa_accnt_user_tbl   a ON a.user_id  = r.user_key
+			WHERE   a.user_name  = user_accnt_arg
+				AND g.group_name = user_group_arg) = 0) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Permissions denied.';
+	END IF;
+END //
+
+CREATE PROCEDURE auth_get_groups_list (user_accnt_arg VARCHAR(32),
+	user_nm_arg VARCHAR(32), pass_ph_arg VARCHAR(128))
 	NOT DETERMINISTIC
 	COMMENT 'Returns a list of groups assigned to specified user account.
 
@@ -235,6 +268,7 @@ CREATE PROCEDURE get_user_group_list (user_accnt_arg VARCHAR(255),
 			 @param pass_ph_arg    the password value to authenticate query.
 
 			 @throws 45000 Invalid argument exception.
+			 @throws 45000 Authentication failed.
              @throws 45000 Permissions denied.'
 BEGIN
 	-- validate routine arguments
@@ -244,13 +278,8 @@ BEGIN
 	END IF;
 
 	-- validate authentication and permissions
-	CALL authenticate (user_nm_arg, pass_ph_arg);
-	IF ((SELECT COUNT(*) 
-			FROM oa_accnt_groups_tbl
-			WHERE   user_name  = user_nm_arg 
-				AND group_name = 'db_read') = 0) THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Permissions denied.';
-	END IF;
+	CALL auth_authenticate (user_nm_arg, pass_ph_arg);
+	CALL auth_has_group    (user_nm_arg, 'db_read', user_nm_arg, pass_ph_arg);
 
 	SELECT g.group_name
 		FROM oa_accnt_roles_tbl r
@@ -259,9 +288,9 @@ BEGIN
 		WHERE a.user_name = user_accnt_arg; 
 END //
 
-CREATE PROCEDURE add_athlete (first_nm_arg  VARCHAR(255), 
+CREATE PROCEDURE add_athlete (first_nm_arg   VARCHAR(255), 
 	second_nm_arg VARCHAR(255), birthday_arg TIMESTAMP,
-    sex_arg       TINYINT(1),   user_nm_arg  VARCHAR(255),
+    sex_arg       TINYINT(1),   user_nm_arg  VARCHAR(32),
 	pass_ph_arg   VARCHAR(128))
 	NOT DETERMINISTIC
 	COMMENT 'Adds athlete entry and returns identification number.
@@ -277,6 +306,7 @@ CREATE PROCEDURE add_athlete (first_nm_arg  VARCHAR(255),
              @return the database id for the athlete as athlete_indx column.
 
 			 @throws 45000 Invalid argument exception.
+			 @throws 45000 Authentication failed.
              @throws 45000 Permissions denied.
 			 @throws 45000 Athlete entry already exists.'
 BEGIN
@@ -297,13 +327,8 @@ BEGIN
 	END IF;
 
 	-- validate authentication and permissions
-	CALL authenticate (user_nm_arg, pass_ph_arg);
-	IF ((SELECT COUNT(*) 
-			FROM oa_accnt_groups_tbl
-			WHERE   user_name  = user_nm_arg 
-				AND group_name = 'db_write') = 0) THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Permissions denied.';
-	END IF;
+	CALL auth_authenticate (user_nm_arg, pass_ph_arg);
+	CALL auth_has_group    (user_nm_arg, 'db_write', user_nm_arg, pass_ph_arg);
 
 	-- set first name id
 	SET first_nm_indx = (SELECT first_nm_id
@@ -356,7 +381,7 @@ END //
 CREATE PROCEDURE edit_athlete (athlete_id_arg INT UNSIGNED, 
 	first_nm_arg  VARCHAR(255), second_nm_arg VARCHAR(255), 
 	birthday_arg  TIMESTAMP,    sex_arg       TINYINT(1),
-	user_nm_arg   VARCHAR(255), pass_ph_arg   VARCHAR(128))
+	user_nm_arg   VARCHAR(32),  pass_ph_arg   VARCHAR(128))
 	NOT DETERMINISTIC
 	COMMENT 'Adds athlete entry and returns identification number.
 
@@ -370,6 +395,7 @@ CREATE PROCEDURE edit_athlete (athlete_id_arg INT UNSIGNED,
 			 @param pass_ph_arg    the password value to authenticate query.
 
              @throws 45000 Invalid argument exception.
+             @throws 45000 Authentication failed.
              @throws 45000 Permissions denied.
              @throws 45000 Athlete entry doesn\'t exists.
              @throws 45000 Athlete entry the same as requested to change.
@@ -393,13 +419,8 @@ BEGIN
 	END IF;
 
 	-- validate authentication and permissions
-	CALL authenticate (user_nm_arg, pass_ph_arg);
-	IF ((SELECT COUNT(*) 
-			FROM oa_accnt_groups_tbl
-			WHERE   user_name  = user_nm_arg 
-				AND group_name = 'db_write') = 0) THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Permissions denied.';
-	END IF;
+	CALL auth_authenticate (user_nm_arg, pass_ph_arg);
+	CALL auth_has_group    (user_nm_arg, 'db_write', user_nm_arg, pass_ph_arg);
 
 	IF ((SELECT COUNT(*)
 			FROM oa_athl_tbl
@@ -460,7 +481,7 @@ BEGIN
 END //
 
 CREATE PROCEDURE get_athlete (athlete_id_arg INT UNSIGNED, 
-	user_nm_arg VARCHAR(255), pass_ph_arg VARCHAR(128))
+	user_nm_arg VARCHAR(32),  pass_ph_arg VARCHAR(128))
 	NOT DETERMINISTIC
 	COMMENT 'Returns athlete entry for given database id.
 
@@ -470,6 +491,7 @@ CREATE PROCEDURE get_athlete (athlete_id_arg INT UNSIGNED,
 			 @param pass_ph_arg    the password value to authenticate query.
 
              @throws 45000 Invalid argument exception.
+             @throws 45000 Authentication failed.
              @throws 45000 Permissions denied.
              @throws 45000 Athlete entry doesn\'t exists.'
 BEGIN
@@ -485,13 +507,8 @@ BEGIN
 	END IF;
 
 	-- validate authentication and permissions
-	CALL authenticate (user_nm_arg, pass_ph_arg);
-	IF ((SELECT COUNT(*) 
-			FROM oa_accnt_groups_tbl
-			WHERE   user_name  = user_nm_arg 
-				AND group_name = 'db_read') = 0) THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Permissions denied.';
-	END IF;
+	CALL auth_authenticate (user_nm_arg, pass_ph_arg);
+	CALL auth_has_group    (user_nm_arg, 'db_read', user_nm_arg, pass_ph_arg);
 
 	SELECT a.athl_id, f.first_name, s.second_name, b.birthday, a.sex
 		INTO athlete_id_var, first_nm_var, second_nm_var, birthday_var, sex_var
@@ -512,7 +529,7 @@ END //
 
 CREATE PROCEDURE get_athlete_by_name (
     first_nm_arg VARCHAR(255), second_nm_arg VARCHAR(255), 
-	user_nm_arg  VARCHAR(255), pass_ph_arg   VARCHAR(128))
+	user_nm_arg  VARCHAR(32),  pass_ph_arg   VARCHAR(128))
 	NOT DETERMINISTIC
 	COMMENT 'Returns athlete entry for given name.
 
@@ -523,6 +540,7 @@ CREATE PROCEDURE get_athlete_by_name (
 			 @param pass_ph_arg    the password value to authenticate query.
 
              @throws 45000 Invalid argument exception.
+             @throws 45000 Authentication failed.
              @throws 45000 Permissions denied.
              @throws 45000 Athlete entry doesn\'t exists.'
 BEGIN
@@ -541,13 +559,8 @@ BEGIN
 	END IF;
 
 	-- validate authentication and permissions
-	CALL authenticate (user_nm_arg, pass_ph_arg);
-	IF ((SELECT COUNT(*) 
-			FROM oa_accnt_groups_tbl
-			WHERE   user_name  = user_nm_arg 
-				AND group_name = 'db_read') = 0) THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Permissions denied.';
-	END IF;
+	CALL auth_authenticate (user_nm_arg, pass_ph_arg);
+	CALL auth_has_group    (user_nm_arg, 'db_read', user_nm_arg, pass_ph_arg);
 
 	SELECT a.athl_id, f.first_name, s.second_name, b.birthday, a.sex
 		INTO athlete_id_var, first_nm_var, second_nm_var, birthday_var, sex_var

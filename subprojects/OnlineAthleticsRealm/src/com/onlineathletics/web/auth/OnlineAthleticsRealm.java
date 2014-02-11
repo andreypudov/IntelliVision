@@ -33,7 +33,6 @@ import com.sun.enterprise.security.auth.realm.NoSuchRealmException;
 import com.sun.enterprise.security.auth.realm.NoSuchUserException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -66,24 +65,33 @@ public class OnlineAthleticsRealm extends AppservRealm {
     protected static final String SERVICE_NAME = "OnlineAthleticsRealm";
     
     private static final String PARAM_JNDI_DATASOURCE  = "datasource-jndi";
+    private static final String PARAM_JNDI_USERNAME    = "User";
+    private static final String PARAM_JNDI_PASSWORD    = "Password";
     private static final String PARAM_PRINCIPAL_QUERY  = "password-query";
     private static final String PARAM_ROLES_QUERY      = "security-roles-query";
     
     private static final String DEFAULT_JNDI_DATASOURCE  = "jdbc/OnlineAthletics";
-    private static final String DEFAULT_PRINCIPAL_QUERY  = "{CALL authenticate(?, ?)}";
-    private static final String DEFAULT_ROLES_QUERY = "SELECT group_name FROM oa_accnt_groups_tbl WHERE user_name = ?";
+    private static final String DEFAULT_JNDI_USERNAME    = "default";
+    private static final String DEFAULT_JNDI_PASSWORD    = "default";
+    private static final String DEFAULT_PRINCIPAL_QUERY  = "{CALL auth_authenticate(?, ?)}";
+    private static final String DEFAULT_ROLES_QUERY      = "{CALL auth_get_groups_list_by_name(?, ?, ?)}";
     
     private static final Map<String, String> OPTIONAL_PROPERTIES = new HashMap<>(16);
-    
     static {
         OPTIONAL_PROPERTIES.put(PARAM_JNDI_DATASOURCE, DEFAULT_JNDI_DATASOURCE);
+        OPTIONAL_PROPERTIES.put(PARAM_JNDI_USERNAME,   DEFAULT_JNDI_USERNAME);
+        OPTIONAL_PROPERTIES.put(PARAM_JNDI_PASSWORD,   DEFAULT_JNDI_PASSWORD);
 
         OPTIONAL_PROPERTIES.put(PARAM_PRINCIPAL_QUERY, DEFAULT_PRINCIPAL_QUERY);
-        OPTIONAL_PROPERTIES.put(PARAM_ROLES_QUERY, DEFAULT_ROLES_QUERY);
+        OPTIONAL_PROPERTIES.put(PARAM_ROLES_QUERY,     DEFAULT_ROLES_QUERY);
     }
     
     /**
-     * Initializing OnlineAthleticsRealm variables.
+     * Initializing OnlineAthleticsRealm variables. This method is invoked 
+     * during server startup when realm is initially loaded. If the method 
+     * returns without an exception, the GlassFish Server assumes that the realm
+     * is ready to service authentication requests. If an exception is thrown,
+     * the realm is disabled.
      * 
      * @param parameters the list of properties.
      * 
@@ -106,6 +114,9 @@ public class OnlineAthleticsRealm extends AppservRealm {
         for (Map.Entry<String, String> entry : OPTIONAL_PROPERTIES.entrySet()) {
             setOptionalProperty(entry.getKey(), parameters, entry.getValue());
         }
+        
+        LOG.log(Level.SEVERE, "AUTHENTICATION PROPERTIES: USERNAME: {0}, PASSWORD: {1} ",
+                new String[] {getProperty(PARAM_JNDI_USERNAME), getProperty(PARAM_JNDI_PASSWORD)});
     }
     
     /**
@@ -121,7 +132,7 @@ public class OnlineAthleticsRealm extends AppservRealm {
     }
 
     /**
-     * Returns the list of groups for specific user.
+     * Returns the list of groups for given user.
      * 
      * @param username the name of the user.
      * @return         the list of groups for specific user.
@@ -132,7 +143,9 @@ public class OnlineAthleticsRealm extends AppservRealm {
     @Override
     public Enumeration<String> getGroupNames(final String username) 
             throws InvalidOperationException, NoSuchUserException {
-        return Collections.enumeration(getGroups(username));
+        return Collections.enumeration(getGroups(username, 
+                getProperty(PARAM_JNDI_USERNAME), 
+                getProperty(PARAM_JNDI_PASSWORD)));
     }
     
     /**
@@ -143,12 +156,12 @@ public class OnlineAthleticsRealm extends AppservRealm {
      * 
      * @return the list of groups for the user.
      */
-    public String[] authenticate(final String username, final char[] password) {
+    public String[] authenticate(final String username, final String password) {
         LOG.log(Level.FINEST, "Authenticating user {0}", username);
 
         final boolean  authenticated = validateCredentials(username, password);
         final String[] groups        = authenticated ? 
-                convertToArray(getGroups(username)) : null;
+                convertToArray(getGroups(username, username, password)) : null;
 
         LOG.log(Level.FINEST, "User {0}, authenticated {1} has groups {2}", 
                 new String[] {username, Boolean.toString(authenticated), 
@@ -160,18 +173,25 @@ public class OnlineAthleticsRealm extends AppservRealm {
     /**
      * Returns the list of groups for specific user.
      * 
-     * @param username the name of the user.
+     * @param account  the name of the account which groups to return.
+     * @param username the name of the user to authenticate.
+     * @param password the password of the user to authenticate.
+     * 
      * @return         the list of groups for specific user.
      */
-    private List<String> getGroups(final String username) {
-        final List<String> groupNames         = new ArrayList<>(16);
-        final String       securityRolesQuery = getProperty(PARAM_ROLES_QUERY);
-        LOG.log(Level.FINEST, "Executing query ''{0}'' with username {1}", 
-                new String[] {securityRolesQuery, username});
+    private List<String> getGroups(final String account, 
+            final String username, final String password) {
+        final List<String> groupNames = new ArrayList<>(16);
+        final String       rolesQuery = getProperty(PARAM_ROLES_QUERY);
 
         try (final Connection        connection = getConnection();
-             final PreparedStatement statement = connection.prepareStatement(securityRolesQuery)) {
-            statement.setString(1, username);
+             final CallableStatement statement  = connection.prepareCall(rolesQuery)) {
+            LOG.log(Level.FINEST, "Executing query ''{0}'' with username {1}", 
+                new String[] {rolesQuery, username});
+            
+            statement.setString(1, account);
+            statement.setString(2, username);
+            statement.setString(3, password);
 
             try (final ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
@@ -198,17 +218,17 @@ public class OnlineAthleticsRealm extends AppservRealm {
      * @return true if credentials are valid, and false otherwise.
      */
     private boolean validateCredentials(final String username, 
-            final char[] password) {
+            final String password) {
         final String principalQuery = getProperty(PARAM_PRINCIPAL_QUERY);
         
         try (final Connection        connection = getConnection();
-             final CallableStatement statement = connection.prepareCall(principalQuery)) {
+             final CallableStatement statement  = connection.prepareCall(principalQuery)) {
             
             LOG.log(Level.FINEST, "Executing query ''{0}'' with username {1}", 
                 new String[] {principalQuery, username});
 
             statement.setString(1, username);
-            statement.setString(2, new String(password));
+            statement.setString(2, password);
             
             statement.executeQuery();
             LOG.log(Level.FINEST, "Username {0} has valid password.", username);

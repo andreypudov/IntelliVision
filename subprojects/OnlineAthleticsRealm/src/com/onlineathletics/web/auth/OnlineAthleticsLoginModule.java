@@ -49,14 +49,16 @@ public class OnlineAthleticsLoginModule extends AppservPasswordLoginModule {
         validateUser();
         
         final OnlineAthleticsRealm realm = (OnlineAthleticsRealm) _currentRealm;
-        final String[]             list  = realm.authenticate(_username, getPasswordChar());
+        final String[]             list  = realm.authenticate(_username, 
+                new String(getPasswordChar()));
 
         if (list == null) {
-            throw new LoginException("No groups found for user");
+            throw new LoginException("No groups found for user.");
         }
 
         if (LOG.isLoggable(Level.FINEST)) {
-            LOG.log(Level.FINEST, "JDBC login succeeded for: {0} groups:{1}", 
+            LOG.log(Level.FINEST,
+                    "OnlineAthletics login succeeded for: {0} groups: {1}", 
                     new Object[]{_username, Arrays.toString(list)});
         }
 
@@ -85,7 +87,7 @@ public class OnlineAthleticsLoginModule extends AppservPasswordLoginModule {
     private void validateUser() throws LoginException {
         /* a JDBC user must have a name not null and non-empty */
         if (_username == null || _username.isEmpty()) {
-            throw new LoginException("Username must have a value");
+            throw new LoginException("Username must have a value.");
         }
     }
 }

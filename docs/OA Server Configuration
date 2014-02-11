@@ -398,6 +398,8 @@
 
       <auth-realm name="OnlineAthleticsRealm" classname="com.onlineathletics.web.auth.OnlineAthleticsRealm">
         <property name="jaas-context" value="OnlineAthleticsRealm"></property>
+        <property name="User" value="<MySQL OA / name>"></property>
+        <property name="Password" value="<MySQL OA / password>"></property>
       </auth-realm>
 
     g) Change GlassFish http/https ports from 8080/8181 to 80/443

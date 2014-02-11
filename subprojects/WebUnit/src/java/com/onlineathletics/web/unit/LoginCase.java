@@ -33,6 +33,8 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
 import javax.sql.DataSource;
 
 /**
@@ -47,7 +49,7 @@ public class LoginCase {
     
     private static final String PARAM_JNDI_DATASOURCE    = "jdbc/OnlineAthletics";
     //private static final String PARAM_PRINCIPAL_QUERY  = "SELECT pass_phrase FROM oa_accnt_user_tbl WHERE user_name = ?";
-    private static final String PARAM_PRINCIPAL_QUERY  = "{CALL authenticate(?, ?)}";
+    private static final String PARAM_PRINCIPAL_QUERY  = "{CALL auth_authenticate(?, ?)}";
  
     public boolean beginCase1() {
         final Connection conenction = getConnection();
@@ -57,9 +59,9 @@ public class LoginCase {
     
     public String beginCase2() {
         try (final Connection        connection = getConnection();
-             //final PreparedStatement statement = connection.prepareStatement(PARAM_PRINCIPAL_QUERY)) {
-             final CallableStatement statement = connection.prepareCall(PARAM_PRINCIPAL_QUERY)) {
-
+                //final PreparedStatement statement = connection.prepareStatement(PARAM_PRINCIPAL_QUERY)) {
+                final CallableStatement statement = connection.prepareCall(PARAM_PRINCIPAL_QUERY)) {
+            
             statement.setString(1, "apudov");
             statement.setString(2, "dfgiwr@lk5f$oiu%5e4r");
             
@@ -68,6 +70,10 @@ public class LoginCase {
         } catch (SQLException e) {
             return "FAILED " + e.getMessage();
         }
+    }
+    
+    public String beginCase3() {
+        return "";
     }
     
     /**

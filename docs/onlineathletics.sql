@@ -154,7 +154,7 @@ INSERT INTO oa_accnt_roles_tbl(user_key, group_key)
 	       (@apudov_key,    @db_write_key),
 	       (@sijbaraev_key, @db_read_key);
 
--- create public stored procedures
+-- create stored procedures
 DELIMITER //
 
 CREATE PROCEDURE auth_authenticate (user_nm_arg VARCHAR(32),
@@ -221,27 +221,24 @@ BEGIN
 		WHERE user_name = user_nm_arg;
 END //
 
-CREATE PROCEDURE auth_has_group (user_accnt_arg VARCHAR(32),
-	user_group_arg VARCHAR(16),  user_nm_arg    VARCHAR(32),
-	pass_ph_arg    VARCHAR(128))
+CREATE PROCEDURE auth_has_group (user_nm_arg VARCHAR(32), pass_ph_arg VARCHAR(128),
+	                             user_gp_arg VARCHAR(16))
 	NOT DETERMINISTIC
-	COMMENT 'Validates that specified user account is in the given group.
+	COMMENT 'Validates that specified user account is in the given group. 
 
-	         @param user_accnt_arg the user account name.
-	         @param user_group_arg the user group to validate.
-
-	         @param user_nm_arg    the name value to authenticate query.
-			 @param pass_ph_arg    the password value to authenticate query.
+	         @param user_gp_arg the user group to validate.
+	         @param user_nm_arg the name value to authenticate query.
+			 @param pass_ph_arg the password value to authenticate query.
 
 			 @throws 45000 Invalid argument exception.
 			 @throws 45000 Authentication failed.
              @throws 45000 Permissions denied.'
 BEGIN
 	-- validate routine arguments
-	IF ((user_accnt_arg IS NULL)
-		 	OR (user_group_arg IS NULL)
-			OR (CHAR_LENGTH(user_accnt_arg) = 0)
-			OR (CHAR_LENGTH(user_group_arg) = 0)) THEN
+	IF ((user_nm_arg IS NULL)
+		 	OR (user_gp_arg IS NULL)
+			OR (CHAR_LENGTH(user_nm_arg) = 0)
+			OR (CHAR_LENGTH(user_gp_arg) = 0)) THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid argument exception.';
 	END IF;
 
@@ -251,41 +248,62 @@ BEGIN
 			FROM oa_accnt_roles_tbl r
 				INNER JOIN oa_accnt_groups_tbl g ON g.group_id = r.group_key
 				INNER JOIN oa_accnt_user_tbl   a ON a.user_id  = r.user_key
-			WHERE   a.user_name  = user_accnt_arg
-				AND g.group_name = user_group_arg) = 0) THEN
+			WHERE   a.user_name  = user_nm_arg
+				AND g.group_name = user_gp_arg) = 0) THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Permissions denied.';
 	END IF;
 END //
 
-CREATE PROCEDURE auth_get_groups_list (user_accnt_arg VARCHAR(32),
+CREATE PROCEDURE auth_get_groups_list (user_nm_arg VARCHAR(32), pass_ph_arg VARCHAR(128))
+	NOT DETERMINISTIC
+	COMMENT 'Returns a list of groups assigned to a user account.
+
+	         @param user_nm_arg the user account to look and
+	                            the name value to authenticate query.
+			 @param pass_ph_arg the password value to authenticate query.
+
+			 @throws 45000 Invalid argument exception.
+			 @throws 45000 Authentication failed.
+             @throws 45000 Permissions denied.'
+BEGIN
+	-- validate authentication and permissions
+	CALL auth_has_group (user_nm_arg, pass_ph_arg, 'db_read');
+
+	SELECT g.group_name
+		FROM oa_accnt_roles_tbl r
+			INNER JOIN oa_accnt_groups_tbl g ON g.group_id = r.group_key
+			INNER JOIN oa_accnt_user_tbl   a ON a.user_id  = r.user_key
+		WHERE a.user_name = user_nm_arg; 
+END //
+
+CREATE PROCEDURE auth_get_groups_list_by_name (user_accnt_nm_arg VARCHAR(32), 
 	user_nm_arg VARCHAR(32), pass_ph_arg VARCHAR(128))
 	NOT DETERMINISTIC
-	COMMENT 'Returns a list of groups assigned to specified user account.
+	COMMENT 'Returns a list of groups assigned to given user account.
 
-	         @param user_accnt_arg the user account to look.
+			 @user_accnt_nm_arg the user account to look.
 
-	         @param user_nm_arg    the name value to authenticate query.
-			 @param pass_ph_arg    the password value to authenticate query.
+	         @param user_nm_arg the name value to authenticate query.
+			 @param pass_ph_arg the password value to authenticate query.
 
 			 @throws 45000 Invalid argument exception.
 			 @throws 45000 Authentication failed.
              @throws 45000 Permissions denied.'
 BEGIN
 	-- validate routine arguments
-	IF ((user_accnt_arg IS NULL) 
-			OR (CHAR_LENGTH(user_accnt_arg) = 0)) THEN
+	IF ((user_accnt_nm_arg IS NULL) 
+			OR (CHAR_LENGTH(user_accnt_nm_arg) = 0)) THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid argument exception.';
 	END IF;
 
 	-- validate authentication and permissions
-	CALL auth_authenticate (user_nm_arg, pass_ph_arg);
-	CALL auth_has_group    (user_nm_arg, 'db_read', user_nm_arg, pass_ph_arg);
+	CALL auth_has_group (user_nm_arg, pass_ph_arg, 'db_read');
 
 	SELECT g.group_name
 		FROM oa_accnt_roles_tbl r
 			INNER JOIN oa_accnt_groups_tbl g ON g.group_id = r.group_key
 			INNER JOIN oa_accnt_user_tbl   a ON a.user_id  = r.user_key
-		WHERE a.user_name = user_accnt_arg; 
+		WHERE a.user_name = user_accnt_nm_arg; 
 END //
 
 CREATE PROCEDURE add_athlete (first_nm_arg   VARCHAR(255), 
@@ -327,8 +345,7 @@ BEGIN
 	END IF;
 
 	-- validate authentication and permissions
-	CALL auth_authenticate (user_nm_arg, pass_ph_arg);
-	CALL auth_has_group    (user_nm_arg, 'db_write', user_nm_arg, pass_ph_arg);
+	CALL auth_has_group (user_nm_arg, pass_ph_arg, 'db_write');
 
 	-- set first name id
 	SET first_nm_indx = (SELECT first_nm_id
@@ -419,8 +436,7 @@ BEGIN
 	END IF;
 
 	-- validate authentication and permissions
-	CALL auth_authenticate (user_nm_arg, pass_ph_arg);
-	CALL auth_has_group    (user_nm_arg, 'db_write', user_nm_arg, pass_ph_arg);
+	CALL auth_has_group (user_nm_arg, pass_ph_arg, 'db_write');
 
 	IF ((SELECT COUNT(*)
 			FROM oa_athl_tbl
@@ -507,8 +523,7 @@ BEGIN
 	END IF;
 
 	-- validate authentication and permissions
-	CALL auth_authenticate (user_nm_arg, pass_ph_arg);
-	CALL auth_has_group    (user_nm_arg, 'db_read', user_nm_arg, pass_ph_arg);
+	CALL auth_has_group (user_nm_arg, pass_ph_arg, 'db_read');
 
 	SELECT a.athl_id, f.first_name, s.second_name, b.birthday, a.sex
 		INTO athlete_id_var, first_nm_var, second_nm_var, birthday_var, sex_var
@@ -559,8 +574,7 @@ BEGIN
 	END IF;
 
 	-- validate authentication and permissions
-	CALL auth_authenticate (user_nm_arg, pass_ph_arg);
-	CALL auth_has_group    (user_nm_arg, 'db_read', user_nm_arg, pass_ph_arg);
+	CALL auth_has_group (user_nm_arg, pass_ph_arg, 'db_read');
 
 	SELECT a.athl_id, f.first_name, s.second_name, b.birthday, a.sex
 		INTO athlete_id_var, first_nm_var, second_nm_var, birthday_var, sex_var

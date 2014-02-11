@@ -50,7 +50,7 @@
                     </div>
                     
                     <div class='row'>
-                        <h:form p:method='post' p:action='j_security_check'>
+                        <h:form p:method='post' p:action='j_security_check'> <!-- j_security_check -->
                             <!-- the error message block -->
                             <div class="col-sm-6 col-sm-offset-6" style="display: #{param['auth'].equals('failed') ? 'initial' : 'none'}">
                                 <div class="alert alert-danger">

@@ -114,9 +114,6 @@ public class OnlineAthleticsRealm extends AppservRealm {
         for (Map.Entry<String, String> entry : OPTIONAL_PROPERTIES.entrySet()) {
             setOptionalProperty(entry.getKey(), parameters, entry.getValue());
         }
-        
-        LOG.log(Level.SEVERE, "AUTHENTICATION PROPERTIES: USERNAME: {0}, PASSWORD: {1} ",
-                new String[] {getProperty(PARAM_JNDI_USERNAME), getProperty(PARAM_JNDI_PASSWORD)});
     }
     
     /**

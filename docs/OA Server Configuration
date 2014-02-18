@@ -193,16 +193,19 @@
       <Glassfish Installation Directory>/glassfish/domains/<domain>/lib
 
       <Glassfish Installation Directory>/glassfish/domains/<domain>/config/domain.conf
-      <java-config> : classpath-suffix="${com.sun.aas.instanceRoot}/lib/OnlineAthleticsRealm.jar" 
+      <java-config> : classpath-suffix="${com.sun.aas.instanceRoot}/lib/OnlineAthleticsRealm.jar"
 
-   d) Enable support for OnlineAthletics Realm Login Module
+   d) Add BCrypt library to Glassfish classpath
+      <Glassfish Installation Directory>/glassfish/domains/<domain>/lib
+
+   e) Enable support for OnlineAthletics Realm Login Module
       <Glassfish Installation Directory>/glassfish/domains/<domain>/config/login.conf
 
       OnlineAthleticsRealm {
           com.onlineathletics.web.auth.OnlineAthleticsLoginModule required;
       };  
 
-   e) Create OnlineAthletics JDBC connection pool
+   f) Create OnlineAthletics JDBC connection pool
       <Glassfish Installation Directory>/glassfish/domains/<domain>/config/domain.conf
       <domain> / <resources>
 
@@ -392,15 +395,13 @@
       <property name="URL" value="jdbc:mysql://localhost:3306/onlineathletics"></property>
       <property name="NoAccessToProcedureBodies" value="true"></property>
 
-   f) Add OnlineAthletics Realm
+   g) Add OnlineAthletics Realm
       <Glassfish Installation Directory>/glassfish/domains/<domain>/config/domain.conf
       <domain> / <configs> / <config name="server-config"> / <security-service>
 
       <auth-realm name="OnlineAthleticsRealm" classname="com.onlineathletics.web.auth.OnlineAthleticsRealm">
         <property name="jaas-context" value="OnlineAthleticsRealm"></property>
-        <property name="User" value="<MySQL OA / name>"></property>
-        <property name="Password" value="<MySQL OA / password>"></property>
       </auth-realm>
 
-    g) Change GlassFish http/https ports from 8080/8181 to 80/443
+    h) Change GlassFish http/https ports from 8080/8181 to 80/443
        glassfish/domains/domain1/config/domain.xml

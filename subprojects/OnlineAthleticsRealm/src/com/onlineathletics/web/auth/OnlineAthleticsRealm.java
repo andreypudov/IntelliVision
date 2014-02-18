@@ -48,6 +48,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import org.jvnet.hk2.annotations.Service;
+import org.openbsd.security.BCrypt;
 
 /**
  * The collection of validation methods.
@@ -65,22 +66,16 @@ public class OnlineAthleticsRealm extends AppservRealm {
     protected static final String SERVICE_NAME = "OnlineAthleticsRealm";
     
     private static final String PARAM_JNDI_DATASOURCE  = "datasource-jndi";
-    private static final String PARAM_JNDI_USERNAME    = "User";
-    private static final String PARAM_JNDI_PASSWORD    = "Password";
     private static final String PARAM_PRINCIPAL_QUERY  = "password-query";
     private static final String PARAM_ROLES_QUERY      = "security-roles-query";
     
     private static final String DEFAULT_JNDI_DATASOURCE  = "jdbc/OnlineAthletics";
-    private static final String DEFAULT_JNDI_USERNAME    = "default";
-    private static final String DEFAULT_JNDI_PASSWORD    = "default";
-    private static final String DEFAULT_PRINCIPAL_QUERY  = "{CALL auth_authenticate(?, ?)}";
-    private static final String DEFAULT_ROLES_QUERY      = "{CALL auth_get_groups_list_by_name(?, ?, ?)}";
+    private static final String DEFAULT_PRINCIPAL_QUERY  = "{CALL auth_get_hash(?)}";
+    private static final String DEFAULT_ROLES_QUERY      = "{CALL auth_get_group_list(?)}";
     
     private static final Map<String, String> OPTIONAL_PROPERTIES = new HashMap<>(16);
     static {
         OPTIONAL_PROPERTIES.put(PARAM_JNDI_DATASOURCE, DEFAULT_JNDI_DATASOURCE);
-        OPTIONAL_PROPERTIES.put(PARAM_JNDI_USERNAME,   DEFAULT_JNDI_USERNAME);
-        OPTIONAL_PROPERTIES.put(PARAM_JNDI_PASSWORD,   DEFAULT_JNDI_PASSWORD);
 
         OPTIONAL_PROPERTIES.put(PARAM_PRINCIPAL_QUERY, DEFAULT_PRINCIPAL_QUERY);
         OPTIONAL_PROPERTIES.put(PARAM_ROLES_QUERY,     DEFAULT_ROLES_QUERY);
@@ -140,9 +135,7 @@ public class OnlineAthleticsRealm extends AppservRealm {
     @Override
     public Enumeration<String> getGroupNames(final String username) 
             throws InvalidOperationException, NoSuchUserException {
-        return Collections.enumeration(getGroups(username, 
-                getProperty(PARAM_JNDI_USERNAME), 
-                getProperty(PARAM_JNDI_PASSWORD)));
+        return Collections.enumeration(getGroups(username));
     }
     
     /**
@@ -158,7 +151,7 @@ public class OnlineAthleticsRealm extends AppservRealm {
 
         final boolean  authenticated = validateCredentials(username, password);
         final String[] groups        = authenticated ? 
-                convertToArray(getGroups(username, username, password)) : null;
+                convertToArray(getGroups(username)) : null;
 
         LOG.log(Level.FINEST, "User {0}, authenticated {1} has groups {2}", 
                 new String[] {username, Boolean.toString(authenticated), 
@@ -170,14 +163,10 @@ public class OnlineAthleticsRealm extends AppservRealm {
     /**
      * Returns the list of groups for specific user.
      * 
-     * @param account  the name of the account which groups to return.
-     * @param username the name of the user to authenticate.
-     * @param password the password of the user to authenticate.
-     * 
+     * @param username the name of the account which groups to return.
      * @return         the list of groups for specific user.
      */
-    private List<String> getGroups(final String account, 
-            final String username, final String password) {
+    private List<String> getGroups(final String username) {
         final List<String> groupNames = new ArrayList<>(16);
         final String       rolesQuery = getProperty(PARAM_ROLES_QUERY);
 
@@ -186,16 +175,14 @@ public class OnlineAthleticsRealm extends AppservRealm {
             LOG.log(Level.FINEST, "Executing query ''{0}'' with username {1}", 
                 new String[] {rolesQuery, username});
             
-            statement.setString(1, account);
-            statement.setString(2, username);
-            statement.setString(3, password);
+            statement.setString(1, username);
 
             try (final ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     groupNames.add(resultSet.getString(1));
                 }
             }
-        } catch (SQLException e) {
+        } catch (final SQLException e) {
             throw new IllegalStateException(e);
         }
         
@@ -217,6 +204,7 @@ public class OnlineAthleticsRealm extends AppservRealm {
     private boolean validateCredentials(final String username, 
             final String password) {
         final String principalQuery = getProperty(PARAM_PRINCIPAL_QUERY);
+        final String hash;
         
         try (final Connection        connection = getConnection();
              final CallableStatement statement  = connection.prepareCall(principalQuery)) {
@@ -225,13 +213,20 @@ public class OnlineAthleticsRealm extends AppservRealm {
                 new String[] {principalQuery, username});
 
             statement.setString(1, username);
-            statement.setString(2, password);
             
-            statement.executeQuery();
-            LOG.log(Level.FINEST, "Username {0} has valid password.", username);
+            try (final ResultSet resultSet = statement.executeQuery()) {
+                resultSet.next();
+                hash = resultSet.getString(1);
+            }
             
-            return true;
-        } catch (SQLException e) {
+            if (BCrypt.checkpw(password, hash) == true) {
+                LOG.log(Level.FINEST, "Username {0} has valid password.", username);
+
+                return true;
+            } else {
+                return false;
+            }
+        } catch (final SQLException e) {
             LOG.log(Level.INFO, "Authentication failed for user {0}: {1}.", 
                     new String[] {username, e.getMessage()});
             
@@ -252,7 +247,7 @@ public class OnlineAthleticsRealm extends AppservRealm {
             final DataSource     source  = (DataSource) context.lookup(dataSourceJndi);
             
             return source.getConnection();
-        } catch (NamingException | SQLException e) {
+        } catch (final NamingException | SQLException e) {
             throw new IllegalStateException("Error retrieving connection", e);
         }
     }

@@ -37,8 +37,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
     <h:body>
         <ui:composition template='resources/schemas/layout.xhtml'>
             <ui:define name='title'>
@@ -51,24 +50,7 @@
                     </div>
                     
                     <div class='row'>
-                        <h:form>
-                            <!-- the form validation handler -->
-                            <f:event listener="#{loginForm.validate}" type="postValidate" />
-                            
-                            <!-- the error message block -->
-                            <div class="col-sm-6 col-sm-offset-6" style="display: #{(!loginForm.usernameValid || !loginForm.passwordValid) ? 'initial' : 'none'}">
-                                <div class="alert alert-danger">
-                                    <p>
-                                        <strong>${MESSAGES.contact_form_title}</strong>
-                                        ${MESSAGES.contact_form_subtitile}
-                                        <ul>
-                                            <li style="display: #{!loginForm.usernameValid ? 'list-item' : 'none'}"><h:message for="j_username" /></li>
-                                            <li style="display: #{!loginForm.passwordValid ? 'list-item' : 'none'}"><h:message for="j_password" /></li>
-                                        </ul>
-                                    </p>
-                                </div>
-                            </div>
-                            
+                        <h:form p:method='post' p:action='j_security_check'>
                             <!-- the error message block -->
                             <div class="col-sm-6 col-sm-offset-6" style="display: #{param['auth'].equals('failed') ? 'initial' : 'none'}">
                                 <div class="alert alert-danger">
@@ -83,19 +65,19 @@
                                 <small>Online Athletics account <a href='#'>What's this?</a></small>
                                 <div class='form-group'>
                                     <h:inputText id='j_username' class='form-control'
-                                                 value='#{loginForm.username}' p:type='text' 
+                                                 p:name='j_username' p:type='text' 
                                                  p:placeholder='someone@example.com' />
                                 </div>
                                 
                                 <div class='form-group'>
                                     <h:inputText id='j_password' class='form-control'
-                                                 value='#{loginForm.password}' p:type='password'
+                                                 p:type='password' p:name='j_password'
                                                  p:placeholder='Password' />
                                 </div>
 
                                 <div class='form-group'>
                                     <a class='btn btn-primary btn-container'>
-                                        <h:commandButton id="submitButton" value="Sign in" action='#{loginForm.login()}' />
+                                        <h:commandButton id="submitButton" value="Sign in" />
                                     </a>
                                 </div>
                                 

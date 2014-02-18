@@ -67,10 +67,12 @@ public class OnlineAthleticsRealm extends AppservRealm {
     
     private static final String PARAM_JNDI_DATASOURCE  = "datasource-jndi";
     private static final String PARAM_PRINCIPAL_QUERY  = "password-query";
+    private static final String PARAM_SECURITY_QUERY   = "password-hash-query";
     private static final String PARAM_ROLES_QUERY      = "security-roles-query";
     
     private static final String DEFAULT_JNDI_DATASOURCE  = "jdbc/OnlineAthletics";
-    private static final String DEFAULT_PRINCIPAL_QUERY  = "{CALL auth_get_hash(?)}";
+    private static final String DEFAULT_PRINCIPAL_QUERY  = "{CALL auth_validate_credentials(?, ?)}";
+    private static final String DEFAULT_SECURITY_QUERY   = "{CALL auth_get_hash(?)}";
     private static final String DEFAULT_ROLES_QUERY      = "{CALL auth_get_group_list(?)}";
     
     private static final Map<String, String> OPTIONAL_PROPERTIES = new HashMap<>(16);
@@ -78,6 +80,7 @@ public class OnlineAthleticsRealm extends AppservRealm {
         OPTIONAL_PROPERTIES.put(PARAM_JNDI_DATASOURCE, DEFAULT_JNDI_DATASOURCE);
 
         OPTIONAL_PROPERTIES.put(PARAM_PRINCIPAL_QUERY, DEFAULT_PRINCIPAL_QUERY);
+        OPTIONAL_PROPERTIES.put(PARAM_SECURITY_QUERY,  DEFAULT_SECURITY_QUERY);
         OPTIONAL_PROPERTIES.put(PARAM_ROLES_QUERY,     DEFAULT_ROLES_QUERY);
     }
     
@@ -183,6 +186,9 @@ public class OnlineAthleticsRealm extends AppservRealm {
                 }
             }
         } catch (final SQLException e) {
+            LOG.log(Level.INFO, "Group list obtaining failed for user {0}: {1}.", 
+                    new String[] {username, e.getMessage()});
+            
             throw new IllegalStateException(e);
         }
         
@@ -190,6 +196,35 @@ public class OnlineAthleticsRealm extends AppservRealm {
                 new String[] {username, groupNames.toString()});
         
         return groupNames;
+    }
+    
+    /**
+     * Returns the hashed password value for a given user account.
+     * 
+     * @param username the user name value.
+     * @return         the hashed password value.
+     */
+    private String getHash(final String username) {
+        final String securityQuery = getProperty(PARAM_SECURITY_QUERY);
+        
+        try (final Connection        connection = getConnection();
+             final CallableStatement statement  = connection.prepareCall(securityQuery)) {
+            
+            LOG.log(Level.FINEST, "Executing query ''{0}'' with username {1}", 
+                new String[] {securityQuery, username});
+
+            statement.setString(1, username);
+            
+            try (final ResultSet resultSet = statement.executeQuery()) {
+                resultSet.next();
+                return resultSet.getString(1);
+            }
+        } catch (final SQLException e) {
+            LOG.log(Level.INFO, "Hash obtaining failed for user {0}: {1}.", 
+                    new String[] {username, e.getMessage()});
+            
+            throw new IllegalStateException(e);
+        }
     }
     
     /**
@@ -204,7 +239,6 @@ public class OnlineAthleticsRealm extends AppservRealm {
     private boolean validateCredentials(final String username, 
             final String password) {
         final String principalQuery = getProperty(PARAM_PRINCIPAL_QUERY);
-        final String hash;
         
         try (final Connection        connection = getConnection();
              final CallableStatement statement  = connection.prepareCall(principalQuery)) {
@@ -212,20 +246,15 @@ public class OnlineAthleticsRealm extends AppservRealm {
             LOG.log(Level.FINEST, "Executing query ''{0}'' with username {1}", 
                 new String[] {principalQuery, username});
 
+            /* hash function accepts already hashed password as salt */
             statement.setString(1, username);
+            statement.setString(2, BCrypt.hashpw(password, getHash(username)));
             
-            try (final ResultSet resultSet = statement.executeQuery()) {
-                resultSet.next();
-                hash = resultSet.getString(1);
-            }
+            statement.executeQuery();
             
-            if (BCrypt.checkpw(password, hash) == true) {
-                LOG.log(Level.FINEST, "Username {0} has valid password.", username);
-
-                return true;
-            } else {
-                return false;
-            }
+            LOG.log(Level.FINEST, "Username {0} has valid password.", username);
+            
+            return true;
         } catch (final SQLException e) {
             LOG.log(Level.INFO, "Authentication failed for user {0}: {1}.", 
                     new String[] {username, e.getMessage()});

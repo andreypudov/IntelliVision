@@ -79,6 +79,7 @@ CREATE TABLE oa_accnt_user_tbl (
 	user_id     INT UNSIGNED NOT NULL AUTO_INCREMENT,
 	user_name   VARCHAR(32)  NOT NULL UNIQUE,
 	pass_phrase VARCHAR(60)  NOT NULL,
+	attempt     INT UNSIGNED NOT NULL,
 	PRIMARY KEY	(user_id)
 ) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
 
@@ -104,8 +105,8 @@ SET @apudov_hashed    = '$2a$31$4GQZ7v9mMnKFCLHivRdCHewX6XP4Mn.jQu.Y04Z38yA2dMzZ
 SET @sijbaraev_hashed = '$2a$31$wr62CwTtIouEhQOM/m1EB.ArYHPL6Vu.kiTnfxwT5iRGsvR1FXkZ.';
 
 INSERT INTO oa_accnt_user_tbl(user_name, pass_phrase, attempt)
-	VALUES ('apudov',    @apudov_hashed),
-	       ('sijbaraev', @sijbaraev_hashed);
+	VALUES ('apudov',    @apudov_hashed, 0),
+	       ('sijbaraev', @sijbaraev_hashed, 0);
 
 INSERT INTO oa_accnt_groups_tbl(group_name)
 	VALUES ('db_read'), ('db_write');
@@ -123,6 +124,62 @@ INSERT INTO oa_accnt_roles_tbl(user_key, group_key)
 
 -- create stored procedures
 DELIMITER //
+
+CREATE PROCEDURE auth_validate_credentials (
+	user_nm_arg VARCHAR(32), pass_ph_arg VARCHAR(60))
+	NOT DETERMINISTIC
+    COMMENT 'Authenticates query with specified credentials. Function validates
+             the number of authentication attempt and if third attempt is 
+             failed, a signal fired for any following
+			 queries, even if provided credentials are correct.
+
+			 @param user_nm_arg the name value to authenticate query.
+			 @param pass_ph_arg the hashed password value to authenticate query.
+
+             @throws 45000 Authentication failed.'
+BEGIN
+	DECLARE attempt_val INT UNSIGNED;
+
+	-- validate routine arguments
+	IF ((user_nm_arg IS NULL) 
+			OR (pass_ph_arg IS NULL)
+			OR (CHAR_LENGTH(user_nm_arg) = 0)
+			OR (CHAR_LENGTH(pass_ph_arg) = 0)) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Authentication failed.';
+	END IF;
+
+	-- specified user name doesn't exists
+	IF ((SELECT COUNT(user_name)  
+			FROM  oa_accnt_user_tbl
+			WHERE user_name = user_nm_arg) = 0) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Authentication failed.';
+	END IF;
+
+	-- the number of already listed attempts
+	SET attempt_val = (SELECT attempt 
+		FROM  oa_accnt_user_tbl
+		WHERE user_name = user_nm_arg);
+	IF (attempt_val >= 3) THEN
+		-- authentication failed when three and more failed attempts occured
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Authentication failed.';
+	END IF;
+
+	-- validate credentials
+	IF ((SELECT COUNT(user_name)
+			FROM oa_accnt_user_tbl
+			WHERE   user_name   = user_nm_arg
+				AND pass_phrase = pass_ph_arg) = 0) THEN
+		UPDATE oa_accnt_user_tbl
+			SET   attempt   = attempt_val + 1 
+			WHERE user_name = user_nm_arg;
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Authentication failed.';
+	END IF;
+
+	-- clear attempts index on success
+	UPDATE oa_accnt_user_tbl
+		SET   attempt   = 0 
+		WHERE user_name = user_nm_arg;
+END //
 
 CREATE PROCEDURE auth_has_group (user_nm_arg VARCHAR(32), user_gp_arg VARCHAR(16))
 	NOT DETERMINISTIC

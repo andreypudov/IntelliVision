@@ -3,7 +3,7 @@
  *
  * The MIT License
  *
- * Copyright 2011-2013 Andrey Pudov.
+ * Copyright 2011-2014 Andrey Pudov.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,57 +26,35 @@
 
 package com.onlineathletics.util;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
+import javax.faces.context.FacesContext;
 
 /**
- * The internal web service provides public methods to obtain technical
- * information about Online Athletics and IntelliJustice status.
+ * The application context parameters.
  *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
- * %name      InternalService.java
- * %date      07:15:00 PM, Dec 03, 2013
+ * %name      Parameters.java
+ * %date      09:300:00 PM, Feb 23, 2014
  */
-public class Database {
+public class Parameters {
     
     private static final java.util.logging.Logger LOG
             = java.util.logging.Logger.getLogger(
             com.onlineathletics.core.Manifest.NAME);
     
-    public static final String PRC_GET_ATHLETE = "{CALL get_athlete(?, ?)}";
-    
-    /* the name of the database pool in application container */
-    private static final String POOL_NAME = "java:comp/env/jdbc/OnlineAthletics";
-    
-    private static DataSource source;
-    
-    static {
-        try {
-            source = (DataSource) new InitialContext().lookup(POOL_NAME);
-        } catch (NamingException e) {
-            LOG.log(Level.SEVERE, 
-                    "Could not get data source from application container.{0}", 
-                    e.getMessage());
-        }
-    }
-    
     /* do not let anyone instantiate this class */
-    private Database() {
+    private Parameters() {
     }
     
     /**
-     * Returns database connection from the pool.
+     * Return the value for given application context parameter.
      * 
-     * @return the database connection.
-     * 
-     * @throws SQLException 
+     * @param key the name of the parameter.
+     * @return    the value of the parameter.
      */
-    public static Connection getConnection() throws SQLException {
-        return source.getConnection();
+    public static String get(final String key) {
+        final FacesContext context = FacesContext.getCurrentInstance();
+        
+        return context.getExternalContext().getInitParameter(key);
     }
 }

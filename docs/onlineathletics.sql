@@ -105,12 +105,14 @@ SET @apudov_hashed    = '$2a$31$4GQZ7v9mMnKFCLHivRdCHewX6XP4Mn.jQu.Y04Z38yA2dMzZ
 SET @sijbaraev_hashed = '$2a$31$wr62CwTtIouEhQOM/m1EB.ArYHPL6Vu.kiTnfxwT5iRGsvR1FXkZ.';
 
 INSERT INTO oa_accnt_user_tbl(user_name, pass_phrase, attempt)
-	VALUES ('apudov',    @apudov_hashed, 0),
+	VALUES ('onlineathletics', '', 0),
+		   ('apudov',    @apudov_hashed, 0),
 	       ('sijbaraev', @sijbaraev_hashed, 0);
 
 INSERT INTO oa_accnt_groups_tbl(group_name)
 	VALUES ('db_read'), ('db_write');
 
+SET @oa_key        = (SELECT user_id FROM oa_accnt_user_tbl WHERE user_name = 'onlineathletics');
 SET @apudov_key    = (SELECT user_id FROM oa_accnt_user_tbl WHERE user_name = 'apudov');
 SET @sijbaraev_key = (SELECT user_id FROM oa_accnt_user_tbl WHERE user_name = 'sijbaraev');
 
@@ -118,7 +120,8 @@ SET @db_read_key   = (SELECT group_id FROM oa_accnt_groups_tbl WHERE group_name 
 SET @db_write_key  = (SELECT group_id FROM oa_accnt_groups_tbl WHERE group_name = 'db_write');
 
 INSERT INTO oa_accnt_roles_tbl(user_key, group_key)
-	VALUES (@apudov_key,    @db_read_key),
+	VALUES (@oa_key,        @db_read_key),
+	       (@apudov_key,    @db_read_key),
 	       (@apudov_key,    @db_write_key),
 	       (@sijbaraev_key, @db_read_key);
 

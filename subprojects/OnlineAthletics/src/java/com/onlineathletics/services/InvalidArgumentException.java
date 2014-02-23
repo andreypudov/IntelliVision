@@ -46,8 +46,10 @@ public class InvalidArgumentException extends Exception {
             com.onlineathletics.core.Manifest.NAME);
     
     /**
-     * Constructs an {@code InvalidArgumentException} with {@code null}
+     * Constructs an {@code InvalidArgumentException} with {@code message}
      * as its error detail message.
+     * 
+     * @param message the exception description information.
      */
     public InvalidArgumentException(final String message) {
         super(message);

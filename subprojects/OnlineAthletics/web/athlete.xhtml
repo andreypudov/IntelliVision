@@ -42,13 +42,17 @@
                 <title>Online Athletics - Athlete</title>
             </ui:define>
             <ui:define name="content">
+                #{athletePage.init(param['id'])}
+                
                 <div class="container marketing">
                     <div class="page-header">
-                        <h1>Athlete #{param['id']}</h1>
+                        <h1>Athlete</h1>
                     </div>
                     
                     <div class="row">
-                        
+                        <p>#{athletePage.id}</p>
+                        <p>#{athletePage.firstName}</p>
+                        <p>#{athletePage.secondName}</p>
                     </div>
                 </div>
             </ui:define>

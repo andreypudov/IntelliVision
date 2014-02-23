@@ -27,7 +27,7 @@
     </url-mapping>
     
     <url-mapping id="athlete-profile">
-        <pattern value="/id#{/\\d{6}/ id}/" />
+        <pattern value="/id#{/\\d{1,6}/ id}/" />
 	<view-id value="/faces/athlete.xhtml" />
     </url-mapping>
     

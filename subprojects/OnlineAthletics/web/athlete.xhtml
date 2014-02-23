@@ -27,11 +27,11 @@
 -->
 
 <!--
-    Document   : athletes.xhtml
-    Created on : Jan 04, 2014, 04:10:00 PM
+    Document   : athlete.xhtml
+    Created on : Feb 23, 2014, 03:30:00 PM
     Author     : Andrey Pudov        <mail@andreypudov.com>
     Description:
-        The web page with the list of available athletes.
+        The web page provides an athlete profile.
 -->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
@@ -39,12 +39,12 @@
     <body>
         <ui:composition template="resources/schemas/layout.xhtml">
             <ui:define name="title" >
-                <title>Online Athletics - Athletes</title>
+                <title>Online Athletics - Athlete</title>
             </ui:define>
             <ui:define name="content">
                 <div class="container marketing">
                     <div class="page-header">
-                        <h1>Athletes</h1>
+                        <h1>Athlete #{param['id']}</h1>
                     </div>
                     
                     <div class="row">

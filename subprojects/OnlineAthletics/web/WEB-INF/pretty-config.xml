@@ -26,9 +26,9 @@
 	<view-id value="/faces/athletes.xhtml" />
     </url-mapping>
     
-    <url-mapping id="athletes">
-        <pattern value="/athletes/add/" />
-	<view-id value="/faces/addathlete.xhtml" />
+    <url-mapping id="athlete-profile">
+        <pattern value="/id#{/\\d{6}/ id}/" />
+	<view-id value="/faces/athlete.xhtml" />
     </url-mapping>
     
     <url-mapping id="competitions">

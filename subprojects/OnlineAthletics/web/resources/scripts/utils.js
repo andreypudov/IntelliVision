@@ -1,11 +1,9 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-
-<!--
+/* 
  * IntelliJustice Intelligent Referee Assistant System
  *
  * The MIT License
  *
- * Copyright 2011-2013 Andrey Pudov.
+ * Copyright 2011-2014 Andrey Pudov.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,24 +22,31 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
--->
+ */
 
-<!--
-    Document   : index.xhtml
-    Created on : Nov 23, 2012, 04:20:00 PM
-    Author     : Andrey Pudov        <mail@andreypudov.com>
-    Description:
-        The general application web page.
--->
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
-    <h:body>
-        <ui:composition template="resources/schemas/layout.xhtml">
-            <ui:define name="content">
-                Admin Page
-            </ui:define>
-        </ui:composition>
-    </h:body>
-</html>
+/**
+ * The collection of data manipulation utils.
+ *
+ * @author    Andrey Pudov        <mail@andreypudov.com>
+ * @version   0.00.00
+ * %name      utils.js
+ * %date      12:40:00 PM, Feb 23, 2014
+ */
+
+/**
+ * Closes popovers wheck clicked outside.
+ * 
+ * @param {Element} container the container element id.
+ */
+function closePopoversOnClick(container) {
+    var $container = $(container);
+    
+    $container.on('click', function(e) {
+        $('[data-toggle="popover"]').each(function() {
+            if (!$(this).is(e.target) && $(this).has(e.target).length === 0 
+                    && $('.popover').has(e.target).length === 0) {
+                $(this).popover('hide');
+            }
+        });
+    });
+}

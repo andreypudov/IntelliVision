@@ -27,20 +27,38 @@
 -->
 
 <!--
-    Document   : index.xhtml
+    Document   : control.xhtml
     Created on : Nov 23, 2012, 04:20:00 PM
     Author     : Andrey Pudov        <mail@andreypudov.com>
     Description:
-        The general application web page.
+        The application web page provides ability to manage competitions data.
 -->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:body>
         <ui:composition template="resources/schemas/layout.xhtml">
+            <ui:define name="title">
+                <title>Online Athletics - Mission Control</title>
+            </ui:define>
             <ui:define name="content">
+                <div class="container marketing">
+                    <div class="page-header">
+                        <h1>Mission Control<small>If you have questions about our service or other topics, we’d like to hear from you. </small></h1>
+                    </div>
+                </div>
+                
+                <c:set var="db_read"  value="#{request.isUserInRole('db_read')}" />
+                <c:set var="db_write" value="#{request.isUserInRole('db_write')}" />
+            
                 Admin Page
+                
+                #{request.userPrincipal.name}
+                #{request.isUserInRole('db_write')}
+                <h:outputLabel value="DB_READ" rendered="#{db_read}" />
+                <h:outputLabel value="DB_WRITE" rendered="#{db_write}" />
             </ui:define>
         </ui:composition>
     </h:body>

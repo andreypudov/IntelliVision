@@ -2,9 +2,13 @@
                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
                xsi:schemaLocation="http://ocpsoft.org/schema/rewrite-config-prettyfaces
                       http://ocpsoft.org/xml/ns/prettyfaces/rewrite-config-prettyfaces.xsd">
-    <!-- traililng slash is  -->
-    <!-- <rewrite toCase="lowercase" redirect="chain" /> -->
-    <!--<rewrite match="^(?!.*\.(xhtml|js|css).*).*" trailingSlash="append" redirect="301" />-->
+    <!-- rewtite URL to lower case -->
+    <rewrite toCase="lowercase" redirect="chain" />
+    
+    <!-- add faces directory to URLs without it -->
+    <!-- <rewrite match="/foo/(\w+)/" substitute="/bar/$1/" /> -->
+    
+    <!-- add trailing slash character -->
     <rewrite match="^(?!.*\.\w{2}.*).*" trailingSlash="append" redirect="301" />
     
     <url-mapping id="index">
@@ -22,6 +26,11 @@
 	<view-id value="/faces/athletes.xhtml" />
     </url-mapping>
     
+    <url-mapping id="athletes">
+        <pattern value="/athletes/add/" />
+	<view-id value="/faces/addathlete.xhtml" />
+    </url-mapping>
+    
     <url-mapping id="competitions">
         <pattern value="/competitions/" />
 	<view-id value="/faces/competitions.xhtml" />
@@ -30,6 +39,11 @@
     <url-mapping id="contact">
         <pattern value="/contact/" />
 	<view-id value="/faces/contact.xhtml" />
+    </url-mapping>
+    
+    <url-mapping id="thankyou">
+        <pattern value="/contact/thankyou/" />
+	<view-id value="/faces/thankyou.xhtml" />
     </url-mapping>
         
     <url-mapping id="legal">
@@ -47,8 +61,8 @@
 	<view-id value="/faces/results.xhtml" />
     </url-mapping>
     
-    <url-mapping id="thankyou">
-        <pattern value="/contact/thankyou/" />
-	<view-id value="/faces/thankyou.xhtml" />
+    <url-mapping id="control">
+        <pattern value="/mission-control/" />
+	<view-id value="/faces/control.xhtml" />
     </url-mapping>
 </pretty-config>

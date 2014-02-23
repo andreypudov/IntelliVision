@@ -638,6 +638,9 @@ footer .piped-links{padding-left:0px}footer .piped-links>p{float:left;padding-ri
 footer .piped-links>li{float:none;display:inline-block;margin-left:.3em;padding-left:.6em;border-left:1px solid #ccc}
 footer .piped-links>li.first{margin-left:0;padding-left:0;border-left:none}
 @media (min-width:768px){.contact-form-background{background-image:url('/OnlineAthletics/resources/images/contact-form-background.png');background-repeat:no-repeat;background-position:-50px -10px;background-size:52%}}
+.region-base{padding:6px 12px}
+.region-large{padding:10px 16px}
+.region-small{padding:5px 10px}
 .btn-container{padding:0px}.btn-container input[type="submit"],.btn-container input[type="reset"],.btn-container input[type="button"]{padding:6px 12px;background:transparent;border:0px;color:inherit}
 body{padding-bottom:20px;color:#333;-webkit-font-smoothing:antialiased}
 .navbar-wrapper{position:absolute;top:0;left:0;right:0;z-index:20}

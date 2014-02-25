@@ -34,26 +34,26 @@
         The general application login page.
 -->
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+<html xmlns='http://www.w3.org/1999/xhtml'
+      xmlns:h='http://xmlns.jcp.org/jsf/html'
+      xmlns:ui='http://java.sun.com/jsf/facelets'
+      xmlns:p='http://xmlns.jcp.org/jsf/passthrough'>
     <h:body>
         <ui:composition template='resources/schemas/layout.xhtml'>
             <ui:define name='title'>
                 <title>Online Athletics - Authentication</title>
             </ui:define>
             <ui:define name='content'>
-                <div class='container marketing'>
-                    <div class="page-header col-sm-6 col-sm-offset-6">
+                <div class='container'>
+                    <div class='page-header col-sm-6 col-sm-offset-6'>
                         <h1>Sign in</h1>
                     </div>
                     
                     <div class='row'>
                         <h:form p:method='post' p:action='j_security_check'>
                             <!-- the error message block -->
-                            <div class="col-sm-6 col-sm-offset-6" style="display: #{param['auth'].equals('failed') ? 'initial' : 'none'}">
-                                <div class="alert alert-danger">
+                            <div class='col-sm-6 col-sm-offset-6' style="display: #{param['auth'].equals('failed') ? 'initial' : 'none'}">
+                                <div class='alert alert-danger'>
                                     <p>
                                         <strong>${MESSAGES.contact_form_title}</strong>
                                         ${MESSAGES.contact_form_subtitile}
@@ -84,7 +84,7 @@
 
                                 <div class='form-group'>
                                     <a class='btn btn-primary btn-container'>
-                                        <h:commandButton id="submitButton" value="Sign in" />
+                                        <h:commandButton id='submitButton' value='Sign in' />
                                     </a>
                                 </div>
                                 
@@ -102,12 +102,12 @@
                     </div>
                 </div>
             </ui:define>
-            <ui:define name="page-scripts">
+            <ui:define name='page-scripts'>
                 <!-- common client side validation functions -->
-                <script src="${request.contextPath}/resources/scripts/utils.js"></script>
+                <script src='${request.contextPath}/resources/scripts/utils.js'></script>
                 
-                <script src="${request.contextPath}/resources/libraries/bootstrap/js/tooltip.js" />
-                <script src="${request.contextPath}/resources/libraries/bootstrap/js/popover.js" />
+                <script src='${request.contextPath}/resources/libraries/bootstrap/js/tooltip.js' />
+                <script src='${request.contextPath}/resources/libraries/bootstrap/js/popover.js' />
                 
                 <script>
                     $('[data-toggle="popover"]').popover();

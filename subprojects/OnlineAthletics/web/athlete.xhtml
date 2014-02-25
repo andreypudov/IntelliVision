@@ -34,25 +34,53 @@
         The web page provides an athlete profile.
 -->
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+<html xmlns='http://www.w3.org/1999/xhtml'
+      xmlns:ui='http://java.sun.com/jsf/facelets'>
     <body>
-        <ui:composition template="resources/schemas/layout.xhtml">
-            <ui:define name="title" >
+        <ui:composition template='resources/schemas/layout.xhtml'>
+            <ui:define name='title'>
                 <title>Online Athletics - Athlete</title>
             </ui:define>
-            <ui:define name="content">
+            <ui:define name='content'>
                 #{athletePage.init(param['id'])}
                 
-                <div class="container marketing">
-                    <div class="page-header">
-                        <h1>Athlete</h1>
+                <div class='container'>
+                    <div class='row page-header '>
+                        <div class='col-sm-4'>
+                            <img src='${request.contextPath}/resources/images/athlete-default-photography.jpg' 
+                                 alt='#{athletePage.firstName} #{athletePage.secondName}'
+                                 style='max-width: 300px; max-height: 400px;'/>
+                        </div>
+                        
+                        <div class='col-sm-8'>
+                            <h1>#{athletePage.firstName} #{athletePage.secondName}</h1>
+                            
+                            <table>
+                                <tr>
+                                    <td style='padding-right: 10px; text-align: right;'><strong>Date of Birth:</strong></td>
+                                    <td>#{athletePage.birthday}</td>
+                                </tr>
+                                <tr>
+                                    <td style='padding-right: 10px; text-align: right;'><strong>Sex:</strong></td>
+                                    <td>#{athletePage.sex ? 'Man' : 'Woman'}</td>
+                                </tr>
+                                <tr>
+                                    <td style='padding-right: 10px; text-align: right;'><strong>Country:</strong></td>
+                                    <td>Russian Federation</td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                     
-                    <div class="row">
+                    <div class='row'>
                         <p>#{athletePage.id}</p>
                         <p>#{athletePage.firstName}</p>
                         <p>#{athletePage.secondName}</p>
+                        <p>#{athletePage.firstNameLocalized}</p>
+                        <p>#{athletePage.secondNameLocalized}</p>
+                        <p>#{athletePage.birthday}</p>
+                        <p>#{athletePage.sex}</p>
+                        <p>#{athletePage.country}</p>
                     </div>
                 </div>
             </ui:define>

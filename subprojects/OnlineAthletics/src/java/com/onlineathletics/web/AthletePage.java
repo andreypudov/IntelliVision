@@ -9,6 +9,8 @@ package com.onlineathletics.web;
 import com.onlineathletics.core.Athlete;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -51,5 +53,27 @@ public class AthletePage {
     
     public String getSecondName() {
         return athlete.getSecondName();
+    }
+    
+    public String getFirstNameLocalized() {
+        return athlete.getFirstNameLocalized();
+    }
+    
+    public String getSecondNameLocalized() {
+        return athlete.getSecondNameLocalized();
+    }
+    
+    public String getBirthday() {
+        final SimpleDateFormat formatter = new SimpleDateFormat("MMMM d, yyyy");
+        
+        return formatter.format(new Date(athlete.getBirthday()));
+    }
+
+    public boolean getSex() {
+        return athlete.getSex();
+    }
+    
+    public String getCountry() {
+        return athlete.getCountry();
     }
 }

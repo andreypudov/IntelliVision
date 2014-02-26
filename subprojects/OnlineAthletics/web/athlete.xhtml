@@ -46,13 +46,13 @@
                 
                 <div class='container'>
                     <div class='row page-header '>
-                        <div class='col-sm-4'>
+                        <div class='col-sm-5 col-md-4 col-lg-3 hidden-xs'>
                             <img src='${request.contextPath}/resources/images/athlete-default-photography.jpg' 
                                  alt='#{athletePage.firstName} #{athletePage.secondName}'
-                                 style='max-width: 300px; max-height: 400px;'/>
+                                 style='/*max-width: 300px;*/ max-height: 400px;'/>
                         </div>
                         
-                        <div class='col-sm-8'>
+                        <div class='col-xs-12 col-sm-7 col-md-8 col-lg-9'>
                             <h1>#{athletePage.firstName} #{athletePage.secondName}</h1>
                             
                             <table>
@@ -70,17 +70,6 @@
                                 </tr>
                             </table>
                         </div>
-                    </div>
-                    
-                    <div class='row'>
-                        <p>#{athletePage.id}</p>
-                        <p>#{athletePage.firstName}</p>
-                        <p>#{athletePage.secondName}</p>
-                        <p>#{athletePage.firstNameLocalized}</p>
-                        <p>#{athletePage.secondNameLocalized}</p>
-                        <p>#{athletePage.birthday}</p>
-                        <p>#{athletePage.sex}</p>
-                        <p>#{athletePage.country}</p>
                     </div>
                 </div>
             </ui:define>

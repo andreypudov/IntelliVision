@@ -34,45 +34,45 @@
         The footer control used as common application layout entry.
 -->
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+<html xmlns='http://www.w3.org/1999/xhtml'
+      xmlns:h='http://xmlns.jcp.org/jsf/html'
+      xmlns:ui='http://java.sun.com/jsf/facelets'>
     <body>
         <ui:composition>
-            <div class="container marketing">
+            <div class='container'>
                 <footer>
-                    <ui:insert name="footer-divider">
-                        <hr class="footer-divider" />
+                    <ui:insert name='footer-divider'>
+                        <hr class='footer-divider' />
                     </ui:insert>
                     
-                    <ul class="piped-links pull-right">
-                        <li class="first"><h:link value="About Online Athletics" outcome="about" /></li>
-                        <li><h:link value="Contact Us" outcome="contact" /></li>
+                    <ul class='piped-links pull-right'>
+                        <li class='first'><h:link value='About Online Athletics' outcome='about' /></li>
+                        <li><h:link value='Contact Us' outcome='contact' /></li>
                     </ul>
                     
                     <ul class="piped-links">
                         <p>Copyright &#169; 2014 Andrey Pudov. All rights reserved.</p>
-                        <li class="first"><h:link value="Terms of Use" outcome="legal" /></li>
-                        <li><h:link value="Privacy Policy" outcome="privacy" /></li>
+                        <li class='first'><h:link value='Terms of Use' outcome='legal' /></li>
+                        <li><h:link value='Privacy Policy' outcome='privacy' /></li>
                     </ul>
                 </footer>
 
                 <!-- Bootstrap core JavaScript -->
                 <!-- Placed at the end of the document so the pages load faster -->
-                <script src="${request.contextPath}/resources/libraries/jquery/jquery-1.11.0.min.js"></script>
-                <!-- <script src="${request.contextPath}/resources/libraries/jquery/jquery.validate.min.js"></script> -->
+                <script src='${request.contextPath}/resources/libraries/jquery/jquery-1.11.0.min.js'></script>
+                <!-- <script src='${request.contextPath}/resources/libraries/jquery/jquery.validate.min.js'></script> -->
                 
-                <!-- <script src="${request.contextPath}/resources/libraries/bootstrap/js/bootstrap.min.js"></script> -->
+                <!-- <script src='${request.contextPath}/resources/libraries/bootstrap/js/bootstrap.min.js'></script> -->
                 
-                <script src="${request.contextPath}/resources/libraries/bootstrap/js/collapse.js" />
-                <script src="${request.contextPath}/resources/libraries/bootstrap/js/dropdown.js" />
-                <script src="${request.contextPath}/resources/libraries/bootstrap/js/transition.js" />
+                <script src='${request.contextPath}/resources/libraries/bootstrap/js/collapse.js' />
+                <script src='${request.contextPath}/resources/libraries/bootstrap/js/dropdown.js' />
+                <script src='${request.contextPath}/resources/libraries/bootstrap/js/transition.js' />
                 
                 <!-- web page specific scripts and styles declaration -->
-                <ui:insert name="page-scripts" />
+                <ui:insert name='page-scripts' />
 
                 <!-- common on init functions -->
-                <script src="${request.contextPath}/resources/scripts/init.js"></script>
+                <script src='${request.contextPath}/resources/scripts/init.js'></script>
             </div>
         </ui:composition>
     </body>

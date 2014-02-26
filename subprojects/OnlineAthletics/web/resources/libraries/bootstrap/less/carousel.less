@@ -12,6 +12,20 @@ body {
 /* CUSTOMIZE THE NAVBAR
 -------------------------------------------------- */
 
+.container,
+.container-fluid {
+    > .navbar-header,
+    > .navbar-collapse {
+        margin-right: 0;
+        margin-left:  0;
+
+        @media (min-width: @grid-float-breakpoint) {
+            margin-right: 0;
+            margin-left:  0;
+        }
+  }
+}
+
 /* Special class on .container surrounding .navbar, used for positioning it into place. */
 .navbar-wrapper {
     position: absolute;
@@ -28,8 +42,8 @@ body {
 }
 
 .navbar-wrapper .navbar {
-    padding-left:  0px;
-    padding-right: 0px;
+    padding-left:  0;
+    padding-right: 0;
 }
 
 /* CUSTOMIZE THE CAROUSEL
@@ -114,8 +128,8 @@ body {
     }
 
     .navbar-wrapper .container {
-        padding-left:  0px;
-        padding-right: 0px;
+        padding-left:  (@grid-gutter-width / 2);
+        padding-right: (@grid-gutter-width / 2);
     }
 
     .navbar-wrapper .navbar {

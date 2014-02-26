@@ -50,8 +50,8 @@
                     </div>
                 </div>
                 
-                <c:set var='db_read'  value='#{request.isUserInRole('db_read')}' />
-                <c:set var='db_write' value='#{request.isUserInRole('db_write')}' />
+                <c:set var='db_read'  value="#{request.isUserInRole('db_read')}" />
+                <c:set var='db_write' value="#{request.isUserInRole('db_write')}" />
             
                 Admin Page
                 

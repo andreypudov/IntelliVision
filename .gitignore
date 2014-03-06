@@ -11,13 +11,15 @@ subprojects/AthletsParser/dist/
 subprojects/Core/build/
 subprojects/Core/nbproject/
 subprojects/Core/dist/
+subprojects/GeoNames/
 subprojects/OnlineAthleticsRealm/build/
 subprojects/OnlineAthleticsRealm/nbproject/
 subprojects/OnlineAthleticsRealm/dist/
 subprojects/OnlineAthletics/build/
 subprojects/OnlineAthletics/nbproject/
 subprojects/OnlineAthletics/dist/
-subprojects/onlineathletics.github.com/packages/
+subprojects/onlineathletics.github.com/packages/*.txt
+subprojects/onlineathletics.github.com/packages/*.sql
 
 ################################################################################
 ### Compiled source                                                            #
@@ -42,9 +44,3 @@ subprojects/onlineathletics.github.com/packages/
 Icon?
 ehthumbs.db
 Thumbs.db
-/subprojects/OnlineAthletics/OnlineAthletics/nbproject/private/
-/subprojects/OnlineAthletics/OnlineAthletics/build/
-/subprojects/OnlineAthletics/dist/
-/nbproject/private/
-/build/
-/dist/

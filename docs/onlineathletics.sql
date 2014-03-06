@@ -3,7 +3,7 @@
 --
 -- The MIT License
 --
--- Copyright 2009-2013 Andrey Pudov.
+-- Copyright 2009-2014 Andrey Pudov.
 --
 -- Permission is hereby granted, free of charge, to any person obtaining a copy
 -- of this software and associated documentation files (the "Software"), to deal
@@ -43,14 +43,44 @@ USE onlineathletics;
 -- create athlete layer
 CREATE TABLE oa_first_nm_tbl (
 	first_nm_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-	first_name  VARCHAR(255) NOT NULL UNIQUE,
+	first_name  VARCHAR(35)  NOT NULL UNIQUE,
 	PRIMARY KEY	(first_nm_id)
 ) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
 
-CREATE TABLE oa_second_nm_tbl (
-	second_nm_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-	second_name  VARCHAR(255) NOT NULL UNIQUE,
-	PRIMARY KEY	(second_nm_id)
+CREATE TABLE oa_middle_nm_tbl (
+	middle_nm_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	middle_name  VARCHAR(35)  NOT NULL UNIQUE,
+	PRIMARY KEY	(middle_nm_id)
+) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
+
+CREATE TABLE oa_last_nm_tbl (
+	last_nm_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	last_name  VARCHAR(35)  NOT NULL UNIQUE,
+	PRIMARY KEY	(last_nm_id)
+) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
+
+CREATE TABLE oa_first_nm_lc_tbl (
+	first_nm_lc_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	first_name_lc  VARCHAR(35)  NOT NULL,
+	language_id    INT UNSIGNED NOT NULL,
+	PRIMARY KEY	(first_nm_lc_id),
+	UNIQUE KEY (first_name_lc, language_id)
+) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
+
+CREATE TABLE oa_middle_nm_lc_tbl (
+	middle_nm_lc_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	middle_name_lc  VARCHAR(35)  NOT NULL,
+	language_id     INT UNSIGNED NOT NULL,
+	PRIMARY KEY	(middle_nm_lc_id),
+	UNIQUE KEY (middle_name_lc, language_id)
+) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
+
+CREATE TABLE oa_last_nm_lc_tbl (
+	last_nm_lc_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	last_name_lc  VARCHAR(35)  NOT NULL,
+	language_id   INT UNSIGNED NOT NULL,
+	PRIMARY KEY	(last_nm_lc_id),
+	UNIQUE KEY (last_name_lc, language_id)
 ) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
 
 CREATE TABLE oa_birthday_tbl (
@@ -60,19 +90,66 @@ CREATE TABLE oa_birthday_tbl (
 ) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
 
 CREATE TABLE oa_athl_tbl (
-	athl_id 	  INT UNSIGNED NOT NULL AUTO_INCREMENT,
-	first_nm_key  INT UNSIGNED NOT NULL,
-	second_nm_key INT UNSIGNED NOT NULL,
-	birthday_key  INT UNSIGNED NOT NULL,
-	sex           TINYINT(1) NOT NULL DEFAULT 0,
+	athl_id 	     INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    -- the name of the athlete in English
+	first_nm_key     INT UNSIGNED NOT NULL,
+	middle_nm_key    INT UNSIGNED NOT NULL,
+	last_nm_key      INT UNSIGNED NOT NULL,
+    -- the name of the athlete in local language
+	first_nm_lc_key  INT UNSIGNED NOT NULL,
+	middle_nm_lc_key INT UNSIGNED NOT NULL,
+	last_nm_lc_key   INT UNSIGNED NOT NULL,
+
+	birthday_key     INT UNSIGNED NOT NULL,
+	sex              TINYINT(1) NOT NULL DEFAULT 0,
 	PRIMARY KEY (athl_id),
-	FOREIGN KEY (first_nm_key)
-		REFERENCES oa_first_nm_tbl(first_nm_id),
-	FOREIGN KEY (second_nm_key)
-		REFERENCES oa_second_nm_tbl(second_nm_id),
-	FOREIGN KEY (birthday_key)
-		REFERENCES oa_birthday_tbl(birthday_id)
+
+	FOREIGN KEY (first_nm_key)     REFERENCES oa_first_nm_tbl(first_nm_id),
+	FOREIGN KEY (middle_nm_key)    REFERENCES oa_middle_nm_tbl(middle_nm_id),
+	FOREIGN KEY (last_nm_key)      REFERENCES oa_last_nm_tbl(last_nm_id),
+
+	FOREIGN KEY (first_nm_lc_key)  REFERENCES oa_first_nm_lc_tbl(first_nm_lc_id),
+	FOREIGN KEY (middle_nm_lc_key) REFERENCES oa_middle_nm_lc_tbl(middle_nm_lc_id),
+	FOREIGN KEY (last_nm_lc_key)   REFERENCES oa_last_nm_lc_tbl(last_nm_lc_id),
+
+	FOREIGN KEY (birthday_key)     REFERENCES oa_birthday_tbl(birthday_id)
 ) ENGINE = InnoDB DEFAULT CHARSET = 'utf8' AUTO_INCREMENT = 100;
+
+-- create geo tables
+CREATE TABLE oa_geo_country_tbl (
+	geo_nm_id	  INT UNSIGNED NOT NULL UNIQUE,
+	feature_class VARCHAR(1)   NOT NULL,
+	feature_code  VARCHAR(10)  NOT NULL,
+	country_code  VARCHAR(2)   NOT NULL,
+	admin1_code   VARCHAR(20)  NOT NULL,
+	admin2_code   VARCHAR(80)  NOT NULL,
+	admin3_code   VARCHAR(20)  NOT NULL,
+	admin4_code   VARCHAR(20)  NOT NUll,
+	PRIMARY KEY	(geo_nm_id),
+	INDEX (feature_code)
+) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
+
+CREATE TABLE oa_geo_administration_tbl (
+	geo_nm_id	 INT UNSIGNED NOT NULL UNIQUE,
+	country_code VARCHAR(2)   NOT NULL,
+	admin1_code  VARCHAR(20)  NOT NULL,
+	PRIMARY KEY	(geo_nm_id)
+) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
+
+CREATE TABLE oa_geo_alternative_tbl (
+	alt_nm_id     INT UNSIGNED NOT NULL UNIQUE,
+	geo_nm_key    INT UNSIGNED NOT NULL,
+	language      VARCHAR(7)   NOT NULL,
+	alt_name      VARCHAR(200) NOT NULL,
+	is_preferred  TINYINT(1) NOT NULL DEFAULT 0,
+	is_short_nm   TINYINT(1) NOT NULL DEFAULT 0,
+	is_colloquial TINYINT(1) NOT NULL DEFAULT 0,
+	is_historic   TINYINT(1) NOT NULL DEFAULT 0,
+	PRIMARY KEY	(alt_nm_id),
+	FOREIGN KEY (geo_nm_key)
+		REFERENCES oa_geo_country_tbl(geo_nm_id),
+	INDEX (alt_name)
+) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
 
 -- create online account table to store user credentials
 CREATE TABLE oa_accnt_user_tbl (
@@ -127,6 +204,542 @@ INSERT INTO oa_accnt_roles_tbl(user_key, group_key)
 
 -- create stored procedures
 DELIMITER //
+
+CREATE PROCEDURE add_athlete (first_nm_arg   VARCHAR(35), 
+	middle_nm_arg   VARCHAR(35), last_nm_arg      VARCHAR(35), 
+	first_nm_lc_arg VARCHAR(35), middle_nm_lc_arg VARCHAR(35),
+	last_nm_lc_arg  VARCHAR(35), birthday_arg     TIMESTAMP,
+    sex_arg         TINYINT(1),  language_arg     INT UNSIGNED, 
+    user_nm_arg      VARCHAR(32))
+	NOT DETERMINISTIC
+	COMMENT 'Adds athlete entry and returns identification number.
+
+			 @param first_nm_arg     the firth name of the athlete.
+			 @param middle_nm_arg    the middle name of the athlete.
+             @param last_nm_arg      the last name of the athlete.
+
+             @param first_nm_lc_arg  the firth name of the athlete in local language.
+			 @param middle_nm_lc_arg the middle name of the athlete in local language.
+             @param last_nm_lc_arg   the last name of the athlete in local language.
+
+             @param birthday_arg     the birthday of the athlete.
+             @param sex_arg          the sex of the athlete (true for male).
+
+             @param language_arg     the identifier of the local language.
+			 @param user_nm_arg      the name value to authenticate query.
+
+             @return the database id for the athlete as athlete_indx column.
+
+			 @throws 45000 Invalid argument exception.
+             @throws 45000 Permissions denied.
+			 @throws 45000 Athlete entry already exists.'
+BEGIN
+	DECLARE athlete_indx      INT UNSIGNED;
+
+	DECLARE first_nm_indx     INT UNSIGNED;
+	DECLARE middle_nm_indx    INT UNSIGNED;
+	DECLARE last_nm_indx      INT UNSIGNED;
+
+	DECLARE first_nm_lc_indx  INT UNSIGNED;
+	DECLARE middle_nm_lc_indx INT UNSIGNED;
+	DECLARE last_nm_lc_indx   INT UNSIGNED;
+
+	DECLARE birthday_indx     INT UNSIGNED;
+
+	-- validate routine arguments
+	IF ((first_nm_arg IS NULL) 
+		    OR (middle_nm_arg IS NULL)
+			OR (last_nm_arg IS NULL)
+
+			OR (first_nm_lc_arg IS NULL)
+			OR (middle_nm_lc_arg IS NULL)
+			OR (last_nm_lc_arg IS NULL)
+
+			OR (birthday_arg IS NULL)
+			OR (sex_arg IS NULL)
+
+			OR (CHAR_LENGTH(first_nm_arg) = 0)
+			OR (CHAR_LENGTH(last_nm_arg) = 0)
+			OR (CHAR_LENGTH(first_nm_lc_arg) = 0)
+			OR (CHAR_LENGTH(last_nm_lc_arg) = 0)
+
+			OR ((sex_arg != 0) AND (sex_arg != 1))
+			OR (language_arg is NULL)) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid argument exception.';
+	END IF;
+
+	-- validate authentication and permissions
+	CALL auth_has_group (user_nm_arg, 'db_write');
+
+	-- set first name id
+	SET first_nm_indx = (SELECT first_nm_id
+		FROM  oa_first_nm_tbl
+		WHERE first_name = first_nm_arg);
+	IF (first_nm_indx IS NULL) THEN
+		INSERT INTO oa_first_nm_tbl(first_name) 
+			VALUES(first_nm_arg);
+		SET first_nm_indx = (SELECT last_insert_id());
+	END IF;
+
+	-- set middle name id
+	SET middle_nm_indx = (SELECT middle_nm_id
+		FROM  oa_middle_nm_tbl
+		WHERE middle_name = middle_nm_arg);
+	IF (middle_nm_indx IS NULL) THEN
+		INSERT INTO oa_middle_nm_tbl(middle_name) 
+			VALUES(middle_nm_arg);
+		SET middle_nm_indx = (SELECT last_insert_id());
+	END IF;
+
+	-- set last name id
+	SET last_nm_indx = (SELECT last_nm_id
+		FROM  oa_last_nm_tbl
+		WHERE last_name = last_nm_arg);
+	IF (last_nm_indx IS NULL) THEN
+		INSERT INTO oa_last_nm_tbl(last_name) 
+			VALUES(last_nm_arg);
+		SET last_nm_indx = (SELECT last_insert_id());
+	END IF;
+
+	-- set localized first name id
+	SET first_nm_lc_indx = (SELECT first_nm_lc_id
+		FROM  oa_first_nm_lc_tbl
+		WHERE first_name_lc = first_nm_lc_arg
+			AND language_id = language_arg);
+	IF (first_nm_lc_indx IS NULL) THEN
+		INSERT INTO oa_first_nm_lc_tbl(first_name_lc, language_id) 
+			VALUES(first_nm_lc_arg, language_arg);
+		SET first_nm_lc_indx = (SELECT last_insert_id());
+	END IF;
+
+	-- set localized middle name id
+	SET middle_nm_lc_indx = (SELECT middle_nm_lc_id
+		FROM  oa_middle_nm_lc_tbl
+		WHERE middle_name_lc = middle_nm_lc_arg
+			AND language_id  = language_arg);
+	IF (middle_nm_lc_indx IS NULL) THEN
+		INSERT INTO oa_middle_nm_lc_tbl(middle_name_lc, language_id) 
+			VALUES(middle_nm_lc_arg, language_arg);
+		SET middle_nm_lc_indx = (SELECT last_insert_id());
+	END IF;
+
+	-- set localized last name id
+	SET last_nm_lc_indx = (SELECT last_nm_lc_id
+		FROM  oa_last_nm_lc_tbl
+		WHERE last_name_lc  = last_nm_lc_arg
+			AND language_id = language_arg);
+	IF (last_nm_lc_indx IS NULL) THEN
+		INSERT INTO oa_last_nm_lc_tbl(last_name_lc, language_id) 
+			VALUES(last_nm_lc_arg, language_arg);
+		SET last_nm_lc_indx = (SELECT last_insert_id());
+	END IF;
+
+	-- set localized middle name id
+	SET first_nm_lc_indx = (SELECT first_nm_lc_id
+		FROM  oa_first_nm_lc_tbl
+		WHERE first_name_lc = first_nm_lc_arg
+			AND language_id = language_arg);
+	IF (first_nm_lc_indx IS NULL) THEN
+		INSERT INTO oa_first_nm_lc_tbl(first_name_lc, language_id) 
+			VALUES(first_nm_lc_arg, language_arg);
+		SET first_nm_lc_indx = (SELECT last_insert_id());
+	END IF;
+
+	-- set birthday id
+	SET birthday_indx = (SELECT birthday_id
+		FROM  oa_birthday_tbl
+		WHERE birthday = birthday_arg);
+	IF (birthday_indx IS NULL) THEN
+		INSERT INTO oa_birthday_tbl(birthday) 
+			VALUES(birthday_arg);
+		SET birthday_indx = (SELECT last_insert_id());
+	END IF;
+
+	-- search for present entry
+	-- comparison uses only English name of the athlete
+	SET athlete_indx = (SELECT athl_id
+		FROM oa_athl_tbl
+		WHERE   first_nm_key  = first_nm_indx
+			AND middle_nm_key = middle_nm_indx
+			AND last_nm_key   = last_nm_indx
+			AND birthday_key  = birthday_indx
+			AND sex           = sex_arg);
+	IF (athlete_indx IS NOT NULL) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Athlete entry already exists.';
+	ELSE
+		INSERT INTO oa_athl_tbl(first_nm_key, middle_nm_key, last_nm_key, 
+			first_nm_lc_key, middle_nm_lc_key, last_nm_lc_key, birthday_key, sex)
+			VALUES(first_nm_indx, middle_nm_indx, last_nm_indx, 
+				first_nm_lc_indx, middle_nm_lc_indx, last_nm_lc_indx, birthday_indx, sex_arg);
+		SET athlete_indx = (SELECT last_insert_id());
+	END IF;
+
+	SELECT athlete_indx;
+END //
+
+CREATE PROCEDURE edit_athlete (athlete_id_arg INT UNSIGNED, 
+	first_nm_arg     VARCHAR(35),  middle_nm_arg   VARCHAR(35), 
+	last_nm_arg      VARCHAR(35),  first_nm_lc_arg VARCHAR(35),
+	middle_nm_lc_arg VARCHAR(35),  last_nm_lc_arg  VARCHAR(35),
+	birthday_arg     TIMESTAMP,    sex_arg         TINYINT(1),
+	language_arg     INT UNSIGNED, user_nm_arg      VARCHAR(32))
+	NOT DETERMINISTIC
+	COMMENT 'Edit athlete entry.
+
+			 @param athlete_id_arg the database id of the athlete.
+
+			 @param first_nm_arg     the firth name of the athlete.
+			 @param middle_nm_arg    the middle name of the athlete.
+             @param second_nm_arg    the second name of the athlete.
+
+             @param first_nm_lc_arg  the firth name of the athlete in local language.
+			 @param middle_nm_lc_arg the middle name of the athlete in local language.
+             @param last_nm_lc_arg   the last name of the athlete in local language.
+
+             @param birthday_arg     the birthday of the athlete.
+             @param sex_arg          the sex of the athlete (true for male).
+
+             @param language_arg     the identifier of the local language.
+			 @param user_nm_arg      the name value to authenticate query.
+
+             @throws 45000 Invalid argument exception.
+             @throws 45000 Permissions denied.
+             @throws 45000 Athlete entry doesn\'t exists.
+             @throws 45000 Athlete entry the same as requested to change.
+             @throws 45000 Athlete entry already exists.'
+BEGIN
+	DECLARE athlete_indx   INT UNSIGNED;
+
+	DECLARE first_nm_indx  INT UNSIGNED;
+	DECLARE middle_nm_indx INT UNSIGNED;
+	DECLARE last_nm_indx   INT UNSIGNED;
+
+	DECLARE first_nm_lc_indx  INT UNSIGNED;
+	DECLARE middle_nm_lc_indx INT UNSIGNED;
+	DECLARE last_nm_lc_indx   INT UNSIGNED;
+
+	DECLARE birthday_indx  INT UNSIGNED;
+
+	-- validate routine arguments
+	IF ((athlete_id_arg IS NULL)
+			OR (first_nm_arg IS NULL)
+			OR (middle_nm_arg IS NULL)
+			OR (last_nm_arg IS NULL)
+
+			OR (first_nm_lc_arg IS NULL)
+			OR (middle_nm_lc_arg IS NULL)
+			OR (last_nm_lc_arg IS NULL)
+
+			OR (birthday_arg IS NULL)
+			OR (sex_arg IS NULL)
+
+			OR (CHAR_LENGTH(first_nm_arg) = 0)
+			OR (CHAR_LENGTH(last_nm_arg) = 0)
+			OR (CHAR_LENGTH(first_nm_lc_arg) = 0)
+			OR (CHAR_LENGTH(last_nm_lc_arg) = 0)
+
+			OR ((sex_arg != 0) AND (sex_arg != 1))
+			OR (language_arg is NULL)) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid argument exception.';
+	END IF;
+
+	-- validate authentication and permissions
+	CALL auth_has_group (user_nm_arg, 'db_write');
+
+	IF ((SELECT COUNT(*)
+			FROM  oa_athl_tbl
+			WHERE athl_id = athlete_id_arg) != 1) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Athlete entry doesn\'t exists.';
+	END IF;
+
+	-- set first name id
+	SET first_nm_indx = (SELECT first_nm_id
+		FROM  oa_first_nm_tbl
+		WHERE first_name = first_nm_arg);
+	IF (first_nm_indx IS NULL) THEN
+		INSERT INTO oa_first_nm_tbl(first_name) 
+			VALUES(first_nm_arg);
+		SET first_nm_indx = (SELECT last_insert_id());
+	END IF;
+
+	-- set middle name id
+	SET middle_nm_indx = (SELECT middle_nm_id
+		FROM  oa_middle_nm_tbl
+		WHERE middle_name = middle_nm_arg);
+	IF (middle_nm_indx IS NULL) THEN
+		INSERT INTO oa_middle_nm_tbl(middle_name) 
+			VALUES(middle_nm_arg);
+		SET middle_nm_indx = (SELECT last_insert_id());
+	END IF;
+
+	-- set last name id
+	SET last_nm_indx = (SELECT last_nm_id
+		FROM  oa_last_nm_tbl
+		WHERE last_name = last_nm_arg);
+	IF (last_nm_indx IS NULL) THEN
+		INSERT INTO oa_last_nm_tbl(last_name) 
+			VALUES(last_nm_arg);
+		SET last_nm_indx = (SELECT last_insert_id());
+	END IF;
+
+	-- set localized first name id
+	SET first_nm_lc_indx = (SELECT first_nm_lc_id
+		FROM  oa_first_nm_lc_tbl
+		WHERE first_name_lc = first_nm_lc_arg
+			AND language_id = language_arg);
+	IF (first_nm_lc_indx IS NULL) THEN
+		INSERT INTO oa_first_nm_lc_tbl(first_name_lc, language_id) 
+			VALUES(first_nm_lc_arg, language_arg);
+		SET first_nm_lc_indx = (SELECT last_insert_id());
+	END IF;
+
+	-- set localized middle name id
+	SET middle_nm_lc_indx = (SELECT middle_nm_lc_id
+		FROM  oa_middle_nm_lc_tbl
+		WHERE middle_name_lc = middle_nm_lc_arg
+			AND language_id  = language_arg);
+	IF (middle_nm_lc_indx IS NULL) THEN
+		INSERT INTO oa_middle_nm_lc_tbl(middle_name_lc, language_id) 
+			VALUES(middle_nm_lc_arg, language_arg);
+		SET middle_nm_lc_indx = (SELECT last_insert_id());
+	END IF;
+
+	-- set localized last name id
+	SET last_nm_lc_indx = (SELECT last_nm_lc_id
+		FROM  oa_last_nm_lc_tbl
+		WHERE last_name_lc  = last_nm_lc_arg
+			AND language_id = language_arg);
+	IF (last_nm_lc_indx IS NULL) THEN
+		INSERT INTO oa_last_nm_lc_tbl(last_name_lc, language_id) 
+			VALUES(last_nm_lc_arg, language_arg);
+		SET last_nm_lc_indx = (SELECT last_insert_id());
+	END IF;
+
+	-- set birthday id
+	SET birthday_indx = (SELECT birthday_id
+		FROM  oa_birthday_tbl
+		WHERE birthday = birthday_arg);
+	IF (birthday_indx IS NULL) THEN
+		INSERT INTO oa_birthday_tbl(birthday) 
+			VALUES(birthday_arg);
+		SET birthday_indx = (SELECT last_insert_id());
+	END IF;
+
+	-- search for present entry
+	SET athlete_indx = (SELECT athl_id
+		FROM oa_athl_tbl
+		WHERE   first_nm_key     = first_nm_indx
+			AND middle_nm_key    = middle_nm_indx
+			AND last_nm_key      = last_nm_indx
+
+			AND first_nm_lc_key  = first_nm_lc_indx
+			AND middle_nm_lc_key = middle_nm_lc_indx
+			AND last_nm_lc_key   = last_nm_lc_indx
+
+			AND birthday_key     = birthday_indx
+			AND sex              = sex_arg);
+	IF (athlete_indx = athlete_id_arg) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Athlete entry the same as requested to change.';
+	ELSEIF (athlete_indx IS NOT NULL) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Athlete entry already exists.';
+	END IF;
+
+	-- update athlete information
+	UPDATE oa_athl_tbl
+		SET first_nm_key     = first_nm_indx,
+			middle_nm_key    = middle_nm_indx,
+			last_nm_key      = last_nm_indx,
+
+			first_nm_lc_key  = first_nm_lc_indx,
+			middle_nm_lc_key = middle_nm_lc_indx,
+			last_nm_lc_key   = last_nm_lc_indx,
+
+			birthday_key     = birthday_indx,
+			sex              = sex_arg
+		WHERE athl_id = athlete_id_arg;
+END //
+
+CREATE PROCEDURE get_athlete (athlete_id_arg INT UNSIGNED, user_nm_arg VARCHAR(32))
+	NOT DETERMINISTIC
+	COMMENT 'Returns athlete entry for given database id.
+
+			 @param athlete_id_arg the database id of the athlete.
+			 @param user_nm_arg    the name value to authenticate query.
+
+             @throws 45000 Invalid argument exception.
+             @throws 45000 Permissions denied.
+             @throws 45000 Athlete entry doesn\'t exists.'
+BEGIN
+	DECLARE athlete_id_var   INT UNSIGNED;
+
+	DECLARE first_nm_var     VARCHAR(35);
+	DECLARE middle_nm_var    VARCHAR(35);
+	DECLARE last_nm_var      VARCHAR(35);
+
+	DECLARE first_nm_lc_var  VARCHAR(35);
+	DECLARE middle_nm_lc_var VARCHAR(35);
+	DECLARE last_nm_lc_var   VARCHAR(35);
+
+	DECLARE birthday_var     TIMESTAMP;
+	DECLARE sex_var          TINYINT(1);
+	DECLARE language_var     INT UNSIGNED;
+
+	-- validate routine arguments
+	IF (athlete_id_arg IS NULL) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid argument exception.';
+	END IF;
+
+	-- validate authentication and permissions
+	CALL auth_has_group (user_nm_arg, 'db_read');
+
+	SELECT a.athl_id, f.first_name, m.middle_name, l.last_name,
+		fl.first_name_lc, ml.middle_name_lc, ll.last_name_lc, 
+		b.birthday, a.sex, fl.language_id 
+		INTO athlete_id_var, first_nm_var, middle_nm_var, last_nm_var, 
+			first_nm_lc_var, middle_nm_lc_var, last_nm_lc_var,
+			birthday_var, sex_var, language_var
+		FROM oa_athl_tbl a
+			INNER JOIN oa_first_nm_tbl  f ON f.first_nm_id  = a.first_nm_key
+			INNER JOIN oa_middle_nm_tbl m ON m.middle_nm_id = a.middle_nm_key
+			INNER JOIN oa_last_nm_tbl   l ON l.last_nm_id   = a.last_nm_key
+
+			INNER JOIN oa_first_nm_lc_tbl  fl ON fl.first_nm_lc_id  = a.first_nm_lc_key
+			INNER JOIN oa_middle_nm_lc_tbl ml ON ml.middle_nm_lc_id = a.middle_nm_lc_key
+			INNER JOIN oa_last_nm_lc_tbl   ll ON ll.last_nm_lc_id   = a.last_nm_lc_key
+
+			INNER JOIN oa_birthday_tbl b ON b.birthday_id   = a.birthday_key
+		WHERE a.athl_id = athlete_id_arg
+		LIMIT 1;
+
+	-- select doesn't returns any data
+	IF (athlete_id_var IS NULL) THEN
+		 SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Athlete entry doesn\'t exists.';
+	END IF;
+
+	SELECT athlete_id_var, first_nm_var, middle_nm_var, last_nm_var, 
+		first_nm_lc_var, middle_nm_lc_var, last_nm_lc_var, birthday_var, sex_var, 
+		language_var;
+END //
+
+CREATE PROCEDURE get_athlete_by_name (first_nm_arg VARCHAR(35),
+	middle_nm_arg VARCHAR(35), last_nm_arg VARCHAR(35), 
+	user_nm_arg   VARCHAR(32))
+	NOT DETERMINISTIC
+	COMMENT 'Returns athlete entry for given name.
+
+			 @param first_nm_arg  the first name of the athlete.
+			 @param middle_nm_arg the middle name of the athlete.
+             @param last_nm_arg   the last name of the athlete.
+
+			 @param user_nm_arg   the name value to authenticate query.
+
+             @throws 45000 Invalid argument exception.
+             @throws 45000 Permissions denied.
+             @throws 45000 Athlete entry doesn\'t exists.'
+BEGIN
+	DECLARE athlete_id_var   INT UNSIGNED;
+
+	DECLARE first_nm_var     VARCHAR(35);
+	DECLARE middle_nm_var    VARCHAR(35);
+	DECLARE last_nm_var      VARCHAR(35);
+
+	DECLARE first_nm_lc_var  VARCHAR(35);
+	DECLARE middle_nm_lc_var VARCHAR(35);
+	DECLARE last_nm_lc_var   VARCHAR(35);
+
+	DECLARE birthday_var     TIMESTAMP;
+	DECLARE sex_var          TINYINT(1);
+	DECLARE language_var     INT UNSIGNED;
+
+	-- validate routine arguments
+	IF ((first_nm_arg IS NULL)
+			OR (middle_nm_arg IS NULL)
+			OR (last_nm_arg IS NULL)
+			OR (CHAR_LENGTH(first_nm_arg) = 0)
+			OR (CHAR_LENGTH(last_nm_arg) = 0)) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid argument exception.';
+	END IF;
+
+	-- validate authentication and permissions
+	CALL auth_has_group (user_nm_arg, 'db_read');
+
+	SELECT a.athl_id, f.first_name, m.middle_name, l.last_name,
+		fl.first_name_lc, ml.middle_name_lc, ll.last_name_lc, 
+		b.birthday, a.sex, fl.language_id 
+		INTO athlete_id_var, first_nm_var, middle_nm_var, last_nm_var, 
+			first_nm_lc_var, middle_nm_lc_var, last_nm_lc_var,
+			birthday_var, sex_var, language_var
+		FROM oa_athl_tbl a
+			INNER JOIN oa_first_nm_tbl  f ON f.first_nm_id  = a.first_nm_key
+			INNER JOIN oa_middle_nm_tbl m ON m.middle_nm_id = a.middle_nm_key
+			INNER JOIN oa_last_nm_tbl   l ON l.last_nm_id   = a.last_nm_key
+
+			INNER JOIN oa_first_nm_lc_tbl  fl ON fl.first_nm_lc_id  = a.first_nm_lc_key
+			INNER JOIN oa_middle_nm_lc_tbl ml ON ml.middle_nm_lc_id = a.middle_nm_lc_key
+			INNER JOIN oa_last_nm_lc_tbl   ll ON ll.last_nm_lc_id   = a.last_nm_lc_key
+
+			INNER JOIN oa_birthday_tbl b ON b.birthday_id   = a.birthday_key
+		WHERE f.first_name    = first_nm_arg
+			AND m.middle_name = middle_nm_arg
+			AND l.last_name   = last_nm_arg
+		LIMIT 1;
+
+	-- select doesn't returns any data
+	IF (athlete_id_var IS NULL) THEN
+		 SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Athlete entry doesn\'t exists.';
+	END IF;
+
+	SELECT athlete_id_var, first_nm_var, middle_nm_var, last_nm_var, 
+		first_nm_lc_var, middle_nm_lc_var, last_nm_lc_var, birthday_var, sex_var, 
+		language_var;
+END //
+
+-- geo layer
+
+CREATE PROCEDURE geo_get_city_list_by_name (
+	city_nm_arg VARCHAR(200), user_nm_arg VARCHAR(32))
+	NOT DETERMINISTIC
+    COMMENT 'Returns a list of possible city names including complete city name.
+
+    		 @param city_nm_arg the name of the city to look.
+			 @param user_nm_arg the name value to authenticate query.
+
+             @throws 45000 Invalid argument exception.
+             @throws 45000 Permissions denied.'
+BEGIN
+	DECLARE geo_id_var  INT UNSIGNED;
+
+	DECLARE done INT DEFAULT FALSE;
+	DECLARE city_cr_var CURSOR FOR 
+		SELECT geo_nm_key 
+			FROM oa_geo_alternative_tbl 
+			WHERE alt_name = city_nm_arg;
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+	-- validate routine arguments
+	IF ((city_nm_arg IS NULL)
+			OR (CHAR_LENGTH(city_nm_arg) = 0)) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid argument exception.';
+	END IF;
+
+	-- validate authentication and permissions
+	CALL auth_has_group (user_nm_arg, 'db_read');
+
+	OPEN city_cr_var;
+
+	city_loop: LOOP
+		FETCH city_cr_var INTO geo_id_var;
+		IF (done) THEN
+			LEAVE city_loop;
+		END IF;
+
+
+	END LOOP city_loop;
+
+	CLOSE city_cr_var;
+END //
+
+-- authentication layer
 
 CREATE PROCEDURE auth_validate_credentials (
 	user_nm_arg VARCHAR(32), pass_ph_arg VARCHAR(60))
@@ -263,279 +876,6 @@ BEGIN
 			INNER JOIN oa_accnt_groups_tbl g ON g.group_id = r.group_key
 			INNER JOIN oa_accnt_user_tbl   a ON a.user_id  = r.user_key
 		WHERE a.user_name = user_nm_arg; 
-END //
-
-CREATE PROCEDURE add_athlete (first_nm_arg   VARCHAR(255), 
-	second_nm_arg VARCHAR(255), birthday_arg TIMESTAMP,
-    sex_arg       TINYINT(1),   user_nm_arg  VARCHAR(32))
-	NOT DETERMINISTIC
-	COMMENT 'Adds athlete entry and returns identification number.
-
-			 @param first_nm_arg  the firth name of the athlete.
-             @param second_nm_arg the second name of the athlete.
-             @param birthday_arg  the birthday of the athlete.
-             @param sex_arg       the sex of the athlete (true for male).
-			 @param user_nm_arg   the name value to authenticate query.
-
-             @return the database id for the athlete as athlete_indx column.
-
-			 @throws 45000 Invalid argument exception.
-             @throws 45000 Permissions denied.
-			 @throws 45000 Athlete entry already exists.'
-BEGIN
-	DECLARE athlete_indx   INT UNSIGNED;
-	DECLARE first_nm_indx  INT UNSIGNED;
-	DECLARE second_nm_indx INT UNSIGNED;
-	DECLARE birthday_indx  INT UNSIGNED;
-
-	-- validate routine arguments
-	IF ((first_nm_arg IS NULL) 
-			OR (second_nm_arg IS NULL)
-			OR (birthday_arg IS NULL)
-			OR (sex_arg IS NULL)
-			OR (CHAR_LENGTH(first_nm_arg) = 0)
-			OR (CHAR_LENGTH(second_nm_arg) = 0)
-			OR ((sex_arg != 0) AND (sex_arg != 1))) THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid argument exception.';
-	END IF;
-
-	-- validate authentication and permissions
-	CALL auth_has_group (user_nm_arg, 'db_write');
-
-	-- set first name id
-	SET first_nm_indx = (SELECT first_nm_id
-		FROM  oa_first_nm_tbl
-		WHERE first_name = first_nm_arg);
-	IF (first_nm_indx IS NULL) THEN
-		INSERT INTO oa_first_nm_tbl(first_name) 
-			VALUES(first_nm_arg);
-		SET first_nm_indx = (SELECT last_insert_id());
-	END IF;
-
-	-- set second name id
-	SET second_nm_indx = (SELECT second_nm_id
-		FROM  oa_second_nm_tbl
-		WHERE second_name = second_nm_arg);
-	IF (second_nm_indx IS NULL) THEN
-		INSERT INTO oa_second_nm_tbl(second_name) 
-			VALUES(second_nm_arg);
-		SET second_nm_indx = (SELECT last_insert_id());
-	END IF;
-
-	-- set birthday id
-	SET birthday_indx = (SELECT birthday_id
-		FROM  oa_birthday_tbl
-		WHERE birthday = birthday_arg);
-	IF (birthday_indx IS NULL) THEN
-		INSERT INTO oa_birthday_tbl(birthday) 
-			VALUES(birthday_arg);
-		SET birthday_indx = (SELECT last_insert_id());
-	END IF;
-
-	-- search for present entry
-	SET athlete_indx = (SELECT athl_id
-		FROM oa_athl_tbl
-		WHERE   first_nm_key  = first_nm_indx
-			AND second_nm_key = second_nm_indx
-			AND birthday_key  = birthday_indx
-			AND sex           = sex_arg);
-	IF (athlete_indx IS NOT NULL) THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Athlete entry already exists.';
-	ELSE
-		INSERT INTO oa_athl_tbl(first_nm_key, second_nm_key, birthday_key, sex)
-			VALUES(first_nm_indx, second_nm_indx, birthday_indx, sex_arg);
-		SET athlete_indx = (SELECT last_insert_id());
-	END IF;
-
-	SELECT athlete_indx;
-END //
-
-CREATE PROCEDURE edit_athlete (athlete_id_arg INT UNSIGNED, 
-	first_nm_arg  VARCHAR(255), second_nm_arg VARCHAR(255), 
-	birthday_arg  TIMESTAMP,    sex_arg       TINYINT(1),
-	user_nm_arg   VARCHAR(32))
-	NOT DETERMINISTIC
-	COMMENT 'Adds athlete entry and returns identification number.
-
-			 @param athlete_id_arg the database id of the athlete.
-			 @param first_nm_arg   the firth name of the athlete.
-             @param second_nm_arg  the second name of the athlete.
-             @param birthday_arg   the birthday of the athlete.
-             @param sex_arg        the sex of the athlete (true for male).
-			 @param user_nm_arg    the name value to authenticate query.
-
-             @throws 45000 Invalid argument exception.
-             @throws 45000 Permissions denied.
-             @throws 45000 Athlete entry doesn\'t exists.
-             @throws 45000 Athlete entry the same as requested to change.
-             @throws 45000 Athlete entry already exists.'
-BEGIN
-	DECLARE athlete_indx   INT UNSIGNED;
-	DECLARE first_nm_indx  INT UNSIGNED;
-	DECLARE second_nm_indx INT UNSIGNED;
-	DECLARE birthday_indx  INT UNSIGNED;
-
-	-- validate routine arguments
-	IF ((athlete_id_arg IS NULL)
-			OR (first_nm_arg IS NULL) 
-			OR (second_nm_arg IS NULL)
-			OR (birthday_arg IS NULL)
-			OR (sex_arg IS NULL)
-			OR (CHAR_LENGTH(first_nm_arg) = 0)
-			OR (CHAR_LENGTH(second_nm_arg) = 0)
-			OR ((sex_arg != 0) AND (sex_arg != 1))) THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid argument exception.';
-	END IF;
-
-	-- validate authentication and permissions
-	CALL auth_has_group (user_nm_arg, 'db_write');
-
-	IF ((SELECT COUNT(*)
-			FROM oa_athl_tbl
-			WHERE athl_id = athlete_id_arg) != 1) THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Athlete entry doesn\'t exists.';
-	END IF;
-
-	-- set first name id
-	SET first_nm_indx = (SELECT first_nm_id
-		FROM  oa_first_nm_tbl
-		WHERE first_name = first_nm_arg);
-	IF (first_nm_indx IS NULL) THEN
-		INSERT INTO oa_first_nm_tbl(first_name) 
-			VALUES(first_nm_arg);
-		SET first_nm_indx = (SELECT last_insert_id());
-	END IF;
-
-	-- set second name id
-	SET second_nm_indx = (SELECT second_nm_id
-		FROM  oa_second_nm_tbl
-		WHERE second_name = second_nm_arg);
-	IF (second_nm_indx IS NULL) THEN
-		INSERT INTO oa_second_nm_tbl(second_name) 
-			VALUES(second_nm_arg);
-		SET second_nm_indx = (SELECT last_insert_id());
-	END IF;
-
-	-- set birthday id
-	SET birthday_indx = (SELECT birthday_id
-		FROM  oa_birthday_tbl
-		WHERE birthday = birthday_arg);
-	IF (birthday_indx IS NULL) THEN
-		INSERT INTO oa_birthday_tbl(birthday) 
-			VALUES(birthday_arg);
-		SET birthday_indx = (SELECT last_insert_id());
-	END IF;
-
-	-- search for present entry
-	SET athlete_indx = (SELECT athl_id
-		FROM oa_athl_tbl
-		WHERE   first_nm_key  = first_nm_indx
-			AND second_nm_key = second_nm_indx
-			AND birthday_key  = birthday_indx
-			AND sex           = sex_arg);
-	IF (athlete_indx = athlete_id_arg) THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Athlete entry the same as requested to change.';
-	ELSEIF (athlete_indx IS NOT NULL) THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Athlete entry already exists.';
-	END IF;
-
-	-- update athlete information
-	UPDATE oa_athl_tbl
-		SET first_nm_key  = first_nm_indx,
-			second_nm_key = second_nm_indx,
-			birthday_key  = birthday_indx,
-			sex           = sex_arg
-		WHERE athl_id = athlete_id_arg;
-END //
-
-CREATE PROCEDURE get_athlete (athlete_id_arg INT UNSIGNED, user_nm_arg VARCHAR(32))
-	NOT DETERMINISTIC
-	COMMENT 'Returns athlete entry for given database id.
-
-			 @param athlete_id_arg the database id of the athlete.
-			 @param user_nm_arg    the name value to authenticate query.
-
-             @throws 45000 Invalid argument exception.
-             @throws 45000 Permissions denied.
-             @throws 45000 Athlete entry doesn\'t exists.'
-BEGIN
-	DECLARE athlete_id_var INT UNSIGNED;
-	DECLARE first_nm_var   VARCHAR(255);
-	DECLARE second_nm_var  VARCHAR(255);
-	DECLARE birthday_var   TIMESTAMP;
-	DECLARE sex_var        TINYINT(1); 
-
-	-- validate routine arguments
-	IF (athlete_id_arg IS NULL) THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid argument exception.';
-	END IF;
-
-	-- validate authentication and permissions
-	CALL auth_has_group (user_nm_arg, 'db_read');
-
-	SELECT a.athl_id, f.first_name, s.second_name, b.birthday, a.sex
-		INTO athlete_id_var, first_nm_var, second_nm_var, birthday_var, sex_var
-		FROM oa_athl_tbl a
-			INNER JOIN oa_first_nm_tbl  f ON f.first_nm_id  = a.first_nm_key
-			INNER JOIN oa_second_nm_tbl s ON s.second_nm_id = a.second_nm_key
-			INNER JOIN oa_birthday_tbl  b ON b.birthday_id  = a.birthday_key
-		WHERE a.athl_id = athlete_id_arg
-		LIMIT 1;
-
-	-- select doesn't returns any data
-	IF (athlete_id_var IS NULL) THEN
-		 SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Athlete entry doesn\'t exists.';
-	END IF;
-
-	SELECT athlete_id_var, first_nm_var, second_nm_var, birthday_var, sex_var;
-END //
-
-CREATE PROCEDURE get_athlete_by_name (first_nm_arg VARCHAR(255), 
-	second_nm_arg VARCHAR(255), user_nm_arg  VARCHAR(32))
-	NOT DETERMINISTIC
-	COMMENT 'Returns athlete entry for given name.
-
-			 @param first_nm_arg   the firth name of the athlete.
-             @param second_nm_arg  the second name of the athlete.
-			 @param user_nm_arg    the name value to authenticate query.
-
-             @throws 45000 Invalid argument exception.
-             @throws 45000 Permissions denied.
-             @throws 45000 Athlete entry doesn\'t exists.'
-BEGIN
-	DECLARE athlete_id_var INT UNSIGNED;
-	DECLARE first_nm_var   VARCHAR(255);
-	DECLARE second_nm_var  VARCHAR(255);
-	DECLARE birthday_var   TIMESTAMP;
-	DECLARE sex_var        TINYINT(1); 
-
-	-- validate routine arguments
-	IF ((first_nm_arg IS NULL) 
-			OR (second_nm_arg IS NULL)
-			OR (CHAR_LENGTH(first_nm_arg) = 0)
-			OR (CHAR_LENGTH(second_nm_arg) = 0)) THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid argument exception.';
-	END IF;
-
-	-- validate authentication and permissions
-	CALL auth_has_group (user_nm_arg, 'db_read');
-
-	SELECT a.athl_id, f.first_name, s.second_name, b.birthday, a.sex
-		INTO athlete_id_var, first_nm_var, second_nm_var, birthday_var, sex_var
-		FROM oa_athl_tbl a
-			INNER JOIN oa_first_nm_tbl  f ON f.first_nm_id  = a.first_nm_key
-			INNER JOIN oa_second_nm_tbl s ON s.second_nm_id = a.second_nm_key
-			INNER JOIN oa_birthday_tbl  b ON b.birthday_id  = a.birthday_key
-		WHERE   f.first_name   = first_nm_arg
-	        AND s.second_name  = second_nm_arg
-		LIMIT 1;
-
-	-- select doesn't returns any data
-	IF (athlete_id_var IS NULL) THEN
-		 SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Athlete entry doesn\'t exists.';
-	END IF;
-
-	SELECT athlete_id_var, first_nm_var, second_nm_var, birthday_var, sex_var;
 END //
 
 DELIMITER ;

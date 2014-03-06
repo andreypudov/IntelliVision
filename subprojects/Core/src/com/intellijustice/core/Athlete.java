@@ -46,12 +46,16 @@ public class Athlete {
 
     private final int     id;
     private final String  firstName;
-    private final String  secondName;
+    private final String  middleName;
+    private final String  lastName;
     private final String  firstNameLocale;
-    private final String  secondNameLocale;
+    private final String  middleNameLocale;
+    private final String  lastNameLocale;
     private final long    birthday;
     private final boolean sex;       /* thue is male, false is female */
     private final String  country;
+    
+    private final int     language;
 
     /**
      * Constructs new Athletic object.
@@ -241,7 +245,7 @@ public class Athlete {
                 ).append(secondName).append(" "
                 ).append(formatter.format(birthday)).append(" "
                 ).append(country);
-
+        
         return builder.toString();
     }
 }

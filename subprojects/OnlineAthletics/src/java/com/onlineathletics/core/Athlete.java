@@ -85,13 +85,13 @@ public class Athlete extends com.intellijustice.core.Athlete {
             try (final ResultSet resultSet = statement.executeQuery()) {
                 resultSet.next();
                 
-                return new Athlete(resultSet.getInt(1),
-                    resultSet.getString(2),
-                    resultSet.getString(3),
+                return new Athlete(resultSet.getInt("athlete_id_var"),
+                    resultSet.getString("first_nm_var"),
+                    resultSet.getString("last_nm_var"),
                     "",
                     "",
-                    resultSet.getDate(4).getTime(),
-                    resultSet.getInt(5) != 0,
+                    resultSet.getDate("birthday_var").getTime(),
+                    resultSet.getInt("sex_var") != 0,
                     "");
             }
         }

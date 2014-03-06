@@ -11,15 +11,15 @@ subprojects/AthletsParser/dist/
 subprojects/Core/build/
 subprojects/Core/nbproject/
 subprojects/Core/dist/
-subprojects/GeoNames/
+subprojects/GeoNames/*.sql
+subprojects/GeoNames/*.txt
 subprojects/OnlineAthleticsRealm/build/
 subprojects/OnlineAthleticsRealm/nbproject/
 subprojects/OnlineAthleticsRealm/dist/
 subprojects/OnlineAthletics/build/
 subprojects/OnlineAthletics/nbproject/
 subprojects/OnlineAthletics/dist/
-subprojects/onlineathletics.github.com/packages/*.txt
-subprojects/onlineathletics.github.com/packages/*.sql
+subprojects/onlineathletics.github.com/packages/
 
 ################################################################################
 ### Compiled source                                                            #

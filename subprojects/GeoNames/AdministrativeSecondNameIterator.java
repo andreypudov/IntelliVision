@@ -34,14 +34,14 @@ import java.util.NoSuchElementException;
  *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
- * %name      AdministrativeNameIterator.java
+ * %name      AdministrativeSecondNameIterator.java
  * %date      12:40:00 AM, Mar 06, 2014
  */
-public class AdministrativeNameIterator implements Iterator<AdministrativeName> {
+public class AdministrativeSecondNameIterator implements Iterator<AdministrativeSecondName> {
 
 	private final BufferedReader reader;
 
-	public AdministrativeNameIterator(final BufferedReader reader) {
+	public AdministrativeSecondNameIterator(final BufferedReader reader) {
 		this.reader = reader;
 	}
 
@@ -55,9 +55,9 @@ public class AdministrativeNameIterator implements Iterator<AdministrativeName> 
   	};
 
   	@Override
- 	public AdministrativeName next() {
+ 	public AdministrativeSecondName next() {
   		try {
-      		return AdministrativeName.valueOf(reader.readLine());
+      		return AdministrativeSecondName.valueOf(reader.readLine());
    		} catch (final IOException e) {
       		throw new NoSuchElementException(e.getMessage());
     	}

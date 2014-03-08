@@ -29,42 +29,40 @@ import java.io.IOException;
 import java.util.Iterator;
 
 /**
- * Writes geographical names to SQL file.
+ * Writes administrative names to SQL file.
  *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
- * %name      GeoNameWriter.java
- * %date      03:20:00 PM, Mar 05, 2014
+ * %name      AdministrativeSecondNameWriter.java
+ * %date      09:00:00 AM, Mar 08, 2014
  */
-public class GeoNameWriter {
+public class AdministrativeSecondNameWriter {
 
 	private static final int MAX_SQL_LINE_LENGTH = 800_000;
 
 	private final BufferedWriter writer;
 
-	public GeoNameWriter(final BufferedWriter writer) {
+	public AdministrativeSecondNameWriter(final BufferedWriter writer) {
 		this.writer = writer;
 	}
 
-	public void write(final Iterator<GeoName> iterator) throws IOException {
+	public void write(final Iterator<AdministrativeSecondName> iterator) throws IOException {
 		writer.write("USE onlineathletics;\n\n");
 		writer.write(SQLFormat.SQL_FILE_HEADER + "\n");
-		writer.write("LOCK TABLES oa_geo_country_tbl WRITE;\n");
-		writer.write("INSERT INTO oa_geo_country_tbl(geo_nm_id, feature_class, feature_code, country_code, admin1_code, admin2_code) VALUES\n\t");
+		writer.write("LOCK TABLES oa_geo_administration_second_tbl WRITE;\n");
+		writer.write("INSERT INTO oa_geo_administration_second_tbl(geo_nm_id, country_code, admin1_code, admin2_code) VALUES\n\t");
 
 		String buffer = "";
 		int    length = 0;
 
 		while (iterator.hasNext()) {
-			final StringBuilder builder = new StringBuilder(126);
-			final GeoName       name    = iterator.next();
+			final StringBuilder            builder = new StringBuilder(126);
+			final AdministrativeSecondName name    = iterator.next();
 
 			builder.append("(").append(name.getGeoNameId()).append(", '"
-				).append(name.getFeatureClass()).append("', '"
-				).append(name.getFeatureCode()).append("', '"
 				).append(name.getCountryCode()).append("', '"
-				).append(name.getAdministrativeCode1().replace("'", "\\'")).append("', '"
-				).append(name.getAdministrativeCode2().replace("'", "\\'"));
+				).append(name.getAdminFirstCode()).append("', '"
+				).append(name.getAdminSecondCode().replace("'", "\\'"));
 			buffer  = builder.toString();
 			length += buffer.length();
 
@@ -73,7 +71,7 @@ public class GeoNameWriter {
 					writer.write(buffer + "'),");
 				} else {
 					writer.write(buffer + "');\n");
-					writer.write("INSERT INTO oa_geo_country_tbl(geo_nm_id, feature_class, feature_code, country_code, admin1_code, admin2_code) VALUES\n\t");
+					writer.write("INSERT INTO oa_geo_administration_second_tbl(geo_nm_id, country_code, admin1_code, admin2_code) VALUES\n\t");
 					length = 0;
 				}
 			} else {

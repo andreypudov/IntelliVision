@@ -33,31 +33,31 @@ import java.util.Iterator;
  *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
- * %name      AdministrativeNameWriter.java
+ * %name      AdministrativeFirstNameWriter.java
  * %date      12:50:00 AM, Mar 06, 2014
  */
-public class AdministrativeNameWriter {
+public class AdministrativeFirstNameWriter {
 
 	private static final int MAX_SQL_LINE_LENGTH = 800_000;
 
 	private final BufferedWriter writer;
 
-	public AdministrativeNameWriter(final BufferedWriter writer) {
+	public AdministrativeFirstNameWriter(final BufferedWriter writer) {
 		this.writer = writer;
 	}
 
-	public void write(final Iterator<AdministrativeName> iterator) throws IOException {
+	public void write(final Iterator<AdministrativeFirstName> iterator) throws IOException {
 		writer.write("USE onlineathletics;\n\n");
 		writer.write(SQLFormat.SQL_FILE_HEADER + "\n");
-		writer.write("LOCK TABLES oa_geo_administration_tbl WRITE;\n");
-		writer.write("INSERT INTO oa_geo_administration_tbl(geo_nm_id, country_code, admin1_code) VALUES\n\t");
+		writer.write("LOCK TABLES oa_geo_administration_first_tbl WRITE;\n");
+		writer.write("INSERT INTO oa_geo_administration_first_tbl(geo_nm_id, country_code, admin1_code) VALUES\n\t");
 
 		String buffer = "";
 		int    length = 0;
 
 		while (iterator.hasNext()) {
-			final StringBuilder      builder = new StringBuilder(126);
-			final AdministrativeName name    = iterator.next();
+			final StringBuilder           builder = new StringBuilder(126);
+			final AdministrativeFirstName name    = iterator.next();
 
 			builder.append("(").append(name.getGeoNameId()).append(", '"
 				).append(name.getCountryCode()).append("', '"
@@ -70,7 +70,7 @@ public class AdministrativeNameWriter {
 					writer.write(buffer + "'),");
 				} else {
 					writer.write(buffer + "');\n");
-					writer.write("INSERT INTO oa_geo_administration_tbl(geo_nm_id, country_code, admin1_code) VALUES\n\t");
+					writer.write("INSERT INTO oa_geo_administration_first_tbl(geo_nm_id, country_code, admin1_code) VALUES\n\t");
 					length = 0;
 				}
 			} else {

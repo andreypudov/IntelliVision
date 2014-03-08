@@ -123,16 +123,22 @@ CREATE TABLE oa_geo_country_tbl (
 	country_code  VARCHAR(2)   NOT NULL,
 	admin1_code   VARCHAR(20)  NOT NULL,
 	admin2_code   VARCHAR(80)  NOT NULL,
-	admin3_code   VARCHAR(20)  NOT NULL,
-	admin4_code   VARCHAR(20)  NOT NUll,
 	PRIMARY KEY	(geo_nm_id),
 	INDEX (feature_code)
 ) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
 
-CREATE TABLE oa_geo_administration_tbl (
+CREATE TABLE oa_geo_administration_first_tbl (
 	geo_nm_id	 INT UNSIGNED NOT NULL UNIQUE,
 	country_code VARCHAR(2)   NOT NULL,
 	admin1_code  VARCHAR(20)  NOT NULL,
+	PRIMARY KEY	(geo_nm_id)
+) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
+
+CREATE TABLE oa_geo_administration_second_tbl (
+	geo_nm_id	 INT UNSIGNED NOT NULL UNIQUE,
+	country_code VARCHAR(2)   NOT NULL,
+	admin1_code  VARCHAR(20)  NOT NULL,
+	admin2_code  VARCHAR(80)  NOT NULL,
 	PRIMARY KEY	(geo_nm_id)
 ) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
 

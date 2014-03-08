@@ -32,19 +32,19 @@ import java.util.Iterator;
  *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
- * %name      AdministrativeNameReader.java
+ * %name      AdministrativeFirstNameReader.java
  * %date      12:45:00 AM, Mar 06, 2014
  */
-public class AdministrativeNameReader implements Iterable<AdministrativeName> {
+public class AdministrativeFirstNameReader implements Iterable<AdministrativeFirstName> {
 
 	private final BufferedReader reader;
 
-	public AdministrativeNameReader(final BufferedReader reader) {
+	public AdministrativeFirstNameReader(final BufferedReader reader) {
 		this.reader = reader;
 	}
 
 	@Override
-	public Iterator<AdministrativeName> iterator() {
-		return new AdministrativeNameIterator(reader);
+	public Iterator<AdministrativeFirstName> iterator() {
+		return new AdministrativeFirstNameIterator(reader);
 	}
 }

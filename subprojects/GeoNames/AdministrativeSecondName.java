@@ -31,34 +31,41 @@ import java.io.IOException;
  *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
- * %name      AdministrativeName.java
- * %date      12:20:A0 PM, Mar 06, 2014
+ * %name      AdministrativeSecondName.java
+ * %date      08:50:A0 PM, Mar 08, 2014
  */
-public class AdministrativeName {
+public class AdministrativeSecondName {
 
 	private static final int FIEDLS_NUMBER = 4;
 
 	private final String countryCode;
-	private final String adminCode;
+	private final String adminFirstCode;
+	private final String adminSecondCode;
 	private final String name;
 	private final String asciiname;
 	private final int    geonameid;
 
-	public AdministrativeName(final String countryCode, final String adminCode,
-			final String name, final String asciiname, final int geonameid) {
-		this.countryCode = countryCode;
-		this.adminCode   = adminCode;
-		this.name        = name;
-		this.asciiname   = asciiname;
-		this.geonameid   = geonameid;
+	public AdministrativeSecondName(final String countryCode, final String adminFirstCode,
+			final String adminSecondCode, final String name, final String asciiname, 
+			final int geonameid) {
+		this.countryCode     = countryCode;
+		this.adminFirstCode  = adminFirstCode;
+		this.adminSecondCode = adminSecondCode;
+		this.name            = name;
+		this.asciiname       = asciiname;
+		this.geonameid       = geonameid;
 	}
 
 	public String getCountryCode() {
 		return countryCode;
 	}
 
-	public String getAdminCode() {
-		return adminCode;
+	public String getAdminFirstCode() {
+		return adminFirstCode;
+	}
+
+	public String getAdminSecondCode() {
+		return adminSecondCode;
 	}
 
 	public String getName() {
@@ -73,7 +80,7 @@ public class AdministrativeName {
 		return geonameid;
 	}
 
-	public static AdministrativeName valueOf(final String value) 
+	public static AdministrativeSecondName valueOf(final String value) 
 			throws IOException {
 		final String[] list = value.split("\t");
 
@@ -84,12 +91,12 @@ public class AdministrativeName {
 		}
 
 		final String[] sublist = list[0].split("\\.");
-		if (sublist.length < 2) {
+		if (sublist.length < 3) {
 			throw new IOException("The incorrect administrative data file format.");
 		}
 
-		return new AdministrativeName(
-			sublist[0], sublist[1], list[1], list[2],
+		return new AdministrativeSecondName(
+			sublist[0], sublist[1], sublist[2], list[1], list[2],
 			(list[3].length() > 0) ? Integer.parseInt(list[3]) : 0);
 	}
 
@@ -98,7 +105,8 @@ public class AdministrativeName {
 		final StringBuilder builder = new StringBuilder(126);
 
 		return builder.append("[" + countryCode +"] "
-			).append("[" + adminCode + "] "
+			).append("[" + adminFirstCode + "] "
+			).append("[" + adminSecondCode + "] "
 			).append("[" + name + "] "
 			).append("[" + asciiname + "] "
 			).append("[" + geonameid + "]").toString();

@@ -116,10 +116,10 @@ public class AlternativeName {
 			(list[0].length() > 0) ? Integer.parseInt(list[0]) : 0,
 			(list[1].length() > 0) ? Integer.parseInt(list[1]) : 0,
 			list[2], list[3],
-			(list[4].length() > 0) ? Boolean.parseBoolean(list[4]) : false,
-			(list[5].length() > 0) ? Boolean.parseBoolean(list[5]) : false,
-			(list[6].length() > 0) ? Boolean.parseBoolean(list[6]) : false,
-			(list[7].length() > 0) ? Boolean.parseBoolean(list[7]) : false);
+			(list[4].length() > 0) ? Integer.parseInt(list[4]) != 0 : false,
+			(list[5].length() > 0) ? Integer.parseInt(list[5]) != 0 : false,
+			(list[6].length() > 0) ? Integer.parseInt(list[6]) != 0 : false,
+			(list[7].length() > 0) ? Integer.parseInt(list[7]) != 0 : false);
 	}
 
 	@Override

@@ -702,6 +702,36 @@ END //
 
 -- geo layer
 
+CREATE PROCEDURE geo_country_list (
+	language_arg VARCHAR(7), user_nm_arg VARCHAR(32))
+	NOT DETERMINISTIC
+    COMMENT 'Returns a list of countries using given language.
+
+    		 @param language_arg the name of the city to look.
+			 @param user_nm_arg  the name value to authenticate query.
+
+             @throws 45000 Invalid argument exception.
+             @throws 45000 Permissions denied.'
+BEGIN
+	-- validate routine arguments
+	IF ((language_arg IS NULL)
+			OR (CHAR_LENGTH(language_arg) = 0)) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid argument exception.';
+	END IF;
+
+	-- validate authentication and permissions
+	CALL auth_has_group (user_nm_arg, 'db_read');
+
+	SELECT c.geo_nm_id, c.country_code, a.alt_name
+		FROM oa_geo_country_tbl c
+			INNER JOIN oa_geo_alternative_tbl a ON a.geo_nm_key = c.geo_nm_id
+		WHERE c.feature_code  = 'PCLI'
+			AND a.language    = language_arg
+			AND a.is_historic = 0
+	GROUP BY (c.geo_nm_id)
+	ORDER BY (a.alt_name);
+END //
+
 CREATE PROCEDURE geo_get_city_list_by_name (
 	city_nm_arg VARCHAR(200), user_nm_arg VARCHAR(32))
 	NOT DETERMINISTIC

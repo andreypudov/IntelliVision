@@ -118,6 +118,7 @@ CREATE TABLE oa_athl_tbl (
 -- create geo tables
 CREATE TABLE oa_geo_country_tbl (
 	geo_nm_id	  INT UNSIGNED NOT NULL UNIQUE,
+	name          VARCHAR(200) NOT NULL,
 	feature_class VARCHAR(1)   NOT NULL,
 	feature_code  VARCHAR(10)  NOT NULL,
 	country_code  VARCHAR(2)   NOT NULL,
@@ -134,23 +135,15 @@ CREATE TABLE oa_geo_administration_first_tbl (
 	PRIMARY KEY	(geo_nm_id)
 ) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
 
-CREATE TABLE oa_geo_administration_second_tbl (
-	geo_nm_id	 INT UNSIGNED NOT NULL UNIQUE,
-	country_code VARCHAR(2)   NOT NULL,
-	admin1_code  VARCHAR(20)  NOT NULL,
-	admin2_code  VARCHAR(80)  NOT NULL,
-	PRIMARY KEY	(geo_nm_id)
-) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
-
 CREATE TABLE oa_geo_alternative_tbl (
 	alt_nm_id     INT UNSIGNED NOT NULL UNIQUE,
 	geo_nm_key    INT UNSIGNED NOT NULL,
 	language      VARCHAR(7)   NOT NULL,
 	alt_name      VARCHAR(200) NOT NULL,
-	is_preferred  TINYINT(1) NOT NULL DEFAULT 0,
-	is_short_nm   TINYINT(1) NOT NULL DEFAULT 0,
-	is_colloquial TINYINT(1) NOT NULL DEFAULT 0,
-	is_historic   TINYINT(1) NOT NULL DEFAULT 0,
+	is_preferred  TINYINT(1)   NOT NULL DEFAULT 0,
+	is_short_nm   TINYINT(1)   NOT NULL DEFAULT 0,
+	is_colloquial TINYINT(1)   NOT NULL DEFAULT 0,
+	is_historic   TINYINT(1)   NOT NULL DEFAULT 0,
 	PRIMARY KEY	(alt_nm_id),
 	FOREIGN KEY (geo_nm_key)
 		REFERENCES oa_geo_country_tbl(geo_nm_id),
@@ -730,6 +723,48 @@ BEGIN
 			AND a.is_historic = 0
 	GROUP BY (c.geo_nm_id)
 	ORDER BY (a.alt_name);
+END //
+
+CREATE PROCEDURE geo_region_list (country_id_arg INT UNSIGNED,
+	language_arg VARCHAR(7), user_nm_arg VARCHAR(32))
+	NOT DETERMINISTIC
+    COMMENT 'Returns a list of countries using given language.
+
+    		 @param country_id_arg the id of the country to look.
+    		 @param language_arg   the name of the city to look.
+			 @param user_nm_arg    the name value to authenticate query.
+
+             @throws 45000 Invalid argument exception.
+             @throws 45000 Permissions denied.'
+BEGIN
+	DECLARE country_code_var VARCHAR(7);
+
+	-- validate routine arguments
+	IF ((country_id_arg IS NULL)
+			OR (language_arg IS NULL)
+			OR (CHAR_LENGTH(language_arg) = 0)) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid argument exception.';
+	END IF;
+
+	-- validate authentication and permissions
+	CALL auth_has_group (user_nm_arg, 'db_read');
+
+	SELECT c.country_code
+		INTO country_code_var
+		FROM oa_geo_country_tbl c
+			INNER JOIN oa_geo_alternative_tbl a ON a.geo_nm_key = c.geo_nm_id
+		WHERE c.feature_code  = 'PCLI'
+			AND c.geo_nm_id   = country_id_arg
+		LIMIT 1; 
+
+	SELECT c.geo_nm_id, al.alt_name
+		FROM oa_geo_administration_first_tbl  ad
+			INNER JOIN oa_geo_country_tbl     c  ON c.geo_nm_id = ad.geo_nm_id
+			INNER JOIN oa_geo_alternative_tbl al ON al.geo_nm_key = ad.geo_nm_id
+	WHERE ad.country_code = country_code_var 
+		AND al.language   = language_arg
+	GROUP BY (c.geo_nm_id)
+	ORDER BY (al.alt_name);
 END //
 
 CREATE PROCEDURE geo_get_city_list_by_name (

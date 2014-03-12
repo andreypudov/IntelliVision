@@ -50,7 +50,7 @@ public class GeoNameWriter {
 		writer.write("USE onlineathletics;\n\n");
 		writer.write(SQLFormat.SQL_FILE_HEADER + "\n");
 		writer.write("LOCK TABLES oa_geo_country_tbl WRITE;\n");
-		writer.write("INSERT INTO oa_geo_country_tbl(geo_nm_id, feature_class, feature_code, country_code, admin1_code, admin2_code) VALUES\n\t");
+		writer.write("INSERT INTO oa_geo_country_tbl(geo_nm_id, name, feature_class, feature_code, country_code, admin1_code, admin2_code) VALUES\n\t");
 
 		String buffer = "";
 		int    length = 0;
@@ -60,6 +60,7 @@ public class GeoNameWriter {
 			final GeoName       name    = iterator.next();
 
 			builder.append("(").append(name.getGeoNameId()).append(", '"
+				).append(name.getName().replace("'", "\\'")).append("', '"
 				).append(name.getFeatureClass()).append("', '"
 				).append(name.getFeatureCode()).append("', '"
 				).append(name.getCountryCode()).append("', '"
@@ -73,7 +74,7 @@ public class GeoNameWriter {
 					writer.write(buffer + "'),");
 				} else {
 					writer.write(buffer + "');\n");
-					writer.write("INSERT INTO oa_geo_country_tbl(geo_nm_id, feature_class, feature_code, country_code, admin1_code, admin2_code) VALUES\n\t");
+					writer.write("INSERT INTO oa_geo_country_tbl(geo_nm_id, name, feature_class, feature_code, country_code, admin1_code, admin2_code) VALUES\n\t");
 					length = 0;
 				}
 			} else {

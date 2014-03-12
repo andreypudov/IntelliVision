@@ -85,11 +85,11 @@ public class Translator {
 		final File countriesInput             = new File("allCountries.txt");
 		final File alternativesInput          = new File("alternateNames.txt");
 		final File administrationFirstInput   = new File("admin1CodesASCII.txt");
-		final File administrationSecondInput  = new File("admin2Codes.txt");
+		/*final File administrationSecondInput  = new File("admin2Codes.txt");*/
 		final File countriesOutput            = new File("oa_geo_country_tbl.sql");
 		final File alternativesOutput         = new File("oa_geo_alternative_tbl.sql");
 		final File administrationFirstOutput  = new File("oa_geo_administration_first_tbl.sql");
-		final File administrationSecondOutput = new File("oa_geo_administration_second_tbl.sql");
+		/*final File administrationSecondOutput = new File("oa_geo_administration_second_tbl.sql");*/
 
 		if ((countriesInput.exists() == false) || (countriesInput.isFile() == false)) {
 			System.err.println("Countries file doesn't exists.");
@@ -106,25 +106,25 @@ public class Translator {
 			System.exit(Integer.MIN_VALUE);
 		}
 
-		if ((administrationSecondInput.exists() == false) || (administrationSecondInput.isFile() == false)) {
+		/*if ((administrationSecondInput.exists() == false) || (administrationSecondInput.isFile() == false)) {
 			System.err.println("Administrative names [second layer] file doesn't exists.");
 			System.exit(Integer.MIN_VALUE);
-		}
+		}*/
 
 		try {
 			final GeoNameReader                  geoReader         = new GeoNameReader(new BufferedReader(new FileReader(countriesInput)));
 			final AlternativeNameReader          altReader         = new AlternativeNameReader(new BufferedReader(new FileReader(alternativesInput)));
 			final AdministrativeFirstNameReader  adminFirstReader  = new AdministrativeFirstNameReader(new BufferedReader(new FileReader(administrationFirstInput)));
-			final AdministrativeSecondNameReader adminSecondReader = new AdministrativeSecondNameReader(new BufferedReader(new FileReader(administrationSecondInput)));
+			/*final AdministrativeSecondNameReader adminSecondReader = new AdministrativeSecondNameReader(new BufferedReader(new FileReader(administrationSecondInput)));*/
 			final GeoNameWriter                  geoWriter         = new GeoNameWriter(new BufferedWriter(new FileWriter(countriesOutput)));
 			final AlternativeNameWriter          altWriter         = new AlternativeNameWriter(new BufferedWriter(new FileWriter(alternativesOutput)));
 			final AdministrativeFirstNameWriter  adminFirstWriter  = new AdministrativeFirstNameWriter(new BufferedWriter(new FileWriter(administrationFirstOutput)));
-			final AdministrativeSecondNameWriter adminSecondWriter = new AdministrativeSecondNameWriter(new BufferedWriter(new FileWriter(administrationSecondOutput)));
+			/*final AdministrativeSecondNameWriter adminSecondWriter = new AdministrativeSecondNameWriter(new BufferedWriter(new FileWriter(administrationSecondOutput)));*/
 
 			final Iterator<GeoName>                  geoIterator         = geoReader.iterator();
 			final Iterator<AlternativeName>          altIterator         = altReader.iterator();
 			final Iterator<AdministrativeFirstName>  adminFirstIterator  = adminFirstReader.iterator();
-			final Iterator<AdministrativeSecondName> adminSecondIterator = adminSecondReader.iterator();
+			/*final Iterator<AdministrativeSecondName> adminSecondIterator = adminSecondReader.iterator();*/
 
 			System.out.println("Translating geographical data...");
 			geoWriter.write(geoIterator);
@@ -135,8 +135,8 @@ public class Translator {
 			System.out.println("Translating administrative names data [first layer]...");
 			adminFirstWriter.write(adminFirstIterator);
 
-			System.out.println("Translating administrative names data [second layer]...");
-			adminSecondWriter.write(adminSecondIterator);
+			/*System.out.println("Translating administrative names data [second layer]...");
+			adminSecondWriter.write(adminSecondIterator);*/
 		} catch (final IOException e) {
 			System.err.println(e.getMessage());
 			System.exit(Integer.MIN_VALUE);

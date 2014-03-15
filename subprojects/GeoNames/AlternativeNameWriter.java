@@ -59,6 +59,13 @@ public class AlternativeNameWriter {
 			final StringBuilder   builder = new StringBuilder(126);
 			final AlternativeName name    = iterator.next();
 
+			/* accept only required translations */
+			if ((name.getISOLangiage().equals("") == false)
+					&& (name.getISOLangiage().equalsIgnoreCase("en") == false)
+					&& (name.getISOLangiage().equalsIgnoreCase("ru") == false)) {
+				continue;
+			}
+
 			builder.append("(").append(name.getAlternativeNameId()).append(", "
 				).append(name.getGeoNameId()).append(", '"
 				).append(name.getISOLangiage()).append("', '"

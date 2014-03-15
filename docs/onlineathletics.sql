@@ -125,7 +125,9 @@ CREATE TABLE oa_geo_country_tbl (
 	admin1_code   VARCHAR(20)  NOT NULL,
 	admin2_code   VARCHAR(80)  NOT NULL,
 	PRIMARY KEY	(geo_nm_id),
-	INDEX (feature_code)
+	INDEX (feature_code),
+	INDEX (country_code),
+	INDEX (admin1_code)
 ) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
 
 CREATE TABLE oa_geo_administration_first_tbl (
@@ -698,9 +700,11 @@ END //
 CREATE PROCEDURE geo_country_list (
 	language_arg VARCHAR(7), user_nm_arg VARCHAR(32))
 	NOT DETERMINISTIC
-    COMMENT 'Returns a list of countries using given language.
+    COMMENT 'Returns a list of countries using given language. 
+             If a translationg to given language does not provided,
+             an empty value returns.
 
-    		 @param language_arg the name of the city to look.
+    		 @param language_arg the language to use in lookup.
 			 @param user_nm_arg  the name value to authenticate query.
 
              @throws 45000 Invalid argument exception.
@@ -715,29 +719,38 @@ BEGIN
 	-- validate authentication and permissions
 	CALL auth_has_group (user_nm_arg, 'db_read');
 
-	SELECT c.geo_nm_id, c.country_code, a.alt_name
-		FROM oa_geo_country_tbl c
-			INNER JOIN oa_geo_alternative_tbl a ON a.geo_nm_key = c.geo_nm_id
-		WHERE c.feature_code  = 'PCLI'
-			AND a.language    = language_arg
-			AND a.is_historic = 0
-	GROUP BY (c.geo_nm_id)
-	ORDER BY (a.alt_name);
+	-- return a list of countries
+	IF (language_arg = 'EN') THEN
+		SELECT c.geo_nm_id, c.country_code, c.name
+			FROM oa_geo_country_tbl c
+			WHERE c.feature_code = 'PCLI'
+		GROUP BY (c.geo_nm_id)
+		ORDER BY (c.name);
+	ELSE
+		SELECT c.geo_nm_id, c.country_code, a.alt_name
+			FROM oa_geo_country_tbl c
+				INNER JOIN oa_geo_alternative_tbl a ON a.geo_nm_key = c.geo_nm_id
+			WHERE c.feature_code  = 'PCLI'
+				AND a.language    = language_arg
+				AND a.is_historic = 0
+		GROUP BY (c.geo_nm_id)
+		ORDER BY (a.alt_name);
+	END IF;
 END //
 
 CREATE PROCEDURE geo_region_list (country_id_arg INT UNSIGNED,
 	language_arg VARCHAR(7), user_nm_arg VARCHAR(32))
 	NOT DETERMINISTIC
-    COMMENT 'Returns a list of countries using given language.
+    COMMENT 'Returns a list of regions for a given country using given language.
 
-    		 @param country_id_arg the id of the country to look.
-    		 @param language_arg   the name of the city to look.
+    		 @param country_id_arg the geo id of the country to look.
+    		 @param language_arg   the language to use in lookup.
 			 @param user_nm_arg    the name value to authenticate query.
 
              @throws 45000 Invalid argument exception.
              @throws 45000 Permissions denied.'
 BEGIN
-	DECLARE country_code_var VARCHAR(7);
+	DECLARE country_code_var VARCHAR(2);
 
 	-- validate routine arguments
 	IF ((country_id_arg IS NULL)
@@ -757,14 +770,91 @@ BEGIN
 			AND c.geo_nm_id   = country_id_arg
 		LIMIT 1; 
 
-	SELECT c.geo_nm_id, al.alt_name
-		FROM oa_geo_administration_first_tbl  ad
-			INNER JOIN oa_geo_country_tbl     c  ON c.geo_nm_id = ad.geo_nm_id
-			INNER JOIN oa_geo_alternative_tbl al ON al.geo_nm_key = ad.geo_nm_id
-	WHERE ad.country_code = country_code_var 
-		AND al.language   = language_arg
-	GROUP BY (c.geo_nm_id)
-	ORDER BY (al.alt_name);
+	-- return a list of countries
+	IF (language_arg = 'EN') THEN
+		SELECT c.geo_nm_id, c.name
+			FROM oa_geo_administration_first_tbl ad
+				INNER JOIN oa_geo_country_tbl    c  ON c.geo_nm_id = ad.geo_nm_id
+			WHERE ad.country_code = country_code_var
+		GROUP BY (c.geo_nm_id)
+		ORDER BY (c.name);
+	ELSE
+		SELECT source.geo_nm_id, source.alt_name 
+			FROM (
+				SELECT c.geo_nm_id, al.alt_name, al.language, al.is_preferred, al.is_short_nm, al.is_historic
+					FROM oa_geo_administration_first_tbl  ad
+						INNER JOIN oa_geo_country_tbl     c  ON c.geo_nm_id   = ad.geo_nm_id
+						INNER JOIN oa_geo_alternative_tbl al ON al.geo_nm_key = ad.geo_nm_id
+					WHERE ad.country_code = country_code_var
+					ORDER BY
+						al.language = language_arg DESC, 
+						al.language = '' DESC,
+						al.is_preferred  DESC,
+						al.is_short_nm
+			) AS source
+		GROUP BY (source.geo_nm_id)
+		ORDER BY (source.alt_name);
+	END IF;
+END //
+
+CREATE PROCEDURE geo_city_list (region_id_arg INT UNSIGNED,
+	language_arg VARCHAR(7), user_nm_arg VARCHAR(32))
+	NOT DETERMINISTIC
+    COMMENT 'Returns a list of countries using given language.
+
+    		 @param region_id_arg the geo id of the region to look.
+    		 @param language_arg  the language to use in lookup.
+			 @param user_nm_arg   the name value to authenticate query.
+
+             @throws 45000 Invalid argument exception.
+             @throws 45000 Permissions denied.'
+BEGIN
+	DECLARE country_code_var VARCHAR(2);
+	DECLARE region_code_var  VARCHAR(20);
+
+	-- validate routine arguments
+	IF ((region_id_arg IS NULL)
+			OR (language_arg IS NULL)
+			OR (CHAR_LENGTH(language_arg) = 0)) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid argument exception.';
+	END IF;
+
+	-- validate authentication and permissions
+	CALL auth_has_group (user_nm_arg, 'db_read');
+
+	SELECT country_code, admin1_code 
+		INTO  country_code_var, region_code_var
+		FROM  oa_geo_administration_first_tbl
+		WHERE geo_nm_id = region_id_arg
+		LIMIT 1; 
+
+	-- return a list of countries
+	IF (language_arg = 'EN') THEN
+		SELECT geo_nm_id, name
+			FROM oa_geo_country_tbl
+			WHERE feature_class  = 'P'
+				AND country_code = country_code_var
+				AND admin1_code  = region_code_var
+		GROUP BY (geo_nm_id)
+		ORDER BY (name);
+	ELSE
+		SELECT source.geo_nm_id, source.alt_name 
+			FROM (
+				SELECT c.geo_nm_id, al.alt_name, al.language, al.is_preferred, al.is_short_nm, al.is_historic
+					FROM oa_geo_country_tbl c
+						INNER JOIN oa_geo_alternative_tbl al ON al.geo_nm_key = c.geo_nm_id
+					WHERE c.feature_class  = 'P'
+						AND c.country_code = country_code_var
+						AND c.admin1_code  = region_code_var
+					ORDER BY 
+						al.language = language_arg DESC, 
+						al.language = '' DESC,
+						al.is_preferred  DESC,
+						al.is_short_nm
+			) AS source
+		GROUP BY (source.geo_nm_id)
+		ORDER BY (source.alt_name);
+	END IF;
 END //
 
 CREATE PROCEDURE geo_get_city_list_by_name (

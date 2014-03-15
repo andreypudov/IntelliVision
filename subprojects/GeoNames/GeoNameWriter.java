@@ -38,7 +38,8 @@ import java.util.Iterator;
  */
 public class GeoNameWriter {
 
-	private static final int MAX_SQL_LINE_LENGTH = 800_000;
+	private static final int  MAX_SQL_LINE_LENGTH = 800_000;
+	private static final long MIN_CITY_POPULATION = 1000L;
 
 	private final BufferedWriter writer;
 
@@ -58,6 +59,13 @@ public class GeoNameWriter {
 		while (iterator.hasNext()) {
 			final StringBuilder builder = new StringBuilder(126);
 			final GeoName       name    = iterator.next();
+
+			/* exclude villages from the database */
+			if ((name.getFeatureClass() == 'P')
+					&& ((name.getPopulation() == 0) 
+						|| (name.getPopulation() < MIN_CITY_POPULATION))) {
+				continue;
+			}
 
 			builder.append("(").append(name.getGeoNameId()).append(", '"
 				).append(name.getName().replace("'", "\\'")).append("', '"

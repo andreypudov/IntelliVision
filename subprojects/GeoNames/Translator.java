@@ -31,6 +31,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.Set;
+import java.util.HashSet;
 
 /**
  * Trasnlates GeoNames data to MySQL script.
@@ -126,11 +128,14 @@ public class Translator {
 			final Iterator<AdministrativeFirstName>  adminFirstIterator  = adminFirstReader.iterator();
 			/*final Iterator<AdministrativeSecondName> adminSecondIterator = adminSecondReader.iterator();*/
 
+			/* the list of accepted geo lcoations */
+			final Set<Integer> acceptedList = new HashSet<Integer>(1024);
+
 			System.out.println("Translating geographical data...");
-			geoWriter.write(geoIterator);
+			geoWriter.write(geoIterator, acceptedList);
 
 			System.out.println("Translating alternative geographical names data...");
-			altWriter.write(altIterator);
+			altWriter.write(altIterator, acceptedList);
 
 			System.out.println("Translating administrative names data [first layer]...");
 			adminFirstWriter.write(adminFirstIterator);

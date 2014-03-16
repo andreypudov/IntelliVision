@@ -27,6 +27,7 @@
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.Set;
 
 /**
  * Writes alternative geographical names to SQL file.
@@ -46,7 +47,7 @@ public class AlternativeNameWriter {
 		this.writer = writer;
 	}
 
-	public void write(final Iterator<AlternativeName> iterator) throws IOException {
+	public void write(final Iterator<AlternativeName> iterator, final Set<Integer> list) throws IOException {
 		writer.write("USE onlineathletics;\n\n");
 		writer.write(SQLFormat.SQL_FILE_HEADER + "\n");
 		writer.write("LOCK TABLES oa_geo_alternative_tbl WRITE;\n");
@@ -63,6 +64,11 @@ public class AlternativeNameWriter {
 			if ((name.getISOLangiage().equals("") == false)
 					&& (name.getISOLangiage().equalsIgnoreCase("en") == false)
 					&& (name.getISOLangiage().equalsIgnoreCase("ru") == false)) {
+				continue;
+			}
+
+			/* accept only geo locations from the list of accepted locations */
+			if (list.contains(name.getGeoNameId()) == false) {
 				continue;
 			}
 

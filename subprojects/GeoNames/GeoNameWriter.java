@@ -27,6 +27,7 @@
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.Set;
 
 /**
  * Writes geographical names to SQL file.
@@ -47,7 +48,7 @@ public class GeoNameWriter {
 		this.writer = writer;
 	}
 
-	public void write(final Iterator<GeoName> iterator) throws IOException {
+	public void write(final Iterator<GeoName> iterator, final Set<Integer> list) throws IOException {
 		writer.write("USE onlineathletics;\n\n");
 		writer.write(SQLFormat.SQL_FILE_HEADER + "\n");
 		writer.write("LOCK TABLES oa_geo_country_tbl WRITE;\n");
@@ -60,12 +61,28 @@ public class GeoNameWriter {
 			final StringBuilder builder = new StringBuilder(126);
 			final GeoName       name    = iterator.next();
 
+			/* accept only countries, regions and cities */
+			if ((name.getFeatureClass() != 'A')
+					&& (name.getFeatureClass() != 'P')) {
+				continue;
+			}
+
+			/* exclude second level regions */
+			if ((name.getFeatureClass() == 'A')
+					&& (name.getFeatureCode().equalsIgnoreCase("PCLI") == false)
+					&& (name.getFeatureCode().equalsIgnoreCase("ADM1") == false)) {
+				continue;
+			}
+
 			/* exclude villages from the database */
 			if ((name.getFeatureClass() == 'P')
 					&& ((name.getPopulation() == 0) 
 						|| (name.getPopulation() < MIN_CITY_POPULATION))) {
 				continue;
 			}
+
+			/* add geo location to the list of accepted locations */
+			list.add(name.getGeoNameId());
 
 			builder.append("(").append(name.getGeoNameId()).append(", '"
 				).append(name.getName().replace("'", "\\'")).append("', '"

@@ -860,7 +860,7 @@ END //
 CREATE PROCEDURE geo_get_city_list_by_name (
 	city_nm_arg VARCHAR(200), user_nm_arg VARCHAR(32))
 	NOT DETERMINISTIC
-    COMMENT 'Returns a list of possible city names including complete city name.
+    COMMENT 'Returns a list of possible complete city names.
 
     		 @param city_nm_arg the name of the city to look.
 			 @param user_nm_arg the name value to authenticate query.

@@ -72,31 +72,33 @@ public class AlternativeNameWriter {
 				continue;
 			}
 
-			builder.append("(").append(name.getAlternativeNameId()).append(", "
+			builder.append((length == 0) ? "(" : ",("
+				).append(name.getAlternativeNameId()).append(", "
 				).append(name.getGeoNameId()).append(", '"
 				).append(name.getISOLangiage()).append("', '"
 				).append(name.getAlternativeName().replace("'", "\\'")).append("', "
 				).append(name.isPreferredName() ? 1 : 0).append(", "
 				).append(name.isShortName() ? 1 : 0).append(", "
 				).append(name.isColloquial() ? 1 : 0).append(", "
-				).append(name.isHistoric() ? 1 : 0);
+				).append(name.isHistoric() ? 1 : 0
+				).append(")");;
 			buffer  = builder.toString();
 			length += buffer.length();
 
 			if (iterator.hasNext()) {
 				if (length <= MAX_SQL_LINE_LENGTH) {
-					writer.write(buffer + "),");
+					writer.write(buffer);
 				} else {
-					writer.write(buffer + ");\n");
+					writer.write(buffer + ";\n");
 					writer.write("INSERT INTO oa_geo_alternative_tbl(alt_nm_id, geo_nm_key, language, alt_name, is_preferred, is_short_nm, is_colloquial, is_historic) VALUES\n\t");
 					length = 0;
 				}
 			} else {
-				writer.write(buffer + ");\n");
+				writer.write(buffer);
 			}
 		}
 
-		writer.write("UNLOCK TABLES;");
+		writer.write(";\nUNLOCK TABLES;");
 		writer.write("\n" + SQLFormat.SQL_FILE_FOOTER + "\n");
 
 		writer.flush();

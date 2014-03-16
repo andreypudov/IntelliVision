@@ -123,7 +123,6 @@ CREATE TABLE oa_geo_country_tbl (
 	feature_code  VARCHAR(10)  NOT NULL,
 	country_code  VARCHAR(2)   NOT NULL,
 	admin1_code   VARCHAR(20)  NOT NULL,
-	admin2_code   VARCHAR(80)  NOT NULL,
 	PRIMARY KEY	(geo_nm_id),
 	INDEX (feature_code),
 	INDEX (country_code),

@@ -128,7 +128,7 @@ public class Translator {
 			final Iterator<AdministrativeFirstName>  adminFirstIterator  = adminFirstReader.iterator();
 			/*final Iterator<AdministrativeSecondName> adminSecondIterator = adminSecondReader.iterator();*/
 
-			/* the list of accepted geo lcoations */
+			/* the list of accepted geo locations */
 			final Set<Integer> acceptedList = new HashSet<Integer>(1024);
 
 			System.out.println("Translating geographical data...");

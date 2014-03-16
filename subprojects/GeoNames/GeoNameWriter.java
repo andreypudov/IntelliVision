@@ -52,7 +52,7 @@ public class GeoNameWriter {
 		writer.write("USE onlineathletics;\n\n");
 		writer.write(SQLFormat.SQL_FILE_HEADER + "\n");
 		writer.write("LOCK TABLES oa_geo_country_tbl WRITE;\n");
-		writer.write("INSERT INTO oa_geo_country_tbl(geo_nm_id, name, feature_class, feature_code, country_code, admin1_code, admin2_code) VALUES\n\t");
+		writer.write("INSERT INTO oa_geo_country_tbl(geo_nm_id, name, feature_class, feature_code, country_code, admin1_code) VALUES\n\t");
 
 		String buffer = "";
 		int    length = 0;
@@ -84,30 +84,31 @@ public class GeoNameWriter {
 			/* add geo location to the list of accepted locations */
 			list.add(name.getGeoNameId());
 
-			builder.append("(").append(name.getGeoNameId()).append(", '"
+			builder.append((length == 0) ? "(" : ",("
+				).append(name.getGeoNameId()).append(", '"
 				).append(name.getName().replace("'", "\\'")).append("', '"
 				).append(name.getFeatureClass()).append("', '"
 				).append(name.getFeatureCode()).append("', '"
 				).append(name.getCountryCode()).append("', '"
-				).append(name.getAdministrativeCode1().replace("'", "\\'")).append("', '"
-				).append(name.getAdministrativeCode2().replace("'", "\\'"));
+				).append(name.getAdministrativeCode1().replace("'", "\\'")
+				).append("')");
 			buffer  = builder.toString();
 			length += buffer.length();
 
 			if (iterator.hasNext()) {
 				if (length <= MAX_SQL_LINE_LENGTH) {
-					writer.write(buffer + "'),");
+					writer.write(buffer);
 				} else {
-					writer.write(buffer + "');\n");
-					writer.write("INSERT INTO oa_geo_country_tbl(geo_nm_id, name, feature_class, feature_code, country_code, admin1_code, admin2_code) VALUES\n\t");
+					writer.write(buffer + ";\n");
+					writer.write("INSERT INTO oa_geo_country_tbl(geo_nm_id, name, feature_class, feature_code, country_code, admin1_code) VALUES\n\t");
 					length = 0;
 				}
 			} else {
-				writer.write(buffer + "');\n");
+				writer.write(buffer);
 			}
 		}
 
-		writer.write("UNLOCK TABLES;");
+		writer.write(";\nUNLOCK TABLES;");
 		writer.write("\n" + SQLFormat.SQL_FILE_FOOTER + "\n");
 
 		writer.flush();

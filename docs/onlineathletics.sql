@@ -117,7 +117,7 @@ CREATE TABLE oa_athl_tbl (
 
 -- create geo tables
 CREATE TABLE oa_geo_country_tbl (
-	geo_nm_id	  INT UNSIGNED NOT NULL UNIQUE,
+	geo_nm_id	  INT UNSIGNED NOT NULL,
 	name          VARCHAR(200) NOT NULL,
 	feature_class VARCHAR(1)   NOT NULL,
 	feature_code  VARCHAR(10)  NOT NULL,
@@ -130,14 +130,14 @@ CREATE TABLE oa_geo_country_tbl (
 ) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
 
 CREATE TABLE oa_geo_administration_first_tbl (
-	geo_nm_id	 INT UNSIGNED NOT NULL UNIQUE,
+	geo_nm_id	 INT UNSIGNED NOT NULL,
 	country_code VARCHAR(2)   NOT NULL,
 	admin1_code  VARCHAR(20)  NOT NULL,
 	PRIMARY KEY	(geo_nm_id)
 ) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
 
 CREATE TABLE oa_geo_alternative_tbl (
-	alt_nm_id     INT UNSIGNED NOT NULL UNIQUE,
+	alt_nm_id     INT UNSIGNED NOT NULL,
 	geo_nm_key    INT UNSIGNED NOT NULL,
 	language      VARCHAR(7)   NOT NULL,
 	alt_name      VARCHAR(200) NOT NULL,
@@ -698,7 +698,7 @@ END //
 
 CREATE PROCEDURE geo_country_list (
 	language_arg VARCHAR(7), user_nm_arg VARCHAR(32))
-	NOT DETERMINISTIC
+	DETERMINISTIC
     COMMENT 'Returns a list of countries using given language. 
              If a translationg to given language does not provided,
              an empty value returns.
@@ -739,7 +739,7 @@ END //
 
 CREATE PROCEDURE geo_region_list (country_id_arg INT UNSIGNED,
 	language_arg VARCHAR(7), user_nm_arg VARCHAR(32))
-	NOT DETERMINISTIC
+	DETERMINISTIC
     COMMENT 'Returns a list of regions for a given country using given language.
 
     		 @param country_id_arg the geo id of the country to look.
@@ -798,7 +798,7 @@ END //
 
 CREATE PROCEDURE geo_city_list (region_id_arg INT UNSIGNED,
 	language_arg VARCHAR(7), user_nm_arg VARCHAR(32))
-	NOT DETERMINISTIC
+	DETERMINISTIC
     COMMENT 'Returns a list of countries using given language.
 
     		 @param region_id_arg the geo id of the region to look.
@@ -853,6 +853,42 @@ BEGIN
 			) AS source
 		GROUP BY (source.geo_nm_id)
 		ORDER BY (source.alt_name);
+	END IF;
+END //
+
+CREATE PROCEDURE geo_get_city_complete_name_by_id (
+	city_id_arg INT UNSIGNED, language_arg VARCHAR(7),
+	user_nm_arg VARCHAR(32))
+	NOT DETERMINISTIC
+    COMMENT 'Returns a city complete name by given city geo id.
+
+    		 @param city_id_arg  the geo id of the city.
+    		 @param language_arg the language to use in lookup.
+			 @param user_nm_arg  the name value to authenticate query.
+
+             @throws 45000 Invalid argument exception.
+             @throws 45000 Permissions denied.'
+BEGIN
+	DECLARE city_nm_var    VARCHAR(200);
+	DECLARE country_id_var INT UNSIGNED;
+	DECLARE region_id_var  INT UNSIGNED;
+
+	-- validate routine arguments
+	IF ((city_id_arg IS NULL)
+			OR (language_arg IS NULL)
+			OR (CHAR_LENGTH(language_arg) = 0)) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid argument exception.';
+	END IF;
+
+	-- validate authentication and permissions
+	CALL auth_has_group (user_nm_arg, 'db_read');
+
+	IF (language_arg = 'EN') THEN
+		SELECT name, country_code, admin1_code
+			INTO  city_nm_var, country_id_var, region_id_var
+			FROM  oa_geo_country_tbl 
+			WHERE geo_nm_id = 569696;
+		IF ((city_nm_var IS NULL))
 	END IF;
 END //
 

@@ -51,16 +51,24 @@ public class AthletePage {
         return athlete.getFirstName();
     }
     
-    public String getSecondName() {
-        return athlete.getSecondName();
+    public String getMiddleName() {
+        return athlete.getMiddleName();
+    }
+    
+    public String getLastName() {
+        return athlete.getLastName();
     }
     
     public String getFirstNameLocalized() {
         return athlete.getFirstNameLocalized();
     }
     
-    public String getSecondNameLocalized() {
-        return athlete.getSecondNameLocalized();
+    public String getMiddleNameLocalized() {
+        return athlete.getMiddleNameLocalized();
+    }
+    
+    public String getLastNameLocalized() {
+        return athlete.getLastNameLocalized();
     }
     
     public String getBirthday() {

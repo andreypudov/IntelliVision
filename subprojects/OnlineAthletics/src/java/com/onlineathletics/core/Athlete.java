@@ -63,8 +63,8 @@ public class Athlete extends com.intellijustice.core.Athlete {
             final String secondName, final String firstNameLocale,
             final String secondNameLocale, final long birthday,
             final boolean sex, final String country) {
-        super(id, firstName, secondName, firstNameLocale, secondNameLocale, 
-                birthday, sex, country);
+        super(id, firstName, "", secondName, firstNameLocale, "", secondNameLocale, 
+                birthday, sex, country, 0);
     }
     
     /**

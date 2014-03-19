@@ -62,25 +62,33 @@ public class Athlete {
      *
      * @param id         the database id for the athlete (zero for new entry).
      * @param firstName  the firth name of the athlete.
-     * @param secondName the second name of the athlete.
+     * @param middleName the middle name of the athlete.
+     * @param lastName   the last name of the athlete.
      * @param firstNameLocale  the first name of the athlete in local language.
-     * @param secondNameLocale the second name of the athlete in local language.
+     * @param middleNameLocale the middle name of the athlete in local language.
+     * @param lastNameLocale   the second name of the athlete in local language.
      * @param birthday   the birthday of the athlete.
      * @param sex        the sex of the athlete (true for male).
      * @param country    the country where the athlete from.
+     * @param language   the ISO representation of local language.
      */
-    public Athlete(final int id, final String firstName,
-            final String secondName, final String firstNameLocale,
-            final String secondNameLocale, final long birthday,
-            final boolean sex, final String country) {
+    public Athlete(final int id, final String firstName, 
+            final String middleName, final String lastName, 
+            final String firstNameLocale, final String middleNameLocale,
+            final String lastNameLocale, final long birthday,
+            final boolean sex, final String country, final int language) {
         this.id               = id;
         this.firstName        = firstName;
-        this.secondName       = secondName;
+        this.middleName       = middleName;
+        this.lastName         = lastName;
         this.firstNameLocale  = firstNameLocale;
-        this.secondNameLocale = secondNameLocale;
+        this.middleNameLocale = middleNameLocale;
+        this.lastNameLocale   = lastNameLocale;
         this.birthday         = birthday;
         this.sex              = sex;
         this.country          = country;
+        
+        this.language         = language;
     }
 
     /**
@@ -101,14 +109,23 @@ public class Athlete {
     public String getFirstName() {
         return firstName;
     }
+    
+    /**
+     * Returns the middle name of the athlete.
+     *
+     * @return the middle name of the athlete.
+     */
+    public String getMiddleName() {
+        return middleName;
+    }
 
     /**
-     * Returns the second name of the athlete.
+     * Returns the last name of the athlete.
      *
-     * @return the second name of the athlete.
+     * @return the last name of the athlete.
      */
-    public String getSecondName() {
-        return secondName;
+    public String getLastName() {
+        return lastName;
     }
 
     /**
@@ -119,14 +136,23 @@ public class Athlete {
     public String getFirstNameLocalized() {
         return firstNameLocale;
     }
+    
+    /**
+     * Returns the localized middle name of the athlete.
+     *
+     * @return the localized middle name of the athlete.
+     */
+    public String getMiddleNameLocalized() {
+        return middleNameLocale;
+    }
 
     /**
-     * Returns the localized second name of the athlete.
+     * Returns the localized last name of the athlete.
      *
-     * @return the localized second name of the athlete.
+     * @return the localized last name of the athlete.
      */
-    public String getSecondNameLocalized() {
-        return secondNameLocale;
+    public String getLastNameLocalized() {
+        return lastNameLocale;
     }
 
     /**
@@ -182,16 +208,24 @@ public class Athlete {
         if (!Objects.equals(this.firstName, other.firstName)) {
             return false;
         }
+        
+        if (!Objects.equals(this.middleName, other.middleName)) {
+            return false;
+        }
 
-        if (!Objects.equals(this.secondName, other.secondName)) {
+        if (!Objects.equals(this.lastName, other.lastName)) {
             return false;
         }
 
         if (!Objects.equals(this.firstNameLocale, other.firstNameLocale)) {
             return false;
         }
+        
+        if (!Objects.equals(this.middleNameLocale, other.middleNameLocale)) {
+            return false;
+        }
 
-        if (!Objects.equals(this.secondNameLocale, other.secondNameLocale)) {
+        if (!Objects.equals(this.lastNameLocale, other.lastNameLocale)) {
             return false;
         }
 
@@ -242,7 +276,8 @@ public class Athlete {
         /* 01 S FistName LastName 01-01-1970 */
         builder.append((sex == true) ? "M" : "F").append(" "
                 ).append(firstName).append(" "
-                ).append(secondName).append(" "
+                ).append(middleName).append(" "
+                ).append(lastName).append(" "
                 ).append(formatter.format(birthday)).append(" "
                 ).append(country);
         

@@ -769,7 +769,7 @@ BEGIN
 			AND c.geo_nm_id   = country_id_arg
 		LIMIT 1; 
 
-	-- return a list of countries
+	-- return a list of regions
 	IF (language_arg = 'EN') THEN
 		SELECT c.geo_nm_id, c.name
 			FROM oa_geo_administration_first_tbl ad
@@ -869,9 +869,12 @@ CREATE PROCEDURE geo_get_city_complete_name_by_id (
              @throws 45000 Invalid argument exception.
              @throws 45000 Permissions denied.'
 BEGIN
-	DECLARE city_nm_var    VARCHAR(200);
 	DECLARE country_id_var INT UNSIGNED;
 	DECLARE region_id_var  INT UNSIGNED;
+
+	DECLARE country_nm_var VARCHAR(200);
+	DECLARE region_nm_var  VARCHAR(200);
+	DECLARE city_nm_var    VARCHAR(200);
 
 	-- validate routine arguments
 	IF ((city_id_arg IS NULL)
@@ -884,11 +887,72 @@ BEGIN
 	CALL auth_has_group (user_nm_arg, 'db_read');
 
 	IF (language_arg = 'EN') THEN
-		SELECT name, country_code, admin1_code
-			INTO  city_nm_var, country_id_var, region_id_var
-			FROM  oa_geo_country_tbl 
-			WHERE geo_nm_id = 569696;
-		IF ((city_nm_var IS NULL))
+		SELECT cntry.name, adm_nm.name, city.name
+			FROM oa_geo_country_tbl city
+				INNER JOIN oa_geo_country_tbl cntry ON cntry.country_code = city.country_code
+				INNER JOIN oa_geo_administration_first_tbl adm 
+					ON adm.country_code = city.country_code 
+						AND adm.admin1_code = city.admin1_code
+				INNER JOIN oa_geo_country_tbl adm_nm ON adm_nm.geo_nm_id = adm.geo_nm_id
+			WHERE city.geo_nm_id = city_id_arg
+				AND cntry.feature_code = 'PCLI';
+	ELSE
+		SELECT cntry.geo_nm_id, adm.geo_nm_id
+			INTO country_id_var, region_id_var
+			FROM oa_geo_country_tbl city
+				INNER JOIN oa_geo_country_tbl cntry ON cntry.country_code = city.country_code
+				INNER JOIN oa_geo_administration_first_tbl adm 
+					ON adm.country_code = city.country_code 
+						AND adm.admin1_code = city.admin1_code
+			WHERE city.geo_nm_id = city_id_arg
+				AND cntry.feature_code = 'PCLI';
+
+		SELECT source.alt_name
+			INTO country_nm_var
+			FROM (
+				SELECT geo_nm_key, alt_name
+					FROM oa_geo_alternative_tbl a
+					WHERE geo_nm_key = country_id_var
+					ORDER BY 
+						a.language = language_arg DESC, 
+						a.language = '' DESC,
+						a.is_preferred  DESC,
+						a.is_short_nm
+			) AS source
+		GROUP BY (source.geo_nm_key)
+		ORDER BY (source.alt_name);
+
+		SELECT source.alt_name
+			INTO region_nm_var
+			FROM (
+				SELECT geo_nm_key, alt_name
+					FROM oa_geo_alternative_tbl a
+					WHERE geo_nm_key = region_id_var
+					ORDER BY 
+						a.language = language_arg DESC, 
+						a.language = '' DESC,
+						a.is_preferred  DESC,
+						a.is_short_nm
+			) AS source
+		GROUP BY (source.geo_nm_key)
+		ORDER BY (source.alt_name);
+
+		SELECT source.alt_name
+			INTO city_nm_var
+			FROM (
+				SELECT geo_nm_key, alt_name
+					FROM oa_geo_alternative_tbl a
+					WHERE geo_nm_key = city_id_arg
+					ORDER BY 
+						a.language = language_arg DESC, 
+						a.language = '' DESC,
+						a.is_preferred  DESC,
+						a.is_short_nm
+			) AS source
+		GROUP BY (source.geo_nm_key)
+		ORDER BY (source.alt_name);
+
+		SELECT country_nm_var, region_nm_var, city_nm_var;
 	END IF;
 END //
 

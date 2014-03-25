@@ -85,7 +85,7 @@ CREATE TABLE oa_last_nm_lc_tbl (
 
 CREATE TABLE oa_birthday_tbl (
 	birthday_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-	birthday	TIMESTAMP NOT NULL DEFAULT 0 UNIQUE,
+	birthday	TIMESTAMP    NOT NULL DEFAULT 0 UNIQUE,
 	PRIMARY KEY	(birthday_id)
 ) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
 
@@ -101,7 +101,8 @@ CREATE TABLE oa_athl_tbl (
 	last_nm_lc_key   INT UNSIGNED NOT NULL,
 
 	birthday_key     INT UNSIGNED NOT NULL,
-	sex              TINYINT(1) NOT NULL DEFAULT 0,
+	birthplace_key   INT UNSIGNED NOT NULL,
+	sex              TINYINT(1)   NOT NULL DEFAULT 0,
 	PRIMARY KEY (athl_id),
 
 	FOREIGN KEY (first_nm_key)     REFERENCES oa_first_nm_tbl(first_nm_id),
@@ -112,8 +113,17 @@ CREATE TABLE oa_athl_tbl (
 	FOREIGN KEY (middle_nm_lc_key) REFERENCES oa_middle_nm_lc_tbl(middle_nm_lc_id),
 	FOREIGN KEY (last_nm_lc_key)   REFERENCES oa_last_nm_lc_tbl(last_nm_lc_id),
 
-	FOREIGN KEY (birthday_key)     REFERENCES oa_birthday_tbl(birthday_id)
+	FOREIGN KEY (birthday_key)     REFERENCES oa_birthday_tbl(birthday_id),
+	FOREIGN KEY (birthplace_key)   REFERENCES oa_geo_country_tbl(geo_nm_id)
 ) ENGINE = InnoDB DEFAULT CHARSET = 'utf8' AUTO_INCREMENT = 100;
+
+CREATE TABLE oa_athl_regions_tbl (
+	athl_key   INT UNSIGNED NOT NULL,
+	region_key INT UNSIGNED NOT NULL,
+	FOREIGN KEY (athl_key)   REFERENCES oa_athl_tbl(athl_id),
+	FOREIGN KEY (region_key) REFERENCES oa_geo_country_tbl(geo_nm_id),
+	UNIQUE KEY (athl_key, region_key)
+) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
 
 -- create geo tables
 CREATE TABLE oa_geo_country_tbl (
@@ -206,11 +216,11 @@ INSERT INTO oa_accnt_roles_tbl(user_key, group_key)
 DELIMITER //
 
 CREATE PROCEDURE add_athlete (first_nm_arg   VARCHAR(35), 
-	middle_nm_arg   VARCHAR(35), last_nm_arg      VARCHAR(35), 
-	first_nm_lc_arg VARCHAR(35), middle_nm_lc_arg VARCHAR(35),
-	last_nm_lc_arg  VARCHAR(35), birthday_arg     TIMESTAMP,
-    sex_arg         TINYINT(1),  language_arg     INT UNSIGNED, 
-    user_nm_arg      VARCHAR(32))
+	middle_nm_arg   VARCHAR(35),  last_nm_arg      VARCHAR(35), 
+	first_nm_lc_arg VARCHAR(35),  middle_nm_lc_arg VARCHAR(35),
+	last_nm_lc_arg  VARCHAR(35),  birthday_arg     TIMESTAMP,
+    birthplace_arg  INT UNSIGNED, sex_arg          TINYINT(1),
+    language_arg    INT UNSIGNED, user_nm_arg      VARCHAR(32))
 	NOT DETERMINISTIC
 	COMMENT 'Adds athlete entry and returns identification number.
 
@@ -222,7 +232,8 @@ CREATE PROCEDURE add_athlete (first_nm_arg   VARCHAR(35),
 			 @param middle_nm_lc_arg the middle name of the athlete in local language.
              @param last_nm_lc_arg   the last name of the athlete in local language.
 
-             @param birthday_arg     the birthday of the athlete.
+             @param birthday_arg     the date of birth of the athlete.
+             @param birthplace_arg   the place of birth of the athlete.
              @param sex_arg          the sex of the athlete (true for male).
 
              @param language_arg     the identifier of the local language.
@@ -256,6 +267,7 @@ BEGIN
 			OR (last_nm_lc_arg IS NULL)
 
 			OR (birthday_arg IS NULL)
+			OR (birthplace_arg IS NULL)
 			OR (sex_arg IS NULL)
 
 			OR (CHAR_LENGTH(first_nm_arg) = 0)
@@ -359,18 +371,19 @@ BEGIN
 	-- comparison uses only English name of the athlete
 	SET athlete_indx = (SELECT athl_id
 		FROM oa_athl_tbl
-		WHERE   first_nm_key  = first_nm_indx
-			AND middle_nm_key = middle_nm_indx
-			AND last_nm_key   = last_nm_indx
-			AND birthday_key  = birthday_indx
-			AND sex           = sex_arg);
+		WHERE   first_nm_key   = first_nm_indx
+			AND middle_nm_key  = middle_nm_indx
+			AND last_nm_key    = last_nm_indx
+			AND birthday_key   = birthday_indx
+			AND birthplace_key = birthplace_arg
+			AND sex            = sex_arg);
 	IF (athlete_indx IS NOT NULL) THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Athlete entry already exists.';
 	ELSE
 		INSERT INTO oa_athl_tbl(first_nm_key, middle_nm_key, last_nm_key, 
-			first_nm_lc_key, middle_nm_lc_key, last_nm_lc_key, birthday_key, sex)
+			first_nm_lc_key, middle_nm_lc_key, last_nm_lc_key, birthday_key, birthplace_key, sex)
 			VALUES(first_nm_indx, middle_nm_indx, last_nm_indx, 
-				first_nm_lc_indx, middle_nm_lc_indx, last_nm_lc_indx, birthday_indx, sex_arg);
+				first_nm_lc_indx, middle_nm_lc_indx, last_nm_lc_indx, birthday_indx, birthplace_arg, sex_arg);
 		SET athlete_indx = (SELECT last_insert_id());
 	END IF;
 
@@ -381,8 +394,9 @@ CREATE PROCEDURE edit_athlete (athlete_id_arg INT UNSIGNED,
 	first_nm_arg     VARCHAR(35),  middle_nm_arg   VARCHAR(35), 
 	last_nm_arg      VARCHAR(35),  first_nm_lc_arg VARCHAR(35),
 	middle_nm_lc_arg VARCHAR(35),  last_nm_lc_arg  VARCHAR(35),
-	birthday_arg     TIMESTAMP,    sex_arg         TINYINT(1),
-	language_arg     INT UNSIGNED, user_nm_arg      VARCHAR(32))
+	birthday_arg     TIMESTAMP,    birthplace_arg  INT UNSIGNED,
+	sex_arg          TINYINT(1),   language_arg    INT UNSIGNED, 
+	user_nm_arg      VARCHAR(32))
 	NOT DETERMINISTIC
 	COMMENT 'Edit athlete entry.
 
@@ -396,7 +410,8 @@ CREATE PROCEDURE edit_athlete (athlete_id_arg INT UNSIGNED,
 			 @param middle_nm_lc_arg the middle name of the athlete in local language.
              @param last_nm_lc_arg   the last name of the athlete in local language.
 
-             @param birthday_arg     the birthday of the athlete.
+             @param birthday_arg     the date of birth of the athlete.
+             @param birthplace_arg   the place of birth of the athlete.
              @param sex_arg          the sex of the athlete (true for male).
 
              @param language_arg     the identifier of the local language.
@@ -431,6 +446,7 @@ BEGIN
 			OR (last_nm_lc_arg IS NULL)
 
 			OR (birthday_arg IS NULL)
+			OR (birthplace_arg IS NULL)
 			OR (sex_arg IS NULL)
 
 			OR (CHAR_LENGTH(first_nm_arg) = 0)
@@ -537,6 +553,7 @@ BEGIN
 			AND last_nm_lc_key   = last_nm_lc_indx
 
 			AND birthday_key     = birthday_indx
+			AND birthplace_key   = birthplace_arg
 			AND sex              = sex_arg);
 	IF (athlete_indx = athlete_id_arg) THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Athlete entry the same as requested to change.';
@@ -555,6 +572,7 @@ BEGIN
 			last_nm_lc_key   = last_nm_lc_indx,
 
 			birthday_key     = birthday_indx,
+			birthplace_key   = birthplace_arg,
 			sex              = sex_arg
 		WHERE athl_id = athlete_id_arg;
 END //
@@ -581,6 +599,7 @@ BEGIN
 	DECLARE last_nm_lc_var   VARCHAR(35);
 
 	DECLARE birthday_var     TIMESTAMP;
+	DECLARE birthplace_var   INT UNSIGNED;
 	DECLARE sex_var          TINYINT(1);
 	DECLARE language_var     INT UNSIGNED;
 
@@ -594,10 +613,10 @@ BEGIN
 
 	SELECT a.athl_id, f.first_name, m.middle_name, l.last_name,
 		fl.first_name_lc, ml.middle_name_lc, ll.last_name_lc, 
-		b.birthday, a.sex, fl.language_id 
+		b.birthday, a.birthplace_key, a.sex, fl.language_id 
 		INTO athlete_id_var, first_nm_var, middle_nm_var, last_nm_var, 
 			first_nm_lc_var, middle_nm_lc_var, last_nm_lc_var,
-			birthday_var, sex_var, language_var
+			birthday_var, birthplace_var, sex_var, language_var
 		FROM oa_athl_tbl a
 			INNER JOIN oa_first_nm_tbl  f ON f.first_nm_id  = a.first_nm_key
 			INNER JOIN oa_middle_nm_tbl m ON m.middle_nm_id = a.middle_nm_key
@@ -617,15 +636,15 @@ BEGIN
 	END IF;
 
 	SELECT athlete_id_var, first_nm_var, middle_nm_var, last_nm_var, 
-		first_nm_lc_var, middle_nm_lc_var, last_nm_lc_var, birthday_var, sex_var, 
+		first_nm_lc_var, middle_nm_lc_var, last_nm_lc_var, birthday_var, birthplace_var, sex_var, 
 		language_var;
 END //
 
-CREATE PROCEDURE get_athlete_by_name (first_nm_arg VARCHAR(35),
+CREATE PROCEDURE get_athlete_list_by_name (first_nm_arg VARCHAR(35),
 	middle_nm_arg VARCHAR(35), last_nm_arg VARCHAR(35), 
 	user_nm_arg   VARCHAR(32))
 	NOT DETERMINISTIC
-	COMMENT 'Returns athlete entry for given name.
+	COMMENT 'Returns a list of athletes by given name.
 
 			 @param first_nm_arg  the first name of the athlete.
 			 @param middle_nm_arg the middle name of the athlete.
@@ -637,20 +656,6 @@ CREATE PROCEDURE get_athlete_by_name (first_nm_arg VARCHAR(35),
              @throws 45000 Permissions denied.
              @throws 45000 Athlete entry doesn\'t exists.'
 BEGIN
-	DECLARE athlete_id_var   INT UNSIGNED;
-
-	DECLARE first_nm_var     VARCHAR(35);
-	DECLARE middle_nm_var    VARCHAR(35);
-	DECLARE last_nm_var      VARCHAR(35);
-
-	DECLARE first_nm_lc_var  VARCHAR(35);
-	DECLARE middle_nm_lc_var VARCHAR(35);
-	DECLARE last_nm_lc_var   VARCHAR(35);
-
-	DECLARE birthday_var     TIMESTAMP;
-	DECLARE sex_var          TINYINT(1);
-	DECLARE language_var     INT UNSIGNED;
-
 	-- validate routine arguments
 	IF ((first_nm_arg IS NULL)
 			OR (middle_nm_arg IS NULL)
@@ -665,10 +670,7 @@ BEGIN
 
 	SELECT a.athl_id, f.first_name, m.middle_name, l.last_name,
 		fl.first_name_lc, ml.middle_name_lc, ll.last_name_lc, 
-		b.birthday, a.sex, fl.language_id 
-		INTO athlete_id_var, first_nm_var, middle_nm_var, last_nm_var, 
-			first_nm_lc_var, middle_nm_lc_var, last_nm_lc_var,
-			birthday_var, sex_var, language_var
+		b.birthday, a.birthplace_key, a.sex, fl.language_id 
 		FROM oa_athl_tbl a
 			INNER JOIN oa_first_nm_tbl  f ON f.first_nm_id  = a.first_nm_key
 			INNER JOIN oa_middle_nm_tbl m ON m.middle_nm_id = a.middle_nm_key
@@ -681,17 +683,7 @@ BEGIN
 			INNER JOIN oa_birthday_tbl b ON b.birthday_id   = a.birthday_key
 		WHERE f.first_name    = first_nm_arg
 			AND m.middle_name = middle_nm_arg
-			AND l.last_name   = last_nm_arg
-		LIMIT 1;
-
-	-- select doesn't returns any data
-	IF (athlete_id_var IS NULL) THEN
-		 SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Athlete entry doesn\'t exists.';
-	END IF;
-
-	SELECT athlete_id_var, first_nm_var, middle_nm_var, last_nm_var, 
-		first_nm_lc_var, middle_nm_lc_var, last_nm_lc_var, birthday_var, sex_var, 
-		language_var;
+			AND l.last_name   = last_nm_arg;
 END //
 
 -- geo layer
@@ -859,7 +851,7 @@ END //
 CREATE PROCEDURE geo_get_city_complete_name_by_id (
 	city_id_arg INT UNSIGNED, language_arg VARCHAR(7),
 	user_nm_arg VARCHAR(32))
-	NOT DETERMINISTIC
+	DETERMINISTIC
     COMMENT 'Returns a city complete name by given city geo id.
 
     		 @param city_id_arg  the geo id of the city.
@@ -958,7 +950,7 @@ END //
 
 CREATE PROCEDURE geo_get_city_list_by_name (
 	city_nm_arg VARCHAR(200), user_nm_arg VARCHAR(32))
-	NOT DETERMINISTIC
+	DETERMINISTIC
     COMMENT 'Returns a list of possible complete city names.
 
     		 @param city_nm_arg the name of the city to look.

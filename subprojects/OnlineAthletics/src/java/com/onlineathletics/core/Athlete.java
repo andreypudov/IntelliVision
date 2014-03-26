@@ -27,11 +27,7 @@
 package com.onlineathletics.core;
 
 import com.onlineathletics.services.StoredProcedures;
-import com.onlineathletics.util.Database;
 import com.onlineathletics.util.Parameters;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**

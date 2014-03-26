@@ -40,6 +40,42 @@ USE onlineathletics;
 
 -- create general application table structure
 
+-- create geo tables
+CREATE TABLE oa_geo_country_tbl (
+	geo_nm_id	  INT UNSIGNED NOT NULL,
+	name          VARCHAR(200) NOT NULL,
+	feature_class VARCHAR(1)   NOT NULL,
+	feature_code  VARCHAR(10)  NOT NULL,
+	country_code  VARCHAR(2)   NOT NULL,
+	admin1_code   VARCHAR(20)  NOT NULL,
+	PRIMARY KEY	(geo_nm_id),
+	INDEX (feature_code),
+	INDEX (country_code),
+	INDEX (admin1_code)
+) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
+
+CREATE TABLE oa_geo_administration_first_tbl (
+	geo_nm_id	 INT UNSIGNED NOT NULL,
+	country_code VARCHAR(2)   NOT NULL,
+	admin1_code  VARCHAR(20)  NOT NULL,
+	PRIMARY KEY	(geo_nm_id)
+) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
+
+CREATE TABLE oa_geo_alternative_tbl (
+	alt_nm_id     INT UNSIGNED NOT NULL,
+	geo_nm_key    INT UNSIGNED NOT NULL,
+	language      VARCHAR(7)   NOT NULL,
+	alt_name      VARCHAR(200) NOT NULL,
+	is_preferred  TINYINT(1)   NOT NULL DEFAULT 0,
+	is_short_nm   TINYINT(1)   NOT NULL DEFAULT 0,
+	is_colloquial TINYINT(1)   NOT NULL DEFAULT 0,
+	is_historic   TINYINT(1)   NOT NULL DEFAULT 0,
+	PRIMARY KEY	(alt_nm_id),
+	FOREIGN KEY (geo_nm_key)
+		REFERENCES oa_geo_country_tbl(geo_nm_id),
+	INDEX (alt_name)
+) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
+
 -- create athlete layer
 CREATE TABLE oa_first_nm_tbl (
 	first_nm_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -125,42 +161,6 @@ CREATE TABLE oa_athl_regions_tbl (
 	UNIQUE KEY (athl_key, region_key)
 ) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
 
--- create geo tables
-CREATE TABLE oa_geo_country_tbl (
-	geo_nm_id	  INT UNSIGNED NOT NULL,
-	name          VARCHAR(200) NOT NULL,
-	feature_class VARCHAR(1)   NOT NULL,
-	feature_code  VARCHAR(10)  NOT NULL,
-	country_code  VARCHAR(2)   NOT NULL,
-	admin1_code   VARCHAR(20)  NOT NULL,
-	PRIMARY KEY	(geo_nm_id),
-	INDEX (feature_code),
-	INDEX (country_code),
-	INDEX (admin1_code)
-) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
-
-CREATE TABLE oa_geo_administration_first_tbl (
-	geo_nm_id	 INT UNSIGNED NOT NULL,
-	country_code VARCHAR(2)   NOT NULL,
-	admin1_code  VARCHAR(20)  NOT NULL,
-	PRIMARY KEY	(geo_nm_id)
-) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
-
-CREATE TABLE oa_geo_alternative_tbl (
-	alt_nm_id     INT UNSIGNED NOT NULL,
-	geo_nm_key    INT UNSIGNED NOT NULL,
-	language      VARCHAR(7)   NOT NULL,
-	alt_name      VARCHAR(200) NOT NULL,
-	is_preferred  TINYINT(1)   NOT NULL DEFAULT 0,
-	is_short_nm   TINYINT(1)   NOT NULL DEFAULT 0,
-	is_colloquial TINYINT(1)   NOT NULL DEFAULT 0,
-	is_historic   TINYINT(1)   NOT NULL DEFAULT 0,
-	PRIMARY KEY	(alt_nm_id),
-	FOREIGN KEY (geo_nm_key)
-		REFERENCES oa_geo_country_tbl(geo_nm_id),
-	INDEX (alt_name)
-) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
-
 -- create online account table to store user credentials
 CREATE TABLE oa_accnt_user_tbl (
 	user_id     INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -215,6 +215,18 @@ INSERT INTO oa_accnt_roles_tbl(user_key, group_key)
 -- create stored procedures
 DELIMITER //
 
+-- the list of defined signals and related error codes
+--
+-- 60001 Invalid argument exception.
+--
+-- 60021 Authentication failed.
+-- 60022 Account doesn\'t exists.'
+-- 60031 Permissions denied.
+--
+-- 60101 Athlete entry already exists.
+-- 60102 Athlete entry doesn\'t exists.
+-- 60103 Athlete entry the same as requested to change.
+
 CREATE PROCEDURE add_athlete (first_nm_arg   VARCHAR(35), 
 	middle_nm_arg   VARCHAR(35),  last_nm_arg      VARCHAR(35), 
 	first_nm_lc_arg VARCHAR(35),  middle_nm_lc_arg VARCHAR(35),
@@ -241,9 +253,9 @@ CREATE PROCEDURE add_athlete (first_nm_arg   VARCHAR(35),
 
              @return the database id for the athlete as athlete_indx column.
 
-			 @throws 45000 Invalid argument exception.
-             @throws 45000 Permissions denied.
-			 @throws 45000 Athlete entry already exists.'
+			 @throws Invalid argument exception.
+             @throws Permissions denied.
+			 @throws Athlete entry already exists.'
 BEGIN
 	DECLARE athlete_indx      INT UNSIGNED;
 
@@ -277,7 +289,7 @@ BEGIN
 
 			OR ((sex_arg != 0) AND (sex_arg != 1))
 			OR (language_arg is NULL)) THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid argument exception.';
+		SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO = 60001, MESSAGE_TEXT = 'Invalid argument exception.';
 	END IF;
 
 	-- validate authentication and permissions
@@ -378,7 +390,7 @@ BEGIN
 			AND birthplace_key = birthplace_arg
 			AND sex            = sex_arg);
 	IF (athlete_indx IS NOT NULL) THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Athlete entry already exists.';
+		SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO = 60101, MESSAGE_TEXT = 'Athlete entry already exists.';
 	ELSE
 		INSERT INTO oa_athl_tbl(first_nm_key, middle_nm_key, last_nm_key, 
 			first_nm_lc_key, middle_nm_lc_key, last_nm_lc_key, birthday_key, birthplace_key, sex)
@@ -400,7 +412,7 @@ CREATE PROCEDURE edit_athlete (athlete_id_arg INT UNSIGNED,
 	NOT DETERMINISTIC
 	COMMENT 'Edit athlete entry.
 
-			 @param athlete_id_arg the database id of the athlete.
+			 @param athlete_id_arg   the database id of the athlete.
 
 			 @param first_nm_arg     the firth name of the athlete.
 			 @param middle_nm_arg    the middle name of the athlete.
@@ -417,11 +429,11 @@ CREATE PROCEDURE edit_athlete (athlete_id_arg INT UNSIGNED,
              @param language_arg     the identifier of the local language.
 			 @param user_nm_arg      the name value to authenticate query.
 
-             @throws 45000 Invalid argument exception.
-             @throws 45000 Permissions denied.
-             @throws 45000 Athlete entry doesn\'t exists.
-             @throws 45000 Athlete entry the same as requested to change.
-             @throws 45000 Athlete entry already exists.'
+             @throws Invalid argument exception.
+             @throws Permissions denied.
+             @throws Athlete entry doesn\'t exists.
+             @throws Athlete entry the same as requested to change.
+             @throws Athlete entry already exists.'
 BEGIN
 	DECLARE athlete_indx   INT UNSIGNED;
 
@@ -456,7 +468,7 @@ BEGIN
 
 			OR ((sex_arg != 0) AND (sex_arg != 1))
 			OR (language_arg is NULL)) THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid argument exception.';
+		SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO = 60001, MESSAGE_TEXT = 'Invalid argument exception.';
 	END IF;
 
 	-- validate authentication and permissions
@@ -465,7 +477,7 @@ BEGIN
 	IF ((SELECT COUNT(*)
 			FROM  oa_athl_tbl
 			WHERE athl_id = athlete_id_arg) != 1) THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Athlete entry doesn\'t exists.';
+		SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO = 60102, MESSAGE_TEXT = 'Athlete entry doesn\'t exists.';
 	END IF;
 
 	-- set first name id
@@ -556,9 +568,9 @@ BEGIN
 			AND birthplace_key   = birthplace_arg
 			AND sex              = sex_arg);
 	IF (athlete_indx = athlete_id_arg) THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Athlete entry the same as requested to change.';
+		SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO = 60103, MESSAGE_TEXT = 'Athlete entry the same as requested to change.';
 	ELSEIF (athlete_indx IS NOT NULL) THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Athlete entry already exists.';
+		SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO = 60101, MESSAGE_TEXT = 'Athlete entry already exists.';
 	END IF;
 
 	-- update athlete information
@@ -586,9 +598,9 @@ CREATE PROCEDURE get_athlete (athlete_id_arg INT UNSIGNED, user_nm_arg VARCHAR(3
 
 			 @return the athlete entry for given database id.
 
-             @throws 45000 Invalid argument exception.
-             @throws 45000 Permissions denied.
-             @throws 45000 Athlete entry doesn\'t exists.'
+             @throws Invalid argument exception.
+             @throws Permissions denied.
+             @throws Athlete entry doesn\'t exists.'
 BEGIN
 	DECLARE athlete_id_var   INT UNSIGNED;
 
@@ -607,7 +619,7 @@ BEGIN
 
 	-- validate routine arguments
 	IF (athlete_id_arg IS NULL) THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid argument exception.';
+		SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO = 60001, MESSAGE_TEXT = 'Invalid argument exception.';
 	END IF;
 
 	-- validate authentication and permissions
@@ -634,7 +646,7 @@ BEGIN
 
 	-- select doesn't returns any data
 	IF (athlete_id_var IS NULL) THEN
-		 SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Athlete entry doesn\'t exists.';
+		 SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO = 60102, MESSAGE_TEXT = 'Athlete entry doesn\'t exists.';
 	END IF;
 
 	SELECT athlete_id_var, first_nm_var, middle_nm_var, last_nm_var, 
@@ -654,9 +666,9 @@ CREATE PROCEDURE get_athlete_list_by_name (first_nm_arg VARCHAR(35),
 
 			 @param user_nm_arg   the name value to authenticate query.
 
-             @throws 45000 Invalid argument exception.
-             @throws 45000 Permissions denied.
-             @throws 45000 Athlete entry doesn\'t exists.'
+             @throws Invalid argument exception.
+             @throws Permissions denied.
+             @throws Athlete entry doesn\'t exists.'
 BEGIN
 	-- validate routine arguments
 	IF ((first_nm_arg IS NULL)
@@ -664,7 +676,7 @@ BEGIN
 			OR (last_nm_arg IS NULL)
 			OR (CHAR_LENGTH(first_nm_arg) = 0)
 			OR (CHAR_LENGTH(last_nm_arg) = 0)) THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid argument exception.';
+		SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO = 60001, MESSAGE_TEXT = 'Invalid argument exception.';
 	END IF;
 
 	-- validate authentication and permissions
@@ -700,13 +712,13 @@ CREATE PROCEDURE geo_country_list (
     		 @param language_arg the language to use in lookup.
 			 @param user_nm_arg  the name value to authenticate query.
 
-             @throws 45000 Invalid argument exception.
-             @throws 45000 Permissions denied.'
+             @throws Invalid argument exception.
+             @throws Permissions denied.'
 BEGIN
 	-- validate routine arguments
 	IF ((language_arg IS NULL)
 			OR (CHAR_LENGTH(language_arg) = 0)) THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid argument exception.';
+		SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO = 60001, MESSAGE_TEXT = 'Invalid argument exception.';
 	END IF;
 
 	-- validate authentication and permissions
@@ -740,8 +752,8 @@ CREATE PROCEDURE geo_region_list (country_id_arg INT UNSIGNED,
     		 @param language_arg   the language to use in lookup.
 			 @param user_nm_arg    the name value to authenticate query.
 
-             @throws 45000 Invalid argument exception.
-             @throws 45000 Permissions denied.'
+             @throws Invalid argument exception.
+             @throws Permissions denied.'
 BEGIN
 	DECLARE country_code_var VARCHAR(2);
 
@@ -749,7 +761,7 @@ BEGIN
 	IF ((country_id_arg IS NULL)
 			OR (language_arg IS NULL)
 			OR (CHAR_LENGTH(language_arg) = 0)) THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid argument exception.';
+		SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO = 60001, MESSAGE_TEXT = 'Invalid argument exception.';
 	END IF;
 
 	-- validate authentication and permissions
@@ -799,8 +811,8 @@ CREATE PROCEDURE geo_city_list (region_id_arg INT UNSIGNED,
     		 @param language_arg  the language to use in lookup.
 			 @param user_nm_arg   the name value to authenticate query.
 
-             @throws 45000 Invalid argument exception.
-             @throws 45000 Permissions denied.'
+             @throws Invalid argument exception.
+             @throws Permissions denied.'
 BEGIN
 	DECLARE country_code_var VARCHAR(2);
 	DECLARE region_code_var  VARCHAR(20);
@@ -809,7 +821,7 @@ BEGIN
 	IF ((region_id_arg IS NULL)
 			OR (language_arg IS NULL)
 			OR (CHAR_LENGTH(language_arg) = 0)) THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid argument exception.';
+		SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO = 60001, MESSAGE_TEXT = 'Invalid argument exception.';
 	END IF;
 
 	-- validate authentication and permissions
@@ -860,8 +872,8 @@ CREATE PROCEDURE geo_get_city_complete_name_by_id (
     		 @param language_arg the language to use in lookup.
 			 @param user_nm_arg  the name value to authenticate query.
 
-             @throws 45000 Invalid argument exception.
-             @throws 45000 Permissions denied.'
+             @throws Invalid argument exception.
+             @throws Permissions denied.'
 BEGIN
 	DECLARE country_id_var INT UNSIGNED;
 	DECLARE region_id_var  INT UNSIGNED;
@@ -874,7 +886,7 @@ BEGIN
 	IF ((city_id_arg IS NULL)
 			OR (language_arg IS NULL)
 			OR (CHAR_LENGTH(language_arg) = 0)) THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid argument exception.';
+		SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO = 60001, MESSAGE_TEXT = 'Invalid argument exception.';
 	END IF;
 
 	-- validate authentication and permissions
@@ -958,8 +970,8 @@ CREATE PROCEDURE geo_get_city_list_by_name (
     		 @param city_nm_arg the name of the city to look.
 			 @param user_nm_arg the name value to authenticate query.
 
-             @throws 45000 Invalid argument exception.
-             @throws 45000 Permissions denied.'
+             @throws Invalid argument exception.
+             @throws Permissions denied.'
 BEGIN
 	DECLARE geo_id_var  INT UNSIGNED;
 
@@ -973,7 +985,7 @@ BEGIN
 	-- validate routine arguments
 	IF ((city_nm_arg IS NULL)
 			OR (CHAR_LENGTH(city_nm_arg) = 0)) THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid argument exception.';
+		SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO = 60001, MESSAGE_TEXT = 'Invalid argument exception.';
 	END IF;
 
 	-- validate authentication and permissions
@@ -1006,7 +1018,7 @@ CREATE PROCEDURE auth_validate_credentials (
 			 @param user_nm_arg the name value to authenticate query.
 			 @param pass_ph_arg the hashed password value to authenticate query.
 
-             @throws 45000 Authentication failed.'
+             @throws Authentication failed.'
 BEGIN
 	DECLARE attempt_val INT UNSIGNED;
 
@@ -1015,14 +1027,14 @@ BEGIN
 			OR (pass_ph_arg IS NULL)
 			OR (CHAR_LENGTH(user_nm_arg) = 0)
 			OR (CHAR_LENGTH(pass_ph_arg) = 0)) THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Authentication failed.';
+		SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO = 60021, MESSAGE_TEXT = 'Authentication failed.';
 	END IF;
 
 	-- specified user name doesn't exists
 	IF ((SELECT COUNT(user_name)  
 			FROM  oa_accnt_user_tbl
 			WHERE user_name = user_nm_arg) = 0) THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Authentication failed.';
+		SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO = 60021, MESSAGE_TEXT = 'Authentication failed.';
 	END IF;
 
 	-- the number of already listed attempts
@@ -1031,7 +1043,7 @@ BEGIN
 		WHERE user_name = user_nm_arg);
 	IF (attempt_val >= 3) THEN
 		-- authentication failed when three and more failed attempts occured
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Authentication failed.';
+		SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO = 60021, MESSAGE_TEXT = 'Authentication failed.';
 	END IF;
 
 	-- validate credentials
@@ -1042,7 +1054,7 @@ BEGIN
 		UPDATE oa_accnt_user_tbl
 			SET   attempt   = attempt_val + 1 
 			WHERE user_name = user_nm_arg;
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Authentication failed.';
+		SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO = 60021, MESSAGE_TEXT = 'Authentication failed.';
 	END IF;
 
 	-- clear attempts index on success
@@ -1059,15 +1071,15 @@ CREATE PROCEDURE auth_has_group (user_nm_arg VARCHAR(32), user_gp_arg VARCHAR(16
 	         @param user_gp_arg the user group to validate.
 	         @param user_nm_arg the name value to authenticate query.
 
-			 @throws 45000 Invalid argument exception.
-             @throws 45000 Permissions denied.'
+			 @throws Invalid argument exception.
+             @throws Permissions denied.'
 BEGIN
 	-- validate routine arguments
 	IF ((user_nm_arg IS NULL)
 		 	OR (user_gp_arg IS NULL)
 			OR (CHAR_LENGTH(user_nm_arg) = 0)
 			OR (CHAR_LENGTH(user_gp_arg) = 0)) THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid argument exception.';
+		SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO = 60001, MESSAGE_TEXT = 'Invalid argument exception.';
 	END IF;
 
 	-- validate user account group
@@ -1077,7 +1089,7 @@ BEGIN
 				INNER JOIN oa_accnt_user_tbl   a ON a.user_id  = r.user_key
 			WHERE   a.user_name  = user_nm_arg
 				AND g.group_name = user_gp_arg) = 0) THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Permissions denied.';
+		SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO = 60031, MESSAGE_TEXT = 'Permissions denied.';
 	END IF;
 END //
 
@@ -1087,15 +1099,15 @@ CREATE PROCEDURE auth_get_hash (user_nm_arg VARCHAR(32))
 
 	         @param user_nm_arg the user account which hash to return.
 
-			 @throws 45000 Invalid argument exception.
-			 @throws 45000 Account doesn\'t exists.'
+			 @throws Invalid argument exception.
+			 @throws Account doesn\'t exists.'
 BEGIN
 	DECLARE hash_var VARCHAR(60);
 
 	-- validate routine arguments
 	IF ((user_nm_arg IS NULL)
 			OR (CHAR_LENGTH(user_nm_arg) = 0)) THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid argument exception.';
+		SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO = 60001, MESSAGE_TEXT = 'Invalid argument exception.';
 	END IF;
 
 	SELECT pass_phrase
@@ -1105,7 +1117,7 @@ BEGIN
 
 	-- select doesn't returns any data
 	IF (hash_var IS NULL) THEN
-		 SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Account doesn\'t exists.';
+		 SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO = 60022, MESSAGE_TEXT = 'Account doesn\'t exists.';
 	END IF;
 
 	SELECT hash_var;
@@ -1117,12 +1129,12 @@ CREATE PROCEDURE auth_get_group_list (user_nm_arg VARCHAR(32))
 
 	         @param user_nm_arg the user account which groups to return.
 
-			 @throws 45000 Invalid argument exception.'
+			 @throws Invalid argument exception.'
 BEGIN
 	-- validate routine arguments
 	IF ((user_nm_arg IS NULL)
 			OR (CHAR_LENGTH(user_nm_arg) = 0)) THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid argument exception.';
+		SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO = 60001, MESSAGE_TEXT = 'Invalid argument exception.';
 	END IF;
 
 	SELECT g.group_name

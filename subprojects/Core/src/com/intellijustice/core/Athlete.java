@@ -44,7 +44,7 @@ public class Athlete {
             = java.util.logging.Logger.getLogger(
             com.intellijustice.core.Manifest.NAME);
 
-    private final int     id;
+    private final long    id;
     private final String  firstName;
     private final String  middleName;
     private final String  lastName;
@@ -52,10 +52,10 @@ public class Athlete {
     private final String  middleNameLocale;
     private final String  lastNameLocale;
     private final long    birthday;
+    private final long    birthplace;
     private final boolean sex;       /* thue is male, false is female */
-    private final String  country;
     
-    private final int     language;
+    private final long    language;
 
     /**
      * Constructs new Athletic object.
@@ -67,26 +67,29 @@ public class Athlete {
      * @param firstNameLocale  the first name of the athlete in local language.
      * @param middleNameLocale the middle name of the athlete in local language.
      * @param lastNameLocale   the second name of the athlete in local language.
-     * @param birthday   the birthday of the athlete.
+     * @param birthday   the date of birth of the athlete.
+     * @param birthplace the place of birth of the athlete.
      * @param sex        the sex of the athlete (true for male).
-     * @param country    the country where the athlete from.
      * @param language   the ISO representation of local language.
      */
-    public Athlete(final int id, final String firstName, 
+    public Athlete(final long id, final String firstName, 
             final String middleName, final String lastName, 
             final String firstNameLocale, final String middleNameLocale,
             final String lastNameLocale, final long birthday,
-            final boolean sex, final String country, final int language) {
+            final long birthplace, final boolean sex, final long language) {
         this.id               = id;
+        
         this.firstName        = firstName;
         this.middleName       = middleName;
         this.lastName         = lastName;
+        
         this.firstNameLocale  = firstNameLocale;
         this.middleNameLocale = middleNameLocale;
         this.lastNameLocale   = lastNameLocale;
+        
         this.birthday         = birthday;
+        this.birthplace       = birthplace;
         this.sex              = sex;
-        this.country          = country;
         
         this.language         = language;
     }
@@ -97,7 +100,7 @@ public class Athlete {
      *
      * @return the database id.
      */
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -156,12 +159,21 @@ public class Athlete {
     }
 
     /**
-     * Returns the birthday of the athlete.
+     * Returns the date of birth of the athlete.
      *
-     * @return the birthday of the athlete.
+     * @return the date of birth of the athlete.
      */
     public long getBirthday() {
         return birthday;
+    }
+    
+    /**
+     * Returns the place of birth of the athlete.
+     *
+     * @return the place of birth of the athlete.
+     */
+    public long getBirthplace() {
+        return birthplace;
     }
 
     /**
@@ -173,14 +185,14 @@ public class Athlete {
     public boolean getSex() {
         return sex;
     }
-
+    
     /**
-     * Returns the country where the athlete from.
-     *
-     * @return the country where the athlete from.
+     * Returns the identifier of the local language.
+     * 
+     * @return the identifier of the local language.
      */
-    public String getCountry() {
-        return country;
+    public long getLanguage() {
+        return language;
     }
 
     /**
@@ -217,27 +229,15 @@ public class Athlete {
             return false;
         }
 
-        if (!Objects.equals(this.firstNameLocale, other.firstNameLocale)) {
+        if (this.birthday != other.birthday) {
             return false;
         }
         
-        if (!Objects.equals(this.middleNameLocale, other.middleNameLocale)) {
-            return false;
-        }
-
-        if (!Objects.equals(this.lastNameLocale, other.lastNameLocale)) {
-            return false;
-        }
-
-        if (this.birthday != other.birthday) {
+        if (this.birthplace != other.birthplace) {
             return false;
         }
 
         if (this.sex != other.sex) {
-            return false;
-        }
-
-        if (!Objects.equals(this.country, other.country)) {
             return false;
         }
 
@@ -260,7 +260,7 @@ public class Athlete {
         hash = 59 * hash + (this.sex ? 1 : 0);
         hash = 59 * hash + Objects.hashCode(this.country);*/
 
-        return id;
+        return (int) id;
     }
 
     /**
@@ -278,8 +278,7 @@ public class Athlete {
                 ).append(firstName).append(" "
                 ).append(middleName).append(" "
                 ).append(lastName).append(" "
-                ).append(formatter.format(birthday)).append(" "
-                ).append(country);
+                ).append(formatter.format(birthday));
         
         return builder.toString();
     }

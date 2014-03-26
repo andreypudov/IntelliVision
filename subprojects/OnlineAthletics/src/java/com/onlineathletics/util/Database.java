@@ -48,8 +48,6 @@ public class Database {
             = java.util.logging.Logger.getLogger(
             com.onlineathletics.core.Manifest.NAME);
     
-    public static final String PRC_GET_ATHLETE = "{CALL get_athlete(?, ?)}";
-    
     /* the name of the database pool in application container */
     private static final String POOL_NAME = "java:comp/env/jdbc/OnlineAthletics";
     

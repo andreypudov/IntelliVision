@@ -33,7 +33,7 @@ public class AthletePage {
     
     private Athlete athlete;
 
-    public void init(final int id) throws IOException {
+    public void init(final long id) throws IOException {
         final FacesContext context = FacesContext.getCurrentInstance();
         
         try {
@@ -43,7 +43,7 @@ public class AthletePage {
         }
     }
     
-    public int getId() {
+    public long getId() {
         return athlete.getId();
     }
     
@@ -79,9 +79,5 @@ public class AthletePage {
 
     public boolean getSex() {
         return athlete.getSex();
-    }
-    
-    public String getCountry() {
-        return athlete.getCountry();
     }
 }

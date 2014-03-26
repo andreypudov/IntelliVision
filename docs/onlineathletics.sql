@@ -584,6 +584,8 @@ CREATE PROCEDURE get_athlete (athlete_id_arg INT UNSIGNED, user_nm_arg VARCHAR(3
 			 @param athlete_id_arg the database id of the athlete.
 			 @param user_nm_arg    the name value to authenticate query.
 
+			 @return the athlete entry for given database id.
+
              @throws 45000 Invalid argument exception.
              @throws 45000 Permissions denied.
              @throws 45000 Athlete entry doesn\'t exists.'

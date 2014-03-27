@@ -3,7 +3,7 @@
  *
  * The MIT License
  *
- * Copyright 2011-2013 Andrey Pudov.
+ * Copyright 2011-2014 Andrey Pudov.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,28 +27,9 @@
 package com.onlineathletics.services;
 
 /**
- * Represents the exception that is thrown when an alert method is called with 
- * an invalid argument.
  *
- * @author    Andrey Pudov        <mail@andreypudov.com>
- * @version   0.00.00
- * %name      InvalidArgumentException.java
- * %date      11:30:00 PM, Dec 25, 2013
+ * @author andrey
  */
-public class InvalidArgumentException extends Exception {
+public class AuthenticationFailedException {
     
-    private static final long serialVersionUID = 0xa5c3_e9ca_0d63_9a6dL;
-    private static final java.util.logging.Logger LOG
-            = java.util.logging.Logger.getLogger(
-            com.onlineathletics.core.Manifest.NAME);
-    
-    /**
-     * Constructs an {@code InvalidArgumentException} with {@code message}
-     * as its error detail message.
-     * 
-     * @param message the exception description information.
-     */
-    public InvalidArgumentException(final String message) {
-        super(message);
-    }
 }

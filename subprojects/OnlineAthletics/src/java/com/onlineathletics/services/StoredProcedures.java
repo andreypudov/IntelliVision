@@ -168,7 +168,16 @@ public class StoredProcedures {
                 );
             }
         } catch (final SQLException e) {
-            throw new SQLException(e.getMessage());
+            switch (DatabaseException.getType(e.getErrorCode())) {
+                case INVALID_ARGUMENT_EXCEPTION:
+                    throw new SQLException(e.getMessage());
+                case PERMISSIONS_DENIED_EXCEPTION:
+                    throw new SQLException(e.getMessage());
+                case ATHLETE_ENTRY_DOES_NOT_EXISTS_EXCEPTION:
+                    throw new SQLException(e.getMessage());
+                default:
+                    throw new SQLException(e.getMessage());
+            }
         }
     }
 }

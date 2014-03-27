@@ -27,28 +27,52 @@
 package com.onlineathletics.services;
 
 /**
- * Represents the exception that is thrown when an alert method is called with 
- * an invalid argument.
+ * Database exception numeration provides correlation between database signal
+ * code to specified type of exception.
  *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
- * %name      InvalidArgumentException.java
- * %date      11:30:00 PM, Dec 25, 2013
+ * %name      DatabaseException.java
+ * %date      09:20:00 PM, Mar 26, 2014
  */
-public class InvalidArgumentException extends Exception {
+public enum DatabaseException {
+    INVALID_ARGUMENT_EXCEPTION(60_001),
     
-    private static final long serialVersionUID = 0xa5c3_e9ca_0d63_9a6dL;
-    private static final java.util.logging.Logger LOG
-            = java.util.logging.Logger.getLogger(
-            com.onlineathletics.core.Manifest.NAME);
+    AUTHENTICATION_FAILED_EXCEPTION(60_021),
+    ACCOUNT_DOES_NOT_EXISTS_EXCEPTION(60_022),
+    PERMISSIONS_DENIED_EXCEPTION(60_031),
+    
+    ATHLETE_ENTRY_ALREADY_EXISTS_EXCEPTION(60_101),
+    ATHLETE_ENTRY_DOES_NOT_EXISTS_EXCEPTION(60_102),
+    ATHLETE_THE_SAME_AS_REQUESTED_TO_CHANGE_EXCEPTION(60_103),
+    
+    UNDEFINED_DATABASE_EXCEPTION(0);
+    
+    /* the value of the error code */
+    private final int code;
+
+    /**
+     * Creates database exception representation by given error code.
+     * 
+     * @param code the value of the error code.
+     */
+    DatabaseException(final int code) {
+        this.code = code;
+    }
     
     /**
-     * Constructs an {@code InvalidArgumentException} with {@code message}
-     * as its error detail message.
-     * 
-     * @param message the exception description information.
+     * Returns the supported version number.
+     *
+     * @param code the value of the error code.
+     * @return     the database exception type.
      */
-    public InvalidArgumentException(final String message) {
-        super(message);
+    public static DatabaseException getType(final int code) {
+        for (DatabaseException entry : DatabaseException.values()) {
+            if (entry.code == code) {
+                return entry;
+            }
+        }
+
+        return UNDEFINED_DATABASE_EXCEPTION;
     }
 }

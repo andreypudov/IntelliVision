@@ -700,6 +700,61 @@ BEGIN
 			AND l.last_name   = last_nm_arg;
 END //
 
+CREATE PROCEDURE add_region_to_athlete (athlete_id_arg INT UNSIGNED, 
+	region_id_arg INT UNSIGNED, user_nm_arg   VARCHAR(32))
+	NOT DETERMINISTIC
+	COMMENT 'Appends a region to the list of home regions for a given athlete.
+	         Procedure fails if specified pair of athlete and regions ids are
+	         already in a table, or ids are invalid foreign keys.
+
+			 @param athlete_id_arg the database id of the athlete.
+			 @param region_id_arg  the database geo id of the region.
+			 @param user_nm_arg    the name value to authenticate query.
+
+             @throws Invalid argument exception.
+             @throws Permissions denied.'
+BEGIN
+	-- validate routine arguments
+	IF ((athlete_id_arg IS NULL)
+			OR (region_id_arg IS NULL)) THEN
+		SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO = 60001, MESSAGE_TEXT = 'Invalid argument exception.';
+	END IF;
+
+	-- validate authentication and permissions
+	CALL auth_has_group (user_nm_arg, 'db_write');
+
+	INSERT INTO oa_athl_regions_tbl(athl_key, region_key)
+		VALUES (athlete_id_arg, region_id_arg);
+END //
+
+CREATE PROCEDURE remove_region_from_athlete (athlete_id_arg INT UNSIGNED, 
+	region_id_arg INT UNSIGNED, user_nm_arg   VARCHAR(32))
+	NOT DETERMINISTIC
+	COMMENT 'Removes a region from the list of home regions of a given athlete.
+	         Procedure fails if specified pair of athlete and regions ids are
+	         already in a table, or ids are invalid foreign keys.
+
+			 @param athlete_id_arg the database id of the athlete.
+			 @param region_id_arg  the database geo id of the region.
+			 @param user_nm_arg    the name value to authenticate query.
+
+             @throws Invalid argument exception.
+             @throws Permissions denied.'
+BEGIN
+	-- validate routine arguments
+	IF ((athlete_id_arg IS NULL)
+			OR (region_id_arg IS NULL)) THEN
+		SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO = 60001, MESSAGE_TEXT = 'Invalid argument exception.';
+	END IF;
+
+	-- validate authentication and permissions
+	CALL auth_has_group (user_nm_arg, 'db_write');
+
+	DELETE FROM oa_athl_regions_tbl
+		WHERE athl_key     = athlete_id_arg
+			AND region_key = region_id_arg);
+END //
+
 -- geo layer
 
 CREATE PROCEDURE geo_country_list (

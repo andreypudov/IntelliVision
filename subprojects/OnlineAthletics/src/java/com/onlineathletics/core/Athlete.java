@@ -26,9 +26,9 @@
 
 package com.onlineathletics.core;
 
+import com.onlineathletics.services.DatabaseException;
 import com.onlineathletics.services.StoredProcedures;
 import com.onlineathletics.util.Parameters;
-import java.sql.SQLException;
 
 /**
  * The athlete entity database representation layer.
@@ -65,7 +65,8 @@ public class Athlete extends com.intellijustice.core.Athlete {
             final String lastNameLocale, final long birthday,
             final long birthplace, final boolean sex, final long language) {
         super(id, firstName, middleName, lastName, firstNameLocale, 
-                middleNameLocale, lastNameLocale, birthday, birthplace, sex, language);
+                middleNameLocale, lastNameLocale, birthday, birthplace, sex, 
+                language);
     }
     
     /**
@@ -76,7 +77,8 @@ public class Athlete extends com.intellijustice.core.Athlete {
      * 
      * @throws SQLException the source of the exception.
      */
-    public static Athlete getAthleteById(final long id) throws SQLException {
+    public static Athlete getAthleteById(final long id) 
+            throws DatabaseException {
         return StoredProcedures.getAthlete(id, 
                 Parameters.get("MySQL_OA_username"));
     }

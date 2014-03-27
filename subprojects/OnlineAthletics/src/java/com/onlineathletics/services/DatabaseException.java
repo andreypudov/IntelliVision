@@ -26,53 +26,48 @@
 
 package com.onlineathletics.services;
 
+import java.sql.SQLException;
+
 /**
- * Database exception numeration provides correlation between database signal
- * code to specified type of exception.
+ * Represents the exception that is thrown when an alert method is called with 
+ * an invalid argument.
  *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
  * %name      DatabaseException.java
- * %date      09:20:00 PM, Mar 26, 2014
+ * %date      11:30:00 PM, Dec 25, 2013
  */
-public enum DatabaseException {
-    INVALID_ARGUMENT_EXCEPTION(60_001),
+public class DatabaseException extends SQLException {
     
-    AUTHENTICATION_FAILED_EXCEPTION(60_021),
-    ACCOUNT_DOES_NOT_EXISTS_EXCEPTION(60_022),
-    PERMISSIONS_DENIED_EXCEPTION(60_031),
+    private static final long serialVersionUID = 0xa5c3_e9ca_0d63_9a6dL;
+    private static final java.util.logging.Logger LOG
+            = java.util.logging.Logger.getLogger(
+            com.onlineathletics.core.Manifest.NAME);
     
-    ATHLETE_ENTRY_ALREADY_EXISTS_EXCEPTION(60_101),
-    ATHLETE_ENTRY_DOES_NOT_EXISTS_EXCEPTION(60_102),
-    ATHLETE_THE_SAME_AS_REQUESTED_TO_CHANGE_EXCEPTION(60_103),
+    /* the type of the exception */
+    private final DatabaseExceptionType type;
     
-    UNDEFINED_DATABASE_EXCEPTION(0);
-    
-    /* the value of the error code */
-    private final int code;
-
     /**
-     * Creates database exception representation by given error code.
+     * Constructs an {@code InvalidArgumentException} with {@code message}
+     * as its error detail message.
      * 
-     * @param code the value of the error code.
+     * @param code    the error code of the exception.
+     * @param message the exception description information.
      */
-    DatabaseException(final int code) {
-        this.code = code;
+    public DatabaseException(final int code, 
+            final String message) {
+        super(message);
+        
+        //this.type = DatabaseExceptionType.getType(code);
+        type = DatabaseExceptionType.ACCOUNT_DOES_NOT_EXISTS_EXCEPTION;
     }
     
     /**
-     * Returns the supported version number.
-     *
-     * @param code the value of the error code.
-     * @return     the database exception type.
+     * Return the type of the exception.
+     * 
+     * @return the type of the exception.
      */
-    public static DatabaseException getType(final int code) {
-        for (DatabaseException entry : DatabaseException.values()) {
-            if (entry.code == code) {
-                return entry;
-            }
-        }
-
-        return UNDEFINED_DATABASE_EXCEPTION;
+    public DatabaseExceptionType getType() {
+        return type;
     }
 }

@@ -137,10 +137,10 @@ public class StoredProcedures {
      * 
      * @return the athlete entry for given database id.
      * 
-     * @throws SQLException the source of the exception.
+     * @throws DatabaseException the source of the exception.
      */
     public static Athlete getAthlete(final long id, final String userName) 
-            throws SQLException {
+            throws DatabaseException {
         /* the database stored procedure statement */
         final CallableStatement statement;
         
@@ -168,16 +168,7 @@ public class StoredProcedures {
                 );
             }
         } catch (final SQLException e) {
-            switch (DatabaseException.getType(e.getErrorCode())) {
-                case INVALID_ARGUMENT_EXCEPTION:
-                    throw new SQLException(e.getMessage());
-                case PERMISSIONS_DENIED_EXCEPTION:
-                    throw new SQLException(e.getMessage());
-                case ATHLETE_ENTRY_DOES_NOT_EXISTS_EXCEPTION:
-                    throw new SQLException(e.getMessage());
-                default:
-                    throw new SQLException(e.getMessage());
-            }
+            throw new DatabaseException(e.getErrorCode(), e.getMessage());
         }
     }
 }

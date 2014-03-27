@@ -44,5 +44,4 @@ public class LoginForm {
     private static final java.util.logging.Logger LOG
             = java.util.logging.Logger.getLogger(
             com.onlineathletics.core.Manifest.NAME);
-
 }

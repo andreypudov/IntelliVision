@@ -7,12 +7,10 @@
 package com.onlineathletics.web;
 
 import com.onlineathletics.core.Athlete;
-import java.io.IOException;
-import java.sql.SQLException;
+import com.onlineathletics.services.DatabaseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 /**
@@ -33,14 +31,8 @@ public class AthletePage {
     
     private Athlete athlete;
 
-    public void init(final long id) throws IOException {
-        final FacesContext context = FacesContext.getCurrentInstance();
-        
-        try {
-            athlete = Athlete.getAthleteById(id);
-        } catch (final SQLException e) {
-            context.getExternalContext().redirect("error404");
-        }
+    public void init(final long id) throws DatabaseException {
+        athlete = Athlete.getAthleteById(id);
     }
     
     public long getId() {

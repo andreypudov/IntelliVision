@@ -1060,7 +1060,7 @@ BEGIN
 		FROM oa_geo_administration_first_tbl ad
 			INNER JOIN oa_geo_country_tbl     c  ON c.geo_nm_id = ad.geo_nm_id
 			INNER JOIN oa_geo_alternative_tbl al ON al.geo_nm_key = ad.geo_nm_id
-		WHERE ad.country_code = 'RU'
+		WHERE ad.country_code = country_code_var
 			AND al.alt_name   = region_nm_arg
 		LIMIT 1;
 

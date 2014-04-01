@@ -1017,28 +1017,29 @@ BEGIN
 	END IF;
 END //
 
-CREATE PROCEDURE geo_get_city_list_by_name (
-	city_nm_arg VARCHAR(200), user_nm_arg VARCHAR(32))
+CREATE PROCEDURE geo_get_city_id_by_complete_name (
+	country_nm_arg VARCHAR(200), region_nm_arg VARCHAR(200), 
+	city_nm_arg VARCHAR(200),    user_nm_arg VARCHAR(32))
 	DETERMINISTIC
-    COMMENT 'Returns a list of possible complete city names.
+    COMMENT 'Returns a city geo id by complete city name.
 
-    		 @param city_nm_arg the name of the city to look.
-			 @param user_nm_arg the name value to authenticate query.
+    		 @param country_nm_arg the name of the country where the city is.
+    		 @param region_nm_arg  the name of the region where the city is.
+    		 @param city_nm_arg    the name of the city to look.
+			 @param user_nm_arg  the name value to authenticate query.
 
              @throws Invalid argument exception.
              @throws Permissions denied.'
 BEGIN
-	DECLARE geo_id_var  INT UNSIGNED;
-
-	DECLARE done INT DEFAULT FALSE;
-	DECLARE city_cr_var CURSOR FOR 
-		SELECT geo_nm_key 
-			FROM oa_geo_alternative_tbl 
-			WHERE alt_name = city_nm_arg;
-	DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+	DECLARE country_code_var VARCHAR(2);
+	DECLARE region_code_var  VARCHAR(20);
 
 	-- validate routine arguments
-	IF ((city_nm_arg IS NULL)
+	IF ((country_nm_arg IS NULL)
+			OR (region_nm_arg IS NULL)
+			OR (city_nm_arg IS NULL)
+			OR (CHAR_LENGTH(country_nm_arg) = 0)
+			OR (CHAR_LENGTH(region_nm_arg) = 0)
 			OR (CHAR_LENGTH(city_nm_arg) = 0)) THEN
 		SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO = 60001, MESSAGE_TEXT = 'Invalid argument exception.';
 	END IF;
@@ -1046,18 +1047,31 @@ BEGIN
 	-- validate authentication and permissions
 	CALL auth_has_group (user_nm_arg, 'db_read');
 
-	OPEN city_cr_var;
+	SELECT c.country_code
+		INTO country_code_var
+		FROM oa_geo_country_tbl c
+			INNER JOIN oa_geo_alternative_tbl a ON a.geo_nm_key = c.geo_nm_id
+		WHERE c.feature_code  = 'PCLI'
+			AND a.alt_name    = country_nm_arg
+		LIMIT 1;
 
-	city_loop: LOOP
-		FETCH city_cr_var INTO geo_id_var;
-		IF (done) THEN
-			LEAVE city_loop;
-		END IF;
+	SELECT c.admin1_code 
+		INTO region_code_var
+		FROM oa_geo_administration_first_tbl ad
+			INNER JOIN oa_geo_country_tbl     c  ON c.geo_nm_id = ad.geo_nm_id
+			INNER JOIN oa_geo_alternative_tbl al ON al.geo_nm_key = ad.geo_nm_id
+		WHERE ad.country_code = 'RU'
+			AND al.alt_name   = region_nm_arg
+		LIMIT 1;
 
-
-	END LOOP city_loop;
-
-	CLOSE city_cr_var;
+	SELECT geo_nm_id
+		FROM oa_geo_country_tbl c
+			INNER JOIN oa_geo_alternative_tbl al ON al.geo_nm_key = c.geo_nm_id
+		WHERE feature_class  = 'P'
+			AND country_code = country_code_var
+			AND admin1_code  = region_code_var
+			AND al.alt_name  = city_nm_arg
+		LIMIT 1;
 END //
 
 -- authentication layer

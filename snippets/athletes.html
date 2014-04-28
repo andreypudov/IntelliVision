@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Online Athletics</title>
+
+		<meta charset='utf-8' />
+        <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+            
+        <meta name='viewport'    content='width=device-width, initial-scale=1.0' />
+        <meta name='description' content='Online Athletics. The Internet athletes database.' />
+        <meta name='author'      content='Andrey Pudov' />
+            
+        <link rel='shortcut icon' href='../subprojects/OnlineAthletics/web/resources/images/favicon.png' />
+            
+        <!-- bootstrap core style sheet -->
+        <link href='../subprojects/OnlineAthletics/web/resources/libraries/bootstrap/css/bootstrap.css' rel='stylesheet' />
+	</head>
+	<body>
+		<div id='page'>
+            <div id='header'>
+                <div class='navbar-wrapper'>
+	                <div class='container'>
+	                    <div class='navbar navbar-static-top' role='navigation'>
+	                        <div class="container">
+	                            <div class='navbar-header'>
+	                                <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse'>
+	                                    <span class='sr-only'>Toggle navigation</span>
+	                                    <span class='icon-bar'></span>
+	                                    <span class='icon-bar'></span>
+	                                    <span class='icon-bar'></span>
+	                                </button>
+	                                <a class='navbar-brand' href='#'>Online Athletics</a>
+	                            </div>
+	                            <div class='navbar-collapse collapse'>
+	                                <ul class='nav navbar-nav'>
+	                                    <li class='active'><a href='#'>Competitions</a></li>
+	                                    <li><a href='#'>Athletes</a></li>
+	                                    <li><a href='#'>Results</a></li>
+	                                    <li><a href='#'>Support</a></li>
+	                                </ul>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+            </div>
+            <div id='content'>
+                <div class='container'>
+                    <div class='page-header'>
+                        <h1>Mission Control</h1>
+                    </div>
+
+                    <img class='page-width' src='../subprojects/OnlineAthletics/web/resources/images/controls/divider_down_2x.png' />
+    
+                    <div class='row'>
+                        <div class='col-xs-12'>
+                        	<div id='athletes'>
+                        		<div class='alert alert-danger alert-droparea'>
+                        			<strong>Oh snap!</strong> Your browser doesn't support File API.
+                        		</div>
+
+                                <div class='droparea'>
+                                	<form id='athletesDataInputForm' enctype='multipart/form-data'>
+	                                	<div class='input-group input-group-sm'>
+	                                		<input type='text' class='form-control' placeholder='Select an athlete&#39s file to upload' readonly>
+	                                		<span class='input-group-btn'>
+	                                			<span class='btn btn-primary btn-sm btn-file'>
+			                                		Browse<input type='file' class='fileselect' />
+			                                	</span>
+	                                		</span>
+	                                	</div>
+                                	<form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="footer">
+                <div class='container'>
+	                <footer>
+	                    <hr class='footer-divider' />
+
+	                    <ul class='piped-links pull-right'>
+	                        <li class='first piped-links-short'><a href='#'>About</a></li>
+	                        <li class='first piped-links-long'><a href='#'>About Online Athletics</a></li>
+	                        <li><a href='#'>Contact Us</a></li>
+	                    </ul>
+
+	                    <ul class="piped-links">
+	                        <p class='piped-links-long'>Copyright &#169; 2014 Andrey Pudov. All rights reserved.</p>
+	                        <li class='first'><a href='#'>Terms of Use</a></li>
+	                        <li><a href='#'>Privacy Policy</a></li>
+	                    </ul>
+
+	                    <p class='piped-links-short'>&#169; 2014 Andrey Pudov. All rights reserved.</p>
+	                </footer>
+
+	                <!-- Bootstrap core JavaScript -->
+	                <!-- Placed at the end of the document so the pages load faster -->
+	                <script src='../subprojects/OnlineAthletics/web/resources/libraries/jquery/jquery-1.11.0.min.js'></script>
+	                <script src='../subprojects/OnlineAthletics/web/resources/libraries/jquery/jquery.csv-0.71.min.js'></script>
+	                
+	                <script src='../subprojects/OnlineAthletics/web/resources/libraries/bootstrap/js/collapse.js' ></script>
+	                <script src='../subprojects/OnlineAthletics/web/resources/libraries/bootstrap/js/dropdown.js' ></script>
+	                <script src='../subprojects/OnlineAthletics/web/resources/libraries/bootstrap/js/transition.js' ></script>
+	                
+	                <!-- web page specific scripts and styles declaration -->
+	                <script src='../subprojects/OnlineAthletics/web/resources/scripts/athletes.js'></script>
+
+	                <!-- common on init functions -->
+	                <script src='../subprojects/OnlineAthletics/web/resources/scripts/init.js'></script>
+	            </div>
+            </div>
+        </div>
+	</body>
+</html>

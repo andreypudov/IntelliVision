@@ -3,7 +3,7 @@
  *
  * The MIT License
  *
- * Copyright 2011-2013 Andrey Pudov.
+ * Copyright 2011-2014 Andrey Pudov.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,42 +24,39 @@
  * THE SOFTWARE.
  */
 
-package com.onlineathletics.services;
+package com.onlineathletics.web;
 
-import javax.jws.WebMethod;
-import javax.jws.WebParam;
-import javax.jws.WebService;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
 
 /**
- * The internal web service provides public methods to obtain technical
- * information about Online Athletics and IntelliJustice status.
+ * The managed bean implements athletes data import control.
  *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
- * %name      InternalService.java
- * %date      07:15:00 PM, Dec 03, 2013
+ * %name      AthletesInputForm.java
+ * %date      05:50:00 PM, Apr 05, 2014
  */
-@WebService(serviceName = "InternalService")
-public class InternalService {
+@Named("athletesInputForm")
+@RequestScoped
+public class AthletesInputForm {
     
     private static final java.util.logging.Logger LOG
             = java.util.logging.Logger.getLogger(
             com.onlineathletics.core.Manifest.NAME);
+    
+    private String query;
 
-    /**
-     * This is a sample web service operation.
-     * 
-     * @param txt
-     * @return 
-     */
-    @WebMethod(operationName = "hello")
-    public String hello(@WebParam(name = "name") final String txt) {
-        /*try {
-            return Database.executeProcedure("");
-        } catch (SQLException e) {
-            return e.getMessage();
-        }*/
+    public String getQuery() {
+        return query;
+    }
+
+    public void setQuery(String query) {
+        this.query = query;
+    }
+    
+    public void upload() {
         
-        return "";
+        query = "UPDATED";
     }
 }

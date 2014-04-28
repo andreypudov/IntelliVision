@@ -1,9 +1,11 @@
-/*
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<!--
  * IntelliJustice Intelligent Referee Assistant System
  *
  * The MIT License
  *
- * Copyright 2011-2013 Andrey Pudov.
+ * Copyright 2011-2014 Andrey Pudov.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,44 +24,30 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- */
+-->
 
-package com.onlineathletics.services;
-
-import javax.jws.WebMethod;
-import javax.jws.WebParam;
-import javax.jws.WebService;
-
-/**
- * The internal web service provides public methods to obtain technical
- * information about Online Athletics and IntelliJustice status.
- *
- * @author    Andrey Pudov        <mail@andreypudov.com>
- * @version   0.00.00
- * %name      InternalService.java
- * %date      07:15:00 PM, Dec 03, 2013
- */
-@WebService(serviceName = "InternalService")
-public class InternalService {
-    
-    private static final java.util.logging.Logger LOG
-            = java.util.logging.Logger.getLogger(
-            com.onlineathletics.core.Manifest.NAME);
-
-    /**
-     * This is a sample web service operation.
-     * 
-     * @param txt
-     * @return 
-     */
-    @WebMethod(operationName = "hello")
-    public String hello(@WebParam(name = "name") final String txt) {
-        /*try {
-            return Database.executeProcedure("");
-        } catch (SQLException e) {
-            return e.getMessage();
-        }*/
-        
-        return "";
-    }
-}
+<!--
+    Document   : athletes.xhtml
+    Created on : Apr 05, 2014, 09:30:00 PM
+    Author     : Andrey Pudov        <mail@andreypudov.com>
+    Description:
+        The athletes data uploading control.
+-->
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml'
+      xmlns:ui='http://java.sun.com/jsf/facelets'
+      xmlns:h='http://xmlns.jcp.org/jsf/html'
+      xmlns:f='http://xmlns.jcp.org/jsf/core'>
+    <body>
+        <ui:composition>
+            <div id='athletesFileDropArea' class='droparea' />
+            
+            <h:form id='athletesDataInputForm' >
+                <h:inputText id='athletesFileInputField' value='#{athletesInputForm.query}' />
+                <h:commandButton value='Upload' action='#{athletesInputForm.upload}'>
+                    <f:ajax execute='athletesFileInputField' render='athletesFileInputField' />
+                </h:commandButton>
+            </h:form>
+        </ui:composition>
+    </body>
+</html>

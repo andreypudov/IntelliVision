@@ -58,8 +58,7 @@ public class DatabaseException extends SQLException {
             final String message) {
         super(message);
         
-        //this.type = DatabaseExceptionType.getType(code);
-        type = DatabaseExceptionType.ACCOUNT_DOES_NOT_EXISTS_EXCEPTION;
+        this.type = DatabaseExceptionType.getType(code);
     }
     
     /**

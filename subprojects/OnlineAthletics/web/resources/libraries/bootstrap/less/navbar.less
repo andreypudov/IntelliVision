@@ -27,7 +27,14 @@
 }
 
 .navbar-collapse {
-    border-top: 0px solid transparent;
+    border-top:    0px solid transparent;
+    padding-right: 0;
+    padding-left:  0;
+    
+    @media (min-width: @grid-float-breakpoint) {
+        padding-right: @navbar-padding-horizontal;
+        padding-left:  @navbar-padding-horizontal;
+    }
 }
 
 // Brand/project name
@@ -105,9 +112,11 @@
         padding-top:     7px;
         padding-bottom:  7px;
         font-size:       @font-size-small;
+        text-align:      left;
         
         @media (min-width: @grid-float-breakpoint) {
-            width: 120px;
+            width:      120px;
+            text-align: center;
         }
 
         &:hover, &:focus {

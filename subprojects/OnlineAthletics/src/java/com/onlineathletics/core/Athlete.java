@@ -75,7 +75,7 @@ public class Athlete extends com.intellijustice.core.Athlete {
      * @param id the database identification number.
      * @return   the athlete representation.
      * 
-     * @throws SQLException the source of the exception.
+     * @throws DatabaseException the source of the exception.
      */
     public static Athlete getAthleteById(final long id) 
             throws DatabaseException {

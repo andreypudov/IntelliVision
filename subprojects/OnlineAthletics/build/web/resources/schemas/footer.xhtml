@@ -46,15 +46,18 @@
                     </ui:insert>
                     
                     <ul class='piped-links pull-right'>
-                        <li class='first'><h:link value='About Online Athletics' outcome='about' /></li>
+                        <li class='first piped-links-short'><h:link value='About' outcome='about' /></li>
+                        <li class='first piped-links-long'><h:link value='About Online Athletics' outcome='about' /></li>
                         <li><h:link value='Contact Us' outcome='contact' /></li>
                     </ul>
                     
                     <ul class="piped-links">
-                        <p>Copyright &#169; 2014 Andrey Pudov. All rights reserved.</p>
+                        <p class='piped-links-long'>Copyright &#169; 2014 Andrey Pudov. All rights reserved.</p>
                         <li class='first'><h:link value='Terms of Use' outcome='legal' /></li>
                         <li><h:link value='Privacy Policy' outcome='privacy' /></li>
                     </ul>
+                    
+                    <p class='piped-links-short'>&#169; 2014 Andrey Pudov. All rights reserved.</p>
                 </footer>
 
                 <!-- Bootstrap core JavaScript -->
@@ -64,9 +67,9 @@
                 
                 <!-- <script src='${request.contextPath}/resources/libraries/bootstrap/js/bootstrap.min.js'></script> -->
                 
-                <script src='${request.contextPath}/resources/libraries/bootstrap/js/collapse.js' />
-                <script src='${request.contextPath}/resources/libraries/bootstrap/js/dropdown.js' />
-                <script src='${request.contextPath}/resources/libraries/bootstrap/js/transition.js' />
+                <script src='${request.contextPath}/resources/libraries/bootstrap/js/collapse.js' ></script>
+                <script src='${request.contextPath}/resources/libraries/bootstrap/js/dropdown.js' ></script>
+                <script src='${request.contextPath}/resources/libraries/bootstrap/js/transition.js' ></script>
                 
                 <!-- web page specific scripts and styles declaration -->
                 <ui:insert name='page-scripts' />

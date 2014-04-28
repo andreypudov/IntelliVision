@@ -42,6 +42,24 @@ footer {
             border-left:  none;
         }
     }
+
+    .piped-links-short {
+        display: initial !important;
+    }
+
+    .piped-links-long {
+        display: none !important;
+    }
+
+    @media (min-width: @grid-float-breakpoint) {
+        .piped-links-short {
+            display: none !important;
+        }
+
+        .piped-links-long {
+            display: initial !important;
+        }
+    }
 }
 
 .contact-form-background {    
@@ -63,6 +81,10 @@ footer {
 
 .region-small {
     padding: @padding-small-vertical @padding-small-horizontal;
+}
+
+.page-width {
+    width: 100%;
 }
 
 .no-margin {

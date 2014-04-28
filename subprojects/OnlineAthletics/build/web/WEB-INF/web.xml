@@ -10,7 +10,7 @@
         <param-name>MySQL_OA_username</param-name>
         <param-value>onlineathletics</param-value>
     </context-param>
-    
+
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>

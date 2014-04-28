@@ -3,7 +3,7 @@
  *
  * The MIT License
  *
- * Copyright 2011-2013 Andrey Pudov.
+ * Copyright 2011-2014 Andrey Pudov.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,42 +24,47 @@
  * THE SOFTWARE.
  */
 
-package com.onlineathletics.services;
+package com.onlineathletics.web.unit;
 
-import javax.jws.WebMethod;
-import javax.jws.WebParam;
-import javax.jws.WebService;
+import java.io.IOException;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
+import javax.servlet.http.Part;
 
-/**
- * The internal web service provides public methods to obtain technical
- * information about Online Athletics and IntelliJustice status.
- *
- * @author    Andrey Pudov        <mail@andreypudov.com>
- * @version   0.00.00
- * %name      InternalService.java
- * %date      07:15:00 PM, Dec 03, 2013
- */
-@WebService(serviceName = "InternalService")
-public class InternalService {
+
+@Named("uploader")
+@RequestScoped
+public class FileUploader {
     
-    private static final java.util.logging.Logger LOG
-            = java.util.logging.Logger.getLogger(
-            com.onlineathletics.core.Manifest.NAME);
+    private Part   file;
+    private String content;
 
-    /**
-     * This is a sample web service operation.
-     * 
-     * @param txt
-     * @return 
-     */
-    @WebMethod(operationName = "hello")
-    public String hello(@WebParam(name = "name") final String txt) {
-        /*try {
-            return Database.executeProcedure("");
-        } catch (SQLException e) {
-            return e.getMessage();
-        }*/
-        
-        return "";
+    public Part getFile() {
+        return file;
+    }
+
+    public void setFile(Part file) {
+        this.file = file;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+    
+    public void upload() {
+        if (file != null) {
+        try {
+            content =  new Scanner(file.getInputStream()).useDelimiter("\\A").next();
+        } catch (IOException ex) {
+            //Logger.getLogger(FileUploader.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        }
     }
 }

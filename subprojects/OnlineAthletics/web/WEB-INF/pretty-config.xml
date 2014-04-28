@@ -64,5 +64,5 @@
     <url-mapping id="control">
         <pattern value="/mission-control/" />
 	<view-id value="/faces/control.xhtml" />
-    </url-mapping>
+    </url-mapping>    
 </pretty-config>

@@ -131,7 +131,10 @@ $(function() {
  * @param event the value of the event.
  */
 function readAthletesFile(event) {
-  var $area = $('.droparea');
+  var $area   = $('.droparea');
+  var $form   = $area.find('form');
+  var $select = $form.find('.btn-file :file');
+
   var files = event.target.files || event.originalEvent.dataTransfer.files;
            
   for (var index = 0; index < files.length; ++index) {
@@ -151,8 +154,19 @@ function readAthletesFile(event) {
     $area.addClass('droparea-sm');
 
     reader.onload = function(event) {
-      var s = $.csv.toObjects(reader.result);
-      console.log(s);
+      /* reinitialize file selection control */
+      $select.val('');
+
+      var results = $.parse(reader.result);
+      if (results.errors.length !== 0) {
+        alert('Parsing error.' + results.errors.length);
+        return;
+      }
+
+      for (var index = 0; index < results.results.rows.length; ++index) {
+        var entry = results.results.rows[index];
+        console.log(entry);
+      }
     };
 
     reader.readAsText(file);

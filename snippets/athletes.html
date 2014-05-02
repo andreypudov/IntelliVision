@@ -59,8 +59,18 @@
                         			<strong>Oh snap!</strong> Your browser doesn't support File API.
                         		</div>
 
+                        		<!-- athlete's data file uploading area -->
                                 <div class='droparea'>
                                 	<form id='athletesDataInputForm' enctype='multipart/form-data'>
+                                		<div class='validation-group'>
+											<div class='validation-title'></div>
+
+											<span class='validation-unsupported'>File format is not supported</span>
+                                			<span class='validation-overlong'>File length is too long</span>
+                                			<span class='validation-invalid'>Parsing error</span>
+                                			<span class='validation-missing'>File is emptry</span>
+                                		</div>
+
 	                                	<div class='input-group input-group-sm'>
 	                                		<input type='text' class='form-control' placeholder='Select an athlete&#39s file to upload' readonly>
 	                                		<span class='input-group-btn'>
@@ -71,6 +81,26 @@
 	                                	</div>
                                 	<form>
                                 </div>
+
+                                <div class='region-large'></div>
+
+                                <ul class='list-group athletes-list-group'>
+                                	<li class='list-group-item athletes-list-group-item-template'>
+                                		<div class='list-group-item-icon'>
+                                			<img class='athletes-list-icon' />
+                                		</div>
+
+                                		<div class='list-group-item-heading'>
+                                			<h3>${FirstName} ${MiddleName} ${LastName}</h3>
+                                			<small>${LocalizedFirstName} ${LocalizedMiddleName} ${LocalizedLastame}</small>
+                                		</div>
+
+                                		<div class='list-group-item-content'>
+	                                		<p class='list-group-item-text'>${Birthday} / ${Birthplace}</p>
+	                                		<p class='list-group-item-text'>${HomeRegion1} ${HomeRegion2}</p>
+                                		</div>
+                                	</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -104,6 +134,8 @@
 	                <script src='../subprojects/OnlineAthletics/web/resources/libraries/bootstrap/js/collapse.js' ></script>
 	                <script src='../subprojects/OnlineAthletics/web/resources/libraries/bootstrap/js/dropdown.js' ></script>
 	                <script src='../subprojects/OnlineAthletics/web/resources/libraries/bootstrap/js/transition.js' ></script>
+	                <script src='../subprojects/OnlineAthletics/web/resources/libraries/bootstrap/js/tooltip.js'></script>
+                	<script src='../subprojects/OnlineAthletics/web/resources/libraries/bootstrap/js/popover.js'></script>
 	                
 	                <!-- web page specific scripts and styles declaration -->
 	                <script src='../subprojects/OnlineAthletics/web/resources/scripts/athletes.js'></script>

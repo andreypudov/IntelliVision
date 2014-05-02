@@ -1,0 +1,47 @@
+.athletes-list-group {
+  .athletes-list-group-item-template {
+    display: none;
+  }
+
+  .list-group-item-icon {
+    .athletes-list-icon {
+      display:    block;
+      width:      96px;
+      height:     96px;
+      background: lightgrey;
+    }
+  }
+
+  .list-group-item-heading {
+    margin-bottom: 10px;
+
+    > h1, h2, h3, h4, h5, h6 {
+      margin-bottom: 0;
+    }
+
+    > small {
+      font-style: italic;
+    }
+  }
+}
+
+.list-group-item {
+  overflow: auto;
+
+  .list-group-item-icon {
+    float:   left;
+    margin:  2px 15px 0 0;
+    display: none;
+
+    @media (min-width: @grid-float-breakpoint) {
+      display: block;
+    }
+  }
+
+  .list-group-item-heading {
+    > h1, h2, h3, h4, h5, h6 {
+      margin-top:    0;
+      margin-bottom: 5px;
+    }
+  }
+}

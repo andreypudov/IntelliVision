@@ -3,12 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/andrey/Documents/Projects/IntelliJustice/subprojects/OnlineAthletics/src/java/com/onlineathletics/web/servlets/FileUploadServlet.java</file>
             <file>file:/Users/andrey/Documents/Projects/IntelliJustice/subprojects/OnlineAthletics/web/controls/input/athletes.xhtml</file>
             <file>file:/Users/andrey/Documents/Projects/IntelliJustice/subprojects/OnlineAthletics/src/java/com/onlineathletics/web/AthletesInputForm.java</file>
             <file>file:/Users/andrey/Documents/Projects/IntelliJustice/subprojects/OnlineAthletics/web/WEB-INF/pretty-config.xml</file>
             <file>file:/Users/andrey/Documents/Projects/IntelliJustice/subprojects/OnlineAthletics/web/control.xhtml</file>
+            <file>file:/Users/andrey/Documents/Projects/IntelliJustice/subprojects/OnlineAthletics/web/resources/scripts/athletes.js</file>
             <file>file:/Users/andrey/Documents/Projects/IntelliJustice/subprojects/OnlineAthletics/web/WEB-INF/web.xml</file>
+            <file>file:/Users/andrey/Documents/Projects/IntelliJustice/subprojects/OnlineAthletics/web/resources/scripts/init.js</file>
         </group>
     </open-files>
 </project-private>

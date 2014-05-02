@@ -142,16 +142,14 @@ function readAthletesFile(event) {
     var reader = new FileReader();
 
     if ((!file.name.match('\.csv')) || (!file.type.match('text.*'))) {
-      alert('File type is not supported.');
+      togglePopover($('#athletesDataInputForm .validation-unsupported').text());
       return;
     }
 
     if (file.size > MAX_FILE_LENGTH) {
-      alert('File is too long.');
+      togglePopover($('#athletesDataInputForm .validation-overlong').text());
       return;
     }
-
-    $area.addClass('droparea-sm');
 
     reader.onload = function(event) {
       /* reinitialize file selection control */
@@ -159,13 +157,48 @@ function readAthletesFile(event) {
 
       var results = $.parse(reader.result);
       if (results.errors.length !== 0) {
-        alert('Parsing error.' + results.errors.length);
+        var errors  = results.errors;
+        var message = '';
+
+        for (var type in errors) {
+          /* skip object's length property */
+          if (type === 'length') {
+            continue;
+          }
+
+          for (var entry in errors[type]) {
+            var error = errors[type][entry];
+
+            message += ((message.length === 0) ? '' : '\n') 
+              + error['message'] + ' [Index: ' + error['index'] + ', Line: ' + error['line'] + ']';
+          }
+        }
+
+        togglePopover($('#athletesDataInputForm .validation-invalid').text() + ' (' + message + ')');
         return;
       }
 
+      var entry = results.results.rows[0];
+      if (!entry) {
+        togglePopover($('#athletesDataInputForm .validation-missing').text());
+        return;
+      }
+
+      /* validates for file consistency */
+      if (!('First Name' in entry) || !('Middle Name' in entry) || !('Last Name' in entry)
+        || !('Localized First Name' in entry) || !('Localized Middle Name' in entry) || !('Localized Last Name' in entry)
+        || !('Birthday' in entry) || !('Birthplace' in entry) || !('Sex' in entry)
+        || !('Home Region 1' in entry) || !('Home Region 2' in entry) || !('Language' in entry)) {
+        togglePopover($('#athletesDataInputForm .validation-invalid').text());
+        return;
+      }
+
+      $area.addClass('droparea-sm');
+
       for (var index = 0; index < results.results.rows.length; ++index) {
         var entry = results.results.rows[index];
-        console.log(entry);
+        
+        addAthlete(entry);
       }
     };
 
@@ -173,4 +206,44 @@ function readAthletesFile(event) {
   }
 }
 
+/**
+ * Toggles popover for a specific validation function. 
+ * 
+ * @param {String} message the error message.
+ */
+function togglePopover(message) {
+  var $group  = $('#athletesDataInputForm .validation-title');
+  var options = {placement: 'top', trigger: 'manual', content: message};
 
+  var $popover    = $group.popover().popover('destroy');
+      $popover    = $group.popover(options);
+
+  $popover.popover('show');
+}
+
+/**
+ * Adds an entry to the list of athletes.
+ *
+ * @param entry the array of athlete identification entries.
+ */
+function addAthlete(entry) {
+  var $list     = $('.athletes-list-group');
+  var $template = $list.find('.athletes-list-group-item-template');
+
+  var $entry = $template.clone();
+  $entry.removeClass('athletes-list-group-item-template');
+
+  /* replace teamplate data with entry values */
+  $entry.html($entry.html().replace(/\$\{FirstName\}/g,  entry['First Name']));
+  $entry.html($entry.html().replace(/\$\{MiddleName\}/g, entry['Middle Name']));
+  $entry.html($entry.html().replace(/\$\{LastName\}/g,   entry['Last Name']));
+  $entry.html($entry.html().replace(/\$\{LocalizedFirstName\}/g,  entry['Localized First Name']));
+  $entry.html($entry.html().replace(/\$\{LocalizedMiddleName\}/g, entry['Localized Middle Name']));
+  $entry.html($entry.html().replace(/\$\{LocalizedLastame\}/g,    entry['Localized Last Name']));
+  $entry.html($entry.html().replace(/\$\{Birthday\}/g,    entry['Birthday']));
+  $entry.html($entry.html().replace(/\$\{Birthplace\}/g,  entry['Birthplace']));
+  $entry.html($entry.html().replace(/\$\{HomeRegion1\}/g, entry['Home Region 1']));
+  $entry.html($entry.html().replace(/\$\{HomeRegion2\}/g, entry['Home Region 2']));
+
+  $list.append($entry);
+}

@@ -31,7 +31,7 @@
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
  * %name      athletes.js
- * %date      05:40:00 PM, Apt 09, 2014
+ * %date      05:40:00 PM, Apr 09, 2014
  */
 
  /**
@@ -66,6 +66,38 @@
   *     - the first home region in the same format as a birthplace.
   *     - the second home region in the same format as a birthplace.
   *     - the local language name.
+  *
+  * An athlete record should meet following rules:
+  *    - the first name, the middle name and the last name shall be 
+  *      provided in English, use oficial form and can be ommited to pass
+  *      translatiration to server.
+  *    - the first name, the middle name and the last name fields can be 
+  *      ommited to pass translatiration to server.
+  *    - at least one of the name variation should be present, localized of English.
+  *    - the localized forst name, the localized middle name, the localized 
+  *      last name shall be provided in the same language as the local language
+  *      name value.
+  *    - the birthplace, the first and the second home regions values can be
+  *      provided in the same language as the local language name value, otherwise
+  *      their values shall be provided in English.
+  *    - the first and the second home regions can be ommited.
+  *    - the local language and localized name fields can be ommited
+  *      if localized name fields and geo names for bithplace and home regions
+  *      provided in English.
+  *
+  * A file format header contains following columns in the same order:
+  *    - First Name
+  *    - Middle Name
+  *    - Last Name,
+  *    - Localized First Name
+  *    - Localized Middle Name
+  *    - Localized Last Name
+  *    - Birthday
+  *    - Birthplace
+  *    - Sex
+  *    - Home Region 1
+  *    - Home Region 2
+  *    - Language
   */
 
 var MAX_FILE_LENGTH = 24 * 1024;
@@ -141,7 +173,7 @@ function readAthletesFile(event) {
     var file   = files[index];
     var reader = new FileReader();
 
-    if ((!file.name.match('\.csv')) || (!file.type.match('text.*'))) {
+    if (!file.name.match('\.csv')) {
       togglePopover($('#athletesDataInputForm .validation-unsupported').text());
       return;
     }
@@ -233,6 +265,24 @@ function addAthlete(entry) {
   var $entry = $template.clone();
   $entry.removeClass('athletes-list-group-item-template');
 
+  var $nameField = $entry.find('.list-group-item-heading');
+
+  var nameIsEmpty = false;
+
+  /* validate for first and second names emptiness */
+  if (!(entry['First Name']) || !(entry['Last Name'])) {
+    entry['First Name']  = '';
+    entry['Middle Name'] = '';
+    entry['Last Name']   = '';
+    $nameField.addClass('subheader-only');
+
+    nameIsEmpty = true;
+  }
+
+  /* set sex style */
+  var $sexField = $nameField.find((nameIsEmpty) ? 'small' : 'h3');
+  $sexField.addClass((entry['Sex'] === 'M') ? 'male' : 'female');
+
   /* replace teamplate data with entry values */
   $entry.html($entry.html().replace(/\$\{FirstName\}/g,  entry['First Name']));
   $entry.html($entry.html().replace(/\$\{MiddleName\}/g, entry['Middle Name']));
@@ -241,9 +291,29 @@ function addAthlete(entry) {
   $entry.html($entry.html().replace(/\$\{LocalizedMiddleName\}/g, entry['Localized Middle Name']));
   $entry.html($entry.html().replace(/\$\{LocalizedLastame\}/g,    entry['Localized Last Name']));
   $entry.html($entry.html().replace(/\$\{Birthday\}/g,    entry['Birthday']));
-  $entry.html($entry.html().replace(/\$\{Birthplace\}/g,  entry['Birthplace']));
-  $entry.html($entry.html().replace(/\$\{HomeRegion1\}/g, entry['Home Region 1']));
-  $entry.html($entry.html().replace(/\$\{HomeRegion2\}/g, entry['Home Region 2']));
+  $entry.html($entry.html().replace(/\$\{Birthplace\}/g,  entry['Birthplace'].replace(/\,/g, ', ')));
+  $entry.html($entry.html().replace(/\$\{HomeRegion1\}/g, entry['Home Region 1'].replace(/\,/g, ', ')));
+  $entry.html($entry.html().replace(/\$\{HomeRegion2\}/g, entry['Home Region 2'].replace(/\,/g, ', ')));
 
   $list.append($entry);
+}
+
+/**
+ * Validates given string for valid date in format dd-MM-yyyy
+ * and returns boolean value.
+ *
+ * @param   date the string to validate.
+ *
+ * @return true if string is valid date and false otherwise.
+ */
+function isValidDate(date) {
+  var value = date.match(/^(\d{1,2})-(\d{1,2})-(\d{4})$/);
+  if (!value) {
+    return false;
+  }
+
+  var entry = new Date(value[3], value[2] - 1, value[1]);
+  return ((Number(value[1]) === entry.getDate()) 
+          && (Number(value[2]) === entry.getMonth() + 1) 
+          && (Number(value[3]) === entry.getFullYear()));
 }

@@ -22,6 +22,26 @@
     > small {
       font-style: italic;
     }
+
+    .male:after {
+      content:         '\0000a0\0000a0\0000a0\0000a0';
+      background:      ~"url('@{project-image-path}male.png')" no-repeat 0 0;
+      background-size: 15px;
+      margin-left:     2px;
+    }
+
+    .female:after {
+      content:         '\0000a0\0000a0\0000a0\0000a0';
+      background:      ~"url('@{project-image-path}female.png')" no-repeat 0 0;
+      background-size: 15px;
+      margin-left:     2px;
+    }
+  }
+
+  .subheader-only {
+    small {
+      font: normal normal bold 14px @font-family-sans-serif;
+    }
   }
 }
 
@@ -39,9 +59,16 @@
   }
 
   .list-group-item-heading {
+    line-height:   @padding-large-vertical;
+    margin-bottom: @padding-large-vertical;
+
     > h1, h2, h3, h4, h5, h6 {
       margin-top:    0;
-      margin-bottom: 5px;
+      margin-bottom: 0;
     }
+  }
+
+  .list-group-item-content {
+    font-size: @font-size-small;
   }
 }

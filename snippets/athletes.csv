@@ -1,3 +1,7 @@
 First Name,Middle Name,Last Name,Localized First Name,Localized Middle Name,Localized Last Name,Birthday,Birthplace,Sex,Home Region 1,Home Region 2,Language
 Andrey,Semenovich,Pudov,Андрей,Семёнович,Пудов,17-03-1989,"Russia,Chuvashia,Novocheboksarsk",M,"Russia,Chuvashia,Novocheboksarsk",,ru
 ,,,Ольга,Романовна,Вознесенская,30-12-1990,"Russian Federation,Nizhegorodskaya Oblast,Nizhny Novgorod",F,"Russian Federation,Nizhegorodskaya Oblast,Nizhny Novgorod",,ru
+Alexander,,Pushkin,Александр,Сергеевич,Пушкин,03-06-1799,"Russia,Moscovskaya Oblast,Moscow",M,,,ru
+Alexander,,,Грибоедов,Александр,Сергеевич,40-01-1795,"Russia,Moscovskaya Oblast,Moscow",M,,,ru
+,Andreevna,,Анна,Андреевна,Ахматова,11-06-1889,"Ukraine,Odesskaya Oblast,Odessa",F,,,ru
+Marina,Ivanovna,Cvetaeva,,,,25-09-1892,"Russia,Moscovskaya Oblast,Moscow",F,,,ru

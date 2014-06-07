@@ -59,17 +59,21 @@
                         			<strong>Oh snap!</strong> Your browser doesn't support File API.
                         		</div>
 
+                        		<div class='alert alert-danger alert-invalid'>
+                        			<strong>Oh snap!</strong> Something went wrong. Please reload your data.
+                        		</div>
+
                         		<!-- athlete's data file uploading area -->
-                                <div class='droparea'>
-                                	<form id='athletesDataInputForm' enctype='multipart/form-data'>
-                                		<div class='validation-group'>
+                                <div id='athletesDropArea' class='droparea'>
+                                	<div class='dropentry'>
+	                            		<div class='validation-group'>
 											<div class='validation-title'></div>
 
 											<span class='validation-unsupported'>File format is not supported</span>
-                                			<span class='validation-overlong'>File length is too long</span>
-                                			<span class='validation-invalid'>Parsing error</span>
-                                			<span class='validation-missing'>File is emptry</span>
-                                		</div>
+	                            			<span class='validation-overlong'>File length is too long</span>
+	                            			<span class='validation-invalid'>File parsing error</span>
+	                            			<span class='validation-missing'>File is emptry</span>
+	                            		</div>
 
 	                                	<div class='input-group input-group-sm'>
 	                                		<input type='text' class='form-control' placeholder='Select an athlete&#39s file to upload' readonly>
@@ -79,7 +83,7 @@
 			                                	</span>
 	                                		</span>
 	                                	</div>
-                                	<form>
+                                	</div>
                                 </div>
 
                                 <div class='region-large'></div>
@@ -99,8 +103,26 @@
 	                                		<p class='list-group-item-text'>${Birthday} / ${Birthplace}</p>
 	                                		<p class='list-group-item-text'>${HomeRegion1} ${HomeRegion2}</p>
                                 		</div>
+
+                                		<div class='validation-group athlete-validation-group'>
+                                			<span class='validation-inline name'>Invalid name or localized name format</span>
+                                			<span class='validation-inline birthday'>Invalid date format of field birthday</span>
+                                			<span class='validation-inline birthplace'>Invalid geo format of field birthplace</span>
+                                			<span class='validation-inline sex'>Invalid format o field sex</span>
+                                			<span class='validation-inline region'>Invalid home region field format</span>
+                                			<span class='validation-inline language'>Invalid local language format</span>
+                                			<span class='validation-inline duplicate'>Athlete entry is already exists</span>
+                                		</div>
+
+                                		<div class='invisible-group'>
+		                            		<span class='athlete-identification-number'>${AthleteUID}</span>
+		                            	</div>
                                 	</li>
                                 </ul>
+
+                                <div class='invisible-group'>
+                            		<textarea id='athletesDataArea'></textarea>
+                            	</div>
                             </div>
                         </div>
                     </div>

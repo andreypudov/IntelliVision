@@ -3,72 +3,77 @@
     display: none;
   }
 
-  .list-group-item-icon {
-    .athletes-list-icon {
-      display:    block;
-      width:      96px;
-      height:     96px;
-      background: lightgrey;
-    }
-  }
+  .list-group-item {
+    overflow: auto;
 
-  .list-group-item-heading {
-    margin-bottom: 10px;
-
-    > h1, h2, h3, h4, h5, h6 {
-      margin-bottom: 0;
+    &.invalid {
+      background-color: @alert-danger-bg;
+      border-color:     @alert-danger-border;
     }
 
-    > small {
-      font-style: italic;
+    &:nth-child(2) {
+      border-top-right-radius: 4px;
+      border-top-left-radius:  4px;
     }
 
-    .male:after {
-      content:         '\0000a0\0000a0\0000a0\0000a0';
-      background:      ~"url('@{project-image-path}male.png')" no-repeat 0 0;
-      background-size: 15px;
-      margin-left:     2px;
+    .list-group-item-icon {
+      float:   left;
+      margin:  2px 15px 0 0;
+      display: none;
+
+      @media (min-width: @grid-float-breakpoint) {
+        display: block;
+      }
+
+      .athletes-list-icon {
+        display:    block;
+        width:      96px;
+        height:     96px;
+        background: lightgrey;
+      }
     }
 
-    .female:after {
-      content:         '\0000a0\0000a0\0000a0\0000a0';
-      background:      ~"url('@{project-image-path}female.png')" no-repeat 0 0;
-      background-size: 15px;
-      margin-left:     2px;
+    .list-group-item-heading {
+      line-height:   @padding-large-vertical;
+      margin-bottom: @padding-large-vertical;
+
+      > h1, h2, h3, h4, h5, h6 {
+        margin-top:    0;
+        margin-bottom: 0;
+      }
+
+      > small {
+        font-style: italic;
+      }
+
+      &.subheader-only {
+        small {
+          font: normal normal bold 14px @font-family-sans-serif;
+        }
+      }
+
+      .male:after {
+        content:         '\0000a0\0000a0\0000a0\0000a0';
+        background:      ~"url('@{project-image-path}male.png')" no-repeat 0 0;
+        background-size: 15px;
+        margin-left:     2px;
+      }
+
+      .female:after {
+        content:         '\0000a0\0000a0\0000a0\0000a0';
+        background:      ~"url('@{project-image-path}female.png')" no-repeat 0 0;
+        background-size: 15px;
+        margin-left:     2px;
+      }
     }
-  }
 
-  .subheader-only {
-    small {
-      font: normal normal bold 14px @font-family-sans-serif;
+    .list-group-item-content {
+      font-size: @font-size-small;
     }
-  }
-}
 
-.list-group-item {
-  overflow: auto;
-
-  .list-group-item-icon {
-    float:   left;
-    margin:  2px 15px 0 0;
-    display: none;
-
-    @media (min-width: @grid-float-breakpoint) {
-      display: block;
+    .athlete-validation-group {
+      padding-top: 16px;
+      font-size:   @font-size-small;
     }
-  }
-
-  .list-group-item-heading {
-    line-height:   @padding-large-vertical;
-    margin-bottom: @padding-large-vertical;
-
-    > h1, h2, h3, h4, h5, h6 {
-      margin-top:    0;
-      margin-bottom: 0;
-    }
-  }
-
-  .list-group-item-content {
-    font-size: @font-size-small;
   }
 }

@@ -179,13 +179,13 @@ function isValidEmail($field, $group, style, message) {
 /**
  * Returns the message for a specific selector inside a form validation  group.
  * 
- * @param {Element} $groupd  the form group.
+ * @param {Element} $group   the form group.
  * @param {String}  selector the CSS selector of the message.
  * 
  * @return {String}          the message text.
  */
-function getMessage($groupd, selector) {
-    return $groupd.children(selector).text();
+function getMessage($group, selector) {
+    return $group.children(selector).text();
 }
 
 /**

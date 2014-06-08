@@ -67,9 +67,16 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <form id='controlForm'>
+                        <div class='invisible-group'>
+                            <textarea id='athletesDataArea'></textarea>
+                        </div>
+                    </form>
                 </div>
             </ui:define>
             <ui:define name='page-scripts'>
+                <script src='${request.contextPath}/resources/libraries/jquery/jquery.parse.min.js'></script>
                 <script src='${request.contextPath}/resources/scripts/athletes.js'></script>
             </ui:define>
         </ui:composition>

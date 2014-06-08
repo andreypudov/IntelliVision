@@ -54,7 +54,7 @@
     
                     <div class='row'>
                         <div class='col-xs-12'>
-                        	<div id='athletes'>
+                        	<form id='athletes'>
                         		<div class='alert alert-danger alert-droparea'>
                         			<strong>Oh snap!</strong> Your browser doesn't support File API.
                         		</div>
@@ -91,17 +91,17 @@
                                 <ul class='list-group athletes-list-group'>
                                 	<li class='list-group-item athletes-list-group-item-template'>
                                 		<div class='list-group-item-icon'>
-                                			<img class='athletes-list-icon' />
+                                			<span class='athletes-list-icon' />
                                 		</div>
 
                                 		<div class='list-group-item-heading'>
-                                			<h3>${FirstName} ${MiddleName} ${LastName}</h3>
-                                			<small>${LocalizedFirstName} ${LocalizedMiddleName} ${LocalizedLastame}</small>
+                                			<h3>@{FirstName} @{MiddleName} @{LastName}</h3>
+                                			<small>@{LocalizedFirstName} @{LocalizedMiddleName} @{LocalizedLastame}</small>
                                 		</div>
 
                                 		<div class='list-group-item-content'>
-	                                		<p class='list-group-item-text'>${Birthday} / ${Birthplace}</p>
-	                                		<p class='list-group-item-text'>${HomeRegion1} ${HomeRegion2}</p>
+	                                		<p class='list-group-item-text'>@{Birthday} / @{Birthplace}</p>
+	                                		<p class='list-group-item-text'>@{HomeRegion1} @{HomeRegion2}</p>
                                 		</div>
 
                                 		<div class='validation-group athlete-validation-group'>
@@ -113,17 +113,25 @@
                                 			<span class='validation-inline language'>Invalid local language format</span>
                                 			<span class='validation-inline duplicate'>Athlete entry is already exists</span>
                                 		</div>
-
-                                		<div class='invisible-group'>
-		                            		<span class='athlete-identification-number'>${AthleteUID}</span>
-		                            	</div>
                                 	</li>
                                 </ul>
 
-                                <div class='invisible-group'>
-                            		<textarea id='athletesDataArea'></textarea>
-                            	</div>
-                            </div>
+                                <div class='control-panel invisible-group'>
+			                    	<div class='pull-right'>
+				                		<a class='btn btn-primary btn-sm btn-container'>
+				                			<input type='submit' value='Submit'>
+				                		</a>
+
+				                		<a class='btn btn-default btn-sm btn-container'>
+				                			<input type='button' value='Cancel'>
+				                		</a>
+			                		</div>
+
+				                    <div class='invisible-group'>
+				                		<textarea id='athletesDataArea'></textarea>
+				                	</div>
+			                	</div>
+                            </form>
                         </div>
                     </div>
                 </div>

@@ -30,12 +30,23 @@
         width:      96px;
         height:     96px;
         background: lightgrey;
+
+        &.male {
+          background:      ~"url('@{project-image-path}male-icon.png')" no-repeat;
+          background-size: 96px;
+        }
+
+        &.female {
+          background:      ~"url('@{project-image-path}female-icon.png')" no-repeat;
+          background-size: 96px;
+        }
       }
     }
 
     .list-group-item-heading {
       line-height:   @padding-large-vertical;
       margin-bottom: @padding-large-vertical;
+      padding-top:   @padding-base-vertical;
 
       > h1, h2, h3, h4, h5, h6 {
         margin-top:    0;
@@ -54,7 +65,7 @@
 
       .male:after {
         content:         '\0000a0\0000a0\0000a0\0000a0';
-        background:      ~"url('@{project-image-path}male.png')" no-repeat 0 0;
+        background:      ~"url('@{project-image-path}male.png')" no-repeat;
         background-size: 15px;
         margin-left:     2px;
       }

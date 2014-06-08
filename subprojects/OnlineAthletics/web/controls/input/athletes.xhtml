@@ -36,18 +36,71 @@
 <!DOCTYPE html>
 <html xmlns='http://www.w3.org/1999/xhtml'
       xmlns:ui='http://java.sun.com/jsf/facelets'
-      xmlns:h='http://xmlns.jcp.org/jsf/html'
-      xmlns:f='http://xmlns.jcp.org/jsf/core'>
+      xmlns:p='http://xmlns.jcp.org/jsf/passthrough'
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
     <body>
         <ui:composition>
-            <div id='athletesFileDropArea' class='droparea' />
-            
-            <h:form id='athletesDataInputForm' >
-                <h:inputText id='athletesFileInputField' value='#{athletesInputForm.query}' />
-                <h:commandButton value='Upload' action='#{athletesInputForm.upload}'>
-                    <f:ajax execute='athletesFileInputField' render='athletesFileInputField' />
-                </h:commandButton>
-            </h:form>
+            <div class='alert alert-danger alert-droparea'>
+                <strong>Oh snap!</strong> Your browser doesn't support File API.
+            </div>
+
+            <div class='alert alert-danger alert-invalid'>
+                <strong>Oh snap!</strong> Something went wrong. Please reload your data.
+            </div>
+
+            <!-- athlete's data file uploading area -->
+            <div id='athletesDropArea' class='droparea'>
+                <div class='dropentry'>
+                    <div class='validation-group'>
+                        <div class='validation-title'></div>
+
+                        <span class='validation-unsupported'>File format is not supported</span>
+                        <span class='validation-overlong'>File length is too long</span>
+                        <span class='validation-invalid'>File parsing error</span>
+                        <span class='validation-missing'>File is empty</span>
+                    </div>
+
+                    <div class='input-group input-group-sm'>
+                        
+                        <h:inputText class='form-control' p:placeholder='Select an athlete’s file to upload' readonly='true' />
+                        <span class='input-group-btn'>
+                            <span class='btn btn-primary btn-sm btn-file'>
+                                Browse<input type='file' class='fileselect' />
+                            </span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class='region-large'></div>
+
+            <ul class='list-group athletes-list-group'>
+                <li class='list-group-item athletes-list-group-item-template'>
+                    <div class='list-group-item-icon'>
+                        <img class='athletes-list-icon' />
+                    </div>
+
+                    <div class='list-group-item-heading'>
+                        <h3>@{FirstName} @{MiddleName} @{LastName}</h3>
+                        <small>@{LocalizedFirstName} @{LocalizedMiddleName} @{LocalizedLastame}</small>
+                    </div>
+
+                    <div class='list-group-item-content'>
+                        <p class='list-group-item-text'>@{Birthday} / @{Birthplace}</p>
+                        <p class='list-group-item-text'>@{HomeRegion1} @{HomeRegion2}</p>
+                    </div>
+
+                    <div class='validation-group athlete-validation-group'>
+                        <span class='validation-inline name'>Invalid name or localized name format</span>
+                        <span class='validation-inline birthday'>Invalid date format of field birthday</span>
+                        <span class='validation-inline birthplace'>Invalid geo format of field birthplace</span>
+                        <span class='validation-inline sex'>Invalid format o field sex</span>
+                        <span class='validation-inline region'>Invalid home region field format</span>
+                        <span class='validation-inline language'>Invalid local language format</span>
+                        <span class='validation-inline duplicate'>Athlete entry is already exists</span>
+                    </div>
+                </li>
+            </ul>
         </ui:composition>
     </body>
 </html>

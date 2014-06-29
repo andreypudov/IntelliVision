@@ -336,14 +336,18 @@ public class ExcelDataFormatV1 implements ExcelDataFormatDefault {
             }
 
             try {
+                // TODO change athlete entry to use country and bithplace format
+                
                 final Athlete athlete = new Athlete(
-                        cellName.getStringCellValue().hashCode(),
+                        (long) cellName.getStringCellValue().hashCode(),
                         transliterate(getFirstName(cellName.getStringCellValue())),
+                        "", /* middle name is omitted */
                         transliterate(getLastName(cellName.getStringCellValue())),
                         getFirstName(cellName.getStringCellValue()),
+                        "", /* middle name is omitted */
                         getLastName(cellName.getStringCellValue()),
                         formatter.parse(cellBirthday.getStringCellValue()).getTime(),
-                        competition.getSex(), cellCountry.getStringCellValue());
+                        0L, competition.getSex(), 0L);
                 final Result result = new Result(
                         parseDate(cellResult.getStringCellValue()),
                         (short) -1, (short) -1,

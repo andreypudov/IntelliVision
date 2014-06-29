@@ -56,7 +56,7 @@
                              
                             <!-- the error message block -->
                             <div class='col-sm-6 col-sm-offset-6' style="display: #{(!contactForm.nameValid || !contactForm.emailValid || !contactForm.messageValid) ? 'initial' : 'none'}">
-                                <div class="alert alert-danger">
+                                <div class='alert alert-danger'>
                                     <p>
                                         <strong>${MESSAGES.contact_form_title}</strong>
                                         ${MESSAGES.contact_form_subtitile}
@@ -90,23 +90,23 @@
                                     <span class='validation-missing'>${MESSAGES.email_is_missing}</span>
                                     <span class='validation-invalid'>${MESSAGES.email_is_invalid}</span>
                                     <span class='validation-overlong'>${MESSAGES.email_is_overlong}</span>
-                                    <span class="input-group-addon validation-group-addon">
+                                    <span class='input-group-addon validation-group-addon'>
                                         &#10033; <!-- asterisk -->
                                     </span>
                                 </div>
                         
                                 <div class="form-group #{contactForm.messageValid ? '' : 'has-error'}">
-                                    <h:inputTextarea id="contactTextArea" class="form-control"  
-                                                     rows="8" value="#{contactForm.message}"
+                                    <h:inputTextarea id='contactTextArea' class='form-control'  
+                                                     rows='8' value='#{contactForm.message}'
                                                      onchange='validateText(this, CONTACT_MESSAGE_MAX_LENGTH)' />
                                     <span class='validation-missing'>${MESSAGES.message_is_missing}</span>
                                     <span class='validation-overlong'>${MESSAGES.message_is_overlong}</span>
                                 </div>
                                 
-                                <div class="form-group">
+                                <div class='form-group'>
                                     <a class='btn btn-primary btn-container'>
-                                        <h:commandButton id="submitButton" 
-                                                         value="Submit" action="#{contactForm.submit()}" />
+                                        <h:commandButton id='submitButton' 
+                                                         value='Submit' action='#{contactForm.submit()}' />
                                     </a>
                                 </div>
                             </div>

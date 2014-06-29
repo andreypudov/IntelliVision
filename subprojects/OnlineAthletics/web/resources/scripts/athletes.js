@@ -54,7 +54,7 @@
   *       where:
   *           dd   - the calendar day number starting by 01.
   *           MM   - the calendar month number starting by 01.
-  *           yyyy - the calndar year number.
+  *           yyyy - the calendar year number.
   *     - the birthplace of the athlete in following format
   *           "Country, Region, City"
   *       where:
@@ -69,20 +69,20 @@
   *
   * An athlete record should meet following rules:
   *    - the first name, the middle name and the last name shall be 
-  *      provided in English, use oficial form and can be ommited to pass
-  *      translatiration to server.
+  *      provided in English, use official form and can be omitted to pass
+  *      transliteration to server.
   *    - the first name, the middle name and the last name fields can be 
-  *      ommited to pass translatiration to server.
+  *      omitted to pass transliteration to server.
   *    - at least one of the name variation should be present, localized of English.
-  *    - the localized forst name, the localized middle name, the localized 
+  *    - the localized first name, the localized middle name, the localized 
   *      last name shall be provided in the same language as the local language
   *      name value.
   *    - the birthplace, the first and the second home regions values can be
   *      provided in the same language as the local language name value, otherwise
   *      their values shall be provided in English.
-  *    - the first and the second home regions can be ommited.
-  *    - the local language and localized name fields can be ommited
-  *      if localized name fields and geo names for bithplace and home regions
+  *    - the first and the second home regions can be omitted.
+  *    - the local language and localized name fields can be omitted
+  *      if localized name fields and geo names for birthplace and home regions
   *      provided in English.
   *
   * A file format header contains following columns in the same order:
@@ -100,7 +100,11 @@
   *    - Language
   */
 
+/* the maximum length of athlete data file */
 var MAX_FILE_LENGTH = 24 * 1024;
+
+/* athlete data file reader */
+var reader = new AthleteReader();
 
 /**
  * Initializes file uploading user interface and functionality.
@@ -112,9 +116,6 @@ $(function() {
     var $select   = $entry.find('.btn-file :file');
     var $label    = $entry.find(':text');
     var $alert    = $athletes.find('.alert-droparea');
-
-    /* athlete data file reader */
-    var reader = new AthleteReader();
 
     /* check for the various File API support */
     if (window.File && window.FileReader && window.FileList && window.Blob) {
@@ -166,7 +167,6 @@ function AthleteReader() {
     var $area     = $('.droparea');
     var $entry    = $area.find('.dropentry');
     var $select   = $entry.find('.btn-file :file');
-    var $data     = $('#athletesDataArea');
     var $list     = $athletes.find('.athletes-list-group');
     var $control  = $athletes.find('.control-panel');
 
@@ -238,8 +238,9 @@ function AthleteReader() {
 
                 $area.addClass('droparea-sm');
 
-                var list = merge(JSONToList($data.val()), results.results.rows);
-                var json = listToJSON(list);
+                var $data = $('#athletes\\:athletesDataArea');
+                var list  = merge(JSONToList($data.val()), results.results.rows);
+                var json  = listToJSON(list);
 
                 $list.find('.list-group-item:not(.athletes-list-group-item-template)').remove();
                 $data.val(json);
@@ -247,7 +248,7 @@ function AthleteReader() {
                 displayList(list);
 
                 $control.css({'display': 'block'});
-                $control.find('.btn-default > input[type=button]').click(function() {
+                $control.find('.btn:has(#athletes\\:cancel)').click(function() {
                   $area.removeClass('droparea-sm');
                   $list.find('.list-group-item:not(.athletes-list-group-item-template)').remove();
                   $data.val('');
@@ -443,9 +444,7 @@ function AthleteReader() {
         status &= validate(list[list.length - 1]);
 
         /* disable submit button on invalid list */
-        if (Boolean(status) === false) {
-            $control.find('.btn-primary').attr('disabled', 'true');
-        }
+        $control.find('.btn:has(#athletes\\:submit)').attr('disabled', (Boolean(status) === false));
     }
 
     /**
@@ -458,6 +457,20 @@ function AthleteReader() {
             add(list[index]);
         }
     }
+    
+    /**
+     * Updates athletes list view.
+     */
+    this.updateList = function() {
+        var $data = $('#athletes\\:athletesDataArea');
+        var list  = JSONToList($data.val());
+        
+        if (list.length !== 0) {
+            $list.find('.list-group-item:not(.athletes-list-group-item-template)').remove();
+            validateList(list);
+            displayList(list);
+        }
+    };
 
     /**
      * Compare atletes instances and returns true if athletes are equals,
@@ -519,7 +532,7 @@ function AthleteReader() {
      *
      * @param value the JSON string to translate.
      *
-     * @return      the list of athletes.
+     * @return      the list of athletes or null on error.
      */
     function JSONToList(value) {
         var $alert = $athletes.find('.alert-invalid');
@@ -533,6 +546,8 @@ function AthleteReader() {
             list = JSON.parse(value);
             return list;
         } catch (e) {
+            $('html, body').animate({scrollTop: 0}, 'slow');
+            
             $alert.css('display', 'block');
             return new Array();
         }
@@ -584,4 +599,36 @@ function AthleteReader() {
 
         $popover.popover('show');
     }
+}
+
+/**
+ * Process AJAX response from the server.
+ * 
+ * @param {Object} data the AJAX response value.
+ */
+function processAthleteResponse(data) {
+    var status = data.status;
+    
+    switch (status) {
+        case 'begin':
+            break;
+        case 'complete':
+            break;
+        case 'success':
+            reader.updateList();
+            break;
+    }
+}
+
+/**
+ * Process AJAX response exception from the server.
+ * 
+ * @param {Object} error the AJAX response exception value.
+ */
+function processAthleteException(error) {
+    var $athletes = $('#athletes');
+    var $alert    = $athletes.find('.alert-invalid');
+    
+    $('html, body').animate({scrollTop: 0}, 'slow');
+    $alert.css('display', 'block');
 }

@@ -142,19 +142,35 @@ public class CompetitionPanelController implements Initializable {
 
         final List<RunningDataModel> competitionData = new ArrayList<>(16);
 
-        for (final Entry entry : competition.getEntryList()) {
+        /*for (final Entry entry : competition.getEntryList()) {
             final Athlete athlete = entry.getAthlete();
             final Result  result  = entry.getResults().get(0);
 
             competitionData.add(new RunningDataModel(entry.getRank(), entry.getBib(),
                     String.format("%s %s\n%s %s",
-                            athlete.getFirstName(), athlete.getSecondName(),
+                            athlete.getFirstName(), athlete.getLastName(),
                             athlete.getFirstNameLocalized(),
-                            athlete.getSecondNameLocalized()),
-                    athlete.getBirthday(), athlete.getCountry(),
+                            athlete.getLastNameLocalized()),
+                    athlete.getBirthday(), "athlete.getBirthplace()",
                     entry.getPersonal(), entry.getSeason(),
                     entry.getLine(), result.getResult(), result.getReaction()));
-        }
+        }*/
+        
+        // TODO change athlete entry to use country and bithplace format
+        
+        competition.getEntryList().stream().forEach((entry) -> {
+            final Athlete athlete = entry.getAthlete();
+            final Result  result  = entry.getResults().get(0);
+
+            competitionData.add(new RunningDataModel(entry.getRank(), entry.getBib(),
+                    String.format("%s %s\n%s %s",
+                            athlete.getFirstName(), athlete.getLastName(),
+                            athlete.getFirstNameLocalized(),
+                            athlete.getLastNameLocalized()),
+                    athlete.getBirthday(), "athlete.getBirthplace()",
+                    entry.getPersonal(), entry.getSeason(),
+                    entry.getLine(), result.getResult(), result.getReaction()));
+        });
 
         rankColumn.setText("R");
         bibColumn.setText("Bib");

@@ -72,7 +72,7 @@
 											<span class='validation-unsupported'>File format is not supported</span>
 	                            			<span class='validation-overlong'>File length is too long</span>
 	                            			<span class='validation-invalid'>File parsing error</span>
-	                            			<span class='validation-missing'>File is emptry</span>
+	                            			<span class='validation-missing'>File is empty</span>
 	                            		</div>
 
 	                                	<div class='input-group input-group-sm'>
@@ -119,16 +119,20 @@
                                 <div class='control-panel invisible-group'>
 			                    	<div class='pull-right'>
 				                		<a class='btn btn-primary btn-sm btn-container'>
-				                			<input type='submit' value='Submit'>
+				                			<input id='athletes:submit' type='submit' value='Submit'>
 				                		</a>
 
 				                		<a class='btn btn-default btn-sm btn-container'>
-				                			<input type='button' value='Cancel'>
+				                			<input id='athletes:cancel' type='button' value='Cancel'>
+				                		</a>
+
+				                		<a class='btn btn-default btn-sm btn-container invisible-group'>
+				                			<input id='athletes:validate' type='button' value='Validate'>
 				                		</a>
 			                		</div>
 
 				                    <div class='invisible-group'>
-				                		<textarea id='athletesDataArea'></textarea>
+				                		<textarea id='athletes:athletesDataArea'></textarea>
 				                	</div>
 			                	</div>
                             </form>

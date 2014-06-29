@@ -3,7 +3,7 @@
  *
  * The MIT License
  *
- * Copyright 2011-2013 Andrey Pudov.
+ * Copyright 2011-2014 Andrey Pudov.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -157,7 +157,7 @@ public final class ExcelDataProvider implements DefaultDataProvider {
             LOG.log(Level.WARNING,
                     "Provided Excel workbook is in incorrect format. {0}",
                     e.getMessage());
-        } catch (Exception e) {
+        } catch (final Exception e) {
             LOG.log(Level.WARNING,
                     "Excel workbook parse exception. {0}",
                     e.getMessage());
@@ -177,14 +177,10 @@ public final class ExcelDataProvider implements DefaultDataProvider {
         final Map<String, Long> modificationDates = new HashMap<>(16);
         
         for (final File book : worksheet.getParentFile().listFiles(
-                new FileFilter() {
-                    @Override
-                    public boolean accept(final File file) {
-                        return file.getName().toLowerCase(
-                                ).endsWith(".xls")
-                                /* skip worksheet itself */
-                                && (file.equals(worksheet) == false);
-                }})) {
+            (final File file) -> 
+                file.getName().toLowerCase().endsWith(".xls")
+                /* skip worksheet itself */
+                && (file.equals(worksheet) == false))) {
 
             /* add book's file to the list */
             modificationDates.put(book.getName(), book.lastModified());

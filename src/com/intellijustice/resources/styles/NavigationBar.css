@@ -1,9 +1,9 @@
 /*
- * IntelliJustice Intelligent Referee Assistant System 
+ * IntelliJustice Intelligent Referee Assistant System
  *
  * The MIT License
  *
- * Copyright 2011-2013 Andrey Pudov.
+ * Copyright 2011-2014 Andrey Pudov.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -39,14 +39,14 @@
 
 #navigationBarBack {
     -fx-background-color: linear-gradient(to bottom, #757575, #626262);
-    -fx-background-image: url("../images/button-back-enabled.png");
+    -fx-background-image: url('../images/button-back-enabled.png');
     -fx-border-color:     #303030;
     -fx-border-radius:    4 0 0 4;
 }
 
 #navigationBarNext {
     -fx-background-color: linear-gradient(to bottom, #757575, #626262);
-    -fx-background-image: url("../images/button-next-enabled.png");
+    -fx-background-image: url('../images/button-next-enabled.png');
     -fx-border-color:     #303030;
     -fx-border-radius:    0 4 4 0;
     -fx-border-insets:    0 0 0 -1;

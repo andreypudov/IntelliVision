@@ -3,7 +3,7 @@
  *
  * The MIT License
  *
- * Copyright 2011-2013 Andrey Pudov.
+ * Copyright 2011-2014 Andrey Pudov.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -188,11 +188,10 @@ public enum Settings {
         templates.put("${HOME_DIRECTORY}",   HOME_DIRECTORY);
         templates.put("${CONFIG_DIRECTORY}", CONFIG_DIRECTORY);
 
-        for (Entry<Object, Object> entry : properties.entrySet()) {
+        properties.entrySet().stream().forEach((entry) -> {
             final String key   = (String) entry.getKey();
             final String value = (String) entry.getValue();
-
-            /* replace templates */
+            
             if (value.indexOf('$') != -1) {
                 String str = value;
 
@@ -202,7 +201,7 @@ public enum Settings {
 
                 properties.setProperty(key, str);
             }
-        }
+        });
     }
 
     /**

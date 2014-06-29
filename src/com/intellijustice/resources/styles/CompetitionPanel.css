@@ -38,24 +38,24 @@
 }
 
 #disciplineLabel {
-    -fx-font:      bold normal 16pt "Source Sans Pro Semibold";
+    -fx-font:      bold normal 16pt 'Source Sans Pro Semibold';
     -fx-text-fill: #E8E8EF;
 }
 
 #roundLabel {
-    -fx-font:      normal normal 14pt "Source Sans Pro Semibold";
+    -fx-font:      normal normal 14pt 'Source Sans Pro Semibold';
     -fx-text-fill: #C0C0C0;
 }
 
 #scoreboardButton {
     -fx-background-color:    null;
-    -fx-background-image:    url("../images/button-send-to-scoreboard.png");
+    -fx-background-image:    url('../images/button-send-to-scoreboard.png');
     -fx-background-position: center;
     -fx-background-repeat:   no-repeat;
 }
 
 #scoreboardButton:pressed {
-    -fx-background-image:    url("../images/button-send-to-scoreboard-pressed.png");
+    -fx-background-image:    url('../images/button-send-to-scoreboard-pressed.png');
 }
 
 #disciplineTable {
@@ -72,7 +72,7 @@
 
 #disciplineTable .column-header-background {
     /*-fx-background-color: transparent;*/
-    -fx-background-image:    url("../images/table-column-background.png");
+    -fx-background-image:    url('../images/table-column-background.png');
     -fx-border-image-repeat: stretch;
 }
 
@@ -86,7 +86,7 @@
 }
 
 #disciplineTable .column-header .label {
-    -fx-font:        bold normal 12pt "Source Sans Pro";
+    -fx-font:        bold normal 12pt 'Source Sans Pro';
     -fx-text-fill:   #262626;
     -fx-font-weight: bold;
     -fx-opacity:     1;
@@ -94,7 +94,7 @@
 }
 
 #disciplineTable .table-row-cell {
-    -fx-font:             normal normal 13pt "Source Sans Pro";
+    -fx-font:             normal normal 13pt 'Source Sans Pro';
     -fx-cell-size:        40px;
     -fx-background-color: transparent;
     -fx-border-width:     0;
@@ -120,17 +120,17 @@
 }
 
 #athleteNameRegular {
-    -fx-font: bold normal 13pt "Source Sans Pro";
+    -fx-font: bold normal 13pt 'Source Sans Pro';
     -fx-text-fill: #E8E8EF;
 }
 
 #athleteNameLocalized {
-    -fx-font: normal normal 13pt "Source Sans Pro";
+    -fx-font: normal normal 13pt 'Source Sans Pro';
     -fx-text-fill: #E8E8EF;
 }
 
 #imageLabel {
-    -fx-font: normal normal 13pt "Source Sans Pro";
+    -fx-font: normal normal 13pt 'Source Sans Pro';
     -fx-text-fill: #E8E8EF;
 }
 

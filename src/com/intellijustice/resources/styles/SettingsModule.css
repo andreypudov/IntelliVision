@@ -1,9 +1,9 @@
 /*
- * IntelliJustice Intelligent Referee Assistant System 
+ * IntelliJustice Intelligent Referee Assistant System
  *
  * The MIT License
  *
- * Copyright 2011-2013 Andrey Pudov.
+ * Copyright 2011-2014 Andrey Pudov.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -98,13 +98,13 @@
 }
 
 #servereName {
-    -fx-font:         bold normal 13pt "Source Sans Pro Semibold";
+    -fx-font:         bold normal 13pt 'Source Sans Pro Semibold';
     -fx-text-fill:    #ffffff;
     -fx-effect:       dropshadow(one-pass-box, #404040, 1, 0, 1, -1);
 }
 
 #serverStat {
-    -fx-font:         normal normal 11pt "Source Sans Pro";
+    -fx-font:         normal normal 11pt 'Source Sans Pro';
     -fx-text-fill:    #E3E3DF;
     -fx-effect:       null;
 }

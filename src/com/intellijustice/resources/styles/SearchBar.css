@@ -1,9 +1,9 @@
 /*
- * IntelliJustice Intelligent Referee Assistant System 
+ * IntelliJustice Intelligent Referee Assistant System
  *
  * The MIT License
  *
- * Copyright 2011-2013 Andrey Pudov.
+ * Copyright 2011-2014 Andrey Pudov.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -37,11 +37,11 @@
     -fx-background-insets:   1;
     -fx-background-radius:   15;
     -fx-padding:             -9 5 -11 0;
-    -fx-border-image-source: url("../images/search-box.png");
+    -fx-border-image-source: url('../images/search-box.png');
     -fx-border-image-slice:  12 12 12 22 fill;
     -fx-border-image-width:  12 12 12 22;
     -fx-border-image-repeat: stretch;
-    -fx-font:                normal italic 14pt "Source Sans Pro";
+    -fx-font:                normal italic 14pt 'Source Sans Pro';
     -fx-text-fill:           white;
     -fx-prompt-text-fill:    #C8C8C8;
 }
@@ -50,17 +50,17 @@
     -fx-background-color:    linear-gradient(#373737, #3A3A3A);
     -fx-background-insets:   -1.4, 1;
     -fx-background-radius:   14.4;
-    -fx-font:                14pt "Source Sans Pro";
+    -fx-font:                14pt 'Source Sans Pro';
     -fx-text-fill:           white;
 }
 
 #searchClearButton {
     -fx-background-color:    null;
-    -fx-background-image:    url("../images/search-clear.png");
+    -fx-background-image:    url('../images/search-clear.png');
     -fx-background-repeat:   no-repeat;
 }
 
 #searchClearButton:hover {
-    -fx-background-image:    url("../images/search-clear-over.png");
+    -fx-background-image:    url('../images/search-clear-over.png');
     -fx-background-repeat:   no-repeat;
 }

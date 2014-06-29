@@ -3,7 +3,7 @@
  *
  * The MIT License
  *
- * Copyright 2011-2013 Andrey Pudov.
+ * Copyright 2011-2014 Andrey Pudov.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -112,63 +112,54 @@ public class IntelliJusticeController implements Initializable {
      */
     @Override
     public void initialize(final URL url, final ResourceBundle rb) {
-        windowButtons.setOnAction(new EventHandler<WindowButtonsEvent>() {
-            @Override
-            public void handle(WindowButtonsEvent event) {
-                switch (event.getState()) {
-                    case CLOSED:
-                        Core.closeWindow();
-                        break;
-                    case MINIMIZED:
-                        Core.minimizeWindow();
-                        break;
-                    case MAXIMIZED:
-                        Core.maximizeWindow();
-                        break;
-                    default:
-                        LOG.severe("Unpredictable value for enumeration.");
-                        throw new AssertionError(event.getState().name());
-                }
+        windowButtons.setOnAction((WindowButtonsEvent event) -> {
+            switch (event.getState()) {
+                case CLOSED:
+                    Core.closeWindow();
+                    break;
+                case MINIMIZED:
+                    Core.minimizeWindow();
+                    break;
+                case MAXIMIZED:
+                    Core.maximizeWindow();
+                    break;
+                default:
+                    LOG.severe("Unpredictable value for enumeration.");
+                    throw new AssertionError(event.getState().name());
             }
         });
 
-        moduleBar.setOnAction(new EventHandler<ModuleBarEvent>() {
-            @Override
-            public void handle(final ModuleBarEvent event) {
-                moduleRegion.getChildren().clear();
-
-                switch (event.getState()) {
-                    case HOME:
-                        currentModule = HomeModule.getInstance();
-                        break;
-                    case LIBRARY:
-                        currentModule = LibraryModule.getInstance();
-                        break;
-                    case SCOREBOARD:
-                        currentModule = BoardModule.getInstance();
-                        break;
-                    case SETTINGS:
-                        currentModule = SettingsModule.getInstance();
-                        break;
-                    case HELP:
-                        currentModule = HelpModule.getInstance();
-                        break;
-                    default:
-                        LOG.severe("Unpredictable value for enumeration.");
-                        throw new AssertionError(event.getState().name());
-                }
-
-                /* specify global values to the module and add it to app */
-                currentModule.search(searchBar.getPattern());
-                moduleRegion.getChildren().add((Node) currentModule);
+        moduleBar.setOnAction((final ModuleBarEvent event) -> {
+            moduleRegion.getChildren().clear();
+            
+            switch (event.getState()) {
+                case HOME:
+                    currentModule = HomeModule.getInstance();
+                    break;
+                case LIBRARY:
+                    currentModule = LibraryModule.getInstance();
+                    break;
+                case SCOREBOARD:
+                    currentModule = BoardModule.getInstance();
+                    break;
+                case SETTINGS:
+                    currentModule = SettingsModule.getInstance();
+                    break;
+                case HELP:
+                    currentModule = HelpModule.getInstance();
+                    break;
+                default:
+                    LOG.severe("Unpredictable value for enumeration.");
+                    throw new AssertionError(event.getState().name());
             }
+            
+            /* specify global values to the module and add it to app */
+            currentModule.search(searchBar.getPattern());
+            moduleRegion.getChildren().add((Node) currentModule);
         });
 
-        searchBar.addSearchListener(new SearchEventListener() {
-            @Override
-            public void handleSearchEvent(SearchEvent event) {
-                currentModule.search(event.getPattern());
-            }
+        searchBar.addSearchListener((SearchEvent event) -> {
+            currentModule.search(event.getPattern());
         });
 
         /* set home module at start */

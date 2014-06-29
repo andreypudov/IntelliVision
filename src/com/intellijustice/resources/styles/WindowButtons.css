@@ -1,9 +1,9 @@
 /*
- * IntelliJustice Intelligent Referee Assistant System 
+ * IntelliJustice Intelligent Referee Assistant System
  *
  * The MIT License
  *
- * Copyright 2011-2013 Andrey Pudov.
+ * Copyright 2011-2014 Andrey Pudov.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -39,29 +39,29 @@
 }
 
 #windowButtonsClose {
-    -fx-background-image:    url("../images/button-close-unfocused.png");
+    -fx-background-image:    url('../images/button-close-unfocused.png');
     -fx-padding:             10 0 0 26;
 }
 
 #windowButtonsMinimize {
-    -fx-background-image:    url("../images/button-minimize-unfocused.png");
+    -fx-background-image:    url('../images/button-minimize-unfocused.png');
     -fx-padding:             10 0 0 20;
 }
 
 #windowButtonsMaximize {
-    -fx-background-image:    url("../images/button-maximize-unfocused.png");
+    -fx-background-image:    url('../images/button-maximize-unfocused.png');
     -fx-padding:             10 0 0 20;
 }
 
 #windowButtonsClose:hover {
-    -fx-background-image:    url("../images/button-close-focused.png");
+    -fx-background-image:    url('../images/button-close-focused.png');
 }
 
 #windowButtonsMinimize:hover {
-    -fx-background-image:    url("../images/button-minimize-focused.png");
+    -fx-background-image:    url('../images/button-minimize-focused.png');
 }
 
 #windowButtonsMaximize:hover {
-    -fx-background-image:    url("../images/button-maximize-focused.png");
+    -fx-background-image:    url('../images/button-maximize-focused.png');
 }
 

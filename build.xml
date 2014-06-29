@@ -73,7 +73,6 @@
     <!-- Embed external fonts -->
     <target name="-post-compile" depends="init">
         <mkdir dir="${build.classes.dir}/META-INF"/>
-        <copy file="fonts.mf" todir="${build.classes.dir}/META-INF"/>
     </target>
 
     <!-- Obfuscate binary file -->

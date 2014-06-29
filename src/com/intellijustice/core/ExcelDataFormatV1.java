@@ -3,7 +3,7 @@
  *
  * The MIT License
  *
- * Copyright 2011-2013 Andrey Pudov.
+ * Copyright 2011-2014 Andrey Pudov.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -365,7 +365,7 @@ public class ExcelDataFormatV1 implements ExcelDataFormatDefault {
 
                 /* add entry to the competition */
                 competition.addEntry(entry);
-            } catch (Exception e) {
+            } catch (final Exception e) {
                 throw new IncorrectFormatException(
                         "The result entry for competition "
                         + competition + " is incorrect.");
@@ -470,7 +470,7 @@ public class ExcelDataFormatV1 implements ExcelDataFormatDefault {
                     return (int) (formatter.parse(date)).getTime();
                 }
             }
-        } catch (Exception e) {
+        } catch (final Exception e) {
             return 0;
         }
 

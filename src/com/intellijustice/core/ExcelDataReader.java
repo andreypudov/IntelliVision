@@ -3,7 +3,7 @@
  *
  * The MIT License
  *
- * Copyright 2011-2013 Andrey Pudov.
+ * Copyright 2011-2014 Andrey Pudov.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -86,14 +86,9 @@ public class ExcelDataReader {
         evaluators.add(evaluator);
 
         for (final File book : worksheet.getParentFile().listFiles(
-                new FileFilter() {
-                    @Override
-                    public boolean accept(final File file) {
-                        return file.getName().toLowerCase(
-                                ).endsWith(".xls")
-                                /* skip worksheet itself */
-                                && (file.equals(worksheet) == false);
-                }})) {
+            (final File file) -> file.getName().toLowerCase().endsWith(".xls")
+                /* skip worksheet itself */
+                && (file.equals(worksheet) == false))) {
             /* add evaluator and workbook file name to the list */
             evaluators.add(new HSSFFormulaEvaluator(
                     new HSSFWorkbook(new FileInputStream(book))));

@@ -1,9 +1,9 @@
 /*
- * IntelliJustice Intelligent Referee Assistant System 
+ * IntelliJustice Intelligent Referee Assistant System
  *
  * The MIT License
  *
- * Copyright 2011-2013 Andrey Pudov.
+ * Copyright 2011-2014 Andrey Pudov.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -72,66 +72,50 @@ public class ServerPanelController implements Initializable {
         /*
          * The series of user input filetr handlers.
          */
-        machineNameField.addEventFilter(KeyEvent.KEY_TYPED,
-                new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(final KeyEvent event) {
-                char[] array  = event.getCharacter().toCharArray();
-                char   letter = array[array.length - 1];
-
-                /* XML invalid characters */
-                if ((letter == '&') || (letter == '<') || (letter == '>')
-                        || (letter == '\'') || (letter == '\"')) {
-                    event.consume();
-                }
+        machineNameField.addEventFilter(KeyEvent.KEY_TYPED, (final KeyEvent event) -> {
+            char[] array  = event.getCharacter().toCharArray();
+            char   letter = array[array.length - 1];
+            
+            /* XML invalid characters */
+            if ((letter == '&') || (letter == '<') || (letter == '>')
+                    || (letter == '\'') || (letter == '\"')) {
+                event.consume();
             }
         });
 
-        machineAddressField.addEventFilter(KeyEvent.KEY_TYPED,
-                new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(final KeyEvent event) {
-                char[] array  = event.getCharacter().toCharArray();
-                char   letter = array[array.length - 1];
-
-                /* only alphabet and digit letters, or numbers */
-                if ((Character.isLetterOrDigit(letter) == false)
-                        && (letter != '-') && (letter != '.')
-                        && (letter != ':')) {
-                    event.consume();
-                }
+        machineAddressField.addEventFilter(KeyEvent.KEY_TYPED, (final KeyEvent event) -> {
+            char[] array  = event.getCharacter().toCharArray();
+            char   letter = array[array.length - 1];
+            
+            /* only alphabet and digit letters, or numbers */
+            if ((Character.isLetterOrDigit(letter) == false)
+                    && (letter != '-') && (letter != '.')
+                    && (letter != ':')) {
+                event.consume();
             }
         });
 
-        userNameField.addEventFilter(KeyEvent.KEY_TYPED,
-                new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(final KeyEvent event) {
-                char[] array  = event.getCharacter().toCharArray();
-                char   letter = array[array.length - 1];
-
-                /* XML invalid characters and space */
-                if ((letter == ' ') || (letter == '&') || (letter == '<')
-                        || (letter == '>') || (letter == '\'')
-                        || (letter == '\"')) {
-                    event.consume();
-                }
+        userNameField.addEventFilter(KeyEvent.KEY_TYPED, (final KeyEvent event) -> {
+            char[] array  = event.getCharacter().toCharArray();
+            char   letter = array[array.length - 1];
+            
+            /* XML invalid characters and space */
+            if ((letter == ' ') || (letter == '&') || (letter == '<')
+                    || (letter == '>') || (letter == '\'')
+                    || (letter == '\"')) {
+                event.consume();
             }
         });
 
-        userPasswordField.addEventFilter(KeyEvent.KEY_TYPED,
-                new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(final KeyEvent event) {
-                char[] array  = event.getCharacter().toCharArray();
-                char   letter = array[array.length - 1];
-
-                /* XML invalid characters and space */
-                if ((letter == ' ') || (letter == '&') || (letter == '<')
-                        || (letter == '>') || (letter == '\'')
-                        || (letter == '\"')) {
-                    event.consume();
-                }
+        userPasswordField.addEventFilter(KeyEvent.KEY_TYPED, (final KeyEvent event) -> {
+            char[] array  = event.getCharacter().toCharArray();
+            char   letter = array[array.length - 1];
+            
+            /* XML invalid characters and space */
+            if ((letter == ' ') || (letter == '&') || (letter == '<')
+                    || (letter == '>') || (letter == '\'')
+                    || (letter == '\"')) {
+                event.consume();
             }
         });
 
@@ -139,39 +123,23 @@ public class ServerPanelController implements Initializable {
          * The series of remote machine property handlers.
          */
         machineNameField.textProperty().addListener(
-                new ChangeListener<String>() {
-            @Override
-            public void changed(final ObservableValue<? extends String> ov,
-                                final String t, final String t1) {
-                //machine.setName(t1);
-            }
+                (final ObservableValue<? extends String> ov, final String t, final String t1) -> {
+            //machine.setName(t1);
         });
 
         userNameField.textProperty().addListener(
-                new ChangeListener<String>() {
-            @Override
-            public void changed(final ObservableValue<? extends String> ov,
-                                final String t, final String t1) {
-                //machine.setUserName(t1);
-            }
+                (final ObservableValue<? extends String> ov, final String t, final String t1) -> {
+            //machine.setUserName(t1);
         });
 
         userPasswordField.textProperty().addListener(
-                new ChangeListener<String>() {
-            @Override
-            public void changed(final ObservableValue<? extends String> ov,
-                                final String t, final String t1) {
-                //machine.setUserPassword(t1);
-            }
+                (final ObservableValue<? extends String> ov, final String t, final String t1) -> {
+            //machine.setUserPassword(t1);
         });
 
         machineAddressField.textProperty().addListener(
-                new ChangeListener<String>() {
-            @Override
-            public void changed(final ObservableValue<? extends String> ov,
-                                final String t, final String t1) {
-                //machine.setAddress(t1);
-            }
+                (final ObservableValue<? extends String> ov, final String t, final String t1) -> {
+            //machine.setAddress(t1);
         });
     }
 }

@@ -3,7 +3,7 @@
  *
  * The MIT License
  *
- * Copyright 2011-2013 Andrey Pudov.
+ * Copyright 2011-2014 Andrey Pudov.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -36,7 +36,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.util.Callback;
 
 import java.text.DateFormat;
@@ -277,7 +276,7 @@ public class RunningCellFactory {
                     private String getString() {
                         return (getItem() == null)
                                 ? ""
-                                : getItem().toString();
+                                : getItem();
                     }
                 };
 
@@ -331,7 +330,7 @@ public class RunningCellFactory {
                     private String getString() {
                         return (getItem() == null)
                                 ? ""
-                                : getItem().toString();
+                                : getItem();
                     }
                 };
 

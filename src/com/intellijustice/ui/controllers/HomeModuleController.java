@@ -3,7 +3,7 @@
  *
  * The MIT License
  *
- * Copyright 2011-2013 Andrey Pudov.
+ * Copyright 2011-2014 Andrey Pudov.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,7 +27,6 @@
 package com.intellijustice.ui.controllers;
 
 import com.intellijustice.core.Championship;
-import com.intellijustice.core.Competition;
 import com.intellijustice.core.DefaultDataProvider;
 import com.intellijustice.ui.controls.CompetitionBar;
 import com.intellijustice.ui.controls.CompetitionPanel;
@@ -36,12 +35,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
@@ -87,68 +83,55 @@ public class HomeModuleController implements Initializable {
     @Override
     public void initialize(final URL url, final ResourceBundle rb) {
         /* aligns competition tiles on the pane */
-        homeModule.widthProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(final ObservableValue<? extends Number> ov,
-                                final Number t, final Number t1) {
-                // TODO find scroll bar visible property
-                final boolean scrollBarShown = true;
-
-                final int workingWidth = t1.intValue()
-                        - (HORIZONTAL_PADDING + HORIZONTAL_PADDING)
-                        - ((scrollBarShown ? SCROLL_BAR_WIDTH : 0));
-                final int tilesPerRow  = workingWidth
-                        / (TILE_MIN_WIDTH + HORIZONTAL_GAP);
-                final int tileWidth    = (workingWidth
-                        - ((tilesPerRow - 1) * HORIZONTAL_GAP)) / tilesPerRow;
-
-                for (Node node : competitionList.getChildren()) {
-                    if (node instanceof CompetitionBar) {
-                        final CompetitionBar bar = (CompetitionBar) node;
-                        bar.setPrefWidth(tileWidth);
-                    } else {
-                        final CompetitionPanel panel = (CompetitionPanel) node;
-                        panel.setPrefWidth(workingWidth);
-                    }
+        homeModule.widthProperty().addListener(
+            (final ObservableValue<? extends Number> ov, final Number t, final Number t1) -> {
+            // TODO find scroll bar visible property
+            final boolean scrollBarShown = true;
+            
+            final int workingWidth = t1.intValue()
+                    - (HORIZONTAL_PADDING + HORIZONTAL_PADDING)
+                    - ((scrollBarShown ? SCROLL_BAR_WIDTH : 0));
+            final int tilesPerRow  = workingWidth
+                    / (TILE_MIN_WIDTH + HORIZONTAL_GAP);
+            final int tileWidth    = (workingWidth
+                    - ((tilesPerRow - 1) * HORIZONTAL_GAP)) / tilesPerRow;
+            
+            competitionList.getChildren().stream().forEach((node) -> {
+                if (node instanceof CompetitionBar) {
+                    final CompetitionBar bar = (CompetitionBar) node;
+                    bar.setPrefWidth(tileWidth);
+                } else {
+                    final CompetitionPanel panel = (CompetitionPanel) node;
+                    panel.setPrefWidth(workingWidth);
                 }
-
-                /* update tiles layout */
-                competitionList.layout();
-            }});
+            });
+            
+            /* update tiles layout */
+            competitionList.layout();
+        });
 
         /* remove panel in case of click on free place */
-        competitionList.addEventHandler(MouseEvent.MOUSE_CLICKED,
-                new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent me) {
-                        if (competitionPanel != null) {
-                            competitionList.getChildren().remove(competitionPanel);
-                            competitionPanel = null;
-
-                            for (Node node : competitionList.getChildren()) {
-                                if (node instanceof CompetitionBar) {
-                                    final CompetitionBar bar = (CompetitionBar) node;
-                                    bar.setSelected(false);
-                                }
-                            }
-                        }
-                    }
+        competitionList.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent me) -> {
+            if (competitionPanel != null) {
+                competitionList.getChildren().remove(competitionPanel);
+                competitionPanel = null;
+                
+                competitionList.getChildren().stream().filter((node) -> 
+                        (node instanceof CompetitionBar)).map((node) -> 
+                                (CompetitionBar) node).forEach((bar) -> {
+                    bar.setSelected(false);
                 });
+            }
+        });
 
         /* update competition data on change */
         Core.getDataProvider().championshipProperty().addListener(
-                new ChangeListener<Championship>() {
-            @Override
-            public void changed(ObservableValue<? extends Championship> ov,
-                                Championship t, Championship t1) {
+            (ObservableValue<? extends Championship> ov, Championship t, Championship t1) -> {
                 /* update the tiles in FX thread when possible */
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        update();
-                    }
+                Platform.runLater(() -> {
+                    update();
                 });
-            }});
+        });
 
         /* update competition data */
         update();
@@ -161,25 +144,21 @@ public class HomeModuleController implements Initializable {
         final Championship championship = provider.getChampionship();
         competitionList.getChildren().clear();
 
-        for (Competition competition : championship.getCompetitionList()) {
-            final CompetitionBar bar = new CompetitionBar(competition);
-
-            bar.addEventHandler(MouseEvent.MOUSE_CLICKED,
-                    new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(final MouseEvent event) {
-
+        championship.getCompetitionList().stream().map((competition) -> 
+            new CompetitionBar(competition)).map((bar) -> {
+                bar.addEventHandler(MouseEvent.MOUSE_CLICKED, (final MouseEvent event) -> {
                     /* resize competition bar */
                     bar.setSelected(true);
 
                     /* show competition panel */
                     displayPanel(bar);
                     event.consume();
-                }
-            });
+                });
 
+                return bar;
+        }).forEach((bar) -> {
             competitionList.getChildren().add(bar);
-        }
+        });
     }
 
     /**

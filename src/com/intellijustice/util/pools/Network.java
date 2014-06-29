@@ -3,7 +3,7 @@
  *
  * The MIT License
  *
- * Copyright 2011-2013 Andrey Pudov.
+ * Copyright 2011-2014 Andrey Pudov.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -56,53 +56,62 @@ public enum Network {
 
     static {
         RegistryListener listener = new RegistryListener() {
+            @Override
             public void remoteDeviceDiscoveryStarted(final Registry registry,
                                                      final RemoteDevice device) {
                 LOG.log(Level.INFO, "Discovery started: {0}",
                         device.getDisplayString());
             }
 
+            @Override
             public void remoteDeviceDiscoveryFailed(final Registry registry,
                     final RemoteDevice device, final Exception ex) {
                 LOG.log(Level.INFO, "Discovery failed: {0}",
                         device.getDisplayString());
             }
 
+            @Override
             public void remoteDeviceAdded(final Registry registry,
                                           final RemoteDevice device) {
                 LOG.log(Level.INFO, "Remote device available: {0}",
                         device.getDisplayString());
             }
 
+            @Override
             public void remoteDeviceUpdated(final Registry registry,
                                             final RemoteDevice device) {
                 LOG.log(Level.INFO, "Remote device updated: {0}",
                         device.getDisplayString());
             }
 
+            @Override
             public void remoteDeviceRemoved(final Registry registry,
                                             final RemoteDevice device) {
                 LOG.log(Level.INFO, "Remote device removed: {0}",
                         device.getDisplayString());
             }
 
+            @Override
             public void localDeviceAdded(final Registry registry,
                                          final LocalDevice device) {
                 LOG.log(Level.INFO, "Local device added: {0}",
                         device.getDisplayString());
             }
 
+            @Override
             public void localDeviceRemoved(final Registry registry,
                                            final LocalDevice device) {
                 LOG.log(Level.INFO, "Local device removed: {0}",
                         device.getDisplayString());
             }
 
+            @Override
             public void beforeShutdown(final Registry registry) {
                 LOG.log(Level.INFO, "Before shutdown, the registry has devices: {0}",
                         registry.getDevices().size());
             }
 
+            @Override
             public void afterShutdown() {
                 LOG.info("Shutdown of registry complete!");
             }

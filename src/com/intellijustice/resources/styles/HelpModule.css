@@ -34,15 +34,15 @@
 */
 
 .label {
-    -fx-font:      normal normal 13pt "Source Sans Pro";
+    -fx-font:      normal normal 13pt 'Source Sans Pro';
     -fx-text-fill: #E3E3DF;
 }
 
 #helpProductName {
-    -fx-font:      normal normal 14pt "Source Sans Pro Semibold";
+    -fx-font:      normal normal 14pt 'Source Sans Pro Semibold';
     -fx-effect:    dropshadow(one-pass-box, #464646, 1, 0, 0, -1);
 }
 
 #helpWarning {
-    -fx-font:      normal italic 13pt "Source Sans Pro";
+    -fx-font:      normal italic 13pt 'Source Sans Pro';
 }

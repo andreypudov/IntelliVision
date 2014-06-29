@@ -3,7 +3,7 @@
  *
  * The MIT License
  *
- * Copyright 2011-2013 Andrey Pudov.
+ * Copyright 2011-2014 Andrey Pudov.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -123,7 +123,7 @@ public class RunningDataModel {
      * @return the personal result of the athlete in the discipline.
      */
     public int getPersonal() {
-        return personal.getValue().intValue();
+        return personal.getValue();
     }
 
     /**
@@ -132,7 +132,7 @@ public class RunningDataModel {
      * @return the season result of the athlete in the discipline.
      */
     public int getSeason() {
-        return season.getValue().intValue();
+        return season.getValue();
     }
 
     /**
@@ -150,7 +150,7 @@ public class RunningDataModel {
      * @return the result value.
      */
     public int getResult() {
-        return result.getValue().intValue();
+        return result.getValue();
     }
 
     /**

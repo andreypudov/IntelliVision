@@ -1,9 +1,9 @@
 /*
- * IntelliJustice Intelligent Referee Assistant System 
+ * IntelliJustice Intelligent Referee Assistant System
  *
  * The MIT License
  *
- * Copyright 2011-2013 Andrey Pudov.
+ * Copyright 2011-2014 Andrey Pudov.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -83,15 +83,12 @@ public class SearchBarController implements Initializable {
             }
         });*/
 
-        searchTextField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(final ObservableValue<? extends String> ov,
-                                final String t, final String t1) {
-                searchClearButton.setVisible(
-                        searchTextField.getText().length() != 0);
-
-                handler.fireEvent(searchTextField.getText());
-            }
+        searchTextField.textProperty().addListener(
+                (final ObservableValue<? extends String> ov, final String t, final String t1) -> {
+            searchClearButton.setVisible(
+                    searchTextField.getText().length() != 0);
+            
+            handler.fireEvent(searchTextField.getText());
         });
     }
 

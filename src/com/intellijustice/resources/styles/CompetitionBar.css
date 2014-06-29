@@ -38,11 +38,11 @@
 
 #competitionName {
     -fx-padding:           6 0 0 0;
-    -fx-font:              bold normal 14pt "Source Sans Pro Semibold";
+    -fx-font:              bold normal 14pt 'Source Sans Pro Semibold';
     -fx-text-fill:         #E8E8EF;
 }
 
 #competitionType {
-    -fx-font:              normal 12pt "Source Sans Pro Light";
+    -fx-font:              normal 12pt 'Source Sans Pro Light';
     -fx-text-fill:         #C0C0C0;
 }

@@ -1,9 +1,9 @@
 /*
- * IntelliJustice Intelligent Referee Assistant System 
+ * IntelliJustice Intelligent Referee Assistant System
  *
  * The MIT License
  *
- * Copyright 2011-2013 Andrey Pudov.
+ * Copyright 2011-2014 Andrey Pudov.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,14 +28,7 @@ package com.intellijustice.ui.controls;
 
 import javafx.event.ActionEvent;
 
-/**
- * An event represents module bar action fired on choosing a module.
- *
- * @author    Andrey Pudov        <mail@andreypudov.com>
- * @version   0.00.00
- * %name      ModuleBarEvent.java
- * %date      08:40:00 PM, Oct 26, 2012
- */
+
 public class ModuleBarEvent extends ActionEvent {
 
     private static final long serialVersionUID = 0x73db_f19f_c5d3_3626L;

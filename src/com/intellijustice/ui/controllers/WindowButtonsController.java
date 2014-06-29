@@ -1,9 +1,9 @@
 /*
- * IntelliJustice Intelligent Referee Assistant System 
+ * IntelliJustice Intelligent Referee Assistant System
  *
  * The MIT License
  *
- * Copyright 2011-2013 Andrey Pudov.
+ * Copyright 2011-2014 Andrey Pudov.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -91,8 +91,7 @@ public class WindowButtonsController implements Initializable {
      */
     @FXML
     private void windowButtonsCloseOnAction(final ActionEvent event) {
-        onAction.get().handle(
-                new WindowButtonsEvent(WindowButtonsState.CLOSED));
+        onAction.get().handle(new WindowButtonsEvent(WindowButtonsState.CLOSED));
     }
 
     /**
@@ -102,8 +101,7 @@ public class WindowButtonsController implements Initializable {
      */
     @FXML
     private void windowButtonsMinimizeOnAction(final ActionEvent event) {
-        onAction.get().handle(
-                new WindowButtonsEvent(WindowButtonsState.MINIMIZED));
+        onAction.get().handle(new WindowButtonsEvent(WindowButtonsState.MINIMIZED));
     }
 
     /**
@@ -113,7 +111,6 @@ public class WindowButtonsController implements Initializable {
      */
     @FXML
     private void windowButtonsMaximizeOnAction(final ActionEvent event) {
-        onAction.get().handle(
-                new WindowButtonsEvent(WindowButtonsState.MAXIMIZED));
+        onAction.get().handle(new WindowButtonsEvent(WindowButtonsState.MAXIMIZED));
     }
 }

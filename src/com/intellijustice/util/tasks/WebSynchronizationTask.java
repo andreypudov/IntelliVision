@@ -3,7 +3,7 @@
  *
  * The MIT License
  *
- * Copyright 2011-2013 Andrey Pudov.
+ * Copyright 2011-2014 Andrey Pudov.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,7 +30,7 @@ import com.intellijustice.util.pools.Core;
 import com.intellijustice.util.pools.Reviser;
 
 /**
- * The website data synchronization task.
+ * The web site data synchronization task.
  *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
@@ -52,6 +52,6 @@ public class WebSynchronizationTask implements Runnable {
 
     @Override
     public void run() {
-        reviser.synchronize();;
+        reviser.synchronize();
     }
 }

@@ -3,7 +3,7 @@
  *
  * The MIT License
  *
- * Copyright 2011-2013 Andrey Pudov.
+ * Copyright 2011-2014 Andrey Pudov.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -159,7 +159,7 @@ public class Core {
         }
 
         LOG.info("IntelliJustice Intelligent Referee Assistant System\n"
-                + "Copyright (C) 2011-2013 Andrey Pudov. "
+                + "Copyright (C) 2011-2014 Andrey Pudov. "
                 + "All rights reserved.\n");
 
         /* adds first-level module to the application window */
@@ -232,10 +232,7 @@ public class Core {
                 "intellijustice.window.height")));
 
         primaryStage.fullScreenProperty().addListener(
-                new ChangeListener<Boolean>(){
-            @Override
-            public void changed(final ObservableValue<? extends Boolean> ov,
-                                final Boolean t, final Boolean t1) {
+            (final ObservableValue<? extends Boolean> ov, final Boolean t, final Boolean t1) -> {
                 if (ov.getValue()) {
                     AnchorPane.setBottomAnchor(primaryPanel, 0.0);
                     AnchorPane.setLeftAnchor(primaryPanel,   0.0);
@@ -251,15 +248,12 @@ public class Core {
 
                     primaryScene.getRoot().setStyle(primarySceneStyle);
                 }
-            }});
+        });
 
-        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(final WindowEvent event) {
-                closeWindow();
-
-                event.consume();
-            }
+        primaryStage.setOnCloseRequest((final WindowEvent event) -> {
+            closeWindow();
+            
+            event.consume();
         });
     }
 

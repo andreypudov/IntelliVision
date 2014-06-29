@@ -3,7 +3,7 @@
  *
  * The MIT License
  *
- * Copyright 2011-2013 Andrey Pudov.
+ * Copyright 2011-2014 Andrey Pudov.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -151,12 +151,7 @@ public class UpdateTask implements Runnable {
 
                 /* remove temporary files */
                 for (File file : new File(UPDATES_DIRECTORY).listFiles(
-                        new FileFilter() {
-                            @Override
-                            public boolean accept(File pathname) {
-                                return pathname.getName().toLowerCase(
-                                        ).endsWith(".download");
-                            }})) {
+                        (File pathname) -> pathname.getName().toLowerCase().endsWith(".download"))) {
                     file.delete();
                 }
 
@@ -453,25 +448,22 @@ public class UpdateTask implements Runnable {
             /* create the parent directory structure if needed */
             destinationParent.mkdirs();
 
-            if (entry.isDirectory() == false) {
+            if (entry.isDirectory() == false) {                
                 try (final BufferedInputStream inputStream
                         = new BufferedInputStream(zip.getInputStream(entry))) {
                     int currentByte;
                     /* establish buffer for writing file */
                     final byte buffer[] = new byte[BUFFER_LENGTH];
 
-                    /* write the current file to disk */
-                   final BufferedOutputStream outputStream
-                           = new BufferedOutputStream(
-                           new FileOutputStream(destFile), BUFFER_LENGTH);
-
-                    /* read and write until last byte is encountered */
-                    while ((currentByte
-                        = inputStream.read(buffer, 0, BUFFER_LENGTH)) != -1) {
-                        outputStream.write(buffer, 0, currentByte);
+                    /* write the current file to disk */ 
+                    try (final BufferedOutputStream outputStream = new BufferedOutputStream(
+                            new FileOutputStream(destFile), BUFFER_LENGTH)) {
+                        /* read and write until last byte is encountered */
+                        while ((currentByte = inputStream.read(buffer, 0, BUFFER_LENGTH)) != -1) {
+                            outputStream.write(buffer, 0, currentByte);
+                        }
+                        outputStream.flush();
                     }
-                    outputStream.flush();
-                    outputStream.close();
                 }
             }
 

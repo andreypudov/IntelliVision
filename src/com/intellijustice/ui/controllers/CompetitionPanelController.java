@@ -3,7 +3,7 @@
  *
  * The MIT License
  *
- * Copyright 2011-2013 Andrey Pudov.
+ * Copyright 2011-2014 Andrey Pudov.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -206,16 +206,16 @@ public class CompetitionPanelController implements Initializable {
         resultColumn.setMinWidth(60.0);
         reactionColumn.setMinWidth(60.0);
 
-        rankColumn.setCellValueFactory(new PropertyValueFactory<RunningDataModel, Short>("rank"));
-        bibColumn.setCellValueFactory(new PropertyValueFactory<RunningDataModel, Short>("bib"));
-        athleteColumn.setCellValueFactory(new PropertyValueFactory<RunningDataModel, String>("athlete"));
-        birthdayColumn.setCellValueFactory(new PropertyValueFactory<RunningDataModel, Long>("birthday"));
-        countryColumn.setCellValueFactory(new PropertyValueFactory<RunningDataModel, String>("country"));
-        personalColumn.setCellValueFactory(new PropertyValueFactory<RunningDataModel, Integer>("personal"));
-        seasonColumn.setCellValueFactory(new PropertyValueFactory<RunningDataModel, Integer>("season"));
-        lineColumn.setCellValueFactory(new PropertyValueFactory<RunningDataModel, Short>("line"));
-        resultColumn.setCellValueFactory(new PropertyValueFactory<RunningDataModel, Integer>("result"));
-        reactionColumn.setCellValueFactory(new PropertyValueFactory<RunningDataModel, Short>("reaction"));
+        rankColumn.setCellValueFactory(new PropertyValueFactory<>("rank"));
+        bibColumn.setCellValueFactory(new PropertyValueFactory<>("bib"));
+        athleteColumn.setCellValueFactory(new PropertyValueFactory<>("athlete"));
+        birthdayColumn.setCellValueFactory(new PropertyValueFactory<>("birthday"));
+        countryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
+        personalColumn.setCellValueFactory(new PropertyValueFactory<>("personal"));
+        seasonColumn.setCellValueFactory(new PropertyValueFactory<>("season"));
+        lineColumn.setCellValueFactory(new PropertyValueFactory<>("line"));
+        resultColumn.setCellValueFactory(new PropertyValueFactory<>("result"));
+        reactionColumn.setCellValueFactory(new PropertyValueFactory<>("reaction"));
 
         athleteColumn.setCellFactory(RunningCellFactory.leftAlignedName());
         birthdayColumn.setCellFactory(RunningCellFactory.rightAlignedDate());

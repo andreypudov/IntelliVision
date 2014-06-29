@@ -3,7 +3,7 @@
  *
  * The MIT License
  *
- * Copyright 2011-2013 Andrey Pudov.
+ * Copyright 2011-2014 Andrey Pudov.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -95,8 +95,7 @@ public class ModuleBarController implements Initializable {
             return;
         }
 
-        onAction.get().handle(
-                new ModuleBarEvent(ModuleBarState.HOME));
+        onAction.get().handle(new ModuleBarEvent(ModuleBarState.HOME));
     }
 
     /**
@@ -112,8 +111,7 @@ public class ModuleBarController implements Initializable {
             return;
         }
 
-        onAction.get().handle(
-                new ModuleBarEvent(ModuleBarState.LIBRARY));
+        onAction.get().handle(new ModuleBarEvent(ModuleBarState.LIBRARY));
     }
 
     /**
@@ -129,8 +127,7 @@ public class ModuleBarController implements Initializable {
             return;
         }
 
-        onAction.get().handle(
-                new ModuleBarEvent(ModuleBarState.SCOREBOARD));
+        onAction.get().handle(new ModuleBarEvent(ModuleBarState.SCOREBOARD));
     }
 
     /**
@@ -146,8 +143,7 @@ public class ModuleBarController implements Initializable {
             return;
         }
 
-        onAction.get().handle(
-                new ModuleBarEvent(ModuleBarState.SETTINGS));
+        onAction.get().handle(new ModuleBarEvent(ModuleBarState.SETTINGS));
     }
 
     /**
@@ -163,8 +159,7 @@ public class ModuleBarController implements Initializable {
             return;
         }
 
-        onAction.get().handle(
-                new ModuleBarEvent(ModuleBarState.HELP));
+        onAction.get().handle(new ModuleBarEvent(ModuleBarState.HELP));
     }
 
 }

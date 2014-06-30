@@ -97,5 +97,6 @@
   </children>
   <stylesheets>
     <URL value="@../styles/IntelliJustice.css" />
+    <URL value="@../styles/Fonts.css" />
   </stylesheets>
 </AnchorPane>

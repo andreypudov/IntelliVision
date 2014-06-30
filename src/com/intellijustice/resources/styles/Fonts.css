@@ -1,0 +1,159 @@
+/*
+ * IntelliJustice Intelligent Referee Assistant System
+ *
+ * The MIT License
+ *
+ * Copyright 2011-2013 Andrey Pudov.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+/*
+    Document   : IntelliJustice.css
+    Created on : Aug 15, 2012, 09:50:00 PM
+    Author     : Andrey Pudov        <mail@andreypudov.com>
+    Description:
+        The global application fonts style.
+*/
+
+/* specify global allpilication fonts */
+@font-face {
+    font-family: 'Source Code Pro';
+    font-style:  normal;
+    font-weight: normal;
+    src:         url('../fonts/SourceCodePro-Regular.otf');
+}
+
+@font-face {
+    font-family: 'Source Code Pro';
+    font-style:  normal;
+    font-weight: bold;
+    src:         url('../fonts/SourceCodePro-Bold.otf');
+}
+
+@font-face {
+    font-family: 'Source Code Pro Black';
+    font-style:  normal;
+    font-weight: normal;
+    src:         url('../fonts/SourceCodePro-Black.otf');
+}
+
+@font-face {
+    font-family: 'Source Code Pro Extra Light';
+    font-style:  normal;
+    font-weight: normal;
+    src:         url('../fonts/SourceCodePro-ExtraLight.otf');
+}
+
+@font-face {
+    font-family: 'Source Code Pro Light';
+    font-style:  normal;
+    font-weight: normal;
+    src:         url('../fonts/SourceCodePro-Light.otf');
+}
+
+@font-face {
+    font-family: 'Source Code Pro Semibold';
+    font-style:  normal;
+    font-weight: normal;
+    src:         url('../fonts/SourceCodePro-Semibold.otf');
+}
+
+@font-face {
+    font-family: 'Source Sans Pro';
+    font-style:  normal;
+    font-weight: normal;
+    src:         url('../fonts/SourceSansPro-Regular.otf');
+}
+
+@font-face {
+    font-family: 'Source Sans Pro';
+    font-style:  normal;
+    font-weight: bold;
+    src:         url('../fonts/SourceSansPro-Bold.otf');
+}
+
+@font-face {
+    font-family: 'Source Sans Pro';
+    font-style:  italic;
+    font-weight: normal;
+    src:         url('../fonts/SourceSansPro-It.otf');
+}
+
+@font-face {
+    font-family: 'Source Sans Pro';
+    font-style:  italic;
+    font-weight: bold;
+    src:         url('../fonts/SourceSansPro-BoldIt.otf');
+}
+
+@font-face {
+    font-family: 'Source Sans Pro Black';
+    font-style:  normal;
+    font-weight: normal;
+    src:         url('../fonts/SourceSansPro-Black.otf');
+}
+
+@font-face {
+    font-family: 'Source Sans Pro Black';
+    font-style:  italic;
+    src:         url('../fonts/SourceSansPro-BlackIt.otf');
+}
+
+@font-face {
+    font-family: 'Source Sans Pro Extra Light';
+    font-style:  normal;
+    font-weight: normal;
+    src:         url('../fonts/SourceSansPro-ExtraLight.otf');
+}
+
+@font-face {
+    font-family: 'Source Sans Pro Extra Light';
+    font-style:  italic;
+    font-weight: normal;
+    src:         url('../fonts/SourceSansPro-ExtraLight.otf');
+}
+
+@font-face {
+    font-family: 'Source Sans Pro Light';
+    font-style:  normal;
+    font-weight: normal;
+    src:         url('../fonts/SourceSansPro-Light.otf');
+}
+
+@font-face {
+    font-family: 'Source Sans Pro Light';
+    font-style:  italic;
+    font-weight: normal;
+    src:         url('../fonts/SourceSansPro-LightIt.otf');
+}
+
+@font-face {
+    font-family: 'Source Sans Pro Semibold';
+    font-style:  normal;
+    font-weight: normal;
+    src:         url('../fonts/SourceSansPro-Semibold.otf');
+}
+
+@font-face {
+    font-family: 'Source Sans Pro Semibold';
+    font-style:  italic;
+    font-weight: normal;
+    src:         url('../fonts/SourceSansPro-SemiboldIt.otf');
+}

@@ -3,7 +3,7 @@
  *
  * The MIT License
  *
- * Copyright 2011-2013 Andrey Pudov.
+ * Copyright 2011-2014 Andrey Pudov.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,106 +31,6 @@
     Description:
         The general application style sheet.
 */
-
-/* specify global allpilication fonts */
-@font-face {
-    font-family: 'Source Code Pro';
-    src:         url('../fonts/SourceCodePro-Regular.otf');
-}
-
-@font-face {
-    font-family: 'Source Code Pro';
-    font-weight: bold;
-    src:         url('../fonts/SourceCodePro-Bold.otf');
-}
-
-@font-face {
-    font-family: 'Source Code Pro Black';
-    src:         url('../fonts/SourceCodePro-Black.otf');
-}
-
-@font-face {
-    font-family: 'Source Code Pro Extra Light';
-    src:         url('../fonts/SourceCodePro-ExtraLight.otf');
-}
-
-@font-face {
-    font-family: 'Source Code Pro Light';
-    src:         url('../fonts/SourceCodePro-Light.otf');
-}
-
-@font-face {
-    font-family: 'Source Code Pro Semibold';
-    src:         url('../fonts/SourceCodePro-Semibold.otf');
-}
-
-@font-face {
-    font-family: 'Source Sans Pro';
-    src:         url('../fonts/SourceSansPro-Regular.otf');
-}
-
-@font-face {
-    font-family: 'Source Sans Pro';
-    font-weight: bold;
-    src:         url('../fonts/SourceSansPro-Bold.otf');
-}
-
-@font-face {
-    font-family: 'Source Sans Pro';
-    font-style:  italic;
-    src:         url('../fonts/SourceSansPro-It.otf');
-}
-
-@font-face {
-    font-family: 'Source Sans Pro';
-    font-style:  italic;
-    font-weight: bold;
-    src:         url('../fonts/SourceSansPro-BoldIt.otf');
-}
-
-@font-face {
-    font-family: 'Source Sans Pro Black';
-    src:         url('../fonts/SourceSansPro-Black.otf');
-}
-
-@font-face {
-    font-family: 'Source Sans Pro Black';
-    font-style:  italic;
-    src:         url('../fonts/SourceSansPro-BlackIt.otf');
-}
-
-@font-face {
-    font-family: 'Source Sans Pro Extra Light';
-    src:         url('../fonts/SourceSansPro-ExtraLight.otf');
-}
-
-@font-face {
-    font-family: 'Source Sans Pro Extra Light';
-    font-style:  italic;
-    src:         url('../fonts/SourceSansPro-ExtraLight.otf');
-}
-
-@font-face {
-    font-family: 'Source Sans Pro Light';
-    src:         url('../fonts/SourceSansPro-Light.otf');
-}
-
-@font-face {
-    font-family: 'Source Sans Pro Light';
-    font-style:  italic;
-    src:         url('../fonts/SourceSansPro-LightIt.otf');
-}
-
-@font-face {
-    font-family: 'Source Sans Pro Semibold';
-    src:         url('../fonts/SourceSansPro-Semibold.otf');
-}
-
-@font-face {
-    font-family: 'Source Sans Pro Semibold';
-    font-style:  italic;
-    src:         url('../fonts/SourceSansPro-SemiboldIt.otf');
-}
 
 #mainPanelRoot {
     -fx-background-insets: 32;

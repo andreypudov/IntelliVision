@@ -41,7 +41,7 @@
     -fx-border-image-slice:  12 12 12 22 fill;
     -fx-border-image-width:  12 12 12 22;
     -fx-border-image-repeat: stretch;
-    -fx-font:                normal italic 14pt 'Source Sans Pro';
+    -fx-font:                normal italic 11pt 'Source Sans Pro';
     -fx-text-fill:           white;
     -fx-prompt-text-fill:    #C8C8C8;
 }
@@ -50,7 +50,7 @@
     -fx-background-color:    linear-gradient(#373737, #3A3A3A);
     -fx-background-insets:   -1.4, 1;
     -fx-background-radius:   14.4;
-    -fx-font:                14pt 'Source Sans Pro';
+    -fx-font:                11pt 'Source Sans Pro';
     -fx-text-fill:           white;
 }
 

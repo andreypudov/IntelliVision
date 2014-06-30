@@ -34,13 +34,19 @@
 
 /* specify global allpilication fonts */
 @font-face {
-    font-family: 'Source Code Pro Black';
-    src:         url('../fonts/SourceCodePro-Black.otf');
+    font-family: 'Source Code Pro';
+    src:         url('../fonts/SourceCodePro-Regular.otf');
 }
 
 @font-face {
-    font-family: 'Source Code Pro Bold';
+    font-family: 'Source Code Pro';
+    font-weight: bold;
     src:         url('../fonts/SourceCodePro-Bold.otf');
+}
+
+@font-face {
+    font-family: 'Source Code Pro Black';
+    src:         url('../fonts/SourceCodePro-Black.otf');
 }
 
 @font-face {
@@ -54,58 +60,8 @@
 }
 
 @font-face {
-    font-family: 'Source Code Pro';
-    src:         url('../fonts/SourceCodePro-Regular.otf');
-}
-
-@font-face {
     font-family: 'Source Code Pro Semibold';
     src:         url('../fonts/SourceCodePro-Semibold.otf');
-}
-
-@font-face {
-    font-family: 'Source Sans Pro Black';
-    src:         url('../fonts/SourceSansPro-Black.otf');
-}
-
-@font-face {
-    font-family: 'Source Sans Pro Black Italic';
-    src:         url('../fonts/SourceSansPro-BlackIt.otf');
-}
-
-@font-face {
-    font-family: 'Source Sans Pro Bold';
-    src:         url('../fonts/SourceSansPro-Bold.otf');
-}
-
-@font-face {
-    font-family: 'Source Sans Pro Bold Italic';
-    src:         url('../fonts/SourceSansPro-BoldIt.otf');
-}
-
-@font-face {
-    font-family: 'Source Sans Pro Extra Light';
-    src:         url('../fonts/SourceSansPro-ExtraLight.otf');
-}
-
-@font-face {
-    font-family: 'Source Sans Pro Extra Light Italic';
-    src:         url('../fonts/SourceSansPro-ExtraLight.otf');
-}
-
-@font-face {
-    font-family: 'Source Sans Pro Italic';
-    src:         url('../fonts/SourceSansPro-It.otf');
-}
-
-@font-face {
-    font-family: 'Source Sans Pro Light';
-    src:         url('../fonts/SourceSansPro-Light.otf');
-}
-
-@font-face {
-    font-family: 'Source Sans Pro Light Italic';
-    src:         url('../fonts/SourceSansPro-LightIt.otf');
 }
 
 @font-face {
@@ -114,12 +70,65 @@
 }
 
 @font-face {
+    font-family: 'Source Sans Pro';
+    font-weight: bold;
+    src:         url('../fonts/SourceSansPro-Bold.otf');
+}
+
+@font-face {
+    font-family: 'Source Sans Pro';
+    font-style:  italic;
+    src:         url('../fonts/SourceSansPro-It.otf');
+}
+
+@font-face {
+    font-family: 'Source Sans Pro';
+    font-style:  italic;
+    font-weight: bold;
+    src:         url('../fonts/SourceSansPro-BoldIt.otf');
+}
+
+@font-face {
+    font-family: 'Source Sans Pro Black';
+    src:         url('../fonts/SourceSansPro-Black.otf');
+}
+
+@font-face {
+    font-family: 'Source Sans Pro Black';
+    font-style:  italic;
+    src:         url('../fonts/SourceSansPro-BlackIt.otf');
+}
+
+@font-face {
+    font-family: 'Source Sans Pro Extra Light';
+    src:         url('../fonts/SourceSansPro-ExtraLight.otf');
+}
+
+@font-face {
+    font-family: 'Source Sans Pro Extra Light';
+    font-style:  italic;
+    src:         url('../fonts/SourceSansPro-ExtraLight.otf');
+}
+
+@font-face {
+    font-family: 'Source Sans Pro Light';
+    src:         url('../fonts/SourceSansPro-Light.otf');
+}
+
+@font-face {
+    font-family: 'Source Sans Pro Light';
+    font-style:  italic;
+    src:         url('../fonts/SourceSansPro-LightIt.otf');
+}
+
+@font-face {
     font-family: 'Source Sans Pro Semibold';
     src:         url('../fonts/SourceSansPro-Semibold.otf');
 }
 
 @font-face {
-    font-family: 'Source Sans Pro Semibold Italic';
+    font-family: 'Source Sans Pro Semibold';
+    font-style:  italic;
     src:         url('../fonts/SourceSansPro-SemiboldIt.otf');
 }
 

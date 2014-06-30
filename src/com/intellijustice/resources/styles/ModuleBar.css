@@ -3,7 +3,7 @@
  *
  * The MIT License
  *
- * Copyright 2011-2013 Andrey Pudov.
+ * Copyright 2011-2014 Andrey Pudov.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,7 +35,7 @@
 #moduleBarHome {
     -fx-background-color: null;
     -fx-graphic:          url('../images/button-home.png');
-    -fx-font:             bold normal 13pt 'Source Sans Pro Light';
+    -fx-font:             09pt 'Source Sans Pro Light';
     -fx-text-fill:        #E3E3DF;
     -fx-smooth:           true;
     -fx-effect:           dropshadow(one-pass-box, #464646, 1, 0, 1, 1);
@@ -44,7 +44,7 @@
 #moduleBarLibrary {
     -fx-background-color: null;
     -fx-graphic:          url('../images/button-library.png');
-    -fx-font:             bold normal 13pt 'Source Sans Pro Light';
+    -fx-font:             09pt 'Source Sans Pro Light';
     -fx-text-fill:        #E3E3DF;
     -fx-smooth:           true;
     -fx-effect:           dropshadow(one-pass-box, #464646, 1, 0, 1, 1);
@@ -53,7 +53,7 @@
 #moduleBarBoard {
     -fx-background-color: null;
     -fx-graphic:          url('../images/button-board.png');
-    -fx-font:             bold normal 13pt 'Source Sans Pro Light';
+    -fx-font:             09pt 'Source Sans Pro Light';
     -fx-text-fill:        #E3E3DF;
     -fx-smooth:           true;
     -fx-effect:           dropshadow(one-pass-box, #464646, 1, 0, 1, 1);
@@ -62,7 +62,7 @@
 #moduleBarRemote {
     -fx-background-color: null;
     -fx-graphic:          url('../images/button-remote.png');
-    -fx-font:             bold normal 13pt 'Source Sans Pro Light';
+    -fx-font:             09pt 'Source Sans Pro Light';
     -fx-text-fill:        #E3E3DF;
     -fx-smooth:           true;
     -fx-effect:           dropshadow(one-pass-box, #464646, 1, 0, 1, 1);
@@ -71,7 +71,7 @@
 #moduleBarSettings {
     -fx-background-color: null;
     -fx-graphic:          url('../images/button-settings.png');
-    -fx-font:             bold normal 13pt 'Source Sans Pro Light';
+    -fx-font:             09pt 'Source Sans Pro Light';
     -fx-text-fill:        #E3E3DF;
     -fx-smooth:           true;
     -fx-effect:           dropshadow(one-pass-box, #464646, 1, 0, 1, 1);
@@ -80,7 +80,7 @@
 #moduleBarHelp {
     -fx-background-color: null;
     -fx-graphic:          url('../images/button-help.png');
-    -fx-font:             bold normal 13pt 'Source Sans Pro Light';
+    -fx-font:             09pt 'Source Sans Pro Light';
     -fx-text-fill:        #E3E3DF;
     -fx-smooth:           true;
     -fx-effect:           dropshadow(one-pass-box, #464646, 1, 0, 1, 1);

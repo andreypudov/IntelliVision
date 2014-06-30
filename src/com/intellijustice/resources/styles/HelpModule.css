@@ -3,7 +3,7 @@
  *
  * The MIT License
  *
- * Copyright 2011-2013 Andrey Pudov.
+ * Copyright 2011-2014 Andrey Pudov.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,15 +34,15 @@
 */
 
 .label {
-    -fx-font:      normal normal 13pt 'Source Sans Pro';
+    -fx-font:      10pt 'Source Sans Pro';
     -fx-text-fill: #E3E3DF;
 }
 
 #helpProductName {
-    -fx-font:      normal normal 14pt 'Source Sans Pro Semibold';
+    -fx-font:      11pt 'Source Sans Pro Semibold';
     -fx-effect:    dropshadow(one-pass-box, #464646, 1, 0, 0, -1);
 }
 
 #helpWarning {
-    -fx-font:      normal italic 13pt 'Source Sans Pro';
+    -fx-font:      italic 10pt 'Source Sans Pro';
 }

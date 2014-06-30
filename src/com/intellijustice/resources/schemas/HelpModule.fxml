@@ -5,7 +5,7 @@
  *
  * The MIT License
  *
- * Copyright 2011-2013 Andrey Pudov.
+ * Copyright 2011-2014 Andrey Pudov.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -61,7 +61,7 @@
             <Label fx:id="helpProductName"
                    text="IntelliJustice Intelligent Referee Assistant System " />
             <Label fx:id="helpProductVersion" text="Version: 1.00.00 Alpha" />
-            <Label fx:id="helpVendorName"     text="© 2013 Andrey Pudov." />
+            <Label fx:id="helpVendorName"     text="© 2014 Andrey Pudov." />
             <Label fx:id="helpCopyright"      text="All rights reserved." />
             <Region prefHeight="20.0" />
             <Label fx:id="helpWarning" wrapText="true"

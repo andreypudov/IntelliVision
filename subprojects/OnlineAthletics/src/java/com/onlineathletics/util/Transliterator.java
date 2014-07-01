@@ -29,6 +29,8 @@ package com.onlineathletics.util;
 import com.intellijustice.iso.LanguageCodes;
 import java.util.Collections;
 import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 /**
  * The wrapper for ICU transliteration library. Provides ability to create 
@@ -45,11 +47,13 @@ public class Transliterator {
             = java.util.logging.Logger.getLogger(
             com.intellijustice.core.Manifest.NAME);
     
-    private static final List<String> TRANSFORMS;
+    private static final SortedMap<String, Transliterator> INSTANCES;
+    private static final List<String>                      TRANSFORMS;
     
     private final com.ibm.icu.text.Transliterator transliterator;
     
     static {
+        INSTANCES  = new TreeMap<>();
         TRANSFORMS = Collections.list(com.ibm.icu.text.Transliterator.getAvailableIDs());
     }
     
@@ -80,8 +84,17 @@ public class Transliterator {
      * @return       the instance of transliterator.
      */
     public static Transliterator getInstance(final String source, final String target) {
+        final String transform = source + "-" + target;
+        Transliterator transliterator = INSTANCES.get(transform);
+        if (transliterator != null) {
+            return transliterator;
+        }
+            
         try {
-            return new Transliterator(source, target);
+            transliterator = new Transliterator(source, target);
+            INSTANCES.put(transform, transliterator);
+            
+            return transliterator;
         } catch (final Exception e) {
             return null;
         }
@@ -107,24 +120,16 @@ public class Transliterator {
      * @return       the ID of the transform.
      */
     private String getTransform(final String source, final String target) {
-        final String sourceFull = LanguageCodes.getName(source);
-        final String targetFull = LanguageCodes.getName(target);
-
-        String transform;
-
-        /* search for full name transform */
-        transform = sourceFull + "-" + targetFull;
-        transform = transformIsExists(transform);
-        if (transform != null) {
-            return transform;
-        }
-
-        /* search for full name with Latin replacement */
-        transform = (sourceFull.equals("English") ? "Latin" : sourceFull) + "-" +
-            (targetFull.equals("English") ? "Latin" : targetFull);
-        transform = transformIsExists(transform);
-        if (transform != null) {
-            return transform;
+        final String[] sourceVariants = {source, LanguageCodes.getName(source), LanguageCodes.getScript(source)};
+        final String[] targetVariants = {target, LanguageCodes.getName(target), LanguageCodes.getScript(target)};
+        
+        for (final String src : sourceVariants) {
+            for (final String trt : targetVariants) {
+                final String transform = transformIsExists(src + "-" + trt);
+                if (transform != null) {
+                    return transform;
+                }
+            }
         }
 
         return null;

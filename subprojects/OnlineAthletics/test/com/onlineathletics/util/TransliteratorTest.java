@@ -64,13 +64,14 @@ public class TransliteratorTest {
     @Test
     public void testGetInstance() {
         System.out.println("getInstance");
-        String source = "";
-        String target = "";
-        Transliterator expResult = null;
-        Transliterator result = Transliterator.getInstance(source, target);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        String[][] pairs = {{"en", "ru"}, {"ru", "en"}};
+        
+        for (String[] pair : pairs) {
+            Transliterator result = Transliterator.getInstance(pair[0], pair[1]);
+            if (result == null) {
+                fail(String.format("Can't create transliterator from %1$s to %2$s", pair[0], pair[1]));
+            }
+        }
     }
 
     /**
@@ -79,13 +80,19 @@ public class TransliteratorTest {
     @Test
     public void testTransliterate() {
         System.out.println("transliterate");
-        String value = "";
-        Transliterator instance = null;
-        String expResult = "";
-        String result = instance.transliterate(value);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        String[][] units = {
+            {"en", "ru", "Andrei", "Андреи"},
+            {"ru", "en", "Андрей", "Andrey"}};
+        
+        for (String[] unit : units) {
+            Transliterator transliterator = Transliterator.getInstance(unit[0], unit[1]);
+            if (transliterator == null) {
+                fail(String.format("Can't create transliterator from %1$s to %2$s", unit[0], unit[1]));
+            }
+            
+            String result = transliterator.transliterate(unit[2]);
+            assertEquals(unit[3], result);
+        }
     }
     
 }

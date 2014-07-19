@@ -24,26 +24,27 @@
  * THE SOFTWARE.
  */
 
-package com.onlineathletics.util;
+package com.onlineathletics.web;
 
+import java.util.Date;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
- * The unit validation test of Transliterator class.
+ * The unit validation test of AthletesInputForm class.
  *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
- * %name      TransliteratorTest.java
- * %date      10:50:00 PM, Jun 26, 2014
+ * %name      AthletesInputFormTest.java
+ * %date      09:10:00 PM, Jul 01, 2014
  */
-public class TransliteratorTest {
+public class AthletesInputFormTest {
     
-    public TransliteratorTest() {
+    public AthletesInputFormTest() {
     }
     
     @BeforeClass
@@ -63,40 +64,55 @@ public class TransliteratorTest {
     }
 
     /**
-     * Test of getInstance method, of class Transliterator.
+     * Test of getRequest method, of class AthletesInputForm.
      */
     @Test
-    public void testGetInstance() {
-        System.out.println("getInstance");
-        String[][] pairs = {{"en", "ru"}, {"ru", "en"}};
+    public void testGetRequest() {
+        System.out.println("getRequest");
         
-        for (String[] pair : pairs) {
-            Transliterator result = Transliterator.getInstance(pair[0], pair[1]);
-            if (result == null) {
-                fail(String.format("Can't create transliterator from %1$s to %2$s", pair[0], pair[1]));
-            }
-        }
+        AthletesInputForm instance = new AthletesInputForm();
+        String expResult = Long.toString(new Date().getTime());
+        instance.setRequest(expResult);
+        
+        String result = instance.getRequest();
+        assertEquals(expResult, result);
     }
 
     /**
-     * Test of transliterate method, of class Transliterator.
+     * Test of setRequest method, of class AthletesInputForm.
      */
     @Test
-    public void testTransliterate() {
-        System.out.println("transliterate");
-        String[][] units = {
-            {"en", "ru", "Andrei", "Андреи"},
-            {"ru", "en", "Андрей", "Andrey"}};
+    public void testSetRequest() {
+        System.out.println("getRequest");
         
-        for (String[] unit : units) {
-            Transliterator transliterator = Transliterator.getInstance(unit[0], unit[1]);
-            if (transliterator == null) {
-                fail(String.format("Can't create transliterator from %1$s to %2$s", unit[0], unit[1]));
-            }
-            
-            String result = transliterator.transliterate(unit[2]);
-            assertEquals(unit[3], result);
-        }
+        AthletesInputForm instance = new AthletesInputForm();
+        String expResult = Long.toString(new Date().getTime());
+        instance.setRequest(expResult);
+        
+        String result = instance.getRequest();
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of submit method, of class AthletesInputForm.
+     */
+    @Test
+    public void testSubmit() {
+        System.out.println("submit");
+        AthletesInputForm instance = new AthletesInputForm();
+        instance.submit();
+    }
+
+    /**
+     * Test of validate method, of class AthletesInputForm.
+     */
+    @Test
+    public void testValidate() {
+        System.out.println("validate");
+        AthletesInputForm instance = new AthletesInputForm();
+        instance.validate();
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
     
 }

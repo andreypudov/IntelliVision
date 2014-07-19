@@ -79,44 +79,26 @@ CREATE TABLE oa_geo_alternative_tbl (
 -- create athlete layer
 CREATE TABLE oa_first_nm_tbl (
 	first_nm_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-	first_name  VARCHAR(35)  NOT NULL UNIQUE,
-	PRIMARY KEY	(first_nm_id)
+	first_name  VARCHAR(35)  NOT NULL,
+	language_id INT UNSIGNED NOT NULL,
+	PRIMARY KEY	(first_nm_id),
+	UNIQUE KEY (first_name, language_id)
 ) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
 
 CREATE TABLE oa_middle_nm_tbl (
 	middle_nm_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-	middle_name  VARCHAR(35)  NOT NULL UNIQUE,
-	PRIMARY KEY	(middle_nm_id)
+	middle_name  VARCHAR(35)  NOT NULL,
+	language_id  INT UNSIGNED NOT NULL,
+	PRIMARY KEY	(middle_nm_id),
+	UNIQUE KEY (middle_name, language_id)
 ) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
 
 CREATE TABLE oa_last_nm_tbl (
-	last_nm_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-	last_name  VARCHAR(35)  NOT NULL UNIQUE,
-	PRIMARY KEY	(last_nm_id)
-) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
-
-CREATE TABLE oa_first_nm_lc_tbl (
-	first_nm_lc_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-	first_name_lc  VARCHAR(35)  NOT NULL,
-	language_id    INT UNSIGNED NOT NULL,
-	PRIMARY KEY	(first_nm_lc_id),
-	UNIQUE KEY (first_name_lc, language_id)
-) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
-
-CREATE TABLE oa_middle_nm_lc_tbl (
-	middle_nm_lc_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-	middle_name_lc  VARCHAR(35)  NOT NULL,
-	language_id     INT UNSIGNED NOT NULL,
-	PRIMARY KEY	(middle_nm_lc_id),
-	UNIQUE KEY (middle_name_lc, language_id)
-) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
-
-CREATE TABLE oa_last_nm_lc_tbl (
-	last_nm_lc_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-	last_name_lc  VARCHAR(35)  NOT NULL,
-	language_id   INT UNSIGNED NOT NULL,
-	PRIMARY KEY	(last_nm_lc_id),
-	UNIQUE KEY (last_name_lc, language_id)
+	last_nm_id  INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	last_name   VARCHAR(35)  NOT NULL,
+	language_id INT UNSIGNED NOT NULL,
+	PRIMARY KEY	(last_nm_id),
+	UNIQUE KEY (last_name, language_id)
 ) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
 
 CREATE TABLE oa_birthday_tbl (
@@ -145,9 +127,9 @@ CREATE TABLE oa_athl_tbl (
 	FOREIGN KEY (middle_nm_key)    REFERENCES oa_middle_nm_tbl(middle_nm_id),
 	FOREIGN KEY (last_nm_key)      REFERENCES oa_last_nm_tbl(last_nm_id),
 
-	FOREIGN KEY (first_nm_lc_key)  REFERENCES oa_first_nm_lc_tbl(first_nm_lc_id),
-	FOREIGN KEY (middle_nm_lc_key) REFERENCES oa_middle_nm_lc_tbl(middle_nm_lc_id),
-	FOREIGN KEY (last_nm_lc_key)   REFERENCES oa_last_nm_lc_tbl(last_nm_lc_id),
+	FOREIGN KEY (first_nm_lc_key)  REFERENCES oa_first_nm_tbl(first_nm_id),
+	FOREIGN KEY (middle_nm_lc_key) REFERENCES oa_middle_nm_tbl(middle_nm_id),
+	FOREIGN KEY (last_nm_lc_key)   REFERENCES oa_last_nm_tbl(last_nm_id),
 
 	FOREIGN KEY (birthday_key)     REFERENCES oa_birthday_tbl(birthday_id),
 	FOREIGN KEY (birthplace_key)   REFERENCES oa_geo_country_tbl(geo_nm_id)
@@ -269,6 +251,10 @@ BEGIN
 
 	DECLARE birthday_indx     INT UNSIGNED;
 
+	-- set default language code to English
+	DECLARE default_lang_indx INT UNSIGNED;
+	SET default_lang_indx = 40;
+
 	-- validate routine arguments
 	IF ((first_nm_arg IS NULL) 
 		    OR (middle_nm_arg IS NULL)
@@ -284,8 +270,8 @@ BEGIN
 
 			OR (CHAR_LENGTH(first_nm_arg) = 0)
 			OR (CHAR_LENGTH(last_nm_arg) = 0)
-			OR (CHAR_LENGTH(first_nm_lc_arg) = 0)
-			OR (CHAR_LENGTH(last_nm_lc_arg) = 0)
+			OR ((CHAR_LENGTH(first_nm_lc_arg) = 0) AND (language_arg != default_lang_indx))
+			OR ((CHAR_LENGTH(last_nm_lc_arg) = 0)  AND (language_arg != default_lang_indx))
 
 			OR ((sex_arg != 0) AND (sex_arg != 1))
 			OR (language_arg is NULL)) THEN
@@ -298,75 +284,67 @@ BEGIN
 	-- set first name id
 	SET first_nm_indx = (SELECT first_nm_id
 		FROM  oa_first_nm_tbl
-		WHERE first_name = first_nm_arg);
+		WHERE   first_name  = first_nm_arg
+			AND language_id = default_lang_indx);
 	IF (first_nm_indx IS NULL) THEN
-		INSERT INTO oa_first_nm_tbl(first_name) 
-			VALUES(first_nm_arg);
+		INSERT INTO oa_first_nm_tbl(first_name, language_id) 
+			VALUES(first_nm_arg, default_lang_indx);
 		SET first_nm_indx = (SELECT last_insert_id());
 	END IF;
 
 	-- set middle name id
 	SET middle_nm_indx = (SELECT middle_nm_id
 		FROM  oa_middle_nm_tbl
-		WHERE middle_name = middle_nm_arg);
+		WHERE   middle_name = middle_nm_arg
+			AND language_id = default_lang_indx);
 	IF (middle_nm_indx IS NULL) THEN
-		INSERT INTO oa_middle_nm_tbl(middle_name) 
-			VALUES(middle_nm_arg);
+		INSERT INTO oa_middle_nm_tbl(middle_name, language_id) 
+			VALUES(middle_nm_arg, default_lang_indx);
 		SET middle_nm_indx = (SELECT last_insert_id());
 	END IF;
 
 	-- set last name id
 	SET last_nm_indx = (SELECT last_nm_id
 		FROM  oa_last_nm_tbl
-		WHERE last_name = last_nm_arg);
+		WHERE   last_name   = last_nm_arg
+			AND language_id = default_lang_indx);
 	IF (last_nm_indx IS NULL) THEN
-		INSERT INTO oa_last_nm_tbl(last_name) 
-			VALUES(last_nm_arg);
+		INSERT INTO oa_last_nm_tbl(last_name, language_id) 
+			VALUES(last_nm_arg, default_lang_indx);
 		SET last_nm_indx = (SELECT last_insert_id());
 	END IF;
 
 	-- set localized first name id
-	SET first_nm_lc_indx = (SELECT first_nm_lc_id
-		FROM  oa_first_nm_lc_tbl
-		WHERE first_name_lc = first_nm_lc_arg
+	SET first_nm_lc_indx = (SELECT first_nm_id
+		FROM  oa_first_nm_tbl
+		WHERE   first_name  = first_nm_lc_arg
 			AND language_id = language_arg);
 	IF (first_nm_lc_indx IS NULL) THEN
-		INSERT INTO oa_first_nm_lc_tbl(first_name_lc, language_id) 
+		INSERT INTO oa_first_nm_tbl(first_name, language_id) 
 			VALUES(first_nm_lc_arg, language_arg);
 		SET first_nm_lc_indx = (SELECT last_insert_id());
 	END IF;
 
 	-- set localized middle name id
-	SET middle_nm_lc_indx = (SELECT middle_nm_lc_id
-		FROM  oa_middle_nm_lc_tbl
-		WHERE middle_name_lc = middle_nm_lc_arg
+	SET middle_nm_lc_indx = (SELECT middle_nm_id
+		FROM  oa_middle_nm_tbl
+		WHERE   middle_name  = middle_nm_lc_arg
 			AND language_id  = language_arg);
 	IF (middle_nm_lc_indx IS NULL) THEN
-		INSERT INTO oa_middle_nm_lc_tbl(middle_name_lc, language_id) 
+		INSERT INTO oa_middle_nm_tbl(middle_name, language_id) 
 			VALUES(middle_nm_lc_arg, language_arg);
 		SET middle_nm_lc_indx = (SELECT last_insert_id());
 	END IF;
 
 	-- set localized last name id
-	SET last_nm_lc_indx = (SELECT last_nm_lc_id
-		FROM  oa_last_nm_lc_tbl
-		WHERE last_name_lc  = last_nm_lc_arg
+	SET last_nm_lc_indx = (SELECT last_nm_id
+		FROM  oa_last_nm_tbl
+		WHERE   last_name   = last_nm_lc_arg
 			AND language_id = language_arg);
 	IF (last_nm_lc_indx IS NULL) THEN
-		INSERT INTO oa_last_nm_lc_tbl(last_name_lc, language_id) 
+		INSERT INTO oa_last_nm_tbl(last_name, language_id) 
 			VALUES(last_nm_lc_arg, language_arg);
 		SET last_nm_lc_indx = (SELECT last_insert_id());
-	END IF;
-
-	-- set localized middle name id
-	SET first_nm_lc_indx = (SELECT first_nm_lc_id
-		FROM  oa_first_nm_lc_tbl
-		WHERE first_name_lc = first_nm_lc_arg
-			AND language_id = language_arg);
-	IF (first_nm_lc_indx IS NULL) THEN
-		INSERT INTO oa_first_nm_lc_tbl(first_name_lc, language_id) 
-			VALUES(first_nm_lc_arg, language_arg);
-		SET first_nm_lc_indx = (SELECT last_insert_id());
 	END IF;
 
 	-- set birthday id
@@ -380,7 +358,7 @@ BEGIN
 	END IF;
 
 	-- search for present entry
-	-- comparison uses only English name of the athlete
+	-- comparison uses only English name nodes of the athlete
 	SET athlete_indx = (SELECT athl_id
 		FROM oa_athl_tbl
 		WHERE   first_nm_key   = first_nm_indx
@@ -447,6 +425,10 @@ BEGIN
 
 	DECLARE birthday_indx  INT UNSIGNED;
 
+	-- set default language code to English
+	DECLARE default_lang_indx INT UNSIGNED;
+	SET default_lang_indx = 40;
+
 	-- validate routine arguments
 	IF ((athlete_id_arg IS NULL)
 			OR (first_nm_arg IS NULL)
@@ -463,8 +445,8 @@ BEGIN
 
 			OR (CHAR_LENGTH(first_nm_arg) = 0)
 			OR (CHAR_LENGTH(last_nm_arg) = 0)
-			OR (CHAR_LENGTH(first_nm_lc_arg) = 0)
-			OR (CHAR_LENGTH(last_nm_lc_arg) = 0)
+			OR ((CHAR_LENGTH(first_nm_lc_arg) = 0) AND (language_arg != default_lang_indx))
+			OR ((CHAR_LENGTH(last_nm_lc_arg) = 0)  AND (language_arg != default_lang_indx))
 
 			OR ((sex_arg != 0) AND (sex_arg != 1))
 			OR (language_arg is NULL)) THEN
@@ -483,62 +465,65 @@ BEGIN
 	-- set first name id
 	SET first_nm_indx = (SELECT first_nm_id
 		FROM  oa_first_nm_tbl
-		WHERE first_name = first_nm_arg);
+		WHERE   first_name  = first_nm_arg
+			AND language_id = default_lang_indx);
 	IF (first_nm_indx IS NULL) THEN
-		INSERT INTO oa_first_nm_tbl(first_name) 
-			VALUES(first_nm_arg);
+		INSERT INTO oa_first_nm_tbl(first_name, language_id) 
+			VALUES(first_nm_arg, default_lang_indx);
 		SET first_nm_indx = (SELECT last_insert_id());
 	END IF;
 
 	-- set middle name id
 	SET middle_nm_indx = (SELECT middle_nm_id
 		FROM  oa_middle_nm_tbl
-		WHERE middle_name = middle_nm_arg);
+		WHERE   middle_name = middle_nm_arg
+			AND language_id = default_lang_indx);
 	IF (middle_nm_indx IS NULL) THEN
-		INSERT INTO oa_middle_nm_tbl(middle_name) 
-			VALUES(middle_nm_arg);
+		INSERT INTO oa_middle_nm_tbl(middle_name, language_id) 
+			VALUES(middle_nm_arg, default_lang_indx);
 		SET middle_nm_indx = (SELECT last_insert_id());
 	END IF;
 
 	-- set last name id
 	SET last_nm_indx = (SELECT last_nm_id
 		FROM  oa_last_nm_tbl
-		WHERE last_name = last_nm_arg);
+		WHERE   last_name   = last_nm_arg
+			AND language_id = default_lang_indx);
 	IF (last_nm_indx IS NULL) THEN
-		INSERT INTO oa_last_nm_tbl(last_name) 
-			VALUES(last_nm_arg);
+		INSERT INTO oa_last_nm_tbl(last_name, language_id) 
+			VALUES(last_nm_arg, default_lang_indx);
 		SET last_nm_indx = (SELECT last_insert_id());
 	END IF;
 
 	-- set localized first name id
-	SET first_nm_lc_indx = (SELECT first_nm_lc_id
-		FROM  oa_first_nm_lc_tbl
-		WHERE first_name_lc = first_nm_lc_arg
+	SET first_nm_lc_indx = (SELECT first_nm_id
+		FROM  oa_first_nm_tbl
+		WHERE   first_name  = first_nm_lc_arg
 			AND language_id = language_arg);
 	IF (first_nm_lc_indx IS NULL) THEN
-		INSERT INTO oa_first_nm_lc_tbl(first_name_lc, language_id) 
+		INSERT INTO oa_first_nm_tbl(first_name, language_id) 
 			VALUES(first_nm_lc_arg, language_arg);
 		SET first_nm_lc_indx = (SELECT last_insert_id());
 	END IF;
 
 	-- set localized middle name id
-	SET middle_nm_lc_indx = (SELECT middle_nm_lc_id
-		FROM  oa_middle_nm_lc_tbl
-		WHERE middle_name_lc = middle_nm_lc_arg
-			AND language_id  = language_arg);
+	SET middle_nm_lc_indx = (SELECT middle_nm_id
+		FROM  oa_middle_nm_tbl
+		WHERE   middle_name = middle_nm_lc_arg
+			AND language_id = language_arg);
 	IF (middle_nm_lc_indx IS NULL) THEN
-		INSERT INTO oa_middle_nm_lc_tbl(middle_name_lc, language_id) 
+		INSERT INTO oa_middle_nm_tbl(middle_name, language_id) 
 			VALUES(middle_nm_lc_arg, language_arg);
 		SET middle_nm_lc_indx = (SELECT last_insert_id());
 	END IF;
 
 	-- set localized last name id
-	SET last_nm_lc_indx = (SELECT last_nm_lc_id
-		FROM  oa_last_nm_lc_tbl
-		WHERE last_name_lc  = last_nm_lc_arg
+	SET last_nm_lc_indx = (SELECT last_nm_id
+		FROM  oa_last_nm_tbl
+		WHERE   last_name   = last_nm_lc_arg
 			AND language_id = language_arg);
 	IF (last_nm_lc_indx IS NULL) THEN
-		INSERT INTO oa_last_nm_lc_tbl(last_name_lc, language_id) 
+		INSERT INTO oa_last_nm_tbl(last_name, language_id) 
 			VALUES(last_nm_lc_arg, language_arg);
 		SET last_nm_lc_indx = (SELECT last_insert_id());
 	END IF;
@@ -636,9 +621,9 @@ BEGIN
 			INNER JOIN oa_middle_nm_tbl m ON m.middle_nm_id = a.middle_nm_key
 			INNER JOIN oa_last_nm_tbl   l ON l.last_nm_id   = a.last_nm_key
 
-			INNER JOIN oa_first_nm_lc_tbl  fl ON fl.first_nm_lc_id  = a.first_nm_lc_key
-			INNER JOIN oa_middle_nm_lc_tbl ml ON ml.middle_nm_lc_id = a.middle_nm_lc_key
-			INNER JOIN oa_last_nm_lc_tbl   ll ON ll.last_nm_lc_id   = a.last_nm_lc_key
+			INNER JOIN oa_first_nm_tbl  fl ON fl.first_nm_id  = a.first_nm_lc_key
+			INNER JOIN oa_middle_nm_tbl ml ON ml.middle_nm_id = a.middle_nm_lc_key
+			INNER JOIN oa_last_nm_tbl   ll ON ll.last_nm_id   = a.last_nm_lc_key
 
 			INNER JOIN oa_birthday_tbl b ON b.birthday_id   = a.birthday_key
 		WHERE a.athl_id = athlete_id_arg
@@ -690,9 +675,9 @@ BEGIN
 			INNER JOIN oa_middle_nm_tbl m ON m.middle_nm_id = a.middle_nm_key
 			INNER JOIN oa_last_nm_tbl   l ON l.last_nm_id   = a.last_nm_key
 
-			INNER JOIN oa_first_nm_lc_tbl  fl ON fl.first_nm_lc_id  = a.first_nm_lc_key
-			INNER JOIN oa_middle_nm_lc_tbl ml ON ml.middle_nm_lc_id = a.middle_nm_lc_key
-			INNER JOIN oa_last_nm_lc_tbl   ll ON ll.last_nm_lc_id   = a.last_nm_lc_key
+			INNER JOIN oa_first_nm_tbl  fl ON fl.first_nm_id  = a.first_nm_lc_key
+			INNER JOIN oa_middle_nm_tbl ml ON ml.middle_nm_id = a.middle_nm_lc_key
+			INNER JOIN oa_last_nm_tbl   ll ON ll.last_nm_id   = a.last_nm_lc_key
 
 			INNER JOIN oa_birthday_tbl b ON b.birthday_id   = a.birthday_key
 		WHERE f.first_name    = first_nm_arg
@@ -752,7 +737,7 @@ BEGIN
 
 	DELETE FROM oa_athl_regions_tbl
 		WHERE athl_key     = athlete_id_arg
-			AND region_key = region_id_arg);
+			AND region_key = region_id_arg;
 END //
 
 -- geo layer

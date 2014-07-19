@@ -35,7 +35,14 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-
+/**
+ * The unit validation test of LanguageCodes class.
+ *
+ * @author    Andrey Pudov        <mail@andreypudov.com>
+ * @version   0.00.00
+ * %name      LanguageCodesTest.java
+ * %date      05:10:00 PM, Jun 26, 2014
+ */
 public class LanguageCodesTest {
     
     public LanguageCodesTest() {

@@ -76,7 +76,8 @@ public class Transliterator {
     
     /**
      * Returns an instance of transliterator or null value if transliterator 
-     * can no be created for specified source and target languages.
+     * can not be created for specified source and target languages. The null
+     * value is also returns when source and target values has the same value.
      * 
      * @param source the short name of the source language.
      * @param target the short name of the target language.
@@ -84,6 +85,10 @@ public class Transliterator {
      * @return       the instance of transliterator.
      */
     public static Transliterator getInstance(final String source, final String target) {
+        if (source.equals(target)) {
+            return null;
+        }
+        
         final String transform = source + "-" + target;
         Transliterator transliterator = INSTANCES.get(transform);
         if (transliterator != null) {
@@ -107,7 +112,7 @@ public class Transliterator {
      * 
      * @return      the value of transliterated string.
      */
-    public String transliterate(final String value) {
+    public synchronized String transliterate(final String value) {
         return transliterator.transliterate(value);
     }
     

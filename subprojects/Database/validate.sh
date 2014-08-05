@@ -4,7 +4,7 @@
 #
 # The MIT License
 #
-# Copyright 2009-2014 Andrey Pudov.
+# Copyright 2011-2014 Andrey Pudov.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -26,26 +26,37 @@
 #
 
 #
-# The project database unit validation script launcher.
+# Online Athletics database unit validation launcher..
 #
 # @author    Andrey Pudov        <mail@andreypudov.com>
 # @version   0.00.00
-# %name      oa_validate_db.sql
-# %date      11:30:00 AM, Jul 19, 2014
+# %name      validate.sh
+# %date      11:11:00 AM, Jul 20, 2014
 #
+
+COMPILR=javac
+MACHINE=java
+SOURCES=$(find "Unit/" -name "*.java")
+USRNAME=''
+PASSWRD=''
+LIBRARS='.:Unit/:../../../libs/MySQL JDBC/*'
 
 # change the current directory to the scripts directory
 cd "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-MYSQLCMD=/usr/local/mysql/bin/mysql
-CMDFLAGS='--skip-column-names'
-HOSTNAME=localhost
-USERNAME=''
-DATABASE=onlineathletics
-UNITNAME=onlineathletics_unit.sql
+# compile the Unit source code
+for file in $SOURCES; do
+    $COMPILR -cp "$LIBRARS"  $file
+done
 
-echo "Please provide your MySQL user name and password."
-printf "Enter username: "
-read USERNAME
+# TODO CHANGE THIS LINES
+USRNAME=''
+PASSWRD=''
 
-$MYSQLCMD -h $HOSTNAME -u $USERNAME $DATABASE $CMDFLAGS -p < $UNITNAME
+# launch unit validation
+cd "Unit" && $MACHINE -cp "$LIBRARS" "Unit" $USRNAME $PASSWRD; cd ../
+
+# remove temporary files
+for file in $(find "Unit/" -name "*.class"); do
+    rm $file
+done

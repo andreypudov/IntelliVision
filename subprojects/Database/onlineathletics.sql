@@ -210,20 +210,20 @@ DELIMITER //
 -- 60103 Athlete entry the same as requested to change.
 
 CREATE PROCEDURE add_athlete (first_nm_arg   VARCHAR(35), 
-	middle_nm_arg   VARCHAR(35),  last_nm_arg      VARCHAR(35), 
-	first_nm_lc_arg VARCHAR(35),  middle_nm_lc_arg VARCHAR(35),
-	last_nm_lc_arg  VARCHAR(35),  birthday_arg     TIMESTAMP,
-    birthplace_arg  INT UNSIGNED, sex_arg          TINYINT(1),
-    language_arg    INT UNSIGNED, user_nm_arg      VARCHAR(32))
+        middle_nm_arg   VARCHAR(35),  last_nm_arg      VARCHAR(35), 
+        first_nm_lc_arg VARCHAR(35),  middle_nm_lc_arg VARCHAR(35),
+        last_nm_lc_arg  VARCHAR(35),  birthday_arg     TIMESTAMP,
+        birthplace_arg  INT UNSIGNED, sex_arg          TINYINT(1),
+        language_arg    INT UNSIGNED, user_nm_arg      VARCHAR(32))
 	NOT DETERMINISTIC
 	COMMENT 'Adds athlete entry and returns identification number.
 
-			 @param first_nm_arg     the firth name of the athlete.
-			 @param middle_nm_arg    the middle name of the athlete.
+             @param first_nm_arg     the firth name of the athlete.
+             @param middle_nm_arg    the middle name of the athlete.
              @param last_nm_arg      the last name of the athlete.
 
              @param first_nm_lc_arg  the firth name of the athlete in local language.
-			 @param middle_nm_lc_arg the middle name of the athlete in local language.
+             @param middle_nm_lc_arg the middle name of the athlete in local language.
              @param last_nm_lc_arg   the last name of the athlete in local language.
 
              @param birthday_arg     the date of birth of the athlete.
@@ -231,13 +231,13 @@ CREATE PROCEDURE add_athlete (first_nm_arg   VARCHAR(35),
              @param sex_arg          the sex of the athlete (true for male).
 
              @param language_arg     the identifier of the local language.
-			 @param user_nm_arg      the name value to authenticate query.
+             @param user_nm_arg      the name value to authenticate query.
 
              @return the database id for the athlete as athlete_indx column.
 
-			 @throws Invalid argument exception.
+             @throws Invalid argument exception.
              @throws Permissions denied.
-			 @throws Athlete entry already exists.'
+             @throws Athlete entry already exists.'
 BEGIN
 	DECLARE athlete_indx      INT UNSIGNED;
 
@@ -409,7 +409,7 @@ CREATE PROCEDURE edit_athlete (athlete_id_arg INT UNSIGNED,
 
              @throws Invalid argument exception.
              @throws Permissions denied.
-             @throws Athlete entry doesn\'t exists.
+             @throws Athlete entry does not exists.
              @throws Athlete entry the same as requested to change.
              @throws Athlete entry already exists.'
 BEGIN
@@ -459,7 +459,7 @@ BEGIN
 	IF ((SELECT COUNT(*)
 			FROM  oa_athl_tbl
 			WHERE athl_id = athlete_id_arg) != 1) THEN
-		SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO = 60102, MESSAGE_TEXT = 'Athlete entry doesn\'t exists.';
+		SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO = 60102, MESSAGE_TEXT = 'Athlete entry does not exists.';
 	END IF;
 
 	-- set first name id
@@ -585,7 +585,7 @@ CREATE PROCEDURE get_athlete (athlete_id_arg INT UNSIGNED, user_nm_arg VARCHAR(3
 
              @throws Invalid argument exception.
              @throws Permissions denied.
-             @throws Athlete entry doesn\'t exists.'
+             @throws Athlete entry does not exists.'
 BEGIN
 	DECLARE athlete_id_var   INT UNSIGNED;
 
@@ -631,7 +631,7 @@ BEGIN
 
 	-- select doesn't returns any data
 	IF (athlete_id_var IS NULL) THEN
-		 SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO = 60102, MESSAGE_TEXT = 'Athlete entry doesn\'t exists.';
+		 SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO = 60102, MESSAGE_TEXT = 'Athlete entry does not exists.';
 	END IF;
 
 	SELECT athlete_id_var, first_nm_var, middle_nm_var, last_nm_var, 
@@ -653,7 +653,7 @@ CREATE PROCEDURE get_athlete_list_by_name (first_nm_arg VARCHAR(35),
 
              @throws Invalid argument exception.
              @throws Permissions denied.
-             @throws Athlete entry doesn\'t exists.'
+             @throws Athlete entry does not exists.'
 BEGIN
 	-- validate routine arguments
 	IF ((first_nm_arg IS NULL)
@@ -1154,7 +1154,7 @@ CREATE PROCEDURE auth_get_hash (user_nm_arg VARCHAR(32))
 	         @param user_nm_arg the user account which hash to return.
 
 			 @throws Invalid argument exception.
-			 @throws Account doesn\'t exists.'
+			 @throws Account does not exists.'
 BEGIN
 	DECLARE hash_var VARCHAR(60);
 
@@ -1171,7 +1171,7 @@ BEGIN
 
 	-- select doesn't returns any data
 	IF (hash_var IS NULL) THEN
-		 SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO = 60022, MESSAGE_TEXT = 'Account doesn\'t exists.';
+		 SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO = 60022, MESSAGE_TEXT = 'Account does not exists.';
 	END IF;
 
 	SELECT hash_var;

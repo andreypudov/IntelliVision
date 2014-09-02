@@ -4,19 +4,40 @@
       Keyboard: English
       Time Zone: Etc/UTC (System clock uses UTC)
       Password: <Root Password>
+      Software Selection: Minimal
 
-   b) Configure Yum to use proxy
+   b) Configure Yum to use proxy (On Intel environment only)
       proxy variable in /etc/yum.conf
       proxy=http://proxy.jf.intel.com:911
 
-   c) Install VM Guest Additions (On VM only)
-      /etc/sysconfig/network-scripts/ifcfg-eth0
+   c) Configure Yum to use local DVD repository (On VM only)
+      Insert installation DVD image
+      # mount /dev/cdrom /media
+
+      # touch /etc/yum.repos.d/CentOS-DVD.repo
+      # vi /etc/yum.repos.d/CentOS-DVD.repo
+      [dvd]
+      name=CentOS-$releasever - DVD
+      baseurl=file:///media
+      gpgcheck=1
+      gpgkey=file:///media/RPM-GPG-KEY-CentOS-7
+      enabled=1
+
+      disable other repositories if required
+      enabled=0
+
+      update Yum packages data
+      # yum update
+
+   d) Install VM Guest Additions (On VM only)
+      /etc/sysconfig/network-scripts/ifcfg-enp0s3
       NM_CONTROLLED=no
       ONBOOT=yes
-      # service network restart
+      # systemctl restart network
 
       # yum update
-      # yum install gcc kernel-devel kernel-headers
+      # yum install gcc kernel-devel kernel-headers bzip2 unzip
+      # yum install perl-Data-Dumper libaio.x86_64
 
       # reboot
 
@@ -24,150 +45,193 @@
       # /media/VBoxLinuxAdditions.run
 
       mount shared folder
-      # mount -t vboxsf <shared folder name> /media
-   
-   d) Install application server software
-      # yum install java-1.7.0-openjdk-devel
+      # mount -t vboxsf -o rw,uid=1000,gid=1000 <shared folder name> /media
 
    e) Create limited user account and extract server software inside a user home directory
-      # adduser -c 'OnlineAthletics Application Account' onlineathletics
-      # passwd onlineathletics <OA account password>
+      # adduser -c 'OnlineAthletics Application Account' <System OA Account / name>
+      # passwd onlineathletics 
+        New password: <System OA Account / password>
+        Retype new password: <System OA Account / password>
 
       # mkdir /home/onlineathletics/Applications
+      # mkdir /home/onlineathletics/Database
+      # mkdir /home/onlineathletics/Temporary
+
+      # cp /media/jdk-8u20-linux-x64.tar.gz /home/onlineathletics/Applications/
       # cp /media/glassfish-4.0.zip /home/onlineathletics/Applications/
-      # cp /media/mysql-5.6.15-linux-glibc2.5-i686.tar.gz /home/onlineathletics/Applications/
+      # cp /media/mysql-5.7.4-m14-linux-glibc2.5-x86_64.tar.gz /home/onlineathletics/Applications/
 
-      # yum install unzip
+      # tar -xzvf /home/onlineathletics/Applications/jdk-8u20-linux-x64.tar.gz -C /home/onlineathletics/Applications/ 
       # unzip /home/onlineathletics/Applications/glassfish-4.0.zip -d /home/onlineathletics/Applications/
-      # tar -xzvf /home/onlineathletics/Applications/mysql-5.6.15-linux-glibc2.5-i686.tar.gz -C /home/onlineathletics/Applications/ 
+      # tar -xzvf /home/onlineathletics/Applications/mysql-5.7.4-m14-linux-glibc2.5-x86_64.tar.gz -C /home/onlineathletics/Applications/ 
 
-      # c /media/mysql-connector-java-5.1.25-bin.jar /home/onlineathletics/Applications/glassfish4/glassfish/lib
-
+      # rm -f /home/onlineathletics/Applications/jdk-8u20-linux-x64.tar.gz
       # rm -f /home/onlineathletics/Applications/glassfish-4.0.zip
-      # rm -f /home/onlineathletics/Applications/mysql-5.6.15-linux-glibc2.5-i686.tar.gz
-      # mv /home/onlineathletics/Applications/mysql-5.6.15-linux-glibc2.5-i686 /home/onlineathletics/Applications/mysql
+      # rm -f /home/onlineathletics/Applications/mysql-5.7.4-m14-linux-glibc2.5-x86_64.tar.gz
+
+      # ln -s /home/onlineathletics/Applications/jdk1.8.0_20 /home/onlineathletics/Applications/jdk1.8.0_latest
+      # ln -s /home/onlineathletics/Applications/glassfish4/ /home/onlineathletics/Applications/glassfish
+      # ln -s /home/onlineathletics/Applications/mysql-5.7.4-m14-linux-glibc2.5-x86_64 /home/onlineathletics/Applications/mysql
+
+      /home/onlineathletics/.bash_profile
+      PATH=$PATH:$HOME/.local/bin:$HOME/bin:$HOME/Applications/glassfish/glassfish/bin:$HOME/Applications/jdk1.8.0_latest/bin:$HOME/Applications/mysql/bin
 
       # chown -R onlineathletics /home/onlineathletics/
       # chgrp -R onlineathletics /home/onlineathletics/
-      
 
 [ALL OF THE STEPS BELOW PROCESSED UNDER OA ACCOUNT]
 
+4) Copy OnlineAthletics binaries and data
+   a) Prepare OnlineAthletics.war, OnlineAthleticsRealm.jar, MySQL Connector and JBCrypt binaries, as well as configuration files
+      /home/onlineathletics/Temporary
+      [PRODUCTION / VM]
+      # cp /media/OnlineAthletics.war /home/onlineathletics/Temporary
+      # cp /media/OnlineAthleticsRealm.jar /home/onlineathletics/Temporary
+      # cp /media/jBCrypt.jar /home/onlineathletics/Temporary
+      # cp /media/mysql-connector-java-5.1.32-bin.jar /home/onlineathletics/Temporary
+      # cp /media/my.cnf /home/onlineathletics/Temporary
+
+   b) Create a database dump file
+      # ./mysqldump --opt -u <MySQL Root / name> onlineathletics -p > onlineathletics_dump.sql
+
+      Compress database dump file
+      [CLIENT]
+      # gzip -cq9 onlineathletics_dump.sql > onlineathletics_dump.sql.gz
+
+      Copy compressed database dump and database scheme files to the same temporary directory
+      [PRODUCTION / VM]
+      # cp /media/onlineathletics.sql /home/onlineathletics/Temporary
+      # cp /media/onlineathletics_dump.sql.gz /home/onlineathletics/Temporary
+
+   [PRODUCTION SERVER / VM]
+
+   c) Extract compressed database dump file
+      # gunzip -c /home/onlineathletics/Temporary/onlineathletics_dump.sql.gz > /home/onlineathletics/Temporary/onlineathletics_dump.sql
+
 2) MySQL Server Configuration
-   a) Create MySQL configuration file
+   [EXECUTE ALL COMMANDS FROM ~/Applications/mysql directory]
+
+   a) Initialize database engine
+      # cd ~/Applications/mysql
+      # scripts/mysql_install_db --user=onlineathletics --basedir=/home/onlineathletics/Applications/mysql -- datadir=/home/onlineathletics/Database
+
+   b) Configure database engine
+      # cp /home/onlineathletics/Temporary/my.cnf /home/onlineathletics/Applications/mysql
       /home/onlineathletics/Applications/mysql/my.cnf
-      [client]
-      port   = 3306
-      socket = /tmp/mysql.sock 
-
-      [mysqld]
-      port    = 3306
-      socket  = /tmp/mysql.sock
-      skip-locking
-
-      set-variable = key_buffer=256M
-      set-variable = max_allowed_packet=1M
-      set-variable = table_cache=256
-      set-variable = sort_buffer=1M
-      set-variable = record_buffer=1M
-      set-variable = myisam_sort_buffer_size=64M
-      set-variable = thread_cache=8
-      # the number of CPU's*2 for thread_concurrency
-      # set-variable = thread_concurrency=8
-      log-bin
-      server-id = 1
-
-      # the following for using BDB tables
-      #set-variable = bdb_cache_size=64M
-      #set-variable = bdb_max_lock=100000
-
-      # the following for using InnoDB tables
-      innodb_data_home_dir = /usr/local/mysql/var/
-      innodb_data_file_path = ibdata1:10M:autoextend
-      innodb_log_group_home_dir = /usr/local/mysql/var/
-      innodb_log_arch_dir = /usr/local/mysql/var/
-      # You can set .._buffer_pool_size up to 50 - 80 %
-      # of RAM but beware of setting memory usage too high
-      set-variable = innodb_buffer_pool_size=256M
-      set-variable = innodb_additional_mem_pool_size=20M
-      # Set .._log_file_size to 25 % of buffer pool size
-      set-variable = innodb_log_file_size=64M
-      set-variable = innodb_log_buffer_size=8M
-      innodb_flush_log_at_trx_commit=1
-      set-variable = innodb_lock_wait_timeout=50
-
-      #basedir = /home/onlineathletics/Applications/mysql
-      #datadir = /home/onlineathletics/Applications/mysql/data
-
-      # point the following paths to different dedicated disks
-      #tmpdir   = /tmp/   
-      #log-update   = /path-to-dedicated-directory/hostname
-
-      [mysqldump]
-      quick
-      set-variable  = max_allowed_packet=16M
 
       [mysql]
-      no-auto-rehash
-      # Remove the next comment character if you are not familiar with SQL
-      #safe-updates
+      # Client #
+      port                           = 3306
+      socket                         = /home/onlineathletics/Database/mysql.sock
 
-      [isamchk]
-      set-variable  = key_buffer=128M
-      set-variable  = sort_buffer=128M
-      set-variable  = read_buffer=2M
-      set-variable  = write_buffer=2M
+      [mysqld]
+      # General #
+      user                           = onlineathletics
+      default-storage-engine         = InnoDB
+      socket                         = /home/onlineathletics/Database/mysql.sock
+      pid-file                       = /home/onlineathletics/Database/mysql.pid
+      server-id                      = 0
 
-      [myisamchk]
-      set-variable  = key_buffer=128M
-      set-variable  = sort_buffer=128M
-      set-variable  = read_buffer=2M
-      set-variable  = write_buffer=2M
+      # MyISAM #
+      key-buffer-size                = 32M
+      myisam-recover-options         = FORCE,BACKUP
 
-      [mysqlhotcopy]
-      interactive-timeout
+      # Safety #
+      max-allowed-packet             = 16M
+      max-connect-errors             = 1000000
+      # skip-name-resolve
+      sql-mode                       = STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_AUTO_VALUE_ON_ZERO,NO_ENGINE_SUBSTITUTION,NO_ZERO_DATE,NO_ZERO_IN_DATE,ONLY_FULL_GROUP_BY
+      sysdate-is-now                 = 1
+      innodb                         = FORCE
+      innodb-strict-mode             = 1
+      # restrict MySQL from opening a network socket
+      # skip-networking
+      # force MySQL to listen only the localhost
+      bind-address                   = 127.0.0.1
+      # disable of the "Load Data Local Infile" command
+      # set-variable                   = local-infile=0
 
-   b) Restrict MySQL from opening a network socket
-      [mysqld] section of my.cnf/my.ini file
-      skip-networking
+      # Data Storage #
+      datadir                        = /home/onlineathletics/Database/
 
-   c) Force MySQL to listen only the localhost
-      [mysqld] section of my.cnf/my.ini file
-      bind-address=127.0.0.1
+      # Binary Loggings #
+      log-bin                        = /home/onlineathletics/Database/mysql-bin
+      expire-logs-days               = 14
+      sync-binlog                    = 1
 
-   d) Disable of the "Load Data Local Infile" command
-      [mysqld] section of my.cnf/my.ini file
-      set-variable=local-infile=0
+      # Caches and Limits #
+      tmp-table-size                 = 32M
+      max-heap-table-size            = 32M
+      query-cache-type               = 0
+      query-cache-size               = 0
+      max-connections                = 500
+      thread-cache-size              = 50
+      open-files-limit               = 65535
+      table-definition-cache         = 1024
+      table-open-cache               = 2048
+
+      # InnoDB #
+      innodb-flush-method            = O_DIRECT
+      innodb-log-files-in-group      = 2
+      innodb-log-file-size           = 32M
+      innodb-flush-log-at-trx-commit = 1
+      innodb-file-per-table          = 1
+      innodb-buffer-pool-size        = 256M
+
+      # Logging #
+      log-error                     = /home/onlineathletics/Database/mysql-error.log
+      log-queries-not-using-indexes = 1
+      slow-query-log                = 1
+      slow-query-log-file           = /home/onlineathletics/Database/mysql-slow.log
+
+   c) Reset root password
+      # mysqld_safe --defaults-file=/home/onlineathletics/Applications/mysql/my.cnf --skip-grant-tables &
+
+      # mysql -u root -S /home/onlineathletics/Database/mysql.sock
+      UPDATE mysql.user SET Password=PASSWORD('<MySQL Root / password>') WHERE User='root';
+      FLUSH PRIVILEGES;
+      \q
+
+      # mysqladmin -u root shutdown -S /home/onlineathletics/Database/mysql.sock -p
+
+   d) Start MySQL server
+      # mysqld_safe --defaults-file=/home/onlineathletics/Applications/mysql/my.cnf & (Linux)
+      # support-files/mysql.server start (OS X)
 
    e) Open MySQL command line tool
-      # ./mysql --user=<MySQL Root / name> -p onlineathletics
-      exit command caused exit from terminal
+      # mysql --user=root -S /home/onlineathletics/Database/mysql.sock -p
+      # mysql --user=root -p (OS X)
 
-   f) Remove <MySQL Root> for all domains except <localhost>
-      DROP USER '<MySQL Root /  name>'@'<domain>';
+      On error ERROR 1820 (HY000): You must SET PASSWORD before executing this statement
+      $ SET PASSWORD=PASSWORD('<MySQL Root / password>')
 
-      CREATE USER '<MySQL Root / name>'@'localhost' IDENTIFIED BY '<MySQL Root / password>';
-      UPDATE mysql.user SET Grant_priv='Y', Super_priv='Y' WHERE User='privilegeddb';
-      GRANT ALL ON *.* TO '<MySQL Root / name>'@'localhost';
+   f) Configure user accounts
+      Remove all available users
+      $ SELECT  User, Host, Password FROM mysql.user;
+      $ DROP USER '<MySQL Root / name>'@'<domain>';
 
-   g) Create <MySQL OA> user account and grant permissions
-      CREATE USER '<MySQL OA / name>'@'localhost' IDENTIFIED BY '<MySQL OA / password>';
-      GRANT SELECT ON onlineathletics.* TO '<MySQL OA / name>'@'localhost';
-      GRANT EXECUTE ON onlineathletics.* TO '<MySQL OA / name>'@'localhost';
+      $ CREATE USER '<MySQL Root / name>'@'localhost IDENTIFIED BY '<MySQL Root / password>';
+      $ UPDATE mysql.user SET Grant_priv='Y', Super_priv='Y' WHERE User='<MySQL Root / name>';
+      $ GRANT ALL ON *.* TO '<MySQL Root / name>'@'localhost';
+
+      Create <MySQL OA> user account and grant permissions
+      $ CREATE USER '<MySQL OA / name>'@'localhost' IDENTIFIED BY '<MySQL OA / password>';
+      $ GRANT SELECT ON onlineathletics.* TO '<MySQL OA / name>'@'localhost';
+      $ GRANT EXECUTE ON onlineathletics.* TO '<MySQL OA / name>'@'localhost';
 
    h) Remove the test database
-      DROP DATABASE test;
+      $ DROP DATABASE test;
 
    i) Remove anonymous and obsolete accounts
-      SELECT * FROM mysql.user WHERE user="";
+      $ SELECT * FROM mysql.user WHERE user="";
 
-      SHOW GRANTS FOR ''@'localhost';
-      SHOW GRANTS FOR ''@'<hostname>';
+      $ SHOW GRANTS FOR ''@'localhost';
+      $ SHOW GRANTS FOR ''@'<hostname>';
 
-      DROP USER '';
+      $ DROP USER '';
 
    j) MySQL user table shall looks like following:
-      SELECT user, host FROM mysql.user;
+      $ SELECT user, host FROM mysql.user;
       +-----------------+-----------+
       | user            | host      |
       +-----------------+-----------+
@@ -179,27 +243,64 @@
    k) Remove MySQL history
       # cat /dev/null > ~/.mysql_history
 
-3) Glassfish Configuration
-   a) Create a domain OnlineAthleticsDomain
-      # ./asadmin
-      create-domain OnlineAthleticsDomain
+   MySQL Usage Summary
+      To start MySQL server
+      # mysqld_safe --defaults-file=/home/onlineathletics/Applications/mysql/my.cnf & (Linux)
+      # support-files/mysql.server start (OS X)
 
-      specify domain administrative account: <GlassFish Admin / name and password>
+      To open MySQL console
+      # mysql -u <MySQL Root / name> -S /home/onlineathletics/Database/mysql.sock -p
+      # mysql -u <MySQL Root / name> -p (OS X)
 
-   b) Add MySQL JDBC driver to Glassfish classpath
+      To shutdown MySQL server
+      # mysqladmin -u <MySQL Root / name> shutdown -S /home/onlineathletics/Database/mysql.sock -p
+
+3) GlassFish Configuration
+   [OPEN GLASSFISH CONSOLE $ asadmin --user <GlassFish Admin / name>]
+   /* for the first start use just asadmin without parameters */
+
+   a) Remove default domain
+      $ list-domains
+      $ delete-domain
+        Enter the value for the domain_name operand> domain1
+
+   b) Create a domain OnlineAthleticsDomain
+      $ create-domain OnlineAthleticsDomain
+         Enter admin user name> <GlassFish Admin / name>
+         Enter the admin password: <GlassFish Admin / password>
+         Enter the admin password again: <GlassFish Admin / password>
+
+   c) Start OnlineAthletics domain
+      $ start-domain OnlineAthleticsDomain
+
+   d> Temporarily enable secure login (Dev VM only / if required)
+      $ enable-secure-admin
+        Enter admin user name: <GlassFish Admin / name>
+        Enter admin password:> <GlassFish Admin / password>
+
+      $ restart-domain
+
+   d) Add MySQL JDBC driver to Glassfish classpath
       <Glassfish Installation Directory>/glassfish/domains/<domain>/lib
+      # cp /home/onlineathletics/Temporary/mysql-connector-java-5.1.32-bin.jar /home/onlineathletics/Applications/glassfish/glassfish/domains/OnlineAthleticsDomain/lib/
+
+   d) Add BCrypt library to Glassfish classpath
+      <Glassfish Installation Directory>/glassfish/domains/<domain>/lib
+      # cp /home/onlineathletics/Temporary/jBCrypt.jar /home/onlineathletics/Applications/glassfish/glassfish/domains/OnlineAthleticsDomain/lib/
 
    c) Add OnlineAthletics Realm to Glassfish classpath
       <Glassfish Installation Directory>/glassfish/domains/<domain>/lib
+      # cp /home/onlineathletics/Temporary/OnlineAthleticsRealm.jar /home/onlineathletics/Applications/glassfish/glassfish/domains/OnlineAthleticsDomain/lib/
 
       <Glassfish Installation Directory>/glassfish/domains/<domain>/config/domain.conf
       <java-config> : classpath-suffix="${com.sun.aas.instanceRoot}/lib/OnlineAthleticsRealm.jar"
 
-   d) Add BCrypt library to Glassfish classpath
-      <Glassfish Installation Directory>/glassfish/domains/<domain>/lib
+      $ set "server.java-config.classpath-suffix=${com.sun.aas.instanceRoot}/lib/OnlineAthleticsRealm.jar"
 
    e) Enable support for OnlineAthletics Realm Login Module
       <Glassfish Installation Directory>/glassfish/domains/<domain>/config/login.conf
+
+      # printf "\nOnlineAthleticsRealm {\n\tcom.onlineathletics.web.auth.OnlineAthleticsLoginModule required;\n};\n" >> /home/onlineathletics/Applications/glassfish/glassfish/domains/OnlineAthleticsDomain/config/login.conf
 
       OnlineAthleticsRealm {
           com.onlineathletics.web.auth.OnlineAthleticsLoginModule required;
@@ -209,199 +310,55 @@
       <Glassfish Installation Directory>/glassfish/domains/<domain>/config/domain.conf
       <domain> / <resources>
 
+      $ create-jdbc-connection-pool --datasourceclassname com.mysql.jdbc.jdbc2.optional.MysqlDataSource --restype javax.sql.DataSource --property User=<MySQL OA / name>:Password=<MySQL OA / password>:URL="jdbc\:mysql\://localhost\:3306/onlineathletics":NoAccessToProcedureBodies=true --description "OnlineAthletics JDBC Connection Pool" OnlineAthleticsPool
+
       <jdbc-connection-pool datasource-classname="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" res-type="javax.sql.DataSource" description="OnlineAthletics JDBC Connection Pool" name="OnlineAthleticsPool">
         <property name="User" value="<MySQL OA / name>"></property>
-        <property name="AutoReconnectForPools" value="false"></property>
-        <property name="LoggerClassName" value="com.mysql.jdbc.log.StandardLogger"></property>
-        <property name="RetriesAllDown" value="120"></property>
-        <property name="IgnoreNonTxTables" value="false"></property>
-        <property name="ProfilerEventHandler" value="com.mysql.jdbc.profiler.LoggingProfilerEventHandler"></property>
-        <property name="StrictFloatingPoint" value="false"></property>
-        <property name="TransformedBitIsBoolean" value="false"></property>
-        <property name="UseOldUTF8Behavior" value="false"></property>
-        <property name="TreatUtilDateAsTimestamp" value="true"></property>
-        <property name="CallableStatementCacheSize" value="100"></property>
-        <property name="TcpSndBuf" value="0"></property>
-        <property name="Port" value="3306"></property>
-        <property name="UseSqlStateCodes" value="true"></property>
-        <property name="InitialTimeout" value="2"></property>
-        <property name="LoadBalanceExceptionChecker" value="com.mysql.jdbc.StandardLoadBalanceExceptionChecker"></property>
-        <property name="AllowUrlInLocalInfile" value="false"></property>
-        <property name="NullNamePatternMatchesAll" value="true"></property>
-        <property name="Password" value="<MySQL OA / name>"></property>
-        <property name="AllowLoadLocalInfile" value="true"></property>
-        <property name="PreparedStatementCacheSqlLimit" value="256"></property>
-        <property name="Logger" value="com.mysql.jdbc.log.StandardLogger"></property>
-        <property name="PrepStmtCacheSize" value="25"></property>
-        <property name="AlwaysSendSetIsolation" value="true"></property>
-        <property name="ClientCertificateKeyStoreType" value="JKS"></property>
-        <property name="CallableStmtCacheSize" value="100"></property>
-        <property name="CapitalizeTypeNames" value="true"></property>
-        <property name="LocatorFetchBufferSize" value="1048576"></property>
-        <property name="UseSSL" value="false"></property>
-        <property name="JdbcCompliantTruncationForReads" value="true"></property>
-        <property name="TcpRcvBuf" value="0"></property>
-        <property name="UseSSPSCompatibleTimezoneShift" value="false"></property>
-        <property name="CacheCallableStatements" value="false"></property>
-        <property name="DefaultFetchSize" value="0"></property>
-        <property name="UseCompression" value="false"></property>
-        <property name="GenerateSimpleParameterMetadata" value="false"></property>
-        <property name="UseTimezone" value="false"></property>
-        <property name="DefaultAuthenticationPlugin" value="com.mysql.jdbc.authentication.MysqlNativePasswordPlugin"></property>
-        <property name="CacheServerConfiguration" value="false"></property>
-        <property name="AutoDeserialize" value="false"></property>
-        <property name="MaxRows" value="-1"></property>
-        <property name="UseLocalTransactionState" value="false"></property>
-        <property name="SecondsBeforeRetryMaster" value="30"></property>
-        <property name="UseUnicode" value="true"></property>
-        <property name="SlowQueryThresholdMillis" value="2000"></property>
-        <property name="TcpTrafficClass" value="0"></property>
-        <property name="NetTimeoutForStreamingResults" value="600"></property>
-        <property name="DynamicCalendars" value="false"></property>
-        <property name="IncludeThreadNamesAsStatementComment" value="false"></property>
-        <property name="TcpKeepAlive" value="true"></property>
-        <property name="NoDatetimeStringSync" value="false"></property>
-        <property name="EmulateUnsupportedPstmts" value="true"></property>
-        <property name="NullCatalogMeansCurrent" value="true"></property>
-        <property name="ExplainSlowQueries" value="false"></property>
-        <property name="UseStreamLengthsInPrepStmts" value="true"></property>
-        <property name="ConnectTimeout" value="0"></property>
-        <property name="EmptyStringsConvertToZero" value="true"></property>
-        <property name="MaxQuerySizeToLog" value="2048"></property>
-        <property name="FailOverReadOnly" value="true"></property>
-        <property name="IsInteractiveClient" value="false"></property>
-        <property name="LoadBalanceEnableJMX" value="false"></property>
-        <property name="RoundRobinLoadBalance" value="false"></property>
-        <property name="UseAffectedRows" value="false"></property>
-        <property name="ContinueBatchOnError" value="true"></property>
-        <property name="UseFastDateParsing" value="true"></property>
-        <property name="BlobSendChunkSize" value="1048576"></property>
-        <property name="OverrideSupportsIntegrityEnhancementFacility" value="false"></property>
-        <property name="ElideSetAutoCommits" value="false"></property>
-        <property name="PreparedStatementCacheSize" value="25"></property>
-        <property name="GatherPerfMetrics" value="false"></property>
-        <property name="UseOnlyServerErrorMessages" value="true"></property>
-        <property name="TcpNoDelay" value="true"></property>
-        <property name="LogXaCommands" value="false"></property>
-        <property name="ReportMetricsIntervalMillis" value="30000"></property>
-        <property name="AutoSlowLog" value="true"></property>
-        <property name="UseGmtMillisForDatetimes" value="false"></property>
-        <property name="PinGlobalTxToPhysicalConnection" value="false"></property>
-        <property name="VerifyServerCertificate" value="true"></property>
-        <property name="LoadBalanceValidateConnectionOnSwapServer" value="false"></property>
-        <property name="EnableQueryTimeouts" value="true"></property>
-        <property name="UseInformationSchema" value="false"></property>
-        <property name="NoAccessToProcedureBodies" value="true"></property>
-        <property name="LoadBalanceBlacklistTimeout" value="0"></property>
-        <property name="TrustCertificateKeyStoreType" value="JKS"></property>
-        <property name="UltraDevHack" value="false"></property>
-        <property name="AllowMultiQueries" value="false"></property>
-        <property name="FunctionsNeverReturnBlobs" value="false"></property>
-        <property name="SlowQueryThresholdNanos" value="0"></property>
-        <property name="StrictUpdates" value="true"></property>
-        <property name="AutoClosePStmtStreams" value="false"></property>
-        <property name="Url" value="jdbc:mysql://localhost:3306/onlineathletics"></property>
-        <property name="HoldResultsOpenOverStatementClose" value="false"></property>
-        <property name="TinyInt1isBit" value="true"></property>
-        <property name="LoadBalanceStrategy" value="random"></property>
-        <property name="UseUsageAdvisor" value="false"></property>
-        <property name="TraceProtocol" value="false"></property>
-        <property name="YearIsDateType" value="true"></property>
-        <property name="CachePrepStmts" value="false"></property>
-        <property name="UseColumnNamesInFindColumn" value="false"></property>
-        <property name="ProfileSQL" value="false"></property>
-        <property name="DisconnectOnExpiredPasswords" value="true"></property>
-        <property name="PadCharsWithSpace" value="false"></property>
-        <property name="LoadBalanceAutoCommitStatementThreshold" value="0"></property>
-        <property name="ClientInfoProvider" value="com.mysql.jdbc.JDBC4CommentClientInfoProvider"></property>
-        <property name="UseDynamicCharsetInfo" value="true"></property>
-        <property name="UseNanosForElapsedTime" value="false"></property>
-        <property name="SocketFactory" value="com.mysql.jdbc.StandardSocketFactory"></property>
-        <property name="ParseInfoCacheFactory" value="com.mysql.jdbc.PerConnectionLRUFactory"></property>
-        <property name="DontTrackOpenResources" value="false"></property>
-        <property name="DumpMetadataOnColumnNotFound" value="false"></property>
-        <property name="UseLegacyDatetimeCode" value="true"></property>
-        <property name="CompensateOnDuplicateKeyUpdateCounts" value="false"></property>
-        <property name="UseBlobToStoreUTF8OutsideBMP" value="false"></property>
-        <property name="UseReadAheadInput" value="true"></property>
-        <property name="ServerConfigCacheFactory" value="com.mysql.jdbc.PerVmServerConfigCacheFactory"></property>
-        <property name="PacketDebugBufferSize" value="20"></property>
-        <property name="BlobsAreStrings" value="false"></property>
-        <property name="ProcessEscapeCodesForPrepStmts" value="true"></property>
-        <property name="AutoGenerateTestcaseScript" value="false"></property>
-        <property name="UseDirectRowUnpack" value="true"></property>
-        <property name="UseOldAliasMetadataBehavior" value="false"></property>
-        <property name="UseServerPrepStmts" value="false"></property>
-        <property name="UseServerPreparedStmts" value="false"></property>
-        <property name="PrepStmtCacheSqlLimit" value="256"></property>
-        <property name="PortNumber" value="3306"></property>
+        <property name="Password" value="<MySQL OA / password>"></property>
         <property name="URL" value="jdbc:mysql://localhost:3306/onlineathletics"></property>
-        <property name="UseJDBCCompliantTimezoneShift" value="false"></property>
-        <property name="CachePreparedStatements" value="false"></property>
-        <property name="Paranoid" value="false"></property>
-        <property name="UseJvmCharsetConverters" value="false"></property>
-        <property name="NoTimezoneConversionForTimeType" value="false"></property>
-        <property name="QueryTimeoutKillsConnection" value="false"></property>
-        <property name="UseUltraDevWorkAround" value="false"></property>
-        <property name="InteractiveClient" value="false"></property>
-        <property name="QueriesBeforeRetryMaster" value="50"></property>
-        <property name="UseFastIntParsing" value="true"></property>
-        <property name="MaxReconnects" value="3"></property>
-        <property name="EmulateLocators" value="false"></property>
-        <property name="Pedantic" value="false"></property>
-        <property name="RelaxAutoCommit" value="false"></property>
-        <property name="ZeroDateTimeBehavior" value="exception"></property>
-        <property name="ClobberStreamingResults" value="false"></property>
-        <property name="IncludeInnodbStatusInDeadlockExceptions" value="false"></property>
-        <property name="ReconnectAtTxEnd" value="false"></property>
-        <property name="MetadataCacheSize" value="50"></property>
-        <property name="LoginTimeout" value="0"></property>
-        <property name="UseCursorFetch" value="false"></property>
-        <property name="LogSlowQueries" value="false"></property>
-        <property name="RetainStatementAfterResultSetClose" value="false"></property>
-        <property name="AllowNanAndInf" value="false"></property>
-        <property name="JdbcCompliantTruncation" value="true"></property>
-        <property name="RunningCTS13" value="false"></property>
-        <property name="DumpQueriesOnException" value="false"></property>
-        <property name="ResultSetSizeThreshold" value="100"></property>
-        <property name="RollbackOnPooledClose" value="true"></property>
-        <property name="UseLocalSessionState" value="false"></property>
-        <property name="CacheCallableStmts" value="false"></property>
-        <property name="MaxAllowedPacket" value="-1"></property>
-        <property name="GatherPerformanceMetrics" value="false"></property>
-        <property name="LoadBalancePingTimeout" value="0"></property>
-        <property name="SelfDestructOnPingSecondsLifetime" value="0"></property>
-        <property name="RewriteBatchedStatements" value="false"></property>
-        <property name="CreateDatabaseIfNotExist" value="false"></property>
-        <property name="PopulateInsertRowWithDefaultValues" value="false"></property>
-        <property name="SocketFactoryClassName" value="com.mysql.jdbc.StandardSocketFactory"></property>
-        <property name="MaintainTimeStats" value="true"></property>
-        <property name="UseHostsInPrivileges" value="true"></property>
-        <property name="UseUnbufferedInput" value="true"></property>
-        <property name="IncludeThreadDumpInDeadlockExceptions" value="false"></property>
-        <property name="RequireSSL" value="false"></property>
-        <property name="SelfDestructOnPingMaxOperations" value="0"></property>
-        <property name="SocketTimeout" value="0"></property>
-        <property name="EnablePacketDebug" value="false"></property>
-        <property name="CacheResultSetMetadata" value="false"></property>
-        <property name="ProfileSql" value="false"></property>
+        <property name="NoAccessToProcedureBodies" value="true"></property>
       </jdbc-connection-pool>
       <jdbc-resource pool-name="OnlineAthleticsPool" description="OnlineAthletics JDBC Resource" jndi-name="jdbc/OnlineAthletics"></jdbc-resource>
 
-    Pay attention on follwing properties:
-      <property name="User" value="<MySQL OA / name>"></property>
-      <property name="Password" value="<MySQL OA / password>"></property>
-      <property name="Url" value="jdbc:mysql://localhost:3306/onlineathletics"></property>
-      <property name="URL" value="jdbc:mysql://localhost:3306/onlineathletics"></property>
-      <property name="NoAccessToProcedureBodies" value="true"></property>
+   g) Create OnlineAthletics JDBC resource
+      $ create-jdbc-resource --connectionpoolid OnlineAthleticsPool --description "OnlineAthletics JDBC Resource" jdbc/OnlineAthletics
 
    g) Add OnlineAthletics Realm
       <Glassfish Installation Directory>/glassfish/domains/<domain>/config/domain.conf
       <domain> / <configs> / <config name="server-config"> / <security-service>
 
+      $ create-auth-realm --classname com.onlineathletics.web.auth.OnlineAthleticsRealm --property jaas-context=OnlineAthleticsRealm:User=<MySQL OA Account / name>:Password=<MySQL OA Account / password> OnlineAthleticsRealm
+
       <auth-realm name="OnlineAthleticsRealm" classname="com.onlineathletics.web.auth.OnlineAthleticsRealm">
         <property name="jaas-context" value="OnlineAthleticsRealm"></property>
       </auth-realm>
 
-    h) Change GlassFish http/https ports from 8080/8181 to 80/443
+    h) Change GlassFish http/https ports from 8080/8181 to 80/443 (Prod only)
        glassfish/domains/domain1/config/domain.xml
+
+       $ set server-config.network-config.network-listeners.network-listener.http-listener-1.port=80
+       $ set server-config.network-config.network-listeners.network-listener.http-listener-2.port=443
+
+    h) Set log level
+       $ set-log-levels com.onlineathletics.web.auth.OnlineAthleticsRealm=FINEST
+
+    h) Deploy OnlineAthletics
+       $ deploy /home/onlineathletics/Temporary/OnlineAthletics.war
+
+    h) Set OnlineAthletics as dfeult web module
+       $ set server.http-service.virtual-server.server.default-web-module=OnlineAthletics
+
+    h) Finish GlassFish configuration
+       $ disable-secure-admin (Prod only)
+       $ restart-domain
+
+4) Initialize OnlineAthletics database and website
+   d) Create database
+      # mysql --user=<MySQL Root / name> -S /home/onlineathletics/Database/mysql.sock -p<MySQL Root / password> onlineathletics < /home/onlineathletics/Temporary/onlineathletics.sql
+
+   e) Restore database
+      # mysql --user=<MySQL Root / name> -S /home/onlineathletics/Database/mysql.sock -p<MySQL Root / password> onlineathletics < onlineathletics_dump.sql
+
+   c) Remove history
+      # cat /dev/null > ~/.mysql_history
+      # cat /dev/null > ~/.bash_history

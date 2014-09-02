@@ -103,7 +103,7 @@ CREATE TABLE oa_last_nm_tbl (
 
 CREATE TABLE oa_birthday_tbl (
 	birthday_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-	birthday	TIMESTAMP    NOT NULL DEFAULT 0 UNIQUE,
+	birthday	TIMESTAMP    NOT NULL UNIQUE,
 	PRIMARY KEY	(birthday_id)
 ) ENGINE = InnoDB DEFAULT CHARSET = 'utf8';
 
@@ -998,6 +998,12 @@ BEGIN
 		GROUP BY (source.geo_nm_key)
 		ORDER BY (source.alt_name);
 
+		IF ((country_nm_var IS NULL)
+				OR (region_nm_var IS NULL)
+				OR (city_nm_var IS NULL)) THEN
+			SELECT '';
+		END IF;
+
 		SELECT country_nm_var, region_nm_var, city_nm_var;
 	END IF;
 END //
@@ -1043,7 +1049,7 @@ BEGIN
 	SELECT c.admin1_code 
 		INTO region_code_var
 		FROM oa_geo_administration_first_tbl ad
-			INNER JOIN oa_geo_country_tbl     c  ON c.geo_nm_id = ad.geo_nm_id
+			INNER JOIN oa_geo_country_tbl     c  ON c.geo_nm_id   = ad.geo_nm_id
 			INNER JOIN oa_geo_alternative_tbl al ON al.geo_nm_key = ad.geo_nm_id
 		WHERE ad.country_code = country_code_var
 			AND al.alt_name   = region_nm_arg

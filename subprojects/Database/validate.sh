@@ -50,8 +50,8 @@ for file in $SOURCES; do
 done
 
 # TODO CHANGE THIS LINES
-USRNAME=''
-PASSWRD=''
+USRNAME='privilegeddb'
+PASSWRD='@lice2012'
 
 # launch unit validation
 cd "Unit" && $MACHINE -cp "$LIBRARS" "Unit" $USRNAME $PASSWRD; cd ../

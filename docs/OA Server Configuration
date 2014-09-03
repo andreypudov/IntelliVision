@@ -333,7 +333,7 @@
         <property name="jaas-context" value="OnlineAthleticsRealm"></property>
       </auth-realm>
 
-    l) Change GlassFish http/https ports from 8080/8181 to 80/443 (Prod only)
+    l) Change GlassFish http/https ports from 8080/8181 to 80/443 (Prod only / EXPERIMENTAL)
        glassfish/domains/domain1/config/domain.xml
 
        $ set server-config.network-config.network-listeners.network-listener.http-listener-1.port=80
@@ -363,7 +363,16 @@
       # cat /dev/null > ~/.mysql_history
       # cat /dev/null > ~/.bash_history
 
-5) Improve SSH securoty
+5) Configure firewall
+   a) Redirect HTTP 80 and HTTPS 443 ports to Glassfish 8080 and 8181
+      # firewall-cmd --zone=public --add-forward-port=port=80:proto=tcp:toport=8080
+      # firewall-cmd --zone=public --add-forward-port=port=443:proto=tcp:toport=8181
+
+   b) Open HTTP 80 and HTTPS 443 ports
+      # firewall-cmd --zone=public --add-port=80/tcp
+      # firewall-cmd --zone=public --add-port=443/tcp
+
+6) Improve SSH securoty
    a) Only use SSH Protocol 2
       /etc/ssh/sshd_config
       Protocol 2
@@ -394,7 +403,22 @@
       Banner /etc/issue
 
       /etc/issue
-      [some text]
+      *******************************************************************
+      *                                                                 *
+      *                   Welcome to OnlineAthletics                    *
+      *     IntelliJustice Intelligent Referee Assistant System         *
+      *                                                                 *
+      *                                                                 *
+      * This system is for the use of authorized users only. Usage of   *
+      * this system may be monitored and recorded by system personnel.  *
+      *                                                                 *
+      * Anyone using this system expressly consents to such monitoring  *
+      * and is advised that if such monitoring reveals possible         *
+      * evidence of criminal activity, system personnel may provide the *
+      * evidence from such monitoring to law enforcement officials.     *
+      *                                                                 *
+      *                                Copyright 2011-2014 Andrey Pudov *
+      *******************************************************************
 
    h) Change SSH port 
       /etc/ssh/sshd_config

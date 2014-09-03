@@ -219,10 +219,10 @@
       $ GRANT SELECT ON onlineathletics.* TO '<MySQL OA / name>'@'localhost';
       $ GRANT EXECUTE ON onlineathletics.* TO '<MySQL OA / name>'@'localhost';
 
-   h) Remove the test database
+   g) Remove the test database
       $ DROP DATABASE test;
 
-   i) Remove anonymous and obsolete accounts
+   h) Remove anonymous and obsolete accounts
       $ SELECT * FROM mysql.user WHERE user="";
 
       $ SHOW GRANTS FOR ''@'localhost';
@@ -230,7 +230,7 @@
 
       $ DROP USER '';
 
-   j) MySQL user table shall looks like following:
+   i) MySQL user table shall looks like following:
       $ SELECT user, host FROM mysql.user;
       +-----------------+-----------+
       | user            | host      |
@@ -240,7 +240,7 @@
       +-----------------+-----------+
       2 rows in set (0.00 sec)
 
-   k) Remove MySQL history
+   j) Remove MySQL history
       # cat /dev/null > ~/.mysql_history
 
    MySQL Usage Summary
@@ -273,22 +273,22 @@
    c) Start OnlineAthletics domain
       $ start-domain OnlineAthleticsDomain
 
-   d> Temporarily enable secure login (Dev VM only / if required)
+   d) Temporarily enable secure login (Dev VM only / if required)
       $ enable-secure-admin
         Enter admin user name: <GlassFish Admin / name>
         Enter admin password:> <GlassFish Admin / password>
 
       $ restart-domain
 
-   d) Add MySQL JDBC driver to Glassfish classpath
+   e) Add MySQL JDBC driver to Glassfish classpath
       <Glassfish Installation Directory>/glassfish/domains/<domain>/lib
       # cp /home/onlineathletics/Temporary/mysql-connector-java-5.1.32-bin.jar /home/onlineathletics/Applications/glassfish/glassfish/domains/OnlineAthleticsDomain/lib/
 
-   d) Add BCrypt library to Glassfish classpath
+   f) Add BCrypt library to Glassfish classpath
       <Glassfish Installation Directory>/glassfish/domains/<domain>/lib
       # cp /home/onlineathletics/Temporary/jBCrypt.jar /home/onlineathletics/Applications/glassfish/glassfish/domains/OnlineAthleticsDomain/lib/
 
-   c) Add OnlineAthletics Realm to Glassfish classpath
+   g) Add OnlineAthletics Realm to Glassfish classpath
       <Glassfish Installation Directory>/glassfish/domains/<domain>/lib
       # cp /home/onlineathletics/Temporary/OnlineAthleticsRealm.jar /home/onlineathletics/Applications/glassfish/glassfish/domains/OnlineAthleticsDomain/lib/
 
@@ -297,7 +297,7 @@
 
       $ set "server.java-config.classpath-suffix=${com.sun.aas.instanceRoot}/lib/OnlineAthleticsRealm.jar"
 
-   e) Enable support for OnlineAthletics Realm Login Module
+   h) Enable support for OnlineAthletics Realm Login Module
       <Glassfish Installation Directory>/glassfish/domains/<domain>/config/login.conf
 
       # printf "\nOnlineAthleticsRealm {\n\tcom.onlineathletics.web.auth.OnlineAthleticsLoginModule required;\n};\n" >> /home/onlineathletics/Applications/glassfish/glassfish/domains/OnlineAthleticsDomain/config/login.conf
@@ -306,7 +306,7 @@
           com.onlineathletics.web.auth.OnlineAthleticsLoginModule required;
       };  
 
-   f) Create OnlineAthletics JDBC connection pool
+   i) Create OnlineAthletics JDBC connection pool
       <Glassfish Installation Directory>/glassfish/domains/<domain>/config/domain.conf
       <domain> / <resources>
 
@@ -320,10 +320,10 @@
       </jdbc-connection-pool>
       <jdbc-resource pool-name="OnlineAthleticsPool" description="OnlineAthletics JDBC Resource" jndi-name="jdbc/OnlineAthletics"></jdbc-resource>
 
-   g) Create OnlineAthletics JDBC resource
+   j) Create OnlineAthletics JDBC resource
       $ create-jdbc-resource --connectionpoolid OnlineAthleticsPool --description "OnlineAthletics JDBC Resource" jdbc/OnlineAthletics
 
-   g) Add OnlineAthletics Realm
+   k) Add OnlineAthletics Realm
       <Glassfish Installation Directory>/glassfish/domains/<domain>/config/domain.conf
       <domain> / <configs> / <config name="server-config"> / <security-service>
 
@@ -333,22 +333,22 @@
         <property name="jaas-context" value="OnlineAthleticsRealm"></property>
       </auth-realm>
 
-    h) Change GlassFish http/https ports from 8080/8181 to 80/443 (Prod only)
+    l) Change GlassFish http/https ports from 8080/8181 to 80/443 (Prod only)
        glassfish/domains/domain1/config/domain.xml
 
        $ set server-config.network-config.network-listeners.network-listener.http-listener-1.port=80
        $ set server-config.network-config.network-listeners.network-listener.http-listener-2.port=443
 
-    h) Set log level
+    m) Set log level
        $ set-log-levels com.onlineathletics.web.auth.OnlineAthleticsRealm=FINEST
 
-    h) Deploy OnlineAthletics
+    n) Deploy OnlineAthletics
        $ deploy /home/onlineathletics/Temporary/OnlineAthletics.war
 
-    h) Set OnlineAthletics as dfeult web module
+    o) Set OnlineAthletics as dfeult web module
        $ set server.http-service.virtual-server.server.default-web-module=OnlineAthletics
 
-    h) Finish GlassFish configuration
+    p) Finish GlassFish configuration
        $ disable-secure-admin (Prod only)
        $ restart-domain
 
@@ -362,3 +362,79 @@
    c) Remove history
       # cat /dev/null > ~/.mysql_history
       # cat /dev/null > ~/.bash_history
+
+5) Improve SSH securoty
+   a) Only use SSH Protocol 2
+      /etc/ssh/sshd_config
+      Protocol 2
+
+   b) Limit users' SSH access
+      /etc/ssh/sshd_config
+      AllowUsers <System OA Account / name>
+
+   c) Configure idle log out timeout interval
+      /etc/ssh/sshd_config
+      ClientAliveInterval 100
+      ClientAliceCountMax 0
+
+   d) Disable .rhost files
+      /etc/ssh/sshd_config
+      IgnoreRhosts yes
+
+   e) Disable host-based authentication
+      /etc/ssh/sshd_config
+      HostbasedAuthentication no
+
+   f) Disable root login
+      /etc/ssh/sshd_config
+      PermitRootLogin no
+
+   g) Enable a warning banner
+      /etc/ssh/sshd_config
+      Banner /etc/issue
+
+      /etc/issue
+      [some text]
+
+   h) Change SSH port 
+      /etc/ssh/sshd_config
+      Port 104
+
+      # semanage port -a -t ssh_port_t -p tcp 104 (SELinux enabled only)
+
+   i) Disable empty passwords
+      /etc/ssh/sshd_config
+      PermitEmptyPasswords no
+
+   j) Use key-based authentication only
+      Disable standard password authentication
+      /etc/ssh/sshd_config
+      PasswordAuthentication no
+
+   k) Disable GSSAPI authentication
+      /etc/ssh/sshd_config
+      GSSAPIAuthentication no
+
+   l) Generate RSA key pair (host)
+      # ssh-keygen -t rsa
+
+      Enter file in which to save the key (/Users/andrey/.ssh/id_rsa): <~/.ssh>id_rsa_onlineathletics
+      Enter passphrase (empty for no passphrase): <Password>
+
+   m) Change the permissions of the ~/.ssh/ (host and client)
+      # chmod 700 ~/.ssh
+
+   n) Add public key to user agent (host)
+      # ssh-add ~/.ssh/id_rsa_onlineathletics
+
+   o) Copy the content of ~/.ssh/id_rsa,pub into ~/.ssh/authorized_keys on the machine to which you want to connect, appending it to its end if the file already exists
+      # ssh-copy-id <System OA Account>@<hostname> (when available)
+
+      # ssh onlineathletics@192.168.56.102 'mkdir ~/.ssh/; touch ~/.ssh/authorized_keys'
+      # cat ~/.ssh/id_rsa_onlineathletics.pub | ssh onlineathletics@192.168.56.102 'cat >> ~/.ssh/authorized_keys'
+
+   p) Change the permissions of the ~/.ssh/authorized_keys (client)
+      # chmod 600 ~/.ssh/authorized_keys
+
+   q) Restart SSH service
+      # systemctl restart sshd

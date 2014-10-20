@@ -357,11 +357,14 @@
       # mysql --user=<MySQL Root / name> -S /home/onlineathletics/Database/mysql.sock -p<MySQL Root / password> onlineathletics < /home/onlineathletics/Temporary/onlineathletics.sql
 
    e) Restore database
-      # mysql --user=<MySQL Root / name> -S /home/onlineathletics/Database/mysql.sock -p<MySQL Root / password> onlineathletics < onlineathletics_dump.sql
+      # mysql --user=<MySQL Root / name> -S /home/onlineathletics/Database/mysql.sock -p<MySQL Root / password> onlineathletics < /home/onlineathletics/Temporary/onlineathletics_dump.sql
 
    c) Remove history
       # cat /dev/null > ~/.mysql_history
       # cat /dev/null > ~/.bash_history
+
+   d) Remove temporary binaries
+      # rm -rf /home/onlineathletics/Temporary/* 
 
 5) Configure firewall
    a) Redirect HTTP 80 and HTTPS 443 ports to Glassfish 8080 and 8181

@@ -24,7 +24,7 @@
  * THE SOFTWARE.
  */
 
-package com.intellijustice.analytics;
+package com.intellijustice.analytics.ui.controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;

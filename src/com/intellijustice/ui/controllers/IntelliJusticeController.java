@@ -157,14 +157,14 @@ public class IntelliJusticeController implements Initializable {
             currentModule.search(searchBar.getPattern());
             moduleRegion.getChildren().add((Node) currentModule);
         });
+        
+        /* set home module at start */
+        moduleRegion.getChildren().add(HomeModule.getInstance());
+        currentModule = HomeModule.getInstance();
 
         searchBar.addSearchListener((SearchEvent event) -> {
             currentModule.search(event.getPattern());
         });
-
-        /* set home module at start */
-        moduleRegion.getChildren().add(HomeModule.getInstance());
-        currentModule = HomeModule.getInstance();
 
         /* transparent feature support property */
         boolean transparent = Platform.isSupported(

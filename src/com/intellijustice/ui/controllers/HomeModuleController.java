@@ -143,6 +143,11 @@ public class HomeModuleController implements Initializable {
     private void update() {
         final Championship championship = provider.getChampionship();
         competitionList.getChildren().clear();
+        
+        /* data provider returns an empty data */
+        if (championship == null) {
+            return;
+        }
 
         championship.getCompetitionList().stream().map((competition) -> 
             new CompetitionBar(competition)).map((bar) -> {

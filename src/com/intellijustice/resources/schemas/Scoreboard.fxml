@@ -48,6 +48,6 @@
             onMouseDragged="#mainPanelMouseDragged"
             fx:controller="com.intellijustice.ui.controllers.ScoreboardController">
   <stylesheets>
-    <URL value="@../styles/ScoreboardWindow.css" />
+    <URL value="@../styles/Scoreboard.css" />
   </stylesheets>
 </AnchorPane>

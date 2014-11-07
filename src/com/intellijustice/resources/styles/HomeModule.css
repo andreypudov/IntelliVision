@@ -3,7 +3,7 @@
  *
  * The MIT License
  *
- * Copyright 2011-2013 Andrey Pudov.
+ * Copyright 2011-2014 Andrey Pudov.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -75,4 +75,8 @@
     -fx-background-radius: 8px;
     -fx-border-color:      #3A3A3A;
     -fx-border-radius:     3px;
+}
+
+#competitionList {
+    -fx-background-color:  #262626;
 }

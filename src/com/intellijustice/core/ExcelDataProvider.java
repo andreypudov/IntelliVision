@@ -180,7 +180,7 @@ public final class ExcelDataProvider implements DefaultDataProvider {
             (final File file) -> 
                 file.getName().toLowerCase().endsWith(".xls")
                 /* skip worksheet itself */
-                && (file.equals(worksheet) == false))) {
+                /*&& (file.equals(worksheet) == false)*/)) {
 
             /* add book's file to the list */
             modificationDates.put(book.getName(), book.lastModified());

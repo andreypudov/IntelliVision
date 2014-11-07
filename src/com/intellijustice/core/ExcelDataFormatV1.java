@@ -300,34 +300,34 @@ public class ExcelDataFormatV1 implements ExcelDataFormatDefault {
             if (cellRank == null) {
                 break;
             }
-
-            if ((cellRank.getCachedFormulaResultType()            != Cell.CELL_TYPE_NUMERIC)
-                    || (cellBib.getCachedFormulaResultType()      != Cell.CELL_TYPE_NUMERIC)
-                    || (cellName.getCachedFormulaResultType()     != Cell.CELL_TYPE_STRING)
-                    || (cellBirthday.getCachedFormulaResultType() != Cell.CELL_TYPE_STRING)
-                    || (cellCountry.getCachedFormulaResultType()  != Cell.CELL_TYPE_STRING)
-                    || (cellPersonal.getCachedFormulaResultType() != Cell.CELL_TYPE_STRING)
-                    || (cellSeason.getCachedFormulaResultType()   != Cell.CELL_TYPE_STRING)
-                    || (cellLine.getCachedFormulaResultType()     != Cell.CELL_TYPE_NUMERIC)
-                    || (cellResult.getCachedFormulaResultType()   != Cell.CELL_TYPE_STRING)
-                    || (cellReaction.getCachedFormulaResultType() != Cell.CELL_TYPE_NUMERIC)) {
+            
+            if ((validateCellType(cellRank, Cell.CELL_TYPE_NUMERIC)            == false)
+                    || (validateCellType(cellBib, Cell.CELL_TYPE_NUMERIC)      == false)
+                    || (validateCellType(cellName, Cell.CELL_TYPE_STRING)      == false)
+                    || (validateCellType(cellBirthday, Cell.CELL_TYPE_STRING)  == false)
+                    || (validateCellType(cellCountry, Cell.CELL_TYPE_STRING)   == false)
+                    || (validateCellType(cellPersonal, Cell.CELL_TYPE_STRING)  == false)
+                    || (validateCellType(cellSeason, Cell.CELL_TYPE_STRING)    == false)
+                    || (validateCellType(cellLine, Cell.CELL_TYPE_NUMERIC)     == false)
+                    || (validateCellType(cellResult, Cell.CELL_TYPE_STRING)    == false)
+                    || (validateCellType(cellReaction, Cell.CELL_TYPE_NUMERIC) == false)) {
                 final String info = String.format(
                         "[Rank (num) %b, Bib (num) %b, Name(str) %b, "
                         + "Birthday (str) %b, Country (str) %b, "
                         + "Personal (str) %b, Season (str) %b, "
                         + "Line (num) %b, Result (str) %b, Reaction (num) %b]",
-
-                        (cellRank.getCachedFormulaResultType()     != Cell.CELL_TYPE_NUMERIC),
-                        (cellBib.getCachedFormulaResultType()      != Cell.CELL_TYPE_NUMERIC),
-                        (cellName.getCachedFormulaResultType()     != Cell.CELL_TYPE_STRING),
-                        (cellBirthday.getCachedFormulaResultType() != Cell.CELL_TYPE_STRING),
-                        (cellCountry.getCachedFormulaResultType()  != Cell.CELL_TYPE_STRING),
-                        (cellPersonal.getCachedFormulaResultType() != Cell.CELL_TYPE_STRING),
-                        (cellSeason.getCachedFormulaResultType()   != Cell.CELL_TYPE_STRING),
-                        (cellLine.getCachedFormulaResultType()     != Cell.CELL_TYPE_NUMERIC),
-                        (cellResult.getCachedFormulaResultType()   != Cell.CELL_TYPE_STRING),
-                        (cellReaction.getCachedFormulaResultType() != Cell.CELL_TYPE_NUMERIC));
-
+                        
+                        (validateCellType(cellRank, Cell.CELL_TYPE_NUMERIC)     == false),
+                        (validateCellType(cellBib, Cell.CELL_TYPE_NUMERIC)      == false),
+                        (validateCellType(cellName, Cell.CELL_TYPE_STRING)      == false),
+                        (validateCellType(cellBirthday, Cell.CELL_TYPE_STRING)  == false),
+                        (validateCellType(cellCountry, Cell.CELL_TYPE_STRING)   == false),
+                        (validateCellType(cellPersonal, Cell.CELL_TYPE_STRING)  == false),
+                        (validateCellType(cellSeason, Cell.CELL_TYPE_STRING)    == false),
+                        (validateCellType(cellLine, Cell.CELL_TYPE_NUMERIC)     == false),
+                        (validateCellType(cellResult, Cell.CELL_TYPE_STRING)    == false),
+                        (validateCellType(cellReaction, Cell.CELL_TYPE_NUMERIC) == false));
+                
                 throw new IncorrectFormatException(
                         "The competition entry information at row "
                                 + (rowIndex + 1) + " in competition "
@@ -496,5 +496,22 @@ public class ExcelDataFormatV1 implements ExcelDataFormatDefault {
 
             return russian;
         }
+    }
+    
+    /**
+     * Validate cell type and returns true if given cell is given type. If cell
+     * if a formula type, method validates cached value type.
+     * 
+     * @param cell the cell to validate.
+     * @param type the cell type to validate.
+     * 
+     * @return true if cell is given type and false otherwise.
+     */
+    private boolean validateCellType(final Cell cell, int type) {
+        if (cell.getCellType() == Cell.CELL_TYPE_FORMULA) {
+            return cell.getCachedFormulaResultType() == type;
+        }
+        
+        return cell.getCellType() == type;
     }
 }

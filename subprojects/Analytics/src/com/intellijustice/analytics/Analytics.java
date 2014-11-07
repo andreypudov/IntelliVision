@@ -61,7 +61,7 @@ public class Analytics extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("Analytics.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/com/intellijustice/analytics/resources/schemas/Analytics.fxml"));
         
         Scene scene = new Scene(root);
         

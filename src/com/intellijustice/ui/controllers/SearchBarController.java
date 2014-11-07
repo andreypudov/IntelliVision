@@ -71,17 +71,14 @@ public class SearchBarController implements Initializable {
      */
     @Override
     public void initialize(final URL url, final ResourceBundle rb) {
-        /** TODO FIXME High CPU usage
-        searchBar.needsLayoutProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(final ObservableValue<? extends Boolean> ov,
-                                final Boolean t, final Boolean t1) {
-                searchTextField.resize(
-                        searchBar.getWidth(), searchBar.getHeight());
-                searchClearButton.resizeRelocate(
-                        searchBar.getWidth() - 18, 6, 12, 13);
-            }
-        });*/
+        /** TODO FIXME High CPU usage */
+        searchBar.needsLayoutProperty().addListener(
+                (final ObservableValue<? extends Boolean> ov, final Boolean t, final Boolean t1) -> {
+            searchTextField.resize(
+                    searchBar.getWidth(), searchBar.getHeight());
+            searchClearButton.resizeRelocate(
+                    searchBar.getWidth() - 18, 6, 12, 13);
+        });
 
         searchTextField.textProperty().addListener(
                 (final ObservableValue<? extends String> ov, final String t, final String t1) -> {

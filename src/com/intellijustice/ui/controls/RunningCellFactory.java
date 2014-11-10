@@ -26,6 +26,12 @@
 
 package com.intellijustice.ui.controls;
 
+import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -37,12 +43,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 /**
  * TableView cell factory provides designed cell instances.
@@ -87,9 +87,7 @@ public class RunningCellFactory {
                     }
 
                     private String getString() {
-                        return (getItem() == null)
-                                ? ""
-                                : getItem().toString();
+                        return (getItem() == null) ? "" : getItem().toString();
                     }
                 };
 
@@ -125,9 +123,7 @@ public class RunningCellFactory {
                     }
 
                     private String getString() {
-                        return (getItem() == null)
-                                ? ""
-                                : getItem().toString();
+                        return (getItem() == null) ? "" : getItem().toString();
                     }
                 };
 
@@ -252,31 +248,32 @@ public class RunningCellFactory {
                         super.updateItem(item, empty);
 
                         if (item != null) {
-                            final Image image = new Image(getClass(
+                            final InputStream stream = getClass(
                                 ).getResourceAsStream(
                                     "/com/intellijustice/resources/images/flags/"
-                                    + getString() + ".gif"));
+                                    + getString() + ".gif");
 
-                            final HBox      box   = new HBox();
-                            final Label     label = new Label(getString());
-                            final ImageView view  = new ImageView(image);
-                            final Region    space = new Region();
+                            final HBox   box   = new HBox();
+                            final Label  label = new Label(getString());
+                            final Region space = new Region();
 
                             label.setId("imageLabel");
 
                             space.setPrefWidth(4.0);
                             box.setPadding(new Insets(4.0, 0.0, 0.0, 0.0));
                             box.setAlignment(Pos.TOP_CENTER);
-                            box.getChildren().addAll(view, space, label);
+                            box.getChildren().addAll(
+                                    (stream == null) 
+                                            ? new ImageView() 
+                                            : new ImageView(new Image(stream)), 
+                                    space, label);
 
                             setGraphic(box);
                         }
                     }
 
                     private String getString() {
-                        return (getItem() == null)
-                                ? ""
-                                : getItem();
+                        return (getItem() == null) ? "" : getItem();
                     }
                 };
 
@@ -328,9 +325,7 @@ public class RunningCellFactory {
                     }
 
                     private String getString() {
-                        return (getItem() == null)
-                                ? ""
-                                : getItem();
+                        return (getItem() == null) ? "" : getItem();
                     }
                 };
 

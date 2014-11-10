@@ -36,12 +36,13 @@
     -fx-background-insets: 32;
     -fx-border-radius:     5 5 0 0;
     -fx-effect:            dropshadow(two-pass-box, #000000, 32.0, 0.0, 0.0, 8.0);
+    -fx-background-color:  transparent;
 }
 
 #mainPanel {
     -fx-background-color:  #262626;
     -fx-background-radius: 5 5 0 0;
- /* -fx-border-color:      #0F0F0F; border is disabled*/
+ /* -fx-border-color:      #0F0F0F; border is disabled */
     -fx-border-radius:     4 4 0 0;
 }
 

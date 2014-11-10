@@ -26,6 +26,7 @@
 
 package com.onlineathletics.core;
 
+import com.intellijustice.core.Place;
 import com.onlineathletics.services.DatabaseException;
 import com.onlineathletics.services.StoredProcedures;
 import com.onlineathletics.util.Parameters;
@@ -63,7 +64,7 @@ public class Athlete extends com.intellijustice.core.Athlete {
             final String middleName, final String lastName, 
             final String firstNameLocale, final String middleNameLocale,
             final String lastNameLocale, final long birthday,
-            final long birthplace, final boolean sex, final long language) {
+            final Place birthplace, final boolean sex, final long language) {
         super(id, firstName, middleName, lastName, firstNameLocale, 
                 middleNameLocale, lastNameLocale, birthday, birthplace, sex, 
                 language);

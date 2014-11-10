@@ -52,7 +52,7 @@ public class Athlete {
     private final String  middleNameLocale;
     private final String  lastNameLocale;
     private final long    birthday;
-    private final long    birthplace;
+    private final Place   birthplace;
     private final boolean sex;       /* thue is male, false is female */
     
     private final long    language;
@@ -76,7 +76,7 @@ public class Athlete {
             final String middleName, final String lastName, 
             final String firstNameLocale, final String middleNameLocale,
             final String lastNameLocale, final long birthday,
-            final long birthplace, final boolean sex, final long language) {
+            final Place birthplace, final boolean sex, final long language) {
         this.id               = id;
         
         this.firstName        = firstName;
@@ -172,7 +172,7 @@ public class Athlete {
      *
      * @return the place of birth of the athlete.
      */
-    public long getBirthplace() {
+    public Place getBirthplace() {
         return birthplace;
     }
 

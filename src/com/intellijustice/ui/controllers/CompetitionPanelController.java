@@ -31,6 +31,7 @@ import com.intellijustice.core.Entry;
 import com.intellijustice.core.Result;
 import com.intellijustice.core.Competition;
 import com.intellijustice.core.Athlete;
+import com.intellijustice.iso.CountryCodes;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -167,7 +168,8 @@ public class CompetitionPanelController implements Initializable {
                             athlete.getFirstName(), athlete.getLastName(),
                             athlete.getFirstNameLocalized(),
                             athlete.getLastNameLocalized()),
-                    athlete.getBirthday(), "athlete.getBirthplace()",
+                    athlete.getBirthday(), 
+                    CountryCodes.getAlpha3(athlete.getBirthplace().getId()),
                     entry.getPersonal(), entry.getSeason(),
                     entry.getLine(), result.getResult(), result.getReaction()));
         });

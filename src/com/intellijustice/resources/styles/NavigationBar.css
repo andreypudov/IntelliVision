@@ -42,6 +42,7 @@
     -fx-background-image: url('../images/button-back-enabled.png');
     -fx-border-color:     #303030;
     -fx-border-radius:    4 0 0 4;
+    -fx-padding:          0 0 5 0; /* sets button height */
 }
 
 #navigationBarNext {
@@ -49,6 +50,7 @@
     -fx-background-image: url('../images/button-next-enabled.png');
     -fx-border-color:     #303030;
     -fx-border-radius:    0 4 4 0;
+    -fx-padding:          0 0 5 0; /* sets button height */
     -fx-border-insets:    0 0 0 -1;
 }
 

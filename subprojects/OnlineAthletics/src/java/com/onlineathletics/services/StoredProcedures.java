@@ -26,6 +26,8 @@
 
 package com.onlineathletics.services;
 
+import com.intellijustice.core.Language;
+import com.intellijustice.core.Place;
 import com.onlineathletics.core.Athlete;
 import com.onlineathletics.util.Database;
 import java.sql.CallableStatement;
@@ -50,6 +52,8 @@ public class StoredProcedures {
     private static final String PRC_ADD_ATHLETE = "{CALL `onlineathletics`.`add_athlete` (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
     private static final String PRC_GET_ATHLETE = "{CALL get_athlete(?, ?)}";
     
+    private static final String PRC_GEO_GET_CITY_COMPLETE_NAME_BY_ID = "{CALL geo_get_city_complete_name_by_id(?, ?, ?)}";
+    
     private static final String VAR_ATHLETE_ID         = "athlete_id_var";
     private static final String VAR_FIRST_NAME         = "first_nm_var";
     private static final String VAR_MIDDLE_NAME        = "middle_nm_var";
@@ -62,8 +66,13 @@ public class StoredProcedures {
     private static final String VAR_SEX                = "sex_var";
     private static final String VAR_LANGUAGE           = "language_var";
     
+    private static final String VAR_COUNTRY_NAME       = "country_nm_var";
+    private static final String VAR_REGION_NAME        = "region_nm_var";
+    private static final String VAR_CITY_NAME          = "city_nm_var";
+    
     private static final int PARAM_FIRST  = 1;
     private static final int PARAM_SECOND = 2;
+    private static final int PARAM_THIRD  = 3;
     
     /* do not let anyone instantiate this class */
     private StoredProcedures() {
@@ -149,7 +158,6 @@ public class StoredProcedures {
             
             statement.setLong(PARAM_FIRST, id);
             statement.setString(PARAM_SECOND, userName);
-
             
             try (final ResultSet set = statement.executeQuery()) {
                 set.next();
@@ -162,10 +170,37 @@ public class StoredProcedures {
                         set.getString(VAR_MIDDLE_NAME_LOCALE),
                         set.getString(VAR_LAST_NAME_LOCALE),
                         set.getDate(VAR_BIRTHDAY).getTime(),
-                        set.getLong(VAR_BIRTHPLACE),
+                        getPlace(set.getLong(VAR_BIRTHPLACE), 
+                                new Language((int) set.getLong(VAR_LANGUAGE)), 
+                                userName),
                         (set.getInt(VAR_SEX) != 0),
-                        set.getLong(VAR_LANGUAGE)
-                );
+                        set.getLong(VAR_LANGUAGE));
+            }
+        } catch (final SQLException e) {
+            throw new DatabaseException(e.getErrorCode(), e.getMessage());
+        }
+    }
+    
+    public static Place getPlace(final long id, final Language langauge, final String userName) 
+            throws DatabaseException {
+        /* the database stored procedure statement */
+        final CallableStatement statement;
+        
+         try {
+            statement = Database.getConnection().prepareCall(PRC_GEO_GET_CITY_COMPLETE_NAME_BY_ID);
+            
+            statement.setLong(PARAM_FIRST, id);
+            statement.setString(PARAM_SECOND, langauge.getCode());
+            statement.setString(PARAM_THIRD, userName);
+            
+            try (final ResultSet set = statement.executeQuery()) {
+                set.next();
+                
+                return new Place(id, 
+                        0, 
+                        set.getString(VAR_COUNTRY_NAME),
+                        set.getString(VAR_REGION_NAME),
+                        set.getString(VAR_REGION_NAME));
             }
         } catch (final SQLException e) {
             throw new DatabaseException(e.getErrorCode(), e.getMessage());

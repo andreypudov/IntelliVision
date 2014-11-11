@@ -611,7 +611,7 @@ BEGIN
 	CALL auth_has_group (user_nm_arg, 'db_read');
 
 	SELECT a.athl_id, f.first_name, m.middle_name, l.last_name,
-		fl.first_name_lc, ml.middle_name_lc, ll.last_name_lc, 
+		fl.first_name, ml.middle_name, ll.last_name, 
 		b.birthday, a.birthplace_key, a.sex, fl.language_id 
 		INTO athlete_id_var, first_nm_var, middle_nm_var, last_nm_var, 
 			first_nm_lc_var, middle_nm_lc_var, last_nm_lc_var,

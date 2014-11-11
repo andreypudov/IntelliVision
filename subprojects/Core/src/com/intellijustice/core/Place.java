@@ -29,7 +29,7 @@ package com.intellijustice.core;
 import com.intellijustice.iso.CountryCodes;
 
 /**
- * The athlete entity representation.
+ * The geo place entity representation.
  *
  * @author    Andrey Pudov        <mail@andreypudov.com>
  * @version   0.00.00
@@ -42,8 +42,8 @@ public class Place {
             = java.util.logging.Logger.getLogger(
             com.intellijustice.core.Manifest.NAME);
     
-    private final int  id;
-    private final long databaseId;
+    private final long id;   /* negative value represents no database id */
+    private final int  code;
     
     private final String country;
     private final String region;
@@ -52,70 +52,54 @@ public class Place {
     /**
      * Constructs new place object.
      * 
-     * @param id         the identification number of the place by ISO 3166-1.
-     * @param databaseId the database identification number.
-     * @param country    the country name of the place.
-     * @param region     the region name of the place.
-     * @param city       the city name of the place.
+     * @param id      the database identification number.
+     * @param code    the identification number of the country by ISO 3166-1.
+     * @param country the country name of the place.
+     * @param region  the region name of the place.
+     * @param city    the city name of the place.
      */
-    public Place(final int id, final long databaseId, final String country, 
+    public Place(final long id, final int code, final String country, 
             final String region, final String city) {
-        this.id         = id;
-        this.databaseId = databaseId;
-        this.country    = country;
-        this.region     = region;
-        this.city       = city;
+        this.id      = id;
+        this.code    = code;
+        this.country = country;
+        this.region  = region;
+        this.city    = city;
     }
     
     /**
-     * Constructs new place object.
-     * 
-     * @param id         the identification number of the place by ISO 3166-1.
-     * @param country    the country name of the place.
-     * @param region     the region name of the place.
-     * @param city       the city name of the place.
-     */
-    public Place(final int id, final String country, 
-            final String region, final String city) {
-        this.id         = id;
-        this.databaseId = id;
-        this.country    = country;
-        this.region     = region;
-        this.city       = city;
-    }
-    
-    /**
-     * Constructs and returns a place object for given three letters country 
-     * code. Constructed object provides region and city values et to empty 
-     * strings.
+     * Constructs object and returns an unfinished place object for given three 
+     * letters country code. Constructed object provides region and city values 
+     * set to empty strings, and database id set to negative value.
      * 
      * @param alpha3 the three letters country code.
      * 
      * @return       the place object for given country code.
      */
-    public static Place createPlaceByAlpha3Code(final String alpha3) {
+    public static Place valueOfAlpha3(final String alpha3) {
         final int    code    = CountryCodes.getCodeByAlpha3(alpha3);
         final String country = CountryCodes.getName(code);
                 
-        return new Place(code, country, "", "");
+        /* negative value represents no database id */
+        return new Place(-1, code, country, "", "");
     }
-
-    /**
-     * Returns the identification number of the place by ISO 3166-1.
-     * 
-     * @return the identification number of the place by ISO 3166-1.
-     */
-    public int getId() {
-        return id;
-    }
-
+    
     /**
      * Returns the database identification number.
      * 
      * @return the database identification number.
      */
-    public long getDatabaseId() {
-        return databaseId;
+    public long getId() {
+        return id;
+    }
+    
+    /**
+     * Returns the identification number of the country by ISO 3166-1.
+     * 
+     * @return the identification number of the country by ISO 3166-1.
+     */
+    public int getCode() {
+        return code;
     }
 
     /**
@@ -163,7 +147,9 @@ public class Place {
         }
         
         final Place other = (Place) obj;
-        if (this.getId() != other.getId()) {
+        if ((this.getId() != other.getId())
+                || (this.getId()  == -1)
+                || (other.getId() == -1)) {
             return false;
         }
         
@@ -177,7 +163,7 @@ public class Place {
      */
     @Override
     public int hashCode() {
-        return getId();
+        return (int) getId();
     }
     
     /**
@@ -189,12 +175,12 @@ public class Place {
     public String toString() {
         final StringBuilder builder = new StringBuilder(126);
 
-        /* 01 S FistName LastName 01-01-1970 */
-        builder.append(getId()).append(" "
-                ).append(getDatabaseId()).append(" "
-                ).append(getCountry()).append(" "
-                ).append(getRegion()).append(" "
-                ).append(getCity());
+        /* 01, 01, Russian Federation, Chuvash Republic, Novocheboksarsk */
+        builder.append(id).append(", "
+                ).append(code).append(", "
+                ).append(country).append(", "
+                ).append(region).append(", "
+                ).append(city);
         
         return builder.toString();
     }

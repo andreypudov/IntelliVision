@@ -142,20 +142,6 @@ public class CompetitionPanelController implements Initializable {
         final TableColumn<RunningDataModel, Short>   reactionColumn = new TableColumn<>();
 
         final List<RunningDataModel> competitionData = new ArrayList<>(16);
-
-        /*for (final Entry entry : competition.getEntryList()) {
-            final Athlete athlete = entry.getAthlete();
-            final Result  result  = entry.getResults().get(0);
-
-            competitionData.add(new RunningDataModel(entry.getRank(), entry.getBib(),
-                    String.format("%s %s\n%s %s",
-                            athlete.getFirstName(), athlete.getLastName(),
-                            athlete.getFirstNameLocalized(),
-                            athlete.getLastNameLocalized()),
-                    athlete.getBirthday(), "athlete.getBirthplace()",
-                    entry.getPersonal(), entry.getSeason(),
-                    entry.getLine(), result.getResult(), result.getReaction()));
-        }*/
         
         // TODO change athlete entry to use country and bithplace format
         
@@ -169,7 +155,7 @@ public class CompetitionPanelController implements Initializable {
                             athlete.getFirstNameLocalized(),
                             athlete.getLastNameLocalized()),
                     athlete.getBirthday(), 
-                    CountryCodes.getAlpha3(athlete.getBirthplace().getId()),
+                    CountryCodes.getAlpha3(athlete.getBirthplace().getCode()),
                     entry.getPersonal(), entry.getSeason(),
                     entry.getLine(), result.getResult(), result.getReaction()));
         });

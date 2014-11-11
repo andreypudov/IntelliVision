@@ -347,7 +347,7 @@ public class ExcelDataFormatV1 implements ExcelDataFormatDefault {
                         "", /* middle name is omitted */
                         getLastName(cellName.getStringCellValue()),
                         formatter.parse(cellBirthday.getStringCellValue()).getTime(),
-                        Place.createPlaceByAlpha3Code(cellCountry.getStringCellValue()),
+                        Place.valueOfAlpha3(cellCountry.getStringCellValue()),
                         competition.getSex(), 0L);
                 final Result result = new Result(
                         parseDate(cellResult.getStringCellValue()),

@@ -182,8 +182,8 @@ public class HomeModuleController implements Initializable {
      * @param bar the competition bar that should be used.
      */
     private void displayPanel(final CompetitionBar bar) {
-        final int tileCount    = competitionList.getChildren().size();
-        final int tileIndex    = competitionList.getChildren().indexOf(bar);
+        final int tileCount = competitionList.getChildren().size();
+        final int tileIndex = competitionList.getChildren().indexOf(bar);
 
         // TODO find scroll bar visible property
         final boolean scrollBarShown = false;

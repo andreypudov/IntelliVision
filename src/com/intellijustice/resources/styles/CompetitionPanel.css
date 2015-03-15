@@ -37,14 +37,9 @@
                           linear-gradient(to bottom, #333333 2%, #3A3A3A 98%);
 }
 
-#layerTitle {
-    -fx-background-color: red;
-}
-
 #disciplineLabel {
     -fx-font:        12pt 'Source Sans Pro Semibold';
     -fx-text-fill:   #E8E8EF;
-    -fx-background-color: blue;
 }
 
 #roundLabel {
@@ -87,9 +82,8 @@
 
 /* table header design */
 #disciplineTable .column-header, .table-view .filler {
-    -fx-size:          23;
-    /*-fx-border-width:  0 0 1 0;*/
-    -fx-border-width:  0 0 0 0;
+    -fx-size:          23px;
+    -fx-border-width:  0;
     -fx-border-color:  transparent transparent derive(-fx-base, 80%) transparent;
     -fx-border-insets: 0 3 2 0;
 }

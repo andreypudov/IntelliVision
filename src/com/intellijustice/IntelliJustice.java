@@ -3,7 +3,7 @@
  *
  * The MIT License
  *
- * Copyright 2011-2013 Andrey Pudov.
+ * Copyright 2011-2015 Andrey Pudov.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,10 +26,12 @@
 
 package com.intellijustice;
 
+import com.intellijustice.util.CommandLineInterpreter;
 import com.intellijustice.util.ParametersParser;
 import com.intellijustice.util.StatusCodes;
 import com.intellijustice.util.pools.Core;
 import com.intellijustice.util.pools.Executor;
+import com.intellijustice.util.pools.Settings;
 import com.intellijustice.util.tasks.SynchronizationTask;
 import com.intellijustice.util.tasks.UpdateTask;
 import com.intellijustice.util.tasks.WebSynchronizationTask;
@@ -79,9 +81,9 @@ public class IntelliJustice extends Application {
     @Override
     public void start(final Stage primaryStage) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource(
+            final Parent root = FXMLLoader.load(getClass().getResource(
                     "/com/intellijustice/resources/schemas/IntelliJustice.fxml"));
-            Scene scene = new Scene(root, Color.TRANSPARENT);
+            final Scene scene = new Scene(root, Color.TRANSPARENT);
             scene.getStylesheets().add(getClass().getResource(
                         "/com/intellijustice/resources/styles/IntelliJustice.css"
                     ).toExternalForm());
@@ -105,7 +107,13 @@ public class IntelliJustice extends Application {
             executor.schedulePeriodicTask(new WebSynchronizationTask(),
                     6_000L, 60_000L, TimeUnit.MILLISECONDS);
 
-            Core.getPrimaryStage().show();
+            final Settings settings = Settings.getSettings();
+            if (Boolean.parseBoolean(settings.getValue("intellijustice.window.visible"))) {
+                Core.getPrimaryStage().show();
+            } else {
+                final CommandLineInterpreter interpreter = new CommandLineInterpreter();
+                interpreter.launch();
+            }  
         } catch (java.io.IOException | IllegalArgumentException e) {
             LOG.severe(e.getMessage());
             System.exit(StatusCodes.EXIT_FAILURE);

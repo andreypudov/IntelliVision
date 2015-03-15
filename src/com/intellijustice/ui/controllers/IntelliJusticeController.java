@@ -37,14 +37,12 @@ import com.intellijustice.ui.modules.HelpModule;
 import com.intellijustice.ui.modules.HomeModule;
 import com.intellijustice.ui.modules.LibraryModule;
 import com.intellijustice.ui.modules.SearchEvent;
-import com.intellijustice.ui.modules.SearchEventListener;
 import com.intellijustice.ui.modules.SettingsModule;
 import com.intellijustice.util.pools.Core;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.ConditionalFeature;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
@@ -200,7 +198,7 @@ public class IntelliJusticeController implements Initializable {
      */
     @FXML
     private void anchorPaneMouseDragged(final MouseEvent event) {
-        if(windowResizingOn == true) {
+        if (windowResizingOn == true) {
             switch (movement) {
                 case EAST:
                     mainPanel.getScene().getWindow().setWidth(

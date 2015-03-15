@@ -100,7 +100,7 @@ public class CompetitionPanelController implements Initializable {
      * @param competition the competition representation.
      */
     public void setCompetition(final Competition competition) {
-        final double TABLE_HEADER_HEIGHT = 25.0;
+        final double TABLE_HEADER_HEIGHT = 28.0;
         final double TABLE_ROW_HEIGHT    = 40.0;
         final double TABLE_BORDER_HEIGHT = 2.0;
 

@@ -196,11 +196,12 @@ public class StoredProcedures {
             try (final ResultSet set = statement.executeQuery()) {
                 set.next();
                 
-                return new Place(id, 
-                        0, 
-                        set.getString(VAR_COUNTRY_NAME),
-                        set.getString(VAR_REGION_NAME),
-                        set.getString(VAR_REGION_NAME));
+                return null;
+//                return new Place(id, 
+//                        0
+//                        set.getString(VAR_COUNTRY_NAME),
+//                        set.getString(VAR_REGION_NAME),
+//                        set.getString(VAR_REGION_NAME));
             }
         } catch (final SQLException e) {
             throw new DatabaseException(e.getErrorCode(), e.getMessage());

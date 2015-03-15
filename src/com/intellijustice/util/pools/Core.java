@@ -3,7 +3,7 @@
  *
  * The MIT License
  *
- * Copyright 2011-2014 Andrey Pudov.
+ * Copyright 2011-2015 Andrey Pudov.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -159,7 +159,7 @@ public class Core {
         }
 
         LOG.info("IntelliJustice Intelligent Referee Assistant System\n"
-                + "Copyright (C) 2011-2014 Andrey Pudov. "
+                + "Copyright (C) 2011-2015 Andrey Pudov. "
                 + "All rights reserved.\n");
 
         /* adds first-level module to the application window */
